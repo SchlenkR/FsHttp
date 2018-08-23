@@ -1,24 +1,28 @@
 
-module SchlenkR.FsHttp
+module FsHttp
 
 open System
 open System.Net.Http
 
-type Request = {
+
+type Header = {
     url: string;
     method: HttpMethod;
     headers: (string*string) list;
 }
+
 type Content = {
     content: string;
     contentType: string;
     headers: (string*string) list;
 } 
 
+
 type StartingContext = StartingContext
 
+
 type FinalContext = {
-    request: Request;
+    request: Header;
     content: Content option;
 }
 
@@ -41,22 +45,35 @@ let invoke (context:FinalContext) =
     use client = new HttpClient()
     client.SendAsync(requestMessage).Result
 
-let run (context:FinalContext) =
-    let response = context |> invoke
-    let content = response.Content.ReadAsStringAsync().Result
-    printfn "%A" content
+// let run (context:FinalContext) =
+//     let response = context |> invoke
+//     let content = response.Content.ReadAsStringAsync().Result
+//     printfn "%A" content
 
-type RequestContext = {
-    request: Request;
+
+
+type HeaderContext = {
+    request: Header;
 } with
-    static member header (this:RequestContext, name:string, value:string) = this
-    static member run (this:RequestContext, name:string, value:string) = this
+    static member header (this:HeaderContext, name:string, value:string) = this
+    static member run (this:HeaderContext) =
+        let finalContext = { request=this.request; content=None }
+        invoke finalContext
 
-type ContentContext = {
-    request: Request;
+type BodyContext = {
+    request: Header;
     content: Content;
 } with
-    static member header (this:ContentContext, name:string, value:string) = this
+    static member header (this:BodyContext, name:string, value:string) = this
+    static member run (this:BodyContext) =
+        let finalContext:FinalContext = { request=this.request; content=Some this.content }
+        invoke finalContext
+
+let inline run (context:^t) =
+    let response = (^t: (static member run: ^t -> HttpResponseMessage) (context))
+    let content = response.Content.ReadAsStringAsync().Result
+    content
+
 
 type HttpBuilder() =
 
@@ -89,15 +106,15 @@ type HttpBuilder() =
     member inline this.Header(context:^t, name, value) =
         (^t: (static member header: ^t * string * string -> ^t) (context,name,value))
         
-    [<CustomOperation("content")>]
-    member this.Content(context:RequestContext) : ContentContext =
+    [<CustomOperation("body")>]
+    member this.Body(context:HeaderContext) : BodyContext =
         {
             request = context.request;
             content = { content=""; contentType=""; headers=[] }
         }
     
     [<CustomOperation("json")>]
-    member this.Json(context:ContentContext, json:string) =
+    member this.Json(context:BodyContext, json:string) =
         let content = context.content
         { context with
             content = { content with content=json; contentType="application/json";  }
@@ -107,16 +124,17 @@ let http = HttpBuilder()
 
 
 
-//http {
-//    POST @"http://www.google.de"
-//    header "a" "b"
+http {
+   POST @"http://www.google.de"
+   header "a" "b"
 
-//    content
-//    header "c" "d"
-//    json """
-//    {
-//        "name": "hsfsdf sdf s"
-//    }
-//    """
-//}
-//|> run
+   body
+   header "c" "d"
+   json """
+   {
+       "name": "hsfsdf sdf s"
+   }
+   """
+}
+|> run
+|> printfn "%A"
