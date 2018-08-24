@@ -77,7 +77,16 @@ let inline run (context:^t) =
 
 type HttpBuilder() =
 
-    let initializeRequest (context:StartingContext) (url:string) (method:HttpMethod) =
+    member this.Bind(m, f) = f m
+    member this.Return(x) = x
+    member this.Yield(x) = StartingContext
+    member this.For(m, f) = this.Bind m f
+
+// Request methods
+type HttpBuilder with
+
+    [<CustomOperation("Request")>]
+    member this.CreateRequest (context:StartingContext) (method:HttpMethod) (url:string) =
         let formattedUrl =
             url.Split([|'\n'|], StringSplitOptions.RemoveEmptyEntries)
             |> Seq.map (fun x -> x.Trim())
@@ -87,25 +96,45 @@ type HttpBuilder() =
             request = { url=formattedUrl; method=method; headers=[] }
         }
 
-    member this.Bind(m, f) = f m
-    member this.Return(x) = x
-    member this.Yield(x) = StartingContext
-    member this.For(m, f) = this.Bind m f
-
+    // RFC 2626 specifies 8 methods
     [<CustomOperation("GET")>]
     member this.Get(StartingContext, url:string) =
-        initializeRequest StartingContext url HttpMethod.Get
+        this.CreateRequest StartingContext HttpMethod.Get url
     [<CustomOperation("PUT")>]
     member this.Put(StartingContext, url:string) =
-        initializeRequest StartingContext url HttpMethod.Put
+        this.CreateRequest StartingContext HttpMethod.Put url
     [<CustomOperation("POST")>]
     member this.Post(StartingContext, url:string) =
-        initializeRequest StartingContext url HttpMethod.Post
+        this.CreateRequest StartingContext HttpMethod.Post url
+    [<CustomOperation("DELETE")>]
+    member this.Delete(StartingContext, url:string) =
+        this.CreateRequest StartingContext HttpMethod.Delete url
+    [<CustomOperation("OPTIONS")>]
+    member this.Options(StartingContext, url:string) =
+        this.CreateRequest StartingContext HttpMethod.Options url
+    [<CustomOperation("HEAD")>]
+    member this.Head(StartingContext, url:string) =
+        this.CreateRequest StartingContext HttpMethod.Head url
+    [<CustomOperation("TRACE")>]
+    member this.Trace(StartingContext, url:string) =
+        this.CreateRequest StartingContext HttpMethod.Trace url
+    // TODO: Connect
+    // [<CustomOperation("CONNECT")>]
+    // member this.Post(StartingContext, url:string) =
+    //     this.CreateRequest StartingContext HttpMethod.Connect url
+
+    // RFC 4918 (WebDAV) adds 7 methods
+    // TODO
+
+// Header
+type HttpBuilder with
 
     [<CustomOperation("header")>]
     member inline this.Header(context:^t, name, value) =
         (^t: (static member header: ^t * string * string -> ^t) (context,name,value))
         
+// body
+type HttpBuilder with
     [<CustomOperation("body")>]
     member this.Body(context:HeaderContext) : BodyContext =
         {
@@ -123,6 +152,7 @@ type HttpBuilder() =
 let http = HttpBuilder()
 
 
+let test x = x
 
 http {
    POST @"http://www.google.de"
