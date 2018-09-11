@@ -8,10 +8,11 @@ Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fshar
 
 ## Examples
 
-´´´fsharp
+```fsharp
 http {
-GET @"https://reqres.in/api/users?page=2&delay=3"
-} |> run
-´´´
+    GET @"https://reqres.in/api/users?page=2&delay=3"
+}
+|> run
+```
 
 ## Current State
