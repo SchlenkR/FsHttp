@@ -6,6 +6,28 @@ open System.Net.Http
 open System.Text
 open System.Globalization
 
+let urlEncode (s:string) = System.Web.HttpUtility.UrlEncode(s)
+
+let toBase64 (s:string) =
+    let utf8Bytes = System.Text.Encoding.UTF8.GetBytes(s)
+    System.Convert.ToBase64String(utf8Bytes)
+
+let fromBase64 (s:string) =
+    let base64Bytes = System.Convert.FromBase64String(s)
+    System.Text.Encoding.UTF8.GetString(base64Bytes)
+
+let formatUrl (url:string) =
+    let segments =
+        url.Split([|'\n'|], StringSplitOptions.RemoveEmptyEntries)
+        |> Seq.map (fun x -> x.Trim())
+        |> Seq.filter (fun x -> not (x.StartsWith("//")))
+        //|> Seq.map (fun x ->
+        //    if x.StartsWith("?") || x.StartsWith("&")
+        //    then x.Substring(1)
+        //    else x
+        //)
+        |> Seq.reduce (+)
+    segments
 
 type Header = {
     url: string;
@@ -21,7 +43,6 @@ type Content = {
 
 
 type StartingContext = StartingContext
-
 
 type FinalContext = {
     request: Header;
@@ -47,34 +68,33 @@ let invoke (context:FinalContext) =
     use client = new HttpClient()
     client.SendAsync(requestMessage).Result
 
-// let run (context:FinalContext) =
-//     let response = context |> invoke
-//     let content = response.Content.ReadAsStringAsync().Result
-//     printfn "%A" content
-
-
-
 type HeaderContext = {
     request: Header;
 } with
-    static member header (this:HeaderContext, name:string, value:string) = this
-    static member run (this:HeaderContext) =
+
+    static member header (this:HeaderContext, name:string, value:string) =
+        { this with request = { this.request with headers = this.request.headers @ [name,value] } }
+
+    static member finalize (this:HeaderContext) =
         let finalContext = { request=this.request; content=None }
-        invoke finalContext
+        finalContext
 
 type BodyContext = {
     request: Header;
     content: Content;
 } with
-    static member header (this:BodyContext, name:string, value:string) = this
-    static member run (this:BodyContext) =
-        let finalContext:FinalContext = { request=this.request; content=Some this.content }
-        invoke finalContext
 
-let inline run (context:^t) =
-    let response = (^t: (static member run: ^t -> HttpResponseMessage) (context))
-    let content = response.Content.ReadAsStringAsync().Result
-    content
+    static member header (this:BodyContext, name:string, value:string) =
+        { this with request = { this.request with headers = this.request.headers @ [name,value] } }
+
+    static member finalize (this:BodyContext) =
+        let finalContext:FinalContext = { request=this.request; content=Some this.content }
+        finalContext
+
+let inline send (context:^t) =
+    let finalContext = (^t: (static member finalize: ^t -> FinalContext) (context))
+    let response = invoke finalContext
+    response
 
 
 type HttpBuilder() =
@@ -88,12 +108,8 @@ type HttpBuilder() =
 type HttpBuilder with
 
     [<CustomOperation("Request")>]
-    member this.CreateRequest (context:StartingContext) (method:HttpMethod) (url:string) =
-        let formattedUrl =
-            url.Split([|'\n'|], StringSplitOptions.RemoveEmptyEntries)
-            |> Seq.map (fun x -> x.Trim())
-            |> Seq.filter (fun x -> not (x.StartsWith("//")))
-            |> Seq.reduce (+)
+    member this.Method (context:StartingContext) (method:HttpMethod) (url:string) =
+        let formattedUrl = formatUrl url
         {
             request = { url=formattedUrl; method=method; headers=[] }
         }
@@ -101,25 +117,25 @@ type HttpBuilder with
     // RFC 2626 specifies 8 methods
     [<CustomOperation("GET")>]
     member this.Get(StartingContext, url:string) =
-        this.CreateRequest StartingContext HttpMethod.Get url
+        this.Method StartingContext HttpMethod.Get url
     [<CustomOperation("PUT")>]
     member this.Put(StartingContext, url:string) =
-        this.CreateRequest StartingContext HttpMethod.Put url
+        this.Method StartingContext HttpMethod.Put url
     [<CustomOperation("POST")>]
     member this.Post(StartingContext, url:string) =
-        this.CreateRequest StartingContext HttpMethod.Post url
+        this.Method StartingContext HttpMethod.Post url
     [<CustomOperation("DELETE")>]
     member this.Delete(StartingContext, url:string) =
-        this.CreateRequest StartingContext HttpMethod.Delete url
+        this.Method StartingContext HttpMethod.Delete url
     [<CustomOperation("OPTIONS")>]
     member this.Options(StartingContext, url:string) =
-        this.CreateRequest StartingContext HttpMethod.Options url
+        this.Method StartingContext HttpMethod.Options url
     [<CustomOperation("HEAD")>]
     member this.Head(StartingContext, url:string) =
-        this.CreateRequest StartingContext HttpMethod.Head url
+        this.Method StartingContext HttpMethod.Head url
     [<CustomOperation("TRACE")>]
     member this.Trace(StartingContext, url:string) =
-        this.CreateRequest StartingContext HttpMethod.Trace url
+        this.Method StartingContext HttpMethod.Trace url
     // TODO: Connect
     // [<CustomOperation("CONNECT")>]
     // member this.Post(StartingContext, url:string) =
@@ -137,6 +153,7 @@ type HttpBuilder with
 
 // HTTP request headers
 type HttpBuilder with
+
     /// Content-Types that are acceptable for the response
     [<CustomOperation("Accept")>]
     member this.Accept (context:HeaderContext, contentType:string) =
@@ -387,6 +404,13 @@ type HttpBuilder with
             content = { content=""; contentType=""; headers=[] }
         }
     
+    [<CustomOperation("text")>]
+    member this.Text(context:BodyContext, text:string) =
+        let content = context.content
+        { context with
+            content = { content with content=text; contentType="text/plain";  }
+        }
+    
     [<CustomOperation("json")>]
     member this.Json(context:BodyContext, json:string) =
         let content = context.content
@@ -394,28 +418,7 @@ type HttpBuilder with
             content = { content with content=json; contentType="application/json";  }
         }
 
-
-
 let http = HttpBuilder()
-
-
-let test x = x
-
-http {
-   POST @"http://www.google.de"
-   header "a" "b"
-
-   body
-   header "c" "d"
-   json """
-   {
-       "name": "hsfsdf sdf s"
-   }
-   """
-}
-|> run
-|> printfn "%A"
-
 
 // TODO:
 // Multipart

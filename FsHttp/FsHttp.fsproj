@@ -16,7 +16,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="FsHttp.fsx" />
+    <None Include="test.fsx" />
     <Compile Include="Http.fs" />
   </ItemGroup>
+
+  <ItemGroup />
 
 </Project>
