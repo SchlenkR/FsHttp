@@ -16,7 +16,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="FsHttp.fsx" />
+    <Content Include="FsHttp.fsx">
+      <Pack>true</Pack>
+      <PackagePath>lib\netstandard2.0</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="test.fsx" />
     <Compile Include="Http.fs" />
   </ItemGroup>

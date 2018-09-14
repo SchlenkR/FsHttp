@@ -1,29 +1,7 @@
 
 #r "System.Net.Http"
+#r @"FsHttp.dll"
 
-open System
-open System.Net.Http
-open System.Text
+open FsHttp
 
-
-let printer (r: HttpResponseMessage) =
-    let sb = StringBuilder()
-
-    let printHeader (headers: Headers.HttpHeaders) =
-        for h in headers do
-            let values = String.Join(", ", h.Value)
-            sb.AppendLine (sprintf "%s: %s" h.Key values) |> ignore
-        ()
-
-    sb.AppendLine() |> ignore
-    sb.AppendLine (sprintf "HTTP/%s %d %s" (r.Version.ToString()) (int r.StatusCode) (string r.StatusCode)) |> ignore
-    printHeader r.Headers
-
-    sb.AppendLine("---") |> ignore
-    sb.AppendLine() |> ignore
-    printHeader r.Headers
-
-    sb.ToString()
-
-fsi.AddPrinter printer
-
+fsi.AddPrinter Response.print
