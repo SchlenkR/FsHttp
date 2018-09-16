@@ -22,7 +22,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="test.fsx" />
-    <Compile Include="Http.fs" />
+    <Compile Include="FsHttp.fs" />
   </ItemGroup>
 
   <ItemGroup />

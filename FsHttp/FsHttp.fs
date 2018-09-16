@@ -1,5 +1,14 @@
 
+#if INTERACTIVE
+
+#r "netstandard"
+#r "System.Net.Http"
+
+#else
+
 module FsHttp
+
+#endif
 
 open System
 open System.Linq
@@ -49,7 +58,8 @@ type StartingContext = StartingContext
 type FinalContext = {
     request: Header;
     content: Content option;
-} with 
+}
+with 
     member this.invoke () =
         let request = this.request
         let requestMessage = new HttpRequestMessage(request.method, request.url)
@@ -80,7 +90,8 @@ with
 type BodyContext = {
     request: Header;
     content: Content;
-} with
+}
+with
     static member header (this:BodyContext, name:string, value: string) =
         { this with request = { this.request with headers = this.request.headers @ [name,value] } }
     static member finalize (this:BodyContext) =
@@ -409,57 +420,57 @@ let http = HttpBuilder()
 
 
 
-module Response =
-    let print (r: HttpResponseMessage) =
-        let sb = StringBuilder()
-
-        let printHeader (headers: Headers.HttpHeaders) =
-            for h in headers do
-                let values = String.Join(", ", h.Value)
-                sb.AppendLine (sprintf "%s: %s" h.Key values) |> ignore
-            ()
-
-        sb.AppendLine() |> ignore
-        sb.AppendLine (sprintf "HTTP/%s %d %s" (r.Version.ToString()) (int r.StatusCode) (string r.StatusCode)) |> ignore
-        printHeader r.Headers
-
-        sb.AppendLine("---") |> ignore
-        sb.AppendLine() |> ignore
-        printHeader r.Headers
-
-        sb.ToString()
-
 
 let inline sendAsync (context: ^t) =
     let finalContext = (^t: (static member finalize: ^t -> FinalContext) (context))
     let response = finalContext.invoke()
     response
-
 let inline send (context: ^t) = (sendAsync context).Result
 
-module Content =
-    let toStringAsync (r: HttpResponseMessage) = r.Content.ReadAsStringAsync()
-    let toString (r: HttpResponseMessage) = (toStringAsync r).Result
+type PrintMode = | Header | ContentPreview | WholeContent
 
-module Print =
-    let show transform (r: HttpResponseMessage) =
-        printfn "%s" (Response.print r)
-        let content = Content.toString r
-        printfn "%s" (transform content)
-        ()
+let headerString (r: HttpResponseMessage) =
+    let sb = StringBuilder()
+    let printHeader (headers: Headers.HttpHeaders) =
+        for h in headers do
+            let values = String.Join(", ", h.Value)
+            sb.AppendLine (sprintf "%s: %s" h.Key values) |> ignore
+    sb.AppendLine() |> ignore
+    sb.AppendLine (sprintf "HTTP/%s %d %s" (r.Version.ToString()) (int r.StatusCode) (string r.StatusCode)) |> ignore
+    printHeader r.Headers
+    sb.AppendLine("---") |> ignore
+    sb.AppendLine() |> ignore
+    printHeader r.Headers
+    sb.ToString()
 
-    let inline preview r =
-        let maxLength = 500
-        let getTrimChars (s: string) =
-            match s.Length with
-            | l when l > maxLength -> "\n..."
-            | _ -> ""
-        send r |> show (fun content -> System.String(content.Take(maxLength).ToArray()) + (getTrimChars content))
+let contentStringAsync (r: HttpResponseMessage) =
+    r.Content.ReadAsStringAsync() 
+    |> Async.AwaitTask
+let contentString (r: HttpResponseMessage) =
+    (contentStringAsync r)
+    |> Async.RunSynchronously
 
-    let inline expand r =
-        (send r) |> show id
+let contentPreviewAsync maxLength (r: HttpResponseMessage) =
+    let getTrimChars (s: string) =
+        match s.Length with
+        | l when l > maxLength -> "\n..."
+        | _ -> ""
+    async {
+        let! content = contentStringAsync r
+        return
+            System.String(content.Take(maxLength).ToArray())
+            + (getTrimChars content)
+    }
+let contentPreview maxLength (r: HttpResponseMessage) =
+    (contentPreviewAsync maxLength r)
 
 
+#if INTERACTIVE
+fsi.AddPrinter
+    (fun (r:HttpResponseMessage) ->
+        Print.preview r
+    )
+#endif
 
 // TODO:
 // Multipart
