@@ -1,7 +1,8 @@
 ﻿
-#r "netstandard"
-#r "System.Net.Http"
-#r "./bin/Debug/netstandard2.0/FsHttp.dll"
+#load "FsHttp.fs" 
+// #r "netstandard"
+// #r "System.Net.Http"
+// #r "./bin/Debug/netstandard2.0/FsHttp.dll"
 
 open FsHttp
 
