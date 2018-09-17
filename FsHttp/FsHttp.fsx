@@ -459,6 +459,7 @@ let inline send (context: ^t) = (sendAsync context) |> Async.RunSynchronously
 let headerString (r: Response) =
     let sb = StringBuilder()
     let printHeader (headers: Headers.HttpHeaders) =
+        // TODO: Table formatting
         for h in headers do
             let values = String.Join(", ", h.Value)
             sb.AppendLine (sprintf "%s: %s" h.Key values) |> ignore
@@ -469,24 +470,28 @@ let headerString (r: Response) =
     printHeader r.content.Headers
     sb.ToString()
 
-let contentStringAsync (r: Response) =
+let contentAsStringAsync (r: Response) =
     r.content.ReadAsStringAsync() |> Async.AwaitTask
-let contentString (r: Response) =
-    (contentStringAsync r) |> Async.RunSynchronously
+let contentAsString (r: Response) =
+    (contentAsStringAsync r) |> Async.RunSynchronously
 
-let contentPreviewAsync maxLength (r: Response) =
+let contentAsStringPreviewAsync maxLength (r: Response) =
     let getTrimChars (s: string) =
         match s.Length with
         | l when l > maxLength -> "\n..."
         | _ -> ""
     async {
-        let! content = contentStringAsync r
+        let! content = contentAsStringAsync r
         return
             System.String(content.Take(maxLength).ToArray())
             + (getTrimChars content)
     }
-let contentPreview maxLength (r: Response) =
-    (contentPreviewAsync maxLength r) |> Async.RunSynchronously
+let contentAsStringPreview maxLength (r: Response) =
+    (contentAsStringPreviewAsync maxLength r) |> Async.RunSynchronously
+
+let headerOnly r = { r with printHint = Header }
+let preview r = { r with printHint = Preview }
+let expand r = { r with printHint = Expand }
 
 
 #if INTERACTIVE
@@ -495,8 +500,8 @@ fsi.AddPrinter
     (fun (r: Response) ->
         let content =
             match r.printHint with
-            | Preview -> contentPreview 400 r
-            | Expand -> contentString r
+            | Preview -> contentAsStringPreview 400 r
+            | Expand -> contentAsString r
             | _ -> ""
         sprintf "%s\n%s" (headerString r) content
     )
