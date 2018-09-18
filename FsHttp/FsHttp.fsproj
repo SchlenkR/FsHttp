@@ -3,10 +3,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="FsHttp.fsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Compile Include="FsHttp.fsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
     <None Include="test.fsx" />
-    <Compile Include="FsHttp.fs" />
   </ItemGroup>
 </Project>
