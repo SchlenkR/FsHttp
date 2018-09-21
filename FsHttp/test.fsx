@@ -6,7 +6,7 @@ open FsHttp
 
 http {  GET @"https://www.google.de"
 }
-|> send |> preview
+|> send
 
 
 http {  GET @"https://reqres.in/api/users?page=2&delay=3"
@@ -18,7 +18,7 @@ http {
 GET @"https://reqres.in/api/users
         ?page=2
         &delay=3"
-} |> run
+} |> send
 
 
 http {
@@ -34,5 +34,5 @@ json """
 }
 """
 
-} |> run
+} |> send
 

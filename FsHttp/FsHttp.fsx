@@ -1,4 +1,3 @@
-
 #if INTERACTIVE
 
 #r "netstandard"
@@ -426,7 +425,10 @@ module Builder =
 let http = Builder.HttpBuilder()
 
 
-type PrintHint = Header | Preview | Expand
+type PrintHint =
+    | Header 
+    | Preview of maxLength: int
+    | Expand
 
 type Response = {
     content: HttpContent;
@@ -490,8 +492,12 @@ let contentAsStringPreview maxLength (r: Response) =
     (contentAsStringPreviewAsync maxLength r) |> Async.RunSynchronously
 
 let headerOnly r = { r with printHint = Header }
-let preview r = { r with printHint = Preview }
+let preview maxLength r = { r with printHint = Preview maxLength }
 let expand r = { r with printHint = Expand }
+
+
+// TODO: required FSharp.Data
+// let toJson (r: FsHttp.Response) =  r |> FsHttp.contentAsString |> JsonValue.Parse
 
 
 #if INTERACTIVE
@@ -500,9 +506,9 @@ fsi.AddPrinter
     (fun (r: Response) ->
         let content =
             match r.printHint with
-            | Preview -> contentAsStringPreview 400 r
+            | Preview maxLength -> contentAsStringPreview maxLength r
             | Expand -> contentAsString r
-            | _ -> ""
+            | Header -> contentAsStringPreview 500 r
         sprintf "%s\n%s" (headerString r) content
     )
 
