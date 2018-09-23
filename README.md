@@ -1,8 +1,6 @@
 # FsHttp
 A lightweight F# HTTP library.
 
-[comment]: # ([![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp))
-
 ## Synopsis
 This library provides a DSL which is inspired by the VS Code RestClient extension.
 
