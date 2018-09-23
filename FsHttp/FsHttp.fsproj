@@ -10,17 +10,26 @@
     <Copyright>Copyright 2018 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/FsHttp/Fsharp_logo.png</PackageIconUrl>
+    <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest</PackageTags>
     <PackageId>SchlenkR.FsHttp</PackageId>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FsHttp.fsx">
+    <Compile Include="FsHttp.fs">
+      <PackagePath>.</PackagePath>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <Pack>true</Pack>
       <PackagePath>.</PackagePath>
     </Compile>
+    <None Include="FsHttp.fsx" />
     <None Include="test.fsx" />
+    <Compile Include="Testing.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="3.0.0-beta4" />
   </ItemGroup>
 </Project>
