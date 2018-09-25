@@ -32,7 +32,7 @@
     <Compile Include="Testing.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.Data" Version="3.0.0-beta4" />
+    <PackageReference Include="FSharp.Data" Version="2.4.6" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.3.4" />
