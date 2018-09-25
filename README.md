@@ -22,8 +22,7 @@ Using FsHttp in F# interactive, you should load the 'FsHttp.fsx' instead of refe
 ```fsharp
 #load "./bin/debug/netstandard2.0/FsHttp.fsx"
 
-open FsHttp.Core
-open FsHttp.Testing
+open FsHttp
 ```
 
 ### Sending Requests
