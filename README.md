@@ -70,7 +70,3 @@ http {  POST @"https://reqres.in/api/users"
 }
 |> send
 ```
-
-## Testing Responses
-
-TODO
