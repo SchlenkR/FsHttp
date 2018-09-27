@@ -1,4 +1,5 @@
 ﻿
+#r @"C:\Users\ronal\.nuget\packages\fsharp.data\2.4.6\lib\net45\FSharp.Data.dll"
 #load "./bin/debug/netstandard2.0/FsHttp.fsx"
 
 open FsHttp
@@ -32,3 +33,20 @@ http {  POST @"https://reqres.in/api/users"
         """
 } 
 |> send
+
+http {  GET "https://reqres.in/api/users"
+}
+|> send
+|> toJson
+|> test
+>>= byExample IgnoreIndexes Subset
+    """
+    {
+        "page": 1,
+        "data": [
+            { "id": 1 }
+        ]
+    }
+    """
+>>= expect *> fun json -> json?Data.AsArray() |> should haveLength 2
+|> eval
