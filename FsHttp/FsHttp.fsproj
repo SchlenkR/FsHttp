@@ -29,7 +29,6 @@
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </None>
     <Compile Include="Testing.fs" />
-    <None Include="test.fsx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="2.4.6" />

@@ -36,76 +36,75 @@ module Helper =
             |> Seq.reduce (+)
         segments
 
+[<AutoOpen>]
+module Domain =
 
-type Header = {
-    url: string;
-    method: HttpMethod;
-    headers: (string*string) list;
-}
+    type Header = {
+        url: string;
+        method: HttpMethod;
+        headers: (string*string) list;
+    }
 
-type Content = {
-    content: string;
-    contentType: string;
-    headers: (string*string) list;
-} 
+    type Content = {
+        content: string;
+        contentType: string;
+        headers: (string*string) list;
+    } 
 
+    type StartingContext = StartingContext
 
-type StartingContext = StartingContext
-
-type FinalContext = {
-    request: Header;
-    content: Content option;
-}
-with
-    member this.invoke () =
-        let request = this.request
-        let requestMessage = new HttpRequestMessage(request.method, request.url)
+    type FinalContext = {
+        request: Header;
+        content: Content option;
+    } with
+        member this.invoke () =
+            let request = this.request
+            let requestMessage = new HttpRequestMessage(request.method, request.url)
         
-        requestMessage.Content <-
-            match this.content with
-            | Some c -> 
-                let stringContent = new StringContent(c.content, System.Text.Encoding.UTF8, c.contentType)
-                for name,value in c.headers do
-                    stringContent.Headers.TryAddWithoutValidation(name, value) |> ignore
-                stringContent
-            | _ -> null
+            requestMessage.Content <-
+                match this.content with
+                | Some c -> 
+                    let stringContent = new StringContent(c.content, System.Text.Encoding.UTF8, c.contentType)
+                    for name,value in c.headers do
+                        stringContent.Headers.TryAddWithoutValidation(name, value) |> ignore
+                    stringContent
+                | _ -> null
         
-        for name,value in request.headers do
-            requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
+            for name,value in request.headers do
+                requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
 
-        // TODO: dispose        
-        let client = new HttpClient()
-        client.SendAsync(requestMessage)
+            // TODO: dispose        
+            let client = new HttpClient()
+            client.SendAsync(requestMessage)
 
-type HeaderContext = { request: Header }
-with
-    static member header (this: HeaderContext, name: string, value: string) =
-        { this with request = { this.request with headers = this.request.headers @ [name,value] } }
-    static member finalize (this: HeaderContext) =
-        let finalContext = { request=this.request; content=None }
-        finalContext
+    type HeaderContext = { request: Header } with
+        static member header (this: HeaderContext, name: string, value: string) =
+            { this with request = { this.request with headers = this.request.headers @ [name,value] } }
+        static member finalize (this: HeaderContext) =
+            let finalContext = { request=this.request; content=None }
+            finalContext
 
-type BodyContext = {
-    request: Header;
-    content: Content;
-}
-with
-    static member header (this: BodyContext, name: string, value: string) =
-        { this with request = { this.request with headers = this.request.headers @ [name,value] } }
-    static member finalize (this: BodyContext) =
-        let finalContext:FinalContext = { request=this.request; content=Some this.content }
-        finalContext
+    type BodyContext = {
+        request: Header;
+        content: Content;
+    } with
+        static member header (this: BodyContext, name: string, value: string) =
+            { this with request = { this.request with headers = this.request.headers @ [name,value] } }
+        static member finalize (this: BodyContext) =
+            let finalContext:FinalContext = { request=this.request; content=Some this.content }
+            finalContext
 
+let inline private finalizeContext (context: ^t) =
+    (^t: (static member finalize: ^t -> FinalContext) (context))
 
-module Builder =
+type HttpBuilder() =
+    member this.Bind(m, f) = f m
+    member this.Return(x) = x
+    member this.Yield(x) = StartingContext
+    member this.For(m, f) = this.Bind m f
 
-    type HttpBuilder() =
-        member this.Bind(m, f) = f m
-        member this.Return(x) = x
-        member this.Yield(x) = StartingContext
-        member this.For(m, f) = this.Bind m f
-
-    // Request methods
+[<AutoOpen>]
+module RequestMethods =
     type HttpBuilder with
 
         [<CustomOperation("Request")>]
@@ -145,14 +144,16 @@ module Builder =
         // RFC 4918 (WebDAV) adds 7 methods
         // TODO
 
-    // Header + Body
+[<AutoOpen>]
+module HeaderAndBody =
     type HttpBuilder with
 
         [<CustomOperation("header")>]
         member inline this.Header(context: ^t, name, value) =
             (^t: (static member header: ^t * string * string -> ^t) (context,name,value))
 
-    // HTTP request headers
+[<AutoOpen>]
+module RequestHeaders =
     type HttpBuilder with
 
         /// Content-Types that are acceptable for the response
@@ -392,7 +393,8 @@ module Builder =
         member this.XHTTPMethodOverride (context: HeaderContext, httpMethod: string) =
             this.Header(context, "X-HTTP-Method-Override", httpMethod)
 
-    // Body
+[<AutoOpen>]
+module Body =
     type HttpBuilder with
 
         [<CustomOperation("body")>]
@@ -416,10 +418,6 @@ module Builder =
                 content = { content with content=json; contentType="application/json";  }
             }
 
-let http = Builder.HttpBuilder()
-
-
-
 [<AutoOpen>]
 module Transformation =
 
@@ -440,9 +438,7 @@ module Transformation =
         printHint: PrintHint
     }
 
-
-    let inline sendAsync (context: ^t) =
-        let finalContext = (^t: (static member finalize: ^t -> FinalContext) (context))
+    let sendAsync (finalContext: FinalContext) =
         async {
             let! response = finalContext.invoke() |> Async.AwaitTask
             return
@@ -456,7 +452,7 @@ module Transformation =
                     printHint = Header
                 }
         }
-    let inline send (context: ^t) = (sendAsync context) |> Async.RunSynchronously
+    let send (finalContext: FinalContext) = finalContext |> sendAsync |> Async.RunSynchronously
 
     let headerToString (r: Response) =
         let sb = StringBuilder()
@@ -498,6 +494,18 @@ module Transformation =
     let preview maxLength r = { r with printHint = Preview maxLength }
     let expand r = { r with printHint = Expand }
 
+type HttpBuilderSync() =
+    inherit HttpBuilder()
+    member inline this.Delay(f: unit -> 'a) =
+        f() |> finalizeContext |> send
+
+type HttpBuilderAsync() =
+    inherit HttpBuilder()
+    member inline this.Delay(f: unit -> 'a) =
+        f() |> finalizeContext |> sendAsync
+
+let http = HttpBuilderSync()
+let httpAsync = HttpBuilderAsync()
 
 // TODO:
 // Multipart

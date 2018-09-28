@@ -14,9 +14,18 @@ type TestResult<'a> =
     | Ok of 'a
     | Failed of 'a * message: string
 
+let bind m f =
+    match m with
+    | Ok x -> f x
+    | Failed (x,y) -> Failed (x,y)
+let (>>=) = bind
+
 let test x = Ok x
 
-let eval t =
+//let (>>>) (y: 'b) (x: Async<'a>) =
+//    y
+
+let run t =
     match t with
     | Ok x -> "Ok"
     | Failed (x,y) -> sprintf "Failed: %s" y
@@ -28,29 +37,10 @@ let expect f x =
     with
     | ex -> Failed (x,ex.Message)
 
-// let private assertExpectation (f: FsHttp.Response -> _) (r: FsHttp.Response) =
-//     try
-//         f r |> ignore
-//         Ok r
-//     with
-//     | ex -> Failed (r,ex.Message)
-// let testString (f: string -> 'a) =
-//     assertExpectation (FsHttp.contentAsString >> f)
-// let testJson (f: JsonValue -> 'a) =
-//     assertExpectation (toJson >> f)
-// let testJsonArray (f: JsonValue[] -> 'a) =
-//     assertExpectation (toJson >> (fun json -> json.AsArray()) >> f)
-
 type ArrayComparison = | UseIndex | IgnoreIndexes
 type StructuralComparison = | Subset | Exact
 
-let bind m f =
-    match m with
-    | Ok x -> f x
-    | Failed (x,y) -> Failed (x,y)
-let (>>=) = bind
-
-let compareJson (arrayComparison: ArrayComparison) (expectedJson: JsonValue) (resultJson: JsonValue) =
+let private compareJson (arrayComparison: ArrayComparison) (expectedJson: JsonValue) (resultJson: JsonValue) =
 
     let rec toPaths (currentPath: string) (jsonValue: JsonValue) : ((string*obj) list) =
         match jsonValue with
