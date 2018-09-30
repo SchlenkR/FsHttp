@@ -19,6 +19,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="DevTest.fsx" />
     <Compile Include="FsHttp.fs">
       <PackagePath>.</PackagePath>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

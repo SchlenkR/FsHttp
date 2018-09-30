@@ -14,7 +14,7 @@ module Runtime =
 
     type PrintHint =
         | Header 
-        | Preview of maxLength: int
+        | Show of maxLength: int
         | Expand
 
     type Response = {
@@ -77,36 +77,38 @@ module Runtime =
         sb.AppendLine("---") |> ignore
         printHeader r.content.Headers
         sb.ToString()
-
-    let toStringAsync (r: Response) =
-        r.content.ReadAsStringAsync() |> Async.AwaitTask
-    let toString (r: Response) =
-        (toStringAsync r) |> Async.RunSynchronously
-
-    let toStringNAsync maxLength (r: Response) =
+    
+    // TODO: Don't read the whole response; read only requested chars.
+    let toStringAsync maxLength (r: Response) =
         let getTrimChars (s: string) =
             match s.Length with
             | l when l > maxLength -> "\n..."
             | _ -> ""
         async {
-            let! content = toStringAsync r
+            let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
             return
                 System.String(content.Take(maxLength).ToArray())
                 + (getTrimChars content)
         }
-    let toStringN maxLength (r: Response) =
-        (toStringNAsync maxLength r) |> Async.RunSynchronously
+    let toString maxLength (r: Response) =
+        (toStringAsync maxLength r) |> Async.RunSynchronously
 
-    let toJson (r: Response) =  toString r |> JsonValue.Parse
-    let toJsonArray (r: Response) =  ((toString r) |> JsonValue.Parse).AsArray()
+    let toJson (r: Response) =  toString Int32.MaxValue r |> JsonValue.Parse
+    let toJsonArray (r: Response) =  ((toString Int32.MaxValue r) |> JsonValue.Parse).AsArray()
 
     let headerOnly r = { r with printHint = Header }
-    let preview maxLength r = { r with printHint = Preview maxLength }
+    let show maxLength r = { r with printHint = Show maxLength }
     let expand r = { r with printHint = Expand }
 
 
     let inline private finalizeContext (context: ^t) =
         (^t: (static member finalize: ^t -> FinalContext) (context))
+        
+    type HttpBuilder with
+        member this.Bind(m, f) = f m
+        member this.Return(x) = x
+        member this.Yield(x) = StartingContext
+        member this.For(m, f) = this.Bind m f
 
     type HttpBuilderSync() =
         inherit HttpBuilder()

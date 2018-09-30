@@ -69,7 +69,7 @@ module Testing =
         let getPaths x = x |> toPaths "" |> List.map (fun (path,value) -> sprintf "%s{%A}" path value)
         (getPaths expectedJson, getPaths resultJson)
 
-    let byExample
+    let expectJsonByExample
             (arrayComparison: ArrayComparison)
             (structuralComparison: StructuralComparison)
             (expectedJson: string)
