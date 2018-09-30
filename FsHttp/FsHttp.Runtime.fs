@@ -120,8 +120,20 @@ module Runtime =
         member inline this.Delay(f: unit -> 'a) =
             f() |> finalizeContext |> sendAsync
 
+    type HttpBuilderDelaySync() =
+        inherit HttpBuilder()
+        member inline this.Delay(f: unit -> 'a) =
+            fun() -> f() |> finalizeContext |> send
+
+    type HttpBuilderDelayAsync() =
+        inherit HttpBuilder()
+        member inline this.Delay(f: unit -> 'a) =
+            fun() -> f() |> finalizeContext |> sendAsync
+
     let http = HttpBuilderSync()
     let httpAsync = HttpBuilderAsync()
+    let httpLazy = HttpBuilderSync()
+    let httpLazyAsync = HttpBuilderAsync()
 
     // TODO:
     // Multipart

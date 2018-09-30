@@ -18,6 +18,7 @@ http {  GET @"https://reqres.in/api/users?page=2&delay=3"
 }
 |> toJson
 |> test
+>>= expect *> fun json -> json?data.AsArray() |> should haveLength 3
 >>= expectJsonByExample IgnoreIndexes Subset
     """
     {
@@ -28,4 +29,4 @@ http {  GET @"https://reqres.in/api/users?page=2&delay=3"
         ]
     }
     """
->>= expect *> fun json -> json?data.AsArray() |> should haveLength 3
+|> run

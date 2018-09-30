@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.1.1</Version>
+    <Version>0.1.0</Version>
     <Authors>Ronald Schlenker</Authors>
     <Company />
     <Description>A lightweight HTTP/REST library for F#.</Description>
@@ -13,13 +13,12 @@
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest</PackageTags>
-    <PackageId>RonaldSchlenker.FsHttp</PackageId>
+    <PackageId>SchlenkR.FsHttp</PackageId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="DevTest.fsx" />
     <Compile Include="FsHttp.fs">
       <PackagePath>.</PackagePath>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
