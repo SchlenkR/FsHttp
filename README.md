@@ -25,7 +25,7 @@ For using the JSON and testing functions, reference the FSharp.Data, NUnit and F
 #r @".\packages\fsharp.data\lib\net45\FSharp.Data.dll"
 #r @".\packages\NUnit\lib\netstandard2.0\nunit.framework.dll"
 #r @".\packages\fsunit\lib\netstandard2.0\FsUnit.NUnit.dll"
-#load @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.fsx"
+#load @".\packages\schlenkr.fshttp\lib\netstandard2.0\FsHttp.fsx"
 
 open FsHttp
 open FsUnit
