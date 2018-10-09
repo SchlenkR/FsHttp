@@ -1,20 +1,20 @@
 ﻿
-module ``Tests for FsHttp``
+module ``Integration tests for FsHttp``
 
 open System
-open Microsoft.VisualStudio.TestTools.UnitTesting
-
 open FsHttp
+open NUnit.Framework
 
-[<TestMethod>]
-let ``Synchronous GET call is invoked immediately`` =
-    http {  GET @"https://reqres.in/api/users?page=2&delay=3"
-    }
-    |> toJson
-    //>>> async {
-    //    return 4
-    //}
-    //>> send
+
+[<TestCase>]
+let ``Synchronous GET call is invoked immediately``() =
+    let json =
+        http {  GET @"https://reqres.in/api/users?page=2&delay=3"
+        }
+        |> toJson
+    
+    json 
+    
 
 
 

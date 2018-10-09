@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -10,7 +11,8 @@
     <Copyright>Copyright 2018 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp</PackageProjectUrl>
-    <PackageIconUrl></PackageIconUrl>
+    <PackageIconUrl>
+    </PackageIconUrl>
     <RepositoryUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest</PackageTags>
     <PackageId>SchlenkR.FsHttp</PackageId>
@@ -38,10 +40,5 @@
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FSharp.Data" Version="2.4.6" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.3.4" />
-  </ItemGroup>
+  <Import Project=".paket\Paket.Restore.targets" />
 </Project>

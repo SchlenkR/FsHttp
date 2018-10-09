@@ -15,6 +15,9 @@ module Testing =
     type TestResult<'a> =
         | Ok of 'a
         | Failed of 'a * message: string
+    
+    let isOk (testResult: TestResult<_>) = match testResult with | Ok _ -> true | _ -> false
+    let isFailed (testResult: TestResult<_>) = isOk testResult |> not
 
     let bind m f =
         match m with
@@ -27,6 +30,7 @@ module Testing =
     //let (>>>) (y: 'b) (x: Async<'a>) =
     //    y
 
+    // TODO: This is 'print'. Run should throw assertion exceptions.
     let run t =
         match t with
         | Ok x -> "Ok"
@@ -39,12 +43,12 @@ module Testing =
         with
         | ex -> Failed (x,ex.Message)
 
-    type ArrayComparison = | UseIndex | IgnoreIndexes
+    type ArrayComparison = | RespectOrder | IgnoreOrder
     type StructuralComparison = | Subset | Exact
 
     let private compareJson (arrayComparison: ArrayComparison) (expectedJson: JsonValue) (resultJson: JsonValue) =
 
-        let rec toPaths (currentPath: string) (jsonValue: JsonValue) : ((string*obj) list) =
+        let rec toPaths (currentPath: string) (jsonValue: JsonValue) : ((string * obj) list) =
             match jsonValue with
             | JsonValue.Null -> [currentPath, null :> obj]
             | JsonValue.Record properties ->
@@ -57,7 +61,7 @@ module Testing =
                 let indexedValues = values |> Array.mapi (fun i x -> i,x)
                 seq {
                     for index,value in indexedValues do
-                    let printedIndex = match arrayComparison with | UseIndex -> index.ToString() | IgnoreIndexes -> ""
+                    let printedIndex = match arrayComparison with | RespectOrder -> index.ToString() | IgnoreOrder -> ""
                     for inner in toPaths (sprintf "%s[%s]" currentPath printedIndex) value do
                     yield inner
                 } |> Seq.toList
@@ -74,6 +78,7 @@ module Testing =
             (structuralComparison: StructuralComparison)
             (expectedJson: string)
             (resultJson: JsonValue) =
+
         let expectedPaths,resultPaths = compareJson arrayComparison (JsonValue.Parse expectedJson) resultJson
         let aggregateUnmatchedElements list =
             match list with
@@ -94,6 +99,13 @@ module Testing =
                 let a1 = (sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements))
                 let a2 = (sprintf "Elements not contained in expectation: \n%s" (rMinusE |> aggregateUnmatchedElements))
                 Failed (resultJson, a1 + "\n" + a2)
+
+    let expectJsonStringByExample
+            (arrayComparison: ArrayComparison)
+            (structuralComparison: StructuralComparison)
+            (expectedJson: string)
+            (resultJson: string) =
+        expectJsonByExample arrayComparison structuralComparison expectedJson (resultJson |> JsonValue.Parse)
 
     type JsonValue with
         member this.HasProperty(propertyName: string) =
