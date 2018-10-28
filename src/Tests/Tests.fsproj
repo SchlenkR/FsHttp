@@ -1,23 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
     <OutputType>Library</OutputType>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Server.fs" />
     <Compile Include="JsonTests.fs" />
     <Compile Include="IntegrationTests.fs" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
-
   <Import Project="..\.paket\Paket.Restore.targets" />
-
 </Project>
