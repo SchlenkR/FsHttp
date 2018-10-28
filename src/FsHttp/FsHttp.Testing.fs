@@ -92,7 +92,7 @@ module Testing =
     let shouldHaveCode (code: System.Net.HttpStatusCode) (response: Response) =
         if response.statusCode <> code then
             raise (AssertionException (sprintf "Expected status code of %A, but was %A" code response.statusCode))
-        response
+        ()
 
 
 

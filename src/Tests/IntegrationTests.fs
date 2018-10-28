@@ -87,7 +87,16 @@ let ``Expect status code``() =
 
     //use server = query "test" |> testGet |> serve
     use server = (fun r -> Suave.ServerErrors.BAD_GATEWAY "") |> httpGet |> serve
-    
+
     http {  GET (url @"")
     }
     |> shouldHaveCode System.Net.HttpStatusCode.BadGateway
+    |> ignore
+
+    Assert.Throws<AssertionException>(fun() ->
+        http {  GET (url @"")
+        }
+        |> shouldHaveCode System.Net.HttpStatusCode.Ambiguous
+        |> ignore
+    )
+    |> ignore
