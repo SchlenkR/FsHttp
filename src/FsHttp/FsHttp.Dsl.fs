@@ -11,17 +11,17 @@ module Dsl =
 
     open FsHttp
 
-    let urlEncode (s: string) = System.Web.HttpUtility.UrlEncode(s)
+    let private urlEncode (s: string) = System.Web.HttpUtility.UrlEncode(s)
 
-    let toBase64 (s: string) =
+    let private toBase64 (s: string) =
         let utf8Bytes = Encoding.UTF8.GetBytes(s)
         Convert.ToBase64String(utf8Bytes)
 
-    let fromBase64 (s: string) =
+    let private fromBase64 (s: string) =
         let base64Bytes = Convert.FromBase64String(s)
         Encoding.UTF8.GetString(base64Bytes)
 
-    let formatUrl (url: string) =
+    let private formatUrl (url: string) =
         let segments =
             url.Split([|'\n'|], StringSplitOptions.RemoveEmptyEntries)
             |> Seq.map (fun x -> x.Trim())
@@ -83,14 +83,14 @@ module Dsl =
         // RFC 4918 (WebDAV) adds 7 methods
         // TODO
 
-    // HeaderAndBody =
+    // HeaderAndBody
     type HttpBuilder with
 
         [<CustomOperation("header")>]
         member inline this.Header(context: ^t, name, value) =
             (^t: (static member header: ^t * string * string -> ^t) (context,name,value))
 
-    // RequestHeaders =
+    // RequestHeaders
     type HttpBuilder with
 
         /// Content-Types that are acceptable for the response
@@ -175,11 +175,12 @@ module Dsl =
         [<CustomOperation("ContentRange")>]
         member this.ContentRange (context: HeaderContext, range: string) =
             this.Header(context, "Content-Range", range)
-        
-        /// The MIME type of the body of the request (used with POST and PUT requests)
-        [<CustomOperation("ContentType")>]
-        member this.ContentType (context: HeaderContext, contentType: string) =
-            this.Header(context, "Content-Type", contentType)
+
+        // this is a property of the body.        
+        // // /// The MIME type of the body of the request (used with POST and PUT requests)
+        // // [<CustomOperation("ContentType")>]
+        // // member this.ContentType (context: HeaderContext, contentType: string) =
+        // //     this.Header(context, "Content-Type", contentType)
         
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
         [<CustomOperation("ContentTypeWithEncoding")>]
@@ -330,7 +331,7 @@ module Dsl =
         member this.XHTTPMethodOverride (context: HeaderContext, httpMethod: string) =
             this.Header(context, "X-HTTP-Method-Override", httpMethod)
 
-    // Body =
+    // Body
     type HttpBuilder with
 
         [<CustomOperation("body")>]
@@ -343,11 +344,29 @@ module Dsl =
         // TODO: Binary
         // TODO: Base64
         
+        // TODO
+        // // [<CustomOperation("binary")>]
+        // // member this.Binary(context: BodyContext, data: byte[]) =
+        // //     let content = context.content
+        // //     let contentType =
+        // //         if context.content.contentType = null then
+        // //             "text/plain" 
+        // //         else 
+        // //             context.content.contentType
+        // //     { context with
+        // //         content = { content with content=text; contentType=contentType;  }
+        // //     }
+        
         [<CustomOperation("text")>]
         member this.Text(context: BodyContext, text: string) =
             let content = context.content
+            let contentType =
+                if context.content.contentType = null then
+                    "text/plain" 
+                else 
+                    context.content.contentType
             { context with
-                content = { content with content=text; contentType="text/plain";  }
+                content = { content with content=text; contentType=contentType;  }
             }
         
         [<CustomOperation("json")>]
@@ -355,5 +374,13 @@ module Dsl =
             let content = context.content
             { context with
                 content = { content with content=json; contentType="application/json";  }
+            }
+
+        /// The MIME type of the body of the request (used with POST and PUT requests)
+        [<CustomOperation("ContentType")>]
+        member this.ContentType (context: BodyContext, contentType: string) =
+            let content = context.content
+            { context with
+                content = { content with contentType= contentType;  }
             }
 

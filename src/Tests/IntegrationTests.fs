@@ -36,12 +36,26 @@ module Helper =
             handler = (fun r -> "" |> OK)
         }
 
+    let httpPostRoute = 
+        {
+            method = POST;
+            route = "/";
+            handler = (fun r -> "" |> OK)
+        }
+
     let httpGet handler =
         [
             { httpGetRoute with handler = handler }
         ]
 
-    let httpGetWithOk handler = handler >> OK |> httpGet 
+    let httpPost handler =
+        [
+            { httpPostRoute with handler = handler }
+        ]
+
+    let httpWithOk handler = handler >> OK
+    let httpGetWithOk handler = httpWithOk handler |> httpGet
+    let httpPostWithOk handler = httpWithOk handler |> httpPost
 
 
 [<TestCase>]
@@ -100,3 +114,18 @@ let ``Expect status code``() =
         |> ignore
     )
     |> ignore
+
+[<TestCase>]
+let ``Specify content type explicitly``() =
+
+    //use server = query "test" |> testGet |> serve
+    use server = (fun r -> r |> header "content-type") |> httpPostWithOk |> serve
+
+    let contentType = "application/whatever"
+    
+    http {  POST (url @"")
+            body
+            ContentType contentType
+    }
+    |> toText
+    |> should contain contentType
