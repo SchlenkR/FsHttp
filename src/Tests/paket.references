@@ -1,0 +1,7 @@
+FSharp.Core
+FSharp.Data
+FsUnit
+Microsoft.NET.Test.Sdk
+NUnit
+NUnit3TestAdapter
+Suave

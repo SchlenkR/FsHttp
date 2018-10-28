@@ -5,43 +5,14 @@ namespace FsHttp
 module Testing =
 
     open FSharp.Data
+    open NUnit.Framework
 
     // useful to support lambdas without parenthesis:
     // ... |> testJson *> fun json -> json.Properties.Length |> should be (greaterThan 5)
     let ( *> ) f x = f x
 
-    // TODO: try
-
-    type TestResult<'a> =
-        | Ok of 'a
-        | Failed of 'a * message: string
-    
-    let isOk (testResult: TestResult<_>) = match testResult with | Ok _ -> true | _ -> false
-    let isFailed (testResult: TestResult<_>) = isOk testResult |> not
-
-    let bind m f =
-        match m with
-        | Ok x -> f x
-        | Failed (x,y) -> Failed (x,y)
-    let (>>=) = bind
-
-    let test x = Ok x
-
     //let (>>>) (y: 'b) (x: Async<'a>) =
     //    y
-
-    // TODO: This is 'print'. Run should throw assertion exceptions.
-    let run t =
-        match t with
-        | Ok x -> "Ok"
-        | Failed (x,y) -> sprintf "Failed: %s" y
-
-    let expect f x =
-        try
-            f x |> ignore
-            Ok x
-        with
-        | ex -> Failed (x,ex.Message)
 
     type ArrayComparison = | RespectOrder | IgnoreOrder
     type StructuralComparison = | Subset | Exact
@@ -73,7 +44,7 @@ module Testing =
         let getPaths x = x |> toPaths "" |> List.map (fun (path,value) -> sprintf "%s{%A}" path value)
         (getPaths expectedJson, getPaths resultJson)
 
-    let expectJsonByExample
+    let jsonShouldLookLike
             (arrayComparison: ArrayComparison)
             (structuralComparison: StructuralComparison)
             (expectedJson: string)
@@ -88,24 +59,28 @@ module Testing =
         | Subset ->
             let eMinusR = expectedPaths |> List.except resultPaths
             match eMinusR with
-            | [] -> Ok resultJson
-            | _ -> Failed (resultJson, sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements))
+            | [] -> resultJson
+            | _ -> raise (AssertionException (sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements)))
         | Exact ->
             let eMinusR = expectedPaths |> List.except resultPaths
             let rMinusE = resultPaths |> List.except expectedPaths
             match eMinusR, rMinusE with
-            | [],[] -> Ok resultJson
+            | [],[] -> resultJson
             | _ ->
                 let a1 = (sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements))
                 let a2 = (sprintf "Elements not contained in expectation: \n%s" (rMinusE |> aggregateUnmatchedElements))
-                Failed (resultJson, a1 + "\n" + a2)
+                raise (AssertionException (a1 + "\n" + a2))
 
-    let expectJsonStringByExample
+    let jsonStringShouldLookLike
             (arrayComparison: ArrayComparison)
             (structuralComparison: StructuralComparison)
             (expectedJson: string)
             (resultJson: string) =
-        expectJsonByExample arrayComparison structuralComparison expectedJson (resultJson |> JsonValue.Parse)
+
+        jsonShouldLookLike arrayComparison structuralComparison expectedJson (resultJson |> JsonValue.Parse)
+        |> ignore
+
+        resultJson
 
     type JsonValue with
         member this.HasProperty(propertyName: string) =

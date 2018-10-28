@@ -93,7 +93,9 @@ module Runtime =
     let toString maxLength (r: Response) =
         (toStringAsync maxLength r) |> Async.RunSynchronously
 
-    let toJson (r: Response) =  toString Int32.MaxValue r |> JsonValue.Parse
+    let toText (r: Response) =  toString Int32.MaxValue r
+
+    let toJson (r: Response) =  toText r |> JsonValue.Parse
     let toJsonArray (r: Response) =  ((toString Int32.MaxValue r) |> JsonValue.Parse).AsArray()
 
     let headerOnly r = { r with printHint = Header }

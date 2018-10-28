@@ -9,19 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Server.fs" />
     <Compile Include="JsonTests.fs" />
     <Compile Include="IntegrationTests.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FsUnit" Version="3.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
-    <PackageReference Include="NUnit" Version="3.10.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
+
+  <Import Project="..\.paket\Paket.Restore.targets" />
 
 </Project>

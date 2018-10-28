@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp", "FsHttp\FsHttp.fsproj", "{3DE85489-E133-470D-B153-8A61AD1D9301}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsHttp.Tests", "FsHttp.Tests\FsHttp.Tests.fsproj", "{CD6F0C00-72D5-467B-9C18-04EAE6C5D9FB}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{CD6F0C00-72D5-467B-9C18-04EAE6C5D9FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
