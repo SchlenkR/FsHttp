@@ -87,6 +87,23 @@ let ``Smoke test for a header``() =
     |> should equal lang
 
 [<TestCase>]
+let ``ContentType override``() =
+
+    //use server = query "test" |> testGet |> serve
+    use server = (fun r -> r |> header "content-type") |> httpPostWithOk |> serve
+
+    let contentType = "application/xxx"
+    
+    http {
+        POST (url @"")
+        body
+        ContentType contentType
+        text "hello world"
+    }
+    |> toText
+    |> should contain contentType
+
+[<TestCase>]
 let ``Expect status code``() =
 
     //use server = query "test" |> testGet |> serve
