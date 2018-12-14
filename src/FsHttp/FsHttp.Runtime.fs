@@ -11,7 +11,6 @@ module Runtime =
     open FsHttp
     open FSharp.Data
 
-
     type PrintHint =
         | Header 
         | Show of maxLength: int
@@ -36,7 +35,7 @@ module Runtime =
             requestMessage.Content <-
                 match finalContext.content with
                 | Some c -> 
-                    let stringContent = new StringContent(c.content, System.Text.Encoding.UTF8, c.contentType)
+                    let stringContent = new StringContent(c.content, Encoding.UTF8, c.contentType)
                     for name,value in c.headers do
                         stringContent.Headers.TryAddWithoutValidation(name, value) |> ignore
                     stringContent

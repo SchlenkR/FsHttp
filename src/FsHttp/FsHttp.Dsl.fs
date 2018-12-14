@@ -21,30 +21,25 @@ module Dsl =
         let base64Bytes = Convert.FromBase64String(s)
         Encoding.UTF8.GetString(base64Bytes)
 
-    let private formatUrl (url: string) =
-        let segments =
-            url.Split([|'\n'|], StringSplitOptions.RemoveEmptyEntries)
-            |> Seq.map (fun x -> x.Trim())
-            |> Seq.filter (fun x -> not (x.StartsWith("//")))
-            // TODO
-            //|> Seq.map (fun x ->
-            //    if x.StartsWith("?") || x.StartsWith("&")
-            //    then x.Substring(1)
-            //    else x
-            //)
-            |> Seq.reduce (+)
-        segments
-
 
     // Request
     type HttpBuilder with
 
         [<CustomOperation("Request")>]
         member this.Method (context: StartingContext) (method: HttpMethod) (url: string) =
-            let formattedUrl = formatUrl url
-            {
-                request = { url=formattedUrl; method=method; headers=[] }
-            }
+
+            let formattedUrl =
+                url.Split([|'\n'|], StringSplitOptions.RemoveEmptyEntries)
+                |> Seq.map (fun x -> x.Trim())
+                |> Seq.filter (fun x -> not (x.StartsWith("//")))
+                // TODO
+                //|> Seq.map (fun x ->
+                //    if x.StartsWith("?") || x.StartsWith("&")
+                //    then x.Substring(1)
+                //    else x
+                //)
+                |> Seq.reduce (+)
+            { request = { url=formattedUrl; method=method; headers=[] } }
 
         // RFC 2626 specifies 8 methods
         [<CustomOperation("GET")>]
@@ -181,11 +176,10 @@ module Dsl =
         // // [<CustomOperation("ContentType")>]
         // // member this.ContentType (context: HeaderContext, contentType: string) =
         // //     this.Header(context, "Content-Type", contentType)
-        
-        /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
-        [<CustomOperation("ContentTypeWithEncoding")>]
-        member this.ContentTypeWithEncoding (context: HeaderContext, contentType, charset:Encoding) =
-            this.Header(context, "Content-Type", sprintf "%s; charset=%s" contentType (charset.WebName))
+        /////// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
+        ////[<CustomOperation("ContentTypeWithEncoding")>]
+        ////member this.ContentTypeWithEncoding (context: HeaderContext, contentType, charset:Encoding) =
+        ////    this.Header(context, "Content-Type", sprintf "%s; charset=%s" contentType (charset.WebName))
         
         /// The date and time that the message was sent
         [<CustomOperation("Date")>]
@@ -331,6 +325,13 @@ module Dsl =
         member this.XHTTPMethodOverride (context: HeaderContext, httpMethod: string) =
             this.Header(context, "X-HTTP-Method-Override", httpMethod)
 
+
+    let getContentTypeOrDefault (context:BodyContext) (defaultValue:string) =
+        if context.content.contentType = null then
+            defaultValue
+        else 
+            context.content.contentType
+
     // Body
     type HttpBuilder with
 
@@ -360,11 +361,7 @@ module Dsl =
         [<CustomOperation("text")>]
         member this.Text(context: BodyContext, text: string) =
             let content = context.content
-            let contentType =
-                if context.content.contentType = null then
-                    "text/plain" 
-                else 
-                    context.content.contentType
+            let contentType = getContentTypeOrDefault context "text/plain"
             { context with
                 content = { content with content=text; contentType=contentType;  }
             }
@@ -372,8 +369,9 @@ module Dsl =
         [<CustomOperation("json")>]
         member this.Json(context: BodyContext, json: string) =
             let content = context.content
+            let contentType = getContentTypeOrDefault context "application/json"
             { context with
-                content = { content with content=json; contentType="application/json";  }
+                content = { content with content=json; contentType=contentType;  }
             }
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
@@ -383,4 +381,8 @@ module Dsl =
             { context with
                 content = { content with contentType= contentType;  }
             }
-
+                    
+        /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
+        [<CustomOperation("ContentTypeWithEncoding")>]
+        member this.ContentTypeWithEncoding (context: BodyContext, contentType, charset:Encoding) =
+            this.ContentType(context, sprintf "%s; charset=%s" contentType (charset.WebName))

@@ -26,7 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FsHttp.fs">
+    <Compile Include="FsHttp.Domain.fs">
       <PackagePath>.</PackagePath>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
@@ -45,5 +45,8 @@
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </None>
   </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Update="FsUnit" Version="3.4.0" />
+    <PackageReference Update="NUnit" Version="3.11.0" />
+  </ItemGroup>
 </Project>

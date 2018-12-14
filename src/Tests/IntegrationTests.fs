@@ -1,15 +1,5 @@
 ﻿
-#if INTERACTIVE
-#r @"..\packages\NUnit\lib\netstandard2.0\NUnit.Framework.dll"
-#r @"..\packages\FsUnit\lib\netstandard2.0\FsUnit.NUnit.dll"
-#r @"..\packages\FSharp.Data\lib\netstandard2.0\FSharp.Data.dll"
-#r @"..\packages\Suave\lib\netstandard2.0\Suave.dll"
-#r @"..\FsHttp\bin\Debug\netstandard2.0\FsHttp.dll"
-#load "Server.fs"
-#else
 module ``Integration tests for FsHttp``
-#endif
-
 
 open FsUnit
 open FsHttp
@@ -64,8 +54,7 @@ let ``Synchronous GET call is invoked immediately``() =
     //use server = query "test" |> testGet |> serve
     use server = (fun r -> r.rawQuery) |> httpGetWithOk |> serve
 
-    http { GET (url @"?test=Hallo")
-    }
+    http { GET (url @"?test=Hallo") }
     |> toText
     |> should equal "test=Hallo"
 
@@ -90,8 +79,9 @@ let ``Smoke test for a header``() =
 
     let lang = "zh-Hans"
     
-    http {  GET (url @"")
-            AcceptLanguage lang
+    http {
+        GET (url @"")
+        AcceptLanguage lang
     }
     |> toText
     |> should equal lang
@@ -102,14 +92,12 @@ let ``Expect status code``() =
     //use server = query "test" |> testGet |> serve
     use server = (fun r -> Suave.ServerErrors.BAD_GATEWAY "") |> httpGet |> serve
 
-    http {  GET (url @"")
-    }
+    http { GET (url @"") }
     |> shouldHaveCode System.Net.HttpStatusCode.BadGateway
     |> ignore
 
     Assert.Throws<AssertionException>(fun() ->
-        http {  GET (url @"")
-        }
+        http { GET (url @"") }
         |> shouldHaveCode System.Net.HttpStatusCode.Ambiguous
         |> ignore
     )
@@ -123,9 +111,10 @@ let ``Specify content type explicitly``() =
 
     let contentType = "application/whatever"
     
-    http {  POST (url @"")
-            body
-            ContentType contentType
+    http {
+        POST (url @"")
+        body
+        ContentType contentType
     }
     |> toText
     |> should contain contentType

@@ -4,7 +4,6 @@ open System.Threading
 open Suave
 open Suave.Filters
 open Suave.Operators
-open Suave.Utils.Collections
 
 type Route = {
     method: WebPart;
