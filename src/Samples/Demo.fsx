@@ -1,7 +1,7 @@
 ﻿
-#r @".\packages\fsharp.data\lib\net45\FSharp.Data.dll"
-#r @".\packages\NUnit\lib\netstandard2.0\nunit.framework.dll"
-#r @".\packages\fsunit\lib\netstandard2.0\FsUnit.NUnit.dll"
+#r @"..\packages\fsharp.data\lib\net45\FSharp.Data.dll"
+#r @"..\packages\NUnit\lib\netstandard2.0\nunit.framework.dll"
+#r @"..\packages\fsunit\lib\netstandard2.0\FsUnit.NUnit.dll"
 #load @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.fsx"
 
 open FsHttp
@@ -17,9 +17,8 @@ http {  GET @"https://reqres.in/api/users?page=2&delay=3"
 http {  GET @"https://reqres.in/api/users?page=2&delay=3"
 }
 |> toJson
-|> test
->>= expect *> fun json -> json?data.AsArray() |> should haveLength 3
->>= expectJsonByExample IgnoreIndexes Subset
+||> (fun json -> json?data.AsArray() |> should haveLength 3)
+|> jsonShouldLookLike IgnoreOrder Subset
     """
     {
         "data": [
@@ -29,4 +28,3 @@ http {  GET @"https://reqres.in/api/users?page=2&delay=3"
         ]
     }
     """
-|> run

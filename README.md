@@ -4,14 +4,25 @@ FsHttp is a lightweight library for accessing HTTP/REST endpoints via F#.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp)
 
+## TOC
+
+- [FsHttp](#fshttp)
+    - [TOC](#toc)
+    - [Synopsis](#synopsis)
+    - [Examples](#examples)
+        - [F# Interactive Usage](#f-interactive-usage)
+        - [Basics](#basics)
+        - [Response Handling and Testing](#response-handling-and-testing)
+    - [Hints](#hints)
+
 ## Synopsis
 
 This library provides a convenient way of interacting with HTTP endpoints.
 
 The focus of FsHttp is:
 
-* Exploring HTTP services interactively by sending HTTP requests and viewing the response in F# interactive.
-* Test web APIs by sending requests and assert expectations.
+- Exploring HTTP services interactively by sending HTTP requests and viewing the response in F# interactive.
+- Test web APIs by sending requests and assert expectations.
 
 Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fsharp.github.io/FSharp.Data/library/Http.html).
 
@@ -21,7 +32,7 @@ Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fshar
 
 Using FsHttp in F# interactive, you should load the 'FsHttp.fsx' instead of referencing the dll directly. This will enable pretty printing of a response in the FSI output.
 
-For using the JSON and testing functions, reference the FSharp.Data, NUnit and FSUnit libraries. Have a look at the setup shown in the **FsHttp.DevTest** folder for an example.
+For using the JSON and testing functions, reference the FSharp.Data, NUnit and FSUnit libraries. Have a look at the setup shown in the **Tests\IntegrationTests.fs** folder for an example.
 
 ```fsharp
 #r @".\packages\fsharp.data\lib\net45\FSharp.Data.dll"
@@ -93,9 +104,7 @@ Testing response data by asserting JSON expectations:
 http {  GET @"https://reqres.in/api/users?page=2&delay=3"
 }
 |> toJson
-|> test
->>= expect *> fun json -> json?data.AsArray() |> should haveLength 3
-|> run
+|> (fun json -> json?data.AsArray() |> should haveLength 3)
 ```
 
 Testing response data by asserting JSON expectations and example:
@@ -104,9 +113,8 @@ Testing response data by asserting JSON expectations and example:
 http {  GET @"https://reqres.in/api/users?page=2&delay=3"
 }
 |> toJson
-|> test
->>= expect *> fun json -> json?data.AsArray() |> should haveLength 3
->>= expectJsonByExample IgnoreIndexes Subset
+||> (fun json -> json?data.AsArray() |> should haveLength 3)
+|> jsonShouldLookLike IgnoreOrder Subset
     """
     {
         "data": [
@@ -116,16 +124,17 @@ http {  GET @"https://reqres.in/api/users?page=2&delay=3"
         ]
     }
     """
-|> run
 ```
+
+The `||>` operator means 'tee' [have a look at](https://fsharpforfunandprofit.com/rop/): It is useful when you want to chain expectations together that all work on the http response.
 
 ## Hints
 
 The examples shown here use the **http** builder, which evaluates requests immediately and is executed synchronousely. There are more builders that can be used to achieve a different behavior:
 
-* **http** Immediately evaluated, synchronous
-* **httpAsync** Immediately evaluated, asynchronous
-* **httpLazy** Lazy evaluated, synchronous
-* **httpLazyAsync** Lazy evaluated, asynchronous
+- **http** Immediately evaluated, synchronous
+- **httpAsync** Immediately evaluated, asynchronous
+- **httpLazy** Lazy evaluated, synchronous
+- **httpLazyAsync** Lazy evaluated, asynchronous
 
 The inner DSL is the same for all builders.

@@ -7,9 +7,10 @@ module Testing =
     open FSharp.Data
     open NUnit.Framework
 
-    // useful to support lambdas without parenthesis:
-    // ... |> testJson *> fun json -> json.Properties.Length |> should be (greaterThan 5)
-    let ( *> ) f x = f x
+    /// tee operator: useful for chaining expectations
+    let ( ||> ) x f =
+        f x |> ignore
+        x
 
     //let (>>>) (y: 'b) (x: Async<'a>) =
     //    y

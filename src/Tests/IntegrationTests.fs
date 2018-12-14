@@ -17,9 +17,9 @@ open NUnit.Framework
 open Server
 open Suave
 open Suave.Filters
-open Suave.Operators
 open Suave.Utils.Collections
 open Suave.Successful
+
 
 [<AutoOpen>]
 module Helper =
