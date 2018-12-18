@@ -374,6 +374,15 @@ module Dsl =
                 content = { content with content=json; contentType=contentType;  }
             }
 
+        [<CustomOperation("formUrlEncoded")>]
+        member this.FormUrlEncoded(context: BodyContext, data: (string*string) list) =
+            let content = context.content
+            let contentType = getContentTypeOrDefault context "application/x-www-form-urlencoded"
+            let contentString = String.Join("&", data |> List.map (fun (key,value) -> key + "=" + value))
+            { context with
+                content = { content with content=contentString; contentType=contentType;  }
+            }
+
         /// The MIME type of the body of the request (used with POST and PUT requests)
         [<CustomOperation("ContentType")>]
         member this.ContentType (context: BodyContext, contentType: string) =

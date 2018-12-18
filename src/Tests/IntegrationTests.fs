@@ -1,4 +1,5 @@
 ﻿
+
 module ``Integration tests for FsHttp``
 
 open FsUnit
@@ -50,8 +51,6 @@ module Helper =
 
 [<TestCase>]
 let ``Synchronous GET call is invoked immediately``() =
-    
-    //use server = query "test" |> testGet |> serve
     use server = (fun r -> r.rawQuery) |> httpGetWithOk |> serve
 
     http { GET (url @"?test=Hallo") }
@@ -60,8 +59,6 @@ let ``Synchronous GET call is invoked immediately``() =
 
 [<TestCase>]
 let ``Split URL are interpreted correctly``() =
-
-    //use server = query "test" |> testGet |> serve
     use server = (fun r -> r.rawQuery) |> httpGetWithOk |> serve
 
     http { GET (url @"
@@ -73,8 +70,6 @@ let ``Split URL are interpreted correctly``() =
 
 [<TestCase>]
 let ``Smoke test for a header``() =
-
-    //use server = query "test" |> testGet |> serve
     use server = (fun r -> r |> header "accept-language") |> httpGetWithOk |> serve
 
     let lang = "zh-Hans"
@@ -88,12 +83,10 @@ let ``Smoke test for a header``() =
 
 [<TestCase>]
 let ``ContentType override``() =
-
-    //use server = query "test" |> testGet |> serve
     use server = (fun r -> r |> header "content-type") |> httpPostWithOk |> serve
 
     let contentType = "application/xxx"
-    
+
     http {
         POST (url @"")
         body
@@ -104,9 +97,47 @@ let ``ContentType override``() =
     |> should contain contentType
 
 [<TestCase>]
-let ``Expect status code``() =
+let ``Multiline urls``() =
+    use server = (fun r -> (query "q1" r) + "_" + (query "q2" r)) |> httpGetWithOk |> serve
 
-    //use server = query "test" |> testGet |> serve
+    http {
+        GET (url @"
+                    ?q1=Query1
+                    &q2=Query2")
+    }
+    |> toText
+    |> should equal "Query1_Query2"
+
+[<TestCase>]
+let ``Comments in urls are discarded``() =
+    use server = (fun r -> (query "q1" r) + "_" + (query "q2" r) + "_" + (query "q3" r)) |> httpGetWithOk |> serve
+
+    http {
+        GET (url @"
+                    ?q1=Query1
+                    //&q2=Query2
+                    &q3=Query3")
+    }
+    |> toText
+    |> should equal ("Query1_" + keyNotFoundString + "_Query2")
+
+[<TestCase>]
+let ``Form url encoded POSTs``() =
+    use server = (fun r -> (form "q1" r) + "_" + (form "q2" r)) |> httpPostWithOk |> serve
+
+    http {
+        POST (url @"")
+        body
+        formUrlEncoded [
+            "q1","Query1"
+            "q2","Query2"
+        ]
+    }
+    |> toText
+    |> should equal ("Query1_" + keyNotFoundString + "_Query2")
+
+[<TestCase>]
+let ``Expect status code``() =
     use server = (fun r -> Suave.ServerErrors.BAD_GATEWAY "") |> httpGet |> serve
 
     http { GET (url @"") }
@@ -122,8 +153,6 @@ let ``Expect status code``() =
 
 [<TestCase>]
 let ``Specify content type explicitly``() =
-
-    //use server = query "test" |> testGet |> serve
     use server = (fun r -> r |> header "content-type") |> httpPostWithOk |> serve
 
     let contentType = "application/whatever"

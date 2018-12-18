@@ -7,13 +7,14 @@ FsHttp is a lightweight library for accessing HTTP/REST endpoints via F#.
 ## TOC
 
 - [FsHttp](#fshttp)
-    - [TOC](#toc)
-    - [Synopsis](#synopsis)
-    - [Examples](#examples)
-        - [F# Interactive Usage](#f-interactive-usage)
-        - [Basics](#basics)
-        - [Response Handling and Testing](#response-handling-and-testing)
-    - [Hints](#hints)
+  - [TOC](#toc)
+  - [Synopsis](#synopsis)
+  - [Examples](#examples)
+    - [F# Interactive Usage](#f-interactive-usage)
+    - [Basics](#basics)
+    - [Response Handling and Testing](#response-handling-and-testing)
+  - [Hints](#hints)
+  - [TODO](#todo)
 
 ## Synopsis
 
@@ -51,40 +52,54 @@ open FSharp.Data.JsonExtensions
 A simple GET request looks like this:
 
 ```fsharp
-http {  GET "https://reqres.in/api/users?page=2&delay=3"
-}
+http { GET "https://reqres.in/api/users?page=2&delay=3" }
 ```
 
 You can split query parameters like this:
 
 ```fsharp
-http {  GET "https://reqres.in/api/users
-                ?page=2
-                &delay=3"
+http {
+    GET "https://reqres.in/api/users
+            ?page=2
+            &skip=5
+            &delay=3"
+}
+```
+
+F# line-comment syntax is supported in urls: skip is not contained in the query string.
+
+```fsharp
+http {
+    GET "https://reqres.in/api/users
+            ?page=2
+            //&skip=5
+            &delay=3"
 }
 ```
 
 You can set header parameters like this:
 
 ```fsharp
-http {  GET @"http://www.google.com"
-        AcceptLanguage "de-DE"
+http {
+    GET @"http://www.google.com"
+    AcceptLanguage "de-DE"
 }
 ```
 
 Post data like this:
 
 ```fsharp
-http {  POST @"https://reqres.in/api/users"
-        CacheControl "no-cache"
+http { 
+    POST @"https://reqres.in/api/users"
+    CacheControl "no-cache"
 
-        body
-        json """
-        {
-            "name": "morpheus",
-            "job": "leader"
-        }
-        """
+    body
+    json """
+    {
+        "name": "morpheus",
+        "job": "leader"
+    }
+    """
 }
 ```
 
@@ -93,16 +108,14 @@ http {  POST @"https://reqres.in/api/users"
 Convert a response to a JsonValue:
 
 ```fsharp
-http {  GET @"https://reqres.in/api/users?page=2&delay=3"
-}
+http { GET @"https://reqres.in/api/users?page=2&delay=3" }
 |> toJson
 ```
 
 Testing response data by asserting JSON expectations:
 
 ```fsharp
-http {  GET @"https://reqres.in/api/users?page=2&delay=3"
-}
+http { GET @"https://reqres.in/api/users?page=2&delay=3" }
 |> toJson
 |> (fun json -> json?data.AsArray() |> should haveLength 3)
 ```
@@ -110,8 +123,7 @@ http {  GET @"https://reqres.in/api/users?page=2&delay=3"
 Testing response data by asserting JSON expectations and example:
 
 ```fsharp
-http {  GET @"https://reqres.in/api/users?page=2&delay=3"
-}
+http { GET @"https://reqres.in/api/users?page=2&delay=3" }
 |> toJson
 ||> (fun json -> json?data.AsArray() |> should haveLength 3)
 |> jsonShouldLookLike IgnoreOrder Subset
@@ -138,3 +150,10 @@ The examples shown here use the **http** builder, which evaluates requests immed
 - **httpLazyAsync** Lazy evaluated, asynchronous
 
 The inner DSL is the same for all builders.
+
+## TODO
+
+* url encoded data
+* content-type
+* edit raw request
+* 
