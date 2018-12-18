@@ -327,7 +327,7 @@ module Dsl =
 
 
     let getContentTypeOrDefault (context:BodyContext) (defaultValue:string) =
-        if context.content.contentType = null then
+        if String.IsNullOrEmpty(context.content.contentType) then
             defaultValue
         else 
             context.content.contentType

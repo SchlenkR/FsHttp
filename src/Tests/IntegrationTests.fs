@@ -119,7 +119,7 @@ let ``Comments in urls are discarded``() =
                     &q3=Query3")
     }
     |> toText
-    |> should equal ("Query1_" + keyNotFoundString + "_Query2")
+    |> should equal ("Query1_" + keyNotFoundString + "_Query3")
 
 [<TestCase>]
 let ``Form url encoded POSTs``() =
@@ -134,7 +134,7 @@ let ``Form url encoded POSTs``() =
         ]
     }
     |> toText
-    |> should equal ("Query1_" + keyNotFoundString + "_Query2")
+    |> should equal ("Query1_Query2")
 
 [<TestCase>]
 let ``Expect status code``() =
