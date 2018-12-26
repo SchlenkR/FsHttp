@@ -388,7 +388,7 @@ module Dsl =
         member this.ContentType (context: BodyContext, contentType: string) =
             let content = context.content
             { context with
-                content = { content with contentType= contentType;  }
+                content = { content with contentType=contentType;  }
             }
                     
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding

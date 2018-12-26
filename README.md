@@ -153,7 +153,7 @@ The inner DSL is the same for all builders.
 
 ## TODO
 
-* url encoded data
+* form url encoded
+  * Alternative: ContentType mit "text" body und string
 * content-type
 * edit raw request
-* 
