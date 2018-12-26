@@ -45,10 +45,5 @@
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.3.4" />
-    <PackageReference Update="FsUnit" Version="3.4.0" />
-    <PackageReference Update="Microsoft.NETCore.Platforms" Version="2.2.0" />
-    <PackageReference Update="NUnit" Version="3.11.0" />
-  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
