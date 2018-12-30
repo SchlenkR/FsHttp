@@ -9,7 +9,7 @@
     <Authors>Ronald Schlenker</Authors>
     <Company />
     <Description>A lightweight HTTP/REST library for F#.</Description>
-    <Copyright>Copyright 2018 Ronald Schlenker</Copyright>
+    <Copyright>Copyright 2019 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
     <PackageIconUrl>
@@ -40,7 +40,6 @@
       <PackagePath>.</PackagePath>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="FsHttp.Testing.fs" />
     <None Include="FsHttp.fsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>true</Pack>

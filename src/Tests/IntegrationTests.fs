@@ -12,6 +12,7 @@ module ``Integration tests for FsHttp``
 
 open FsUnit
 open FsHttp
+open FsHttp.Testing
 open NUnit.Framework
 open Server
 open Suave

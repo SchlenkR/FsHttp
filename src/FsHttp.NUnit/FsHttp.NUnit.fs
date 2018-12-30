@@ -1,7 +1,6 @@
 
 namespace FsHttp
 
-[<AutoOpen>]
 module Testing =
 
     open FSharp.Data
@@ -95,47 +94,6 @@ module Testing =
             raise (AssertionException (sprintf "Expected status code of %A, but was %A" code response.statusCode))
         ()
 
-
-
-    // let json1 = """
-    // {
-    //     "name": "Name 1",
-    //     "id": "Id 1",
-    //     "child": {
-    //         "nameOfChild": "Name 2",
-    //         "idOfChild": "Id 2",
-    //         "items": [
-    //             {
-    //                 "item1Prop1": "Hallo",
-    //                 "item1Prop2": "Welt"
-    //             },
-    //             2,
-    //             null
-    //         ]
-    //     }
-    // }
-    // """
-
-
-    // json1 |> testJsonStringByExample IgnoreIndexes Exact """
-    // {
-    //     "name": "Name 1",
-    //     "id": "Id 1",
-    //     "child": {
-    //         "nameOfChild": "Name 2",
-    //         "idOfChild": "Id 2",
-    //         "items": [
-    //             {
-    //                 "item1Prop1": "Hallo",
-    //                 "item1Prop2": "Welt",
-    //                 "item1Prop3": "Welt"
-    //             },
-    //             2,
-    //             null
-    //         ]
-    //     }
-    // }
-    // """
 
     // #if INTERACTIVE
 

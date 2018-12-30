@@ -1,6 +1,6 @@
 source https://api.nuget.org/v3/index.json
 
-nuget FSharp.Core >= 4.3.0
+nuget FSharp.Core = 4.3.0
 nuget FSharp.Data >= 3.0.0
 nuget FsUnit >= 3.2.0
 nuget Microsoft.NET.Test.Sdk >= 15.8.0

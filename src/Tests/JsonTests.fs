@@ -1,7 +1,7 @@
 ﻿
 module ``Tests for FsHttp JSON Comparison``
 
-open FsHttp
+open FsHttp.Testing
 open FsUnit
 open NUnit.Framework
 
