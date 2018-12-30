@@ -1,16 +1,25 @@
 ﻿
-
+#if INTERACTIVE
+#r @"../../packages/fsharp.data/lib/net45/FSharp.Data.dll"
+#r @"../../packages/NUnit/lib/netstandard2.0/nunit.framework.dll"
+#r @"../../packages/fsunit/lib/netstandard2.0/FsUnit.NUnit.dll"
+#r @"../../packages/Suave/lib/netstandard2.0\Suave.dll"
+#load @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.fsx"
+#load @"./Server.fs"
+#else
 module ``Integration tests for FsHttp``
+#endif
 
 open FsUnit
 open FsHttp
 open NUnit.Framework
 open Server
 open Suave
+open Suave.ServerErrors
+open Suave.Operators
 open Suave.Filters
 open Suave.Utils.Collections
 open Suave.Successful
-
 
 [<AutoOpen>]
 module Helper =
@@ -20,38 +29,10 @@ module Helper =
     let header key (r: HttpRequest) = defaultArg (Option.ofChoice (r.header key)) keyNotFoundString
     let form key (r: HttpRequest) = defaultArg (Option.ofChoice (r.form ^^ key)) keyNotFoundString
 
-    let httpGetRoute = 
-        {
-            method = GET;
-            route = "/";
-            handler = (fun r -> "" |> OK)
-        }
-
-    let httpPostRoute = 
-        {
-            method = POST;
-            route = "/";
-            handler = (fun r -> "" |> OK)
-        }
-
-    let httpGet handler =
-        [
-            { httpGetRoute with handler = handler }
-        ]
-
-    let httpPost handler =
-        [
-            { httpPostRoute with handler = handler }
-        ]
-
-    let httpWithOk handler = handler >> OK
-    let httpGetWithOk handler = httpWithOk handler |> httpGet
-    let httpPostWithOk handler = httpWithOk handler |> httpPost
-
 
 [<TestCase>]
 let ``Synchronous GET call is invoked immediately``() =
-    use server = (fun r -> r.rawQuery) |> httpGetWithOk |> serve
+    use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
     http { GET (url @"?test=Hallo") }
     |> toText
@@ -59,7 +40,7 @@ let ``Synchronous GET call is invoked immediately``() =
 
 [<TestCase>]
 let ``Split URL are interpreted correctly``() =
-    use server = (fun r -> r.rawQuery) |> httpGetWithOk |> serve
+    use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
     http { GET (url @"
                     ?test=Hallo
@@ -70,7 +51,7 @@ let ``Split URL are interpreted correctly``() =
 
 [<TestCase>]
 let ``Smoke test for a header``() =
-    use server = (fun r -> r |> header "accept-language") |> httpGetWithOk |> serve
+    use server = GET >=> request (header "accept-language" >> OK) |> serve
 
     let lang = "zh-Hans"
     
@@ -83,7 +64,7 @@ let ``Smoke test for a header``() =
 
 [<TestCase>]
 let ``ContentType override``() =
-    use server = (fun r -> r |> header "content-type") |> httpPostWithOk |> serve
+    use server = POST >=> request (header "content-type" >> OK) |> serve
 
     let contentType = "application/xxx"
 
@@ -98,7 +79,10 @@ let ``ContentType override``() =
 
 [<TestCase>]
 let ``Multiline urls``() =
-    use server = (fun r -> (query "q1" r) + "_" + (query "q2" r)) |> httpGetWithOk |> serve
+    use server = 
+        GET
+        >=> request (fun r -> (query "q1" r) + "_" + (query "q2" r) |> OK)
+        |> serve
 
     http {
         GET (url @"
@@ -110,7 +94,10 @@ let ``Multiline urls``() =
 
 [<TestCase>]
 let ``Comments in urls are discarded``() =
-    use server = (fun r -> (query "q1" r) + "_" + (query "q2" r) + "_" + (query "q3" r)) |> httpGetWithOk |> serve
+    use server =
+        GET 
+        >=> request (fun r -> (query "q1" r) + "_" + (query "q2" r) + "_" + (query "q3" r) |> OK)
+        |> serve
 
     http {
         GET (url @"
@@ -123,7 +110,10 @@ let ``Comments in urls are discarded``() =
 
 [<TestCase>]
 let ``Form url encoded POSTs``() =
-    use server = (fun r -> (form "q1" r) + "_" + (form "q2" r)) |> httpPostWithOk |> serve
+    use server =
+        POST 
+        >=> request (fun r -> (form "q1" r) + "_" + (form "q2" r) |> OK) 
+        |> serve
 
     http {
         POST (url @"")
@@ -138,7 +128,7 @@ let ``Form url encoded POSTs``() =
 
 [<TestCase>]
 let ``Expect status code``() =
-    use server = (fun r -> Suave.ServerErrors.BAD_GATEWAY "") |> httpGet |> serve
+    use server = GET >=> BAD_GATEWAY "" |> serve
 
     http { GET (url @"") }
     |> shouldHaveCode System.Net.HttpStatusCode.BadGateway
@@ -153,7 +143,7 @@ let ``Expect status code``() =
 
 [<TestCase>]
 let ``Specify content type explicitly``() =
-    use server = (fun r -> r |> header "content-type") |> httpPostWithOk |> serve
+    use server = POST >=> request (header "content-type" >> OK) |> serve
 
     let contentType = "application/whatever"
     
