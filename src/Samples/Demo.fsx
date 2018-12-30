@@ -9,12 +9,13 @@ open FsUnit
 open FSharp.Data
 open FSharp.Data.JsonExtensions
 
-
-http {  GET @"https://reqres.in/api/users?page=2&delay=3"
+http {
+    GET @"https://reqres.in/api/users?page=2&delay=3"
 }
 
 
-http {  GET @"https://reqres.in/api/users?page=2&delay=3"
+http {
+    GET @"https://reqres.in/api/users?page=2&delay=3"
 }
 |> toJson
 ||> (fun json -> json?data.AsArray() |> should haveLength 3)

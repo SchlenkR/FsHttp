@@ -6,4 +6,4 @@ nuget FsUnit >= 3.2.0
 nuget Microsoft.NET.Test.Sdk >= 15.8.0
 nuget NUnit >= 3.10.1
 nuget NUnit3TestAdapter >= 3.10.0
-nuget Suave
+nuget Suave >= 2.5.0

@@ -5,6 +5,7 @@
 
 .ionide
 symbolCache.db
+.paket/load
 
 # User-specific files
 *.suo
