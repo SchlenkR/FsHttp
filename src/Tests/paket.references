@@ -1,7 +1,6 @@
-FSharp.Core
-FSharp.Data
-
 group Test
+    FSharp.Core
+    FSharp.Data
     FsUnit
     Microsoft.NET.Test.Sdk
     NUnit
