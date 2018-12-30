@@ -1,4 +1,3 @@
-GENERATE-LOAD-SCRIPTS: ON
 NUGET
   remote: https://api.nuget.org/v3/index.json
     FSharp.Core (4.5.2)

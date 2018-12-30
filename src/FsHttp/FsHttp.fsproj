@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -11,7 +12,8 @@
     <Copyright>Copyright 2018 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
-    <PackageIconUrl></PackageIconUrl>
+    <PackageIconUrl>
+    </PackageIconUrl>
     <PackageReleaseNotes>
       * Updated FSharp.Data to 3.0.0
       * More integration tests
@@ -45,5 +47,5 @@
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </None>
   </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
