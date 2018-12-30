@@ -22,7 +22,7 @@
       * Feature: HTTP status code expectation
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
-    <PackageTags>F# FSharp Http Rest</PackageTags>
+    <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>

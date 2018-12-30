@@ -1,6 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>SchlenkR.FsHttp.NUnit</PackageId>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.2.0</Version>
+    <Authors>Ronald Schlenker</Authors>
+    <Company />
+    <Description>An addition for the FsHttp library, providing convenience for testing.</Description>
+    <Copyright>Copyright 2019 Ronald Schlenker</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
+    <PackageIconUrl>
+    </PackageIconUrl>
+    <PackageReleaseNotes>
+    </PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
+    <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>

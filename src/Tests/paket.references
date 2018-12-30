@@ -1,7 +1,9 @@
 FSharp.Core
 FSharp.Data
-FsUnit
-Microsoft.NET.Test.Sdk
-NUnit
-NUnit3TestAdapter
-Suave
+
+group Test
+    FsUnit
+    Microsoft.NET.Test.Sdk
+    NUnit
+    NUnit3TestAdapter
+    Suave
