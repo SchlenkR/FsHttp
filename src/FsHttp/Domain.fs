@@ -28,20 +28,23 @@ module Domain =
     }
 
     type HeaderContext = { request: Header } with
-        static member header (this: HeaderContext, name: string, value: string) =
+        static member Header (this: HeaderContext, name: string, value: string) =
             { this with request = { this.request with headers = this.request.headers @ [name,value] } }
-        static member finalize (this: HeaderContext) =
+        static member Finalize (this: HeaderContext) =
             let finalContext = { request=this.request; content=None }
             finalContext
 
-    type BodyContext = {
-        request: Header;
-        content: Content;
-        } with
-        static member header (this: BodyContext, name: string, value: string) =
+    type BodyContext = { request: Header; content: Content; } with
+        static member Header (this: BodyContext, name: string, value: string) =
             { this with request = { this.request with headers = this.request.headers @ [name,value] } }
-        static member finalize (this: BodyContext) =
+        static member Finalize (this: BodyContext) =
             let finalContext:FinalContext = { request=this.request; content=Some this.content }
             finalContext
+
+    type HeaderContext with
+        static member Body (this: HeaderContext) : BodyContext = {
+            request = this.request;
+            content = { content=""; contentType=""; headers=[] }
+        }
 
     type HttpBuilder() = class end

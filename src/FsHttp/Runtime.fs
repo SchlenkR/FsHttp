@@ -1,15 +1,15 @@
 
 namespace FsHttp
 
+open System
+open System.Linq
+open System.Net.Http
+open System.Text
+open FsHttp
+open FSharp.Data
+
 [<AutoOpen>]
 module Runtime =
-
-    open System
-    open System.Linq
-    open System.Net.Http
-    open System.Text
-    open FsHttp
-    open FSharp.Data
 
     type PrintHint =
         | Header 
@@ -103,7 +103,7 @@ module Runtime =
 
 
     let inline private finalizeContext (context: ^t) =
-        (^t: (static member finalize: ^t -> FinalContext) (context))
+        (^t: (static member Finalize: ^t -> FinalContext) (context))
         
     type HttpBuilder with
         member this.Bind(m, f) = f m
