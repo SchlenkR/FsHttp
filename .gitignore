@@ -285,7 +285,7 @@ node_modules/
 _Pvt_Extensions
 
 # Paket dependency manager
-.paket/paket.exe
+#.paket/paket.exe
 paket-files/
 
 # FAKE - F# Make
