@@ -21,9 +21,14 @@ module Helper =
 
 module Dsl =
 
+    [<AutoOpen>]
+    module Operators =
+        let (--) = (|>)
+
+    [<AutoOpen>]
     module Requests =
         
-        let request (context: StartingContext) (method: HttpMethod) (url: string) =
+        let request (method: HttpMethod) (url: string) =
 
             let formattedUrl =
                 url.Split([|'\n'|], StringSplitOptions.RemoveEmptyEntries)
@@ -41,26 +46,26 @@ module Dsl =
 
         // RFC 2626 specifies 8 methods
         
-        let get StartingContext (url:string) =
-            request StartingContext HttpMethod.Get url
+        let get (url:string) =
+            request HttpMethod.Get url
         
-        let put StartingContext (url:string) =
-            request StartingContext HttpMethod.Put url
+        let put (url:string) =
+            request HttpMethod.Put url
         
-        let post StartingContext (url:string) =
-            request StartingContext HttpMethod.Post url
+        let post (url:string) =
+            request HttpMethod.Post url
         
-        let delete StartingContext (url:string) =
-            request StartingContext HttpMethod.Delete url
+        let delete (url:string) =
+            request HttpMethod.Delete url
         
-        let options StartingContext (url:string) =
-            request StartingContext HttpMethod.Options url
+        let options (url:string) =
+            request HttpMethod.Options url
         
-        let head StartingContext (url:string) =
-            request StartingContext HttpMethod.Head url
+        let head (url:string) =
+            request HttpMethod.Head url
         
-        let trace StartingContext (url:string) =
-            request StartingContext HttpMethod.Trace url
+        let trace (url:string) =
+            request HttpMethod.Trace url
 
         // TODO: Connect
         // [<CustomOperation("CONNECT")>]
@@ -70,206 +75,208 @@ module Dsl =
         // RFC 4918 (WebDAV) adds 7 methods
         // TODO
 
+    [<AutoOpen>]
     module Headers =
 
-        let inline header (context: ^t) name value =
+        let inline header name value (context: ^t) =
             (^t: (static member Header: ^t * string * string -> ^t) (context,name,value))
 
         /// Content-Types that are acceptable for the response
-        let accept (context:HeaderContext) (contentType:string) =
-            header context "Accept" contentType
+        let accept (contentType:string) (context:HeaderContext) =
+            header "Accept" contentType context
 
         /// Character sets that are acceptable
-        let acceptCharset (context:HeaderContext) (characterSets:string) =
-            header context "Accept-Charset" characterSets
+        let acceptCharset (characterSets:string) (context:HeaderContext) =
+            header "Accept-Charset" characterSets context
 
         /// Acceptable version in time
-        let acceptDatetime (context:HeaderContext) (dateTime:DateTime) =
-            header context "Accept-Datetime" (dateTime.ToString("R", CultureInfo.InvariantCulture))
+        let acceptDatetime (dateTime:DateTime) (context:HeaderContext) =
+            header "Accept-Datetime" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
         
         /// List of acceptable encodings. See HTTP compression.
-        let acceptEncoding (context:HeaderContext) (encoding:string) =
-            header context "Accept-Encoding" encoding
+        let acceptEncoding (encoding:string) (context:HeaderContext) =
+            header "Accept-Encoding" encoding context
         
         /// List of acceptable human languages for response
-        let acceptLanguage (context:HeaderContext) (language:string) =
-            header context "Accept-Language" language
+        let acceptLanguage (language:string) (context:HeaderContext) =
+            header "Accept-Language" language context
         
         /// The Allow header, which specifies the set of HTTP methods supported.
-        let allow (context:HeaderContext) (methods: string) =
-            header context "Allow" methods
+        let allow (methods: string) (context:HeaderContext) =
+            header "Allow" methods context
         
         /// Authentication credentials for HTTP authentication
-        let authorization (context: HeaderContext) (credentials: string) =
-            header context "Authorization" credentials
+        let authorization (credentials: string) (context:HeaderContext) =
+            header "Authorization" credentials context
         
         /// Authentication header using Basic Auth encoding
-        let basicAuth (context: HeaderContext) (username: string) (password: string) =
-            let s = sprintf "%s:%s" username password |> Helper.toBase64 |> sprintf "Basic %s"
-            authorization context s
+        let basicAuth (username: string) (password: string) (context:HeaderContext) =
+            let s (context:HeaderContext) = sprintf "%s:%s" username password |> Helper.toBase64 |> sprintf "Basic %s"
+            authorization (s context) context
         
         /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
-        let cacheControl (context: HeaderContext) (control: string) =
-            header context "Cache-Control" control
+        let cacheControl (control: string) (context:HeaderContext) =
+            header "Cache-Control" control context
         
         /// What type of connection the user-agent would prefer
-        let connection (context: HeaderContext) (connection: string) =
-            header context "Connection" connection
+        let connection (connection: string) (context:HeaderContext) =
+            header "Connection" connection context
         
         /// Describes the placement of the content. Valid dispositions are: inline, attachment, form-data
-        let contentDisposition (context: HeaderContext) (placement: string) (name: string option) (fileName: string option) =
+        let contentDisposition (placement: string) (name: string option) (fileName: string option) (context:HeaderContext) =
             let namePart = match name with Some n -> sprintf "; name=\"%s\"" n | None -> ""
             let fileNamePart = match fileName with Some n -> sprintf "; filename=\"%s\"" n | None -> ""
-            header context "Content-Disposition" (sprintf "%s%s%s" placement namePart fileNamePart)
+            header "Content-Disposition" (sprintf "%s%s%s" placement namePart fileNamePart) context
         
         /// The type of encoding used on the data
-        let contentEncoding (context: HeaderContext) (encoding: string) =
-            header context "Content-Encoding" encoding
+        let contentEncoding (encoding: string) (context:HeaderContext) =
+            header "Content-Encoding" encoding context
         
         /// The language the content is in
-        let contentLanguage (context: HeaderContext) (language: string) =
-            header context "Content-Language" language
+        let contentLanguage (language: string) (context:HeaderContext) =
+            header "Content-Language" language context
         
         /// An alternate location for the returned data
-        let contentLocation (context: HeaderContext) (location: string) =
-            header context "Content-Location" location
+        let contentLocation (location: string) (context:HeaderContext) =
+            header "Content-Location" location context
         
         /// A Base64-encoded binary MD5 sum of the content of the request body
-        let contentMD5 (context: HeaderContext) (md5sum: string) =
-            header context "Content-MD5" md5sum
+        let contentMD5 (md5sum: string) (context:HeaderContext) =
+            header "Content-MD5" md5sum context
         
         /// Where in a full body message this partial message belongs
-        let contentRange (context: HeaderContext) (range: string) =
-            header context "Content-Range" range
+        let contentRange (range: string) (context:HeaderContext) =
+            header "Content-Range" range context
 
         // this is a property of the body.        
         // // /// The MIME type of the body of the request (used with POST and PUT requests)
         // // [<CustomOperation("ContentType")>]
         // // let ContentType (context: HeaderContext, contentType: string) =
-        // //     this.header context "Content-Type" contentType)
+        // //     this.header "Content-Type" contentType)
         /////// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
         ////let ContentTypeWithEncoding (context: HeaderContext, contentType, charset:Encoding) =
-        ////    this.header context "Content-Type" sprintf "%s; charset=%s" contentType (charset.WebName))
+        ////    this.header "Content-Type" sprintf "%s; charset=%s" contentType (charset.WebName))
         
         /// The date and time that the message was sent
-        let date (context: HeaderContext) (date:DateTime) =
-            header context "Date" (date.ToString("R", CultureInfo.InvariantCulture))
+        let date (date:DateTime) (context:HeaderContext) =
+            header "Date" (date.ToString("R", CultureInfo.InvariantCulture)) context
         
         /// Indicates that particular server behaviors are required by the client
-        let expect (context: HeaderContext) (behaviors: string) =
-            header context "Expect" behaviors
+        let expect (behaviors: string) (context:HeaderContext) =
+            header "Expect" behaviors context
         
         /// Gives the date/time after which the response is considered stale
-        let expires (context: HeaderContext) (dateTime:DateTime) =
-            header context "Expires" (dateTime.ToString("R", CultureInfo.InvariantCulture))
+        let expires (dateTime:DateTime) (context:HeaderContext) =
+            header "Expires" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
         
         /// The email address of the user making the request
-        let from (context: HeaderContext) (email: string) =
-            header context "From" email
+        let from (email: string) (context:HeaderContext) =
+            header "From" email context
         
         /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
         /// The port number may be omitted if the port is the standard port for the service requested.
-        let host (context: HeaderContext) (host: string) =
-            header context "Host" host
+        let host (host: string) (context:HeaderContext) =
+            header "Host" host context
         
         /// Only perform the action if the client supplied entity matches the same entity on the server.
         /// This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: "737060cd8c284d8af7ad3082f209582d" Permanent
-        let ifMatch (context: HeaderContext) (entity: string) =
-            header context "If-Match" entity
+        let ifMatch (entity: string) (context:HeaderContext) =
+            header "If-Match" entity context
         
         /// Allows a 304 Not Modified to be returned if content is unchanged
-        let ifModifiedSince (context: HeaderContext) (dateTime:DateTime) =
-            header context "If-Modified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture))
+        let ifModifiedSince (dateTime:DateTime) (context:HeaderContext) =
+            header "If-Modified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
         
         /// Allows a 304 Not Modified to be returned if content is unchanged
-        let ifNoneMatch (context: HeaderContext) (etag: string) =
-            header context "If-None-Match" etag
+        let ifNoneMatch (etag: string) (context:HeaderContext) =
+            header "If-None-Match" etag context
         
         /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
-        let ifRange (context: HeaderContext) (range: string) =
-            header context "If-Range" range
+        let ifRange (range: string) (context:HeaderContext) =
+            header "If-Range" range context
         
         /// Only send the response if the entity has not been modified since a specific time
-        let ifUnmodifiedSince (context: HeaderContext) (dateTime:DateTime) =
-            header context "If-Unmodified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture))
+        let ifUnmodifiedSince (dateTime:DateTime) (context:HeaderContext) =
+            header "If-Unmodified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
         
         /// Specifies a parameter used into order to maintain a persistent connection
-        let keepAlive (context: HeaderContext) (keepAlive: string) =
-            header context "Keep-Alive" keepAlive
+        let keepAlive (keepAlive: string) (context:HeaderContext) =
+            header "Keep-Alive" keepAlive context
         
         /// Specifies the date and time at which the accompanying body data was last modified
-        let lastModified (context: HeaderContext) (dateTime:DateTime) =
-            header context "Last-Modified" (dateTime.ToString("R", CultureInfo.InvariantCulture))
+        let lastModified (dateTime:DateTime) (context:HeaderContext) =
+            header "Last-Modified" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
         
         /// Limit the number of times the message can be forwarded through proxies or gateways
-        let maxForwards (context: HeaderContext) (count:int) =
-            header context "Max-Forwards" (count.ToString())
+        let maxForwards (count:int) (context:HeaderContext) =
+            header "Max-Forwards" (count.ToString()) context
         
         /// Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response header)
-        let origin (context: HeaderContext) (origin: string) =
-            header context "Origin" origin
+        let origin (origin: string) (context:HeaderContext) =
+            header "Origin" origin context
         
         /// Implementation-specific headers that may have various effects anywhere along the request-response chain.
-        let pragma (context: HeaderContext) (pragma: string) =
-            header context "Pragma" pragma
+        let pragma (pragma: string) (context:HeaderContext) =
+            header "Pragma" pragma context
         
         /// Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
-        let prefer (context: HeaderContext) (prefer: string) =
-            header context "Prefer" prefer
+        let prefer (prefer: string) (context:HeaderContext) =
+            header "Prefer" prefer context
         
         /// Authorization credentials for connecting to a proxy.
-        let proxyAuthorization (context: HeaderContext) (credentials: string) =
-            header context "Proxy-Authorization" credentials
+        let proxyAuthorization (credentials: string) (context:HeaderContext) =
+            header "Proxy-Authorization" credentials context
         
         /// Request only part of an entity. Bytes are numbered from 0
-        let range (context: HeaderContext) (start:int64) (finish:int64) =
-            header context "Range" (sprintf "bytes=%d-%d" start finish)
+        let range (start:int64) (finish:int64) (context:HeaderContext) =
+            header "Range" (sprintf "bytes=%d-%d" start finish) context
         
         /// This is the address of the previous web page from which a link to the currently requested page was followed. (The word "referrer" is misspelled in the RFC as well as in most implementations.)
-        let referer (context: HeaderContext) (referer: string) =
-            header context "Referer" referer
+        let referer (referer: string) (context:HeaderContext) =
+            header "Referer" referer context
         
         /// The transfer encodings the user agent is willing to accept: the same values as for the response header
         /// Transfer-Encoding can be used, plus the "trailers" value (related to the "chunked" transfer method) to
         /// notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
-        let te (context: HeaderContext) (te: string) =
-            header context "TE" te
+        let te (te: string) (context:HeaderContext) =
+            header "TE" te context
         
         /// The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
-        let trailer (context: HeaderContext) (trailer: string) =
-            header context "Trailer" trailer
+        let trailer (trailer: string) (context:HeaderContext) =
+            header "Trailer" trailer context
         
         /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.  The valid directives are one of: chunked, compress, deflate, gzip, or identity.
-        let transferEncoding (context: HeaderContext) (directive: string) =
-            header context "Transfer-Encoding" directive
+        let transferEncoding (directive: string) (context:HeaderContext) =
+            header "Transfer-Encoding" directive context
         
         /// Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
-        let translate (context: HeaderContext) (translate: string) =
-            header context "Translate" translate
+        let translate (translate: string) (context:HeaderContext) =
+            header "Translate" translate context
         
         /// Specifies additional communications protocols that the client supports.
-        let upgrade (context: HeaderContext) (upgrade: string) =
-            header context "Upgrade" upgrade
+        let upgrade (upgrade: string) (context:HeaderContext) =
+            header "Upgrade" upgrade context
         
         /// The user agent string of the user agent
-        let userAgent (context: HeaderContext) (userAgent: string) =
-            header context "User-Agent" userAgent
+        let userAgent (userAgent: string) (context:HeaderContext) =
+            header "User-Agent" userAgent context
         
         /// Informs the server of proxies through which the request was sent
-        let via (context: HeaderContext) (server: string) =
-            header context "Via" server
+        let via (server: string) (context:HeaderContext) =
+            header "Via" server context
         
         /// A general warning about possible problems with the entity body
-        let warning (context: HeaderContext) (message: string) =
-            header context "Warning" message
+        let warning (message: string) (context:HeaderContext) =
+            header "Warning" message context
         
         /// Override HTTP method.
-        let xhttpMethodOverride (context: HeaderContext) (httpMethod: string) =
-            header context "X-HTTP-Method-Override" httpMethod
+        let xhttpMethodOverride (httpMethod: string) (context:HeaderContext) =
+            header "X-HTTP-Method-Override" httpMethod context
 
+    [<AutoOpen>]
     module Body =
 
-        let private getContentTypeOrDefault (context:BodyContext) (defaultValue:string) =
+        let private getContentTypeOrDefault (defaultValue:string) (context:BodyContext) =
             if String.IsNullOrEmpty(context.content.contentType) then
                 defaultValue
             else 
@@ -291,35 +298,42 @@ module Dsl =
         // //         content = { content with content=text; contentType=contentType;  }
         // //     }
         
-        let text (context: BodyContext) (text: string) =
+        let text (text: string) (context: BodyContext) =
             let content = context.content
-            let contentType = getContentTypeOrDefault context "text/plain"
+            let contentType = getContentTypeOrDefault "text/plain" context
             { context with
                 content = { content with content=text; contentType=contentType;  }
             }
 
-        let json (context: BodyContext) (json: string) =
+        let json (json: string) (context: BodyContext) =
             let content = context.content
-            let contentType = getContentTypeOrDefault context "application/json"
+            let contentType = getContentTypeOrDefault "application/json" context
             { context with
                 content = { content with content=json; contentType=contentType;  }
             }
 
-        let formUrlEncoded (context: BodyContext) (data: (string*string) list) =
+        let formUrlEncoded (data: (string*string) list) (context: BodyContext) =
             let content = context.content
-            let contentType = getContentTypeOrDefault context "application/x-www-form-urlencoded"
+            let contentType = getContentTypeOrDefault "application/x-www-form-urlencoded" context
             let contentString = String.Join("&", data |> List.map (fun (key,value) -> key + "=" + value))
             { context with
                 content = { content with content=contentString; contentType=contentType;  }
             }
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
-        let contentType (context: BodyContext) (contentType: string) =
+        let contentType (contentType: string) (context: BodyContext) =
             let content = context.content
             { context with
                 content = { content with contentType=contentType;  }
             }
 
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
-        let contentTypeWithEncoding (context: BodyContext) (contentTypeString) (charset:Encoding) =
-            contentType context (sprintf "%s; charset=%s" contentTypeString (charset.WebName))
+        let contentTypeWithEncoding (contentTypeString) (charset:Encoding) (context: BodyContext) =
+            contentType (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) context
+
+
+#if INTERACTIVE
+
+get "jkljkl"
+
+#endif
