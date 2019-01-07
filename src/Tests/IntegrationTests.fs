@@ -15,6 +15,7 @@ open FsHttp
 open FsHttp.Testing
 open NUnit.Framework
 open Server
+open System
 open Suave
 open Suave.ServerErrors
 open Suave.Operators
@@ -132,12 +133,12 @@ let ``Expect status code``() =
     use server = GET >=> BAD_GATEWAY "" |> serve
 
     http { GET (url @"") }
-    |> shouldHaveCode System.Net.HttpStatusCode.BadGateway
+    |> statusCodeShouldBe System.Net.HttpStatusCode.BadGateway
     |> ignore
 
     Assert.Throws<AssertionException>(fun() ->
         http { GET (url @"") }
-        |> shouldHaveCode System.Net.HttpStatusCode.Ambiguous
+        |> statusCodeShouldBe System.Net.HttpStatusCode.Ambiguous
         |> ignore
     )
     |> ignore

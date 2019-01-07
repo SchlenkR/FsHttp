@@ -89,7 +89,7 @@ module Testing =
             | Some _ -> true
             | None -> false
 
-    let shouldHaveCode (code: System.Net.HttpStatusCode) (response: Response) =
+    let statusCodeShouldBe (code: System.Net.HttpStatusCode) (response: Response) =
         if response.statusCode <> code then
             raise (AssertionException (sprintf "Expected status code of %A, but was %A" code response.statusCode))
         ()
