@@ -14,11 +14,11 @@
     <PackageIconUrl>
     </PackageIconUrl>
     <PackageReleaseNotes>
-      * Updated FSharp.Data to 3.0.0
-      * More integration tests
-      * Several breaking API changes (see Readme.md for current API)
-      * Fix: ContentType is ignored when set explicitly
-      * Feature: HTTP status code expectation
+      - Updated FSharp.Data to 3.0.0
+      - More integration tests
+      - Several breaking API changes (see Readme.md for current API)
+      - Fix: ContentType is ignored when set explicitly
+      - Feature: HTTP status code expectation
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
