@@ -4,17 +4,19 @@ FsHttp is a lightweight library for accessing HTTP/REST endpoints via F#.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp)
 
+> This docu is for the prerelease version 0.1.0 and has to be updated for usage with v0.4.0.
+
 ## TOC
 
 - [FsHttp](#fshttp)
-  - [TOC](#toc)
-  - [Synopsis](#synopsis)
-  - [Examples](#examples)
-    - [F# Interactive Usage](#f-interactive-usage)
-    - [Basics](#basics)
-    - [Response Handling and Testing](#response-handling-and-testing)
-  - [Hints](#hints)
-  - [TODO](#todo)
+    - [TOC](#toc)
+    - [Synopsis](#synopsis)
+    - [Examples](#examples)
+        - [F# Interactive Usage](#f-interactive-usage)
+        - [Basics](#basics)
+        - [Response Handling and Testing](#response-handling-and-testing)
+    - [Hints](#hints)
+    - [TODO](#todo)
 
 ## Synopsis
 
