@@ -60,6 +60,8 @@ Target.create "Publish" (fun _ ->
         |> assertSuccess
     )
 
+    // TODO: git tag + release
+
     // setPackageVersion { packageVersion with (*Patch = 4711u;*) Original = None; PreRelease = PreRelease.TryParse "alpha" }.AsString
     // setPackageVersion { packageVersion with Minor = packageVersion.Minor + 1u; Original = None }.AsString
 )
@@ -72,6 +74,5 @@ Target.create "Publish" (fun _ ->
     ==> "Test"
     ==> "Pack"
     ==> "Publish"
-
 
 Target.runOrDefault "BuildOnly"
