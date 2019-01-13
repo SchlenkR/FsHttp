@@ -4,8 +4,6 @@ FsHttp is a lightweight library for accessing HTTP/REST endpoints via F#.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp)
 
-> This docu is for the prerelease version 0.1.0 and has to be updated for usage with v0.4.0.
-
 ## TOC
 
 - [FsHttp](#fshttp)
@@ -54,7 +52,9 @@ open FSharp.Data.JsonExtensions
 A simple GET request looks like this:
 
 ```fsharp
-http { GET "https://reqres.in/api/users?page=2&delay=3" }
+http {
+    GET "https://reqres.in/api/users?page=2&delay=3"
+}
 ```
 
 You can split query parameters like this:
@@ -83,7 +83,7 @@ You can set header parameters like this:
 
 ```fsharp
 http {
-    GET @"http://www.google.com"
+    GET "http://www.google.com"
     AcceptLanguage "de-DE"
 }
 ```
@@ -92,7 +92,7 @@ Post data like this:
 
 ```fsharp
 http { 
-    POST @"https://reqres.in/api/users"
+    POST "https://reqres.in/api/users"
     CacheControl "no-cache"
 
     body
@@ -110,14 +110,18 @@ http {
 Convert a response to a JsonValue:
 
 ```fsharp
-http { GET @"https://reqres.in/api/users?page=2&delay=3" }
+http {
+    GET @"https://reqres.in/api/users?page=2&delay=3"
+}
 |> toJson
 ```
 
 Testing response data by asserting JSON expectations:
 
 ```fsharp
-http { GET @"https://reqres.in/api/users?page=2&delay=3" }
+http {
+    GET "https://reqres.in/api/users?page=2&delay=3"
+}
 |> toJson
 |> (fun json -> json?data.AsArray() |> should haveLength 3)
 ```
@@ -125,7 +129,9 @@ http { GET @"https://reqres.in/api/users?page=2&delay=3" }
 Testing response data by asserting JSON expectations and example:
 
 ```fsharp
-http { GET @"https://reqres.in/api/users?page=2&delay=3" }
+http {
+    GET @"https://reqres.in/api/users?page=2&delay=3"
+}
 |> toJson
 ||> (fun json -> json?data.AsArray() |> should haveLength 3)
 |> jsonShouldLookLike IgnoreOrder Subset
