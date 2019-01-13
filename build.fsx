@@ -36,16 +36,12 @@ Target.create "Build" (fun _ ->
 
 Target.create "BuildOnly" ignore
 
-let versionFileName = "./packageVersion"
-let packageVersion = File.readAsString versionFileName |> SemVer.parse
-let setPackageVersion version = File.writeString false versionFileName version
-
 Target.create "Pack" (fun _ ->
     !! "src/**/FsHttp*.fsproj"
     |> Seq.iter (fun p ->
         // let packageVersion = { version with (*Patch = 4711u;*) Original = None; PreRelease = PreRelease.TryParse "alpha" }.AsString
 
-        Shell.Exec ("dotnet", sprintf "pack %s -o %s -p:PackageVersion=%s" p (Path.combine __SOURCE_DIRECTORY__ ".pack") packageVersion.AsString)
+        Shell.Exec ("dotnet", sprintf "pack %s -o %s" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
         |> assertSuccess
     )
 )
@@ -65,7 +61,7 @@ Target.create "Publish" (fun _ ->
     )
 
     // setPackageVersion { packageVersion with (*Patch = 4711u;*) Original = None; PreRelease = PreRelease.TryParse "alpha" }.AsString
-    setPackageVersion { packageVersion with Minor = packageVersion.Minor + 1u; Original = None }.AsString
+    // setPackageVersion { packageVersion with Minor = packageVersion.Minor + 1u; Original = None }.AsString
 )
 
 "Clean"
