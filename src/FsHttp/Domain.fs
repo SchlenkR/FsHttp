@@ -41,10 +41,4 @@ module Domain =
             let finalContext:FinalContext = { request=this.request; content=Some this.content }
             finalContext
 
-    type HeaderContext with
-        static member Body (this: HeaderContext) : BodyContext = {
-            request = this.request;
-            content = { content=""; contentType=""; headers=[] }
-        }
-
     type HttpBuilder() = class end

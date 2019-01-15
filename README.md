@@ -154,8 +154,7 @@ The examples shown here use the **http** builder, which evaluates requests immed
 
 - **http** Immediately evaluated, synchronous
 - **httpAsync** Immediately evaluated, asynchronous
-- **httpLazy** Lazy evaluated, synchronous
-- **httpLazyAsync** Lazy evaluated, asynchronous
+- **httpLazy** Manually evaluated (use 'send' or 'sendAsync')
 
 The inner DSL is the same for all builders.
 
@@ -165,3 +164,5 @@ The inner DSL is the same for all builders.
   * Alternative: ContentType mit "text" body und string
 * content-type
 * edit raw request
+* a word to ContentType / Body
+* 

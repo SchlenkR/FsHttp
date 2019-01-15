@@ -5,6 +5,7 @@
 
 open FsHttp
 
+// TODO: Format message based on response content type
 fsi.AddPrinter
     (fun (r: Response) ->
         let content =

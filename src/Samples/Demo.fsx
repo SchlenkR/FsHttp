@@ -1,32 +1,27 @@
 ﻿
 #r @"../../packages/fsharp.data/lib/net45/FSharp.Data.dll"
 #r @"../../packages/NUnit/lib/netstandard2.0/nunit.framework.dll"
-#r @"../../packages/fsunit/lib/netstandard2.0/FsUnit.NUnit.dll"
 #load @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.fsx"
 
 open FsHttp
-open FsUnit
-open FSharp.Data
-open FSharp.Data.JsonExtensions
+open FsHttp.Dsl
 
 
 http {
-    GET @"https://reqres.in/api/users?page=2&delay=3"
+    GET "https://reqres.in/api/users?page=2&delay=3"
 }
 
+let inline (=>) context f =
+    let response = send context
+    f response
+let inline (++) context = send context
+let inline (~&) context = send context
 
-http {
-    GET @"https://reqres.in/api/users?page=2&delay=3"
-}
-|> toJson
-||> (fun json -> json?data.AsArray() |> should haveLength 3)
-|> jsonShouldLookLike IgnoreOrder Subset
-    """
-    {
-        "data": [
-            {
-                "id": 4
-            }
-        ]
-    }
-    """
+get "https://reqres.in/api/users?page=2&delay=3"
+=> preview
+
+get "https://reqres.in/api/users?page=2&delay=3"
+++
+
+&get "https://reqres.in/api/users?page=2&delay=3"
+--toJson

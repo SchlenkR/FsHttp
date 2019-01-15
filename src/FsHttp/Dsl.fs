@@ -276,6 +276,11 @@ module Dsl =
     [<AutoOpen>]
     module Body =
 
+        let body (headerContext: HeaderContext) : BodyContext = {
+            request = headerContext.request;
+            content = { content=""; contentType=""; headers=[] }
+        }
+
         let private getContentTypeOrDefault (defaultValue:string) (context:BodyContext) =
             if String.IsNullOrEmpty(context.content.contentType) then
                 defaultValue

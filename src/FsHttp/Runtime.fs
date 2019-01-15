@@ -12,7 +12,6 @@ open FSharp.Data
 module Runtime =
 
     type PrintHint =
-        | Header 
         | Show of maxLength: int
         | Expand
 
@@ -26,8 +25,14 @@ module Runtime =
         printHint: PrintHint
     }
 
-    let sendAsync (finalContext: FinalContext) =
+    let previewPrintLength = 100
+
+    let inline finalizeContext (context: ^t) =
+        (^t: (static member Finalize: ^t -> FinalContext) (context))
+
+    let inline sendAsync (context: ^t) =
     
+        let finalContext = finalizeContext context
         let invoke() =
             let request = finalContext.request
             let requestMessage = new HttpRequestMessage(request.method, request.url)
@@ -58,10 +63,12 @@ module Runtime =
                     statusCode = response.StatusCode;
                     requestMessage = response.RequestMessage;
                     version = response.Version;
-                    printHint = Header
+                    printHint = Show previewPrintLength
                 }
         }
-    let send (finalContext: FinalContext) = finalContext |> sendAsync |> Async.RunSynchronously
+
+    let inline send (context: ^t) =
+        context |> sendAsync |> Async.RunSynchronously
 
     let headerToString (r: Response) =
         let sb = StringBuilder()
@@ -97,13 +104,10 @@ module Runtime =
     let toJson (r: Response) =  toText r |> JsonValue.Parse
     let toJsonArray (r: Response) =  ((toString Int32.MaxValue r) |> JsonValue.Parse).AsArray()
 
-    let headerOnly r = { r with printHint = Header }
     let show maxLength r = { r with printHint = Show maxLength }
+    let preview r = r
     let expand r = { r with printHint = Expand }
 
-
-    let inline private finalizeContext (context: ^t) =
-        (^t: (static member Finalize: ^t -> FinalContext) (context))
         
     type HttpBuilder with
         member this.Bind(m, f) = f m
@@ -114,32 +118,24 @@ module Runtime =
     type HttpBuilderSync() =
         inherit HttpBuilder()
         member inline this.Delay(f: unit -> 'a) =
-            f() |> finalizeContext |> send
+            f() |> send
 
     type HttpBuilderAsync() =
         inherit HttpBuilder()
         member inline this.Delay(f: unit -> 'a) =
-            f() |> finalizeContext |> sendAsync
+            f() |> sendAsync
 
-    type HttpBuilderDelaySync() =
+    type HttpBuilderLazySync() =
         inherit HttpBuilder()
         member inline this.Delay(f: unit -> 'a) =
-            fun() -> f() |> finalizeContext |> send
-
-    type HttpBuilderDelayAsync() =
-        inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) =
-            fun() -> f() |> finalizeContext |> sendAsync
+            fun() -> f() |> finalizeContext
 
     let http = HttpBuilderSync()
     let httpAsync = HttpBuilderAsync()
-    let httpLazy = HttpBuilderSync()
-    let httpLazyAsync = HttpBuilderAsync()
+    let httpLazy = HttpBuilderLazySync()
 
     // TODO:
     // Multipart
     // mime types
     // content types
     // body: text, binary, json, etc.
-    // setHeaders anschauen
-    // Manche Funktionen sind Synchron.

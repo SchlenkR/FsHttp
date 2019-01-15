@@ -235,7 +235,7 @@ module Builder =
     type HttpBuilder with
 
         [<CustomOperation("body")>]
-        member this.Body(context) = HeaderContext.Body context
+        member this.Body(context) = Body.body context
 
         // TODO: Binary
         // TODO: Base64
