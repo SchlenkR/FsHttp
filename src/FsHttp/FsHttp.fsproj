@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>SchlenkR.FsHttp</PackageId>
+    <Description>A lightweight HTTP/REST library for F#.</Description>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -13,6 +16,8 @@
     <Compile Include="BuilderInstances.fs" />
     <None Include="FsHttp.fsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </None>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
