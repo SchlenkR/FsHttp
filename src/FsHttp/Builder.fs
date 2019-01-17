@@ -35,7 +35,13 @@ module Builder =
         
         [<CustomOperation("TRACE")>]
         member this.Trace(StartingContext, url) = Requests.trace url
-        
+                
+        [<CustomOperation("CONNECT")>]
+        member this.Connect (StartingContext, url) = Requests.connect url
+                
+        [<CustomOperation("PATCH")>]
+        member this.Patch (StartingContext, url) = Requests.patch url
+
         // TODO: Connect
         // [<CustomOperation("CONNECT")>]
         // member this.Post(StartingContext, url) =

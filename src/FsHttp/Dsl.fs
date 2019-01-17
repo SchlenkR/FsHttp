@@ -44,7 +44,7 @@ module Dsl =
 
             { request = { url=formattedUrl; method=method; headers=[] } }
 
-        // RFC 2626 specifies 8 methods
+        // RFC 2626 specifies 8 methods + PATCH
         
         let get (url:string) =
             request HttpMethod.Get url
@@ -66,6 +66,12 @@ module Dsl =
         
         let trace (url:string) =
             request HttpMethod.Trace url
+        
+        let connect (url:string) =
+            request (HttpMethod("CONNECT")) url
+        
+        let patch (url:string) =
+            request (HttpMethod("PATCH")) url
 
         // TODO: Connect
         // [<CustomOperation("CONNECT")>]
