@@ -1,9 +1,7 @@
 
 namespace FsHttp
 
-open System
 open System.Net.Http
-open System.Text
 
 [<AutoOpen>]
 module Domain =

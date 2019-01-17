@@ -42,11 +42,6 @@ module Builder =
         [<CustomOperation("PATCH")>]
         member this.Patch (StartingContext, url) = Requests.patch url
 
-        // TODO: Connect
-        // [<CustomOperation("CONNECT")>]
-        // member this.Post(StartingContext, url) =
-        //     this.CreateRequest StartingContext HttpMethod.Connect url
-
         // RFC 4918 (WebDAV) adds 7 methods
         // TODO
 

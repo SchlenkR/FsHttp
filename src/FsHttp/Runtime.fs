@@ -25,12 +25,12 @@ module Runtime =
         printHint: PrintHint
     }
 
-    let previewPrintLength = 100
+    let previewPrintLength = 250
 
-    let inline finalizeContext (context: ^t) =
+    let inline internal finalizeContext (context: ^t) =
         (^t: (static member Finalize: ^t -> FinalContext) (context))
 
-    let inline sendAsync (context: ^t) =
+    let inline internal sendAsync (context: ^t) =
     
         let finalContext = finalizeContext context
         let invoke() =
@@ -67,22 +67,18 @@ module Runtime =
                 }
         }
 
-    let inline send (context: ^t) =
+    let inline internal send (context: ^t) =
         context |> sendAsync |> Async.RunSynchronously
 
-    let headerToString (r: Response) =
-        let sb = StringBuilder()
-        let printHeader (headers: Headers.HttpHeaders) =
-            // TODO: Table formatting
-            for h in headers do
-                let values = String.Join(", ", h.Value)
-                sb.AppendLine (sprintf "%s: %s" h.Key values) |> ignore
-        sb.AppendLine() |> ignore
-        sb.AppendLine (sprintf "HTTP/%s %d %s" (r.version.ToString()) (int r.statusCode) (string r.statusCode)) |> ignore
-        printHeader r.headers
-        sb.AppendLine("---") |> ignore
-        printHeader r.content.Headers
-        sb.ToString()
+    /// synchronous request invocation
+    let inline (.>) context f = send context |> f
+
+    /// asynchronous request invocation
+    let inline (>.) context f =
+        async {
+            let! response = sendAsync context
+            return f response
+        } 
     
     // TODO: Don't read the whole response; read only requested chars.
     let toStringAsync maxLength (r: Response) =
@@ -100,39 +96,28 @@ module Runtime =
         (toStringAsync maxLength r) |> Async.RunSynchronously
 
     let toText (r: Response) =  toString Int32.MaxValue r
+    
+    /// Tries to convert the response content according to it's type to a formatted string.
+    let toFormattedText (r: Response) = 
+        // TODO: This is a hack. Parse the content type and use appropriate conversion functions (for xml, json, etc.)
+        let s = toText r
+        try
+            let json = JsonValue.Parse s
+            use tw = new System.IO.StringWriter()
+            json.WriteTo (tw, JsonSaveOptions.None)
+            tw.ToString()
+        with | ex -> s
+
 
     let toJson (r: Response) =  toText r |> JsonValue.Parse
     let toJsonArray (r: Response) =  ((toString Int32.MaxValue r) |> JsonValue.Parse).AsArray()
 
+    let raw (r: Response) = r
+    let go = raw
+    let preview = raw
     let show maxLength r = { r with printHint = Show maxLength }
-    let preview r = r
     let expand r = { r with printHint = Expand }
 
-        
-    type HttpBuilder with
-        member this.Bind(m, f) = f m
-        member this.Return(x) = x
-        member this.Yield(x) = StartingContext
-        member this.For(m, f) = this.Bind m f
-
-    type HttpBuilderSync() =
-        inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) =
-            f() |> send
-
-    type HttpBuilderAsync() =
-        inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) =
-            f() |> sendAsync
-
-    type HttpBuilderLazySync() =
-        inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) =
-            fun() -> f() |> finalizeContext
-
-    let http = HttpBuilderSync()
-    let httpAsync = HttpBuilderAsync()
-    let httpLazy = HttpBuilderLazySync()
 
     // TODO:
     // Multipart

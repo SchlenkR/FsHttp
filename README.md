@@ -165,4 +165,5 @@ The inner DSL is the same for all builders.
 * content-type
 * edit raw request
 * a word to ContentType / Body
+* document .> and >. operators
 * 

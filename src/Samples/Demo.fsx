@@ -11,17 +11,6 @@ http {
     GET "https://reqres.in/api/users?page=2&delay=3"
 }
 
-let inline (=>) context f =
+let inline (.>) context f =
     let response = send context
     f response
-let inline (++) context = send context
-let inline (~&) context = send context
-
-get "https://reqres.in/api/users?page=2&delay=3"
-=> preview
-
-get "https://reqres.in/api/users?page=2&delay=3"
-++
-
-&get "https://reqres.in/api/users?page=2&delay=3"
---toJson
