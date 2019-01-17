@@ -10,7 +10,9 @@
     <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <PackageReleaseNotes>
-TODO
+- New operators: .> (send) and >. (sendAsync)
+- API refinements
+- CONNECT and PATCH methods
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
