@@ -3,6 +3,10 @@
 #r "System.Net.Http"
 #r "./FsHttp.dll"
 
+open System
+open System.Text
+open System.Net.Http
+
 open FsHttp
 
 // TODO: Format message based on response content type
@@ -11,14 +15,16 @@ open FsHttp
     let headerToString (r: Response) =
         let sb = StringBuilder()
         let printHeader (headers: Headers.HttpHeaders) =
+            let maxHeaderKeyLength = headers |> Seq.map (fun h -> h.Key.Length) |> Seq.max
             // TODO: Table formatting
             for h in headers do
                 let values = String.Join(", ", h.Value)
-                sb.AppendLine (sprintf "%s: %s" h.Key values) |> ignore
+                sb.AppendLine (sprintf "%-*s: %s" (maxHeaderKeyLength + 3) h.Key values) |> ignore
         sb.AppendLine() |> ignore
         sb.AppendLine (sprintf "HTTP/%s %d %s" (r.version.ToString()) (int r.statusCode) (string r.statusCode)) |> ignore
         printHeader r.headers
-        sb.AppendLine("---") |> ignore
+        sb.AppendLine("") |> ignore
+        sb.AppendLine("---CONTENT---") |> ignore
         printHeader r.content.Headers
         sb.ToString()
 
@@ -27,7 +33,6 @@ open FsHttp
         match r.printHint with
         | Show maxLength -> toString maxLength r
         | Expand -> toString System.Int32.MaxValue r
-        | Header -> toString 500 r
     sprintf "%s\n%s" (headerToString r) content
 )
 |> fsi.AddPrinter

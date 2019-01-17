@@ -6,11 +6,4 @@
 open FsHttp
 open FsHttp.Dsl
 
-
-http {
-    GET "https://reqres.in/api/users?page=2&delay=3"
-}
-
-let inline (.>) context f =
-    let response = send context
-    f response
+get "http://www.google.de" .> preview
