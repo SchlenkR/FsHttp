@@ -4,6 +4,39 @@ FsHttp is a lightweight library for accessing HTTP/REST endpoints via F#.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp)
 
+It can looks like this:
+
+```fsharp
+http {
+    POST "https://reqres.in/api/users"
+    CacheControl "no-cache"
+
+    body
+    json """
+    {
+        "name": "morpheus",
+        "job": "leader"
+    }
+    """
+}
+```
+
+...or this:
+
+```fsharp
+post "https://reqres.in/api/users"
+--cacheControl "no-cache"
+--body
+--json """
+{
+    "name": "morpheus",
+    "job": "leader"
+}
+"""
+.> go
+}
+```
+
 ## TOC
 
 - [FsHttp](#fshttp)
@@ -91,7 +124,7 @@ http {
 Post data like this:
 
 ```fsharp
-http { 
+http {
     POST "https://reqres.in/api/users"
     CacheControl "no-cache"
 
@@ -161,9 +194,9 @@ The inner DSL is the same for all builders.
 ## TODO
 
 * form url encoded
-  * Alternative: ContentType mit "text" body und string
+    * Alternative: ContentType mit "text" body und string
+    * document .> and >. operators
 * content-type
 * edit raw request
 * a word to ContentType / Body
-* document .> and >. operators
-* 
+* explain: expand, preview, raw, etc.

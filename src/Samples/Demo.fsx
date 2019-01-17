@@ -7,3 +7,14 @@ open FsHttp
 open FsHttp.Dsl
 
 get "http://www.google.de" .> preview
+
+post "https://reqres.in/api/users"
+--cacheControl "no-cache"
+--body
+--json """
+{
+    "name": "morpheus",
+    "job": "leader"
+}
+"""
+.> go
