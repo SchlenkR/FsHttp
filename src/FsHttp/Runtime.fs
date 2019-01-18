@@ -30,9 +30,7 @@ module Runtime =
     let inline internal finalizeContext (context: ^t) =
         (^t: (static member Finalize: ^t -> FinalContext) (context))
 
-    let inline internal sendAsync (context: ^t) =
-    
-        let finalContext = finalizeContext context
+    let inline sendAsync (finalContext:FinalContext) =
         let invoke() =
             let request = finalContext.request
             let requestMessage = new HttpRequestMessage(request.method, request.url)
@@ -67,16 +65,16 @@ module Runtime =
                 }
         }
 
-    let inline internal send (context: ^t) =
+    let send (context:FinalContext) =
         context |> sendAsync |> Async.RunSynchronously
 
     /// synchronous request invocation
-    let inline (.>) context f = send context |> f
+    let inline (.>) context f = finalizeContext context |> send |> f
 
     /// asynchronous request invocation
     let inline (>.) context f =
         async {
-            let! response = sendAsync context
+            let! response = finalizeContext context |> sendAsync
             return f response
         } 
     

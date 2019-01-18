@@ -6,15 +6,28 @@
 open FsHttp
 open FsHttp.Dsl
 
-get "http://www.google.de" .> preview
 
-post "https://reqres.in/api/users"
---cacheControl "no-cache"
---body
---json """
-{
-    "name": "morpheus",
-    "job": "leader"
+get "http://www.google.de"
+
+async {
+    let! response =
+        post "https://reqres.in/api/users"
+        --cacheControl "no-cache"
+        --body
+        --json """
+        {
+            "name": "morpheus",
+            "job": "leader"
+        }
+        """
+        >. go
+    let content = response |> toText
+    printfn "Content is: %s" content
 }
-"""
+|> Async.RunSynchronously
+
+
+httpLazy {
+    GET "http://www.google.de"
+}
 .> go

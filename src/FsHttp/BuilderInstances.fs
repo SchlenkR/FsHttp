@@ -15,18 +15,16 @@ module BuilderInstances =
     type HttpBuilderSync() =
         inherit HttpBuilder()
         member inline this.Delay(f: unit -> 'a) =
-            f() |> send
+            f() |> finalizeContext |> send
 
     type HttpBuilderAsync() =
         inherit HttpBuilder()
         member inline this.Delay(f: unit -> 'a) =
-            f() |> sendAsync
+            f() |> finalizeContext |> sendAsync
 
-    type HttpBuilderLazySync() =
+    type HttpBuilderLazy() =
         inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) =
-            fun() -> f() |> finalizeContext
 
     let http = HttpBuilderSync()
     let httpAsync = HttpBuilderAsync()
-    let httpLazy = HttpBuilderLazySync()
+    let httpLazy = HttpBuilderLazy()
