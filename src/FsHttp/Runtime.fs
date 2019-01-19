@@ -11,20 +11,6 @@ open FSharp.Data
 [<AutoOpen>]
 module Runtime =
 
-    type PrintHint =
-        | Show of maxLength: int
-        | Expand
-
-    type Response = {
-        content: HttpContent;
-        headers: Headers.HttpResponseHeaders;
-        reasonPhrase: string;
-        statusCode: System.Net.HttpStatusCode;
-        requestMessage: HttpRequestMessage;
-        version: Version;
-        printHint: PrintHint
-    }
-
     let previewPrintLength = 250
 
     let inline internal finalizeContext (context: ^t) =
