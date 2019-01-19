@@ -13,6 +13,7 @@
 - New operators: .> (send) and >. (sendAsync)
 - API refinements
 - CONNECT and PATCH methods
+- Rename of nested modules in DSL module
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
