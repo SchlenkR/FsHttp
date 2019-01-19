@@ -26,7 +26,7 @@ module Dsl =
         let (--) = (|>)
 
     [<AutoOpen>]
-    module Requests =
+    module Request =
         
         let request (method: HttpMethod) (url: string) =
 
@@ -82,7 +82,7 @@ module Dsl =
         // TODO
 
     [<AutoOpen>]
-    module Headers =
+    module Header =
 
         let inline header name value (context: ^t) =
             (^t: (static member Header: ^t * string * string -> ^t) (context,name,value))
@@ -341,10 +341,3 @@ module Dsl =
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
         let contentTypeWithEncoding (contentTypeString) (charset:Encoding) (context: BodyContext) =
             contentType (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) context
-
-
-#if INTERACTIVE
-
-get "jkljkl"
-
-#endif
