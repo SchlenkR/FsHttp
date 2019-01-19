@@ -41,14 +41,15 @@ Target.create "Pack" (fun _ ->
     |> Seq.iter (fun p ->
         // let packageVersion = { version with (*Patch = 4711u;*) Original = None; PreRelease = PreRelease.TryParse "alpha" }.AsString
 
-        Shell.Exec ("dotnet", sprintf "pack %s -o %s" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
+        Shell.Exec ("dotnet", sprintf "pack %s -o %s --no-build" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
         |> assertSuccess
     )
 )
 
 Target.create "Test" (fun _ ->
     !! "src/**/*Tests.fsproj"
-    |> Seq.iter (DotNet.test id)
+    |> Seq.iter (fun p ->
+        Shell.Exec ("dotnet", sprintf "test %s --no-build" p) |> assertSuccess)
 )
 
 Target.create "Publish" (fun _ ->
