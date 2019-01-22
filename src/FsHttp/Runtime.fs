@@ -7,6 +7,8 @@ open System.Net.Http
 open System.Text
 open FsHttp
 open FSharp.Data
+open System.Xml
+open System.Xml.Linq
 
 [<AutoOpen>]
 module Runtime =
@@ -83,14 +85,20 @@ module Runtime =
     
     /// Tries to convert the response content according to it's type to a formatted string.
     let toFormattedText (r: Response) = 
-        // TODO: This is a hack. Parse the content type and use appropriate conversion functions (for xml, json, etc.)
-        let s = toText r
-        try
-            let json = JsonValue.Parse s
-            use tw = new System.IO.StringWriter()
-            json.WriteTo (tw, JsonSaveOptions.None)
-            tw.ToString()
-        with | ex -> s
+        
+        if r.content.Headers.ContentLength = 0 then ""
+        else
+            let s = toText r
+            if r.content.Headers.ContentType.MediaType.Contains("application/json") then
+                let json = JsonValue.Parse s
+                use tw = new System.IO.StringWriter()
+                json.WriteTo (tw, JsonSaveOptions.None)
+                tw.ToString()
+            else if r.content.Headers.ContentType.MediaType.Contains("application/xml") then
+                let xml = XDocument.Parse s
+                xml.ToString(SaveOptions.None)                
+            else 
+                s
 
 
     let toJson (r: Response) =  toText r |> JsonValue.Parse
