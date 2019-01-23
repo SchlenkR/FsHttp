@@ -3,4 +3,4 @@ dotnet: 2.1.500
 sudo: false
 dist: trusty
 script:
-  - fake run build.fsx target Test
+  - bash ./fake.sh run build.fsx target Test
