@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>0.4.2</Version>
+    <Version>0.5.0</Version>
     <Company />
     <Copyright>Copyright 2019 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
