@@ -23,16 +23,16 @@ open FsHttp
         sb.AppendLine() |> ignore
         sb.AppendLine (sprintf "HTTP/%s %d %s" (r.version.ToString()) (int r.statusCode) (string r.statusCode)) |> ignore
         printHeader r.headers
-        sb.AppendLine("") |> ignore
-        sb.AppendLine("---CONTENT---") |> ignore
+        sb.AppendLine("// CONTENT") |> ignore
         printHeader r.content.Headers
+        sb.AppendLine("// CONTENT") |> ignore
         sb.ToString()
 
     let content =
         // TODO: When Json or XML, pretty print output
         match r.printHint with
-        | Show maxLength -> toString maxLength r
-        | Expand -> toString System.Int32.MaxValue r
+        | Show maxLength -> (toFormattedText r).ToCharArray() |> Array.take maxLength |> string
+        | Expand -> toFormattedText r
     sprintf "%s\n%s" (headerToString r) content
 )
 |> fsi.AddPrinter

@@ -72,6 +72,7 @@ Target.create "Publish" (fun _ ->
     ==> "BuildOnly"
 
 "Clean"
+    ==> "Build"
     ==> "Test"
     ==> "Pack"
     ==> "Publish"

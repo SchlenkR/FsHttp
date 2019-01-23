@@ -2,7 +2,6 @@
 namespace FsHttp
 
 open System
-open System.Linq
 open System.Net.Http
 open System.Text
 open FsHttp
@@ -74,39 +73,35 @@ module Runtime =
             | _ -> ""
         async {
             let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
-            return
-                System.String(content.Take(maxLength).ToArray())
-                + (getTrimChars content)
+            return string(content.ToCharArray() |> Array.take maxLength) + (getTrimChars content)
         }
     let toString maxLength (r: Response) =
         (toStringAsync maxLength r) |> Async.RunSynchronously
 
-    let toText (r: Response) =  toString Int32.MaxValue r
+    let toText (r:Response) =  toString Int32.MaxValue r
     
+    let toJson (r:Response) =  toText r |> JsonValue.Parse
+    let toJsonArray (r:Response) =  ((toString Int32.MaxValue r) |> JsonValue.Parse).AsArray()
+
+    let toXml (r:Response) =  toText r |> XDocument.Parse
+
     /// Tries to convert the response content according to it's type to a formatted string.
-    let toFormattedText (r: Response) = 
-        
-        if r.content.Headers.ContentLength = 0 then ""
-        else
-            let s = toText r
-            if r.content.Headers.ContentType.MediaType.Contains("application/json") then
-                let json = JsonValue.Parse s
-                use tw = new System.IO.StringWriter()
-                json.WriteTo (tw, JsonSaveOptions.None)
-                tw.ToString()
-            else if r.content.Headers.ContentType.MediaType.Contains("application/xml") then
-                let xml = XDocument.Parse s
-                xml.ToString(SaveOptions.None)                
-            else 
-                s
+    let toFormattedText (r:Response) = 
+        if r.content.Headers.ContentType.MediaType.Contains("application/json") then
+            let json = toJson r
+            use tw = new System.IO.StringWriter()
+            json.WriteTo (tw, JsonSaveOptions.None)
+            tw.ToString()
+        else if r.content.Headers.ContentType.MediaType.Contains("application/xml") then
+            let xml = toXml r
+            xml.ToString(SaveOptions.None)                
+        else 
+            toText r
 
-
-    let toJson (r: Response) =  toText r |> JsonValue.Parse
-    let toJsonArray (r: Response) =  ((toString Int32.MaxValue r) |> JsonValue.Parse).AsArray()
-
-    let raw (r: Response) = r
-    let go = raw
-    let preview = raw
+    // Printing (Response -> Response)
+    let run (r:Response) = r
+    let go = run
+    let preview = run
     let show maxLength r = { r with printHint = Show maxLength }
     let expand r = { r with printHint = Expand }
 

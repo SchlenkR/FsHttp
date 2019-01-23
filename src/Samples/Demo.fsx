@@ -9,6 +9,9 @@ open FsHttp.Dsl
 
 get "http://www.google.de"
 
+let r = get "https://reqres.in/api/users" .> go
+r.content.Headers.ContentType.MediaType.Contains("application/json")
+
 async {
     let! response =
         post "https://reqres.in/api/users"
@@ -31,3 +34,4 @@ httpLazy {
     GET "http://www.google.de"
 }
 .> go
+

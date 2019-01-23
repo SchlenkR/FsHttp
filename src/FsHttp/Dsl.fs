@@ -23,6 +23,9 @@ module Dsl =
 
     [<AutoOpen>]
     module Operators =
+
+        let (/>) = (<|)
+
         let (--) = (|>)
 
     [<AutoOpen>]

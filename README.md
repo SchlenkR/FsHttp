@@ -21,7 +21,7 @@ http {
 }
 ```
 
-...or this:
+...or use an alternative syntax like this:
 
 ```fsharp
 post "https://reqres.in/api/users"
@@ -34,7 +34,6 @@ post "https://reqres.in/api/users"
 }
 """
 .> go
-}
 ```
 
 ## TOC
@@ -42,11 +41,12 @@ post "https://reqres.in/api/users"
 - [FsHttp](#fshttp)
     - [TOC](#toc)
     - [Synopsis](#synopsis)
-    - [Examples](#examples)
-        - [F# Interactive Usage](#f-interactive-usage)
-        - [Basics](#basics)
-        - [Response Handling and Testing](#response-handling-and-testing)
-    - [Hints](#hints)
+    - [Setup (F# Interactive)](#setup-f-interactive)
+    - [Custom Operations Style](#custom-operations-style)
+        - [Different Types of Builders](#different-types-of-builders)
+    - [Alternative Style](#alternative-style)
+    - [Response Handling](#response-handling)
+    - [Testing](#testing)
     - [TODO](#todo)
 
 ## Synopsis
@@ -56,31 +56,25 @@ This library provides a convenient way of interacting with HTTP endpoints.
 The focus of FsHttp is:
 
 - Exploring HTTP services interactively by sending HTTP requests and viewing the response in F# interactive.
-- Test web APIs by sending requests and assert expectations.
+- Testing of web APIs by sending requests and assert expectations.
+- Usage as an HTTP client library in applications.
 
 Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fsharp.github.io/FSharp.Data/library/Http.html).
 
-## Examples
+## Setup (F# Interactive)
 
-### F# Interactive Usage
-
-Using FsHttp in F# interactive, you should load the 'FsHttp.fsx' instead of referencing the dll directly. This will enable pretty printing of a response in the FSI output.
-
-For using the JSON and testing functions, reference the FSharp.Data, NUnit and FSUnit libraries. Have a look at the setup shown in the **Tests\IntegrationTests.fs** folder for an example.
+Using FsHttp in F# interactive, the ```FsHttp.fsx``` file should be loaded instead of referencing the dll directly. This will enable pretty printing of a response in the FSI output. The ```FSharp.Data.dll``` has to be referenced in order to use the JSON functionality (e.g. ```toJson```respones function).
 
 ```fsharp
 #r @".\packages\fsharp.data\lib\net45\FSharp.Data.dll"
-#r @".\packages\NUnit\lib\netstandard2.0\nunit.framework.dll"
-#r @".\packages\fsunit\lib\netstandard2.0\FsUnit.NUnit.dll"
 #load @".\packages\schlenkr.fshttp\lib\netstandard2.0\FsHttp.fsx"
 
 open FsHttp
-open FsUnit
-open FSharp.Data
+open FsHttp.Dsl // enables alternative syntax; see below...
 open FSharp.Data.JsonExtensions
 ```
 
-### Basics
+## Custom Operations Style
 
 A simple GET request looks like this:
 
@@ -138,7 +132,55 @@ http {
 }
 ```
 
-### Response Handling and Testing
+### Different Types of Builders
+
+The examples shown here use the **http** builder, which evaluates requests immediately and is executed synchronousely. There are more builders that can be used to achieve a different behavior:
+
+- **http** Immediately evaluated, synchronous
+- **httpAsync** Immediately evaluated, asynchronous
+- **httpLazy** Manually evaluated (use '|> send' or '|> sendAsync')
+
+The inner DSL is the same for all builders.
+
+
+The httpLazy builder results in a Request that has to be sent to the server:
+
+```fsharp
+httpLazy {
+    GET "http://www.google.de"
+}
+.> go
+```
+
+The ```.> go``` function sends the request to the server and returns a response object.
+
+## Alternative Style
+
+FsHttp comes in 2 flavors:
+
+- A 'Custom Operation' syntax ```http { GET ... }``` (as shown above).
+- An alternative point free notation like ```get "http://..." .> go```.
+
+To enable the alternative syntax, you have to open the ```FsHttp.Dsl``` module:
+
+```fsharp
+open FsHttp.Dsl
+```
+
+This will make all the HTTP method-, header-, and body-functions available. It will also import the operators:
+- ```(--)``` (alias for pipe forward)
+- ```(.>)``` (synchronous request invocation)
+- ```(>.)``` (asynchronous request invocation)
+
+Now, you can do things like
+
+```fsharp
+get "http://www.google.com" --acceptLanguage "de-DE" .> go
+```
+
+## Response Handling 
+
+No matter which syntax you choose, there are several TODO
 
 Convert a response to a JsonValue:
 
@@ -147,6 +189,28 @@ http {
     GET @"https://reqres.in/api/users?page=2&delay=3"
 }
 |> toJson
+```
+
+// TODO: all response functions
+
+
+## Testing
+
+For using the JSON testing functions, additional references to ```NUnit```, ```FSUnit``` and ```FsHttp.NUnit``` libraries are required as shown here:
+
+```fsharp
+#r @".\packages\fsharp.data\lib\net45\FSharp.Data.dll"
+#load @".\packages\schlenkr.fshttp\lib\netstandard2.0\FsHttp.fsx"
+
+// additional libs for testing
+#r @".\packages\schlenkr.fshttp.nunit\lib\netstandard2.0\FsHttp.nunit.dll"
+#r @".\packages\NUnit\lib\netstandard2.0\nunit.framework.dll"
+#r @".\packages\fsunit\lib\netstandard2.0\FsUnit.NUnit.dll"
+
+open FsHttp
+open FsUnit
+open FSharp.Data
+open FSharp.Data.JsonExtensions
 ```
 
 Testing response data by asserting JSON expectations:
@@ -181,16 +245,6 @@ http {
 
 The `||>` operator means 'tee' [have a look at](https://fsharpforfunandprofit.com/rop/): It is useful when you want to chain expectations together that all work on the http response.
 
-## Hints
-
-The examples shown here use the **http** builder, which evaluates requests immediately and is executed synchronousely. There are more builders that can be used to achieve a different behavior:
-
-- **http** Immediately evaluated, synchronous
-- **httpAsync** Immediately evaluated, asynchronous
-- **httpLazy** Manually evaluated (use 'send' or 'sendAsync')
-
-The inner DSL is the same for all builders.
-
 ## TODO
 
 * form url encoded
@@ -200,3 +254,6 @@ The inner DSL is the same for all builders.
 * edit raw request
 * a word to ContentType / Body
 * explain: expand, preview, raw, etc.
+* explain the DSL operators
+* Write Response to a file
+* 
