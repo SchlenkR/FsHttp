@@ -1,0 +1,10 @@
+language: csharp
+dotnet: 2.1.500
+sudo: false
+dist: trusty
+env:
+  - PATH=$PATH:/home/travis/.dotnet/tools
+script:
+  - dotnet tool install fake-cli -g
+  - dotnet tool install paket -g
+  - fake run build.fsx target Build

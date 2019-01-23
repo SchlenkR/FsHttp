@@ -3,6 +3,7 @@
 FsHttp is a lightweight library for accessing HTTP/REST endpoints via F#.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp)
+[![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
 
 It can looks like this:
 
