@@ -2,5 +2,9 @@ language: csharp
 dotnet: 2.1.500
 sudo: false
 dist: trusty
+env:
+  - PATH=$PATH:/home/travis/.dotnet/tools
 script:
-  - bash ./fake.sh run build.fsx target Test
+  - dotnet tool install fake-cli -g
+  - dotnet tool install paket -g
+  - fake run build.fsx target Test
