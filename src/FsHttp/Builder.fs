@@ -1,12 +1,11 @@
 
 namespace FsHttp
 
-open System.Net.Http
-open FsHttp.Dsl
-
 [<AutoOpen>]
 module Builder =
 
+    open System.Net.Http
+    open FsHttp.Dsl
 
     // Request Methods
     type HttpBuilder with

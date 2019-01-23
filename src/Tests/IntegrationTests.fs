@@ -159,3 +159,5 @@ let ``Specify content type explicitly``() =
     }
     |> toText
     |> should contain contentType
+
+// TODO: ToFormattedText
