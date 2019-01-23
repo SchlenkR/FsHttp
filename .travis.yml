@@ -1,6 +1,5 @@
 language: csharp
 dotnet: 2.1.500
-mono: latest
 sudo: false
 dist: trusty
 script:
