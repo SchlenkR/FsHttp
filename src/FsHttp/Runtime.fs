@@ -73,7 +73,7 @@ module Runtime =
             | _ -> ""
         async {
             let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
-            return string(content.ToCharArray() |> Array.take maxLength) + (getTrimChars content)
+            return string(content.Substring(0, Math.Min(maxLength, content.Length))) + (getTrimChars content)
         }
     let toString maxLength (r: Response) =
         (toStringAsync maxLength r) |> Async.RunSynchronously
@@ -86,13 +86,14 @@ module Runtime =
     let toXml (r:Response) =  toText r |> XDocument.Parse
 
     /// Tries to convert the response content according to it's type to a formatted string.
-    let toFormattedText (r:Response) = 
-        if r.content.Headers.ContentType.MediaType.Contains("application/json") then
+    let toFormattedText (r:Response) =
+        let mediaType = try r.content.Headers.ContentType.MediaType with _ -> ""
+        if mediaType.Contains("application/json") then
             let json = toJson r
             use tw = new System.IO.StringWriter()
             json.WriteTo (tw, JsonSaveOptions.None)
             tw.ToString()
-        else if r.content.Headers.ContentType.MediaType.Contains("application/xml") then
+        else if mediaType.Contains("application/xml") then
             let xml = toXml r
             xml.ToString(SaveOptions.None)                
         else 

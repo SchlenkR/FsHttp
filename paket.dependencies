@@ -4,13 +4,7 @@ nuget FSharp.Core >= 4.3
 nuget FSharp.Data >= 3.0
 nuget NUnit
 
-group Test
-    source https://api.nuget.org/v3/index.json
-    
-    nuget FSharp.Core >= 4.5
-    nuget FSharp.Data >= 3.0
-    nuget NUnit
-    nuget FsUnit
-    nuget Microsoft.NET.Test.Sdk
-    nuget NUnit3TestAdapter
-    nuget Suave
+nuget FsUnit
+nuget Microsoft.NET.Test.Sdk
+nuget NUnit3TestAdapter
+nuget Suave
