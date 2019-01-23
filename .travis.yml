@@ -7,4 +7,4 @@ env:
 script:
   - dotnet tool install fake-cli -g
   - dotnet tool install paket -g
-  - fake run build.fsx target Test
+  - fake run build.fsx target Build
