@@ -4,7 +4,6 @@ namespace FsHttp
 [<AutoOpen>]
 module Builder =
 
-    open System.Net.Http
     open FsHttp.Dsl
 
     // Request Methods

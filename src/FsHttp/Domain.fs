@@ -40,18 +40,33 @@ module Domain =
             let finalContext:FinalContext = { request=this.request; content=Some this.content }
             finalContext
 
-    type PrintHint =
-        | Show of maxLength: int
-        | Expand
-
     type Response = {
+        requestContext: FinalContext;
+        requestMessage: HttpRequestMessage;
         content: HttpContent;
         headers: Headers.HttpResponseHeaders;
         reasonPhrase: string;
         statusCode: System.Net.HttpStatusCode;
-        requestMessage: HttpRequestMessage;
         version: Version;
         printHint: PrintHint
+    }
+    and PrintHint = {
+        requestPrintHint: RequestPrintHint;
+        responsePrintHint: ResponsePrintHint;
+    }
+    and RequestPrintHint = {
+        enabled: bool;
+        printHeader: bool
+    }
+    and ResponsePrintHint = {
+        enabled: bool;
+        printHeader: bool;
+        printContent: ContentPrintHint
+    }
+    and ContentPrintHint = {
+        enabled: bool;
+        format: bool;
+        maxLength: int
     }
 
     type HttpBuilder() = class end

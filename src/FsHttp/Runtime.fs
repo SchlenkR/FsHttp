@@ -12,8 +12,6 @@ open System.Xml.Linq
 [<AutoOpen>]
 module Runtime =
 
-    let previewPrintLength = 250
-
     let inline internal finalizeContext (context: ^t) =
         (^t: (static member Finalize: ^t -> FinalContext) (context))
 
@@ -40,16 +38,30 @@ module Runtime =
 
         async {
             let! response = invoke() |> Async.AwaitTask
-            return
-                {
-                    content = response.Content;
-                    headers = response.Headers;
-                    reasonPhrase = response.ReasonPhrase;
-                    statusCode = response.StatusCode;
-                    requestMessage = response.RequestMessage;
-                    version = response.Version;
-                    printHint = Show previewPrintLength
+            return { 
+                requestContext = finalContext;
+                content = response.Content;
+                headers = response.Headers;
+                reasonPhrase = response.ReasonPhrase;
+                statusCode = response.StatusCode;
+                requestMessage = response.RequestMessage;
+                version = response.Version;
+                printHint = {
+                    requestPrintHint = {
+                        enabled = true;
+                        printHeader = true;
+                    };
+                    responsePrintHint = {
+                        enabled = true;
+                        printHeader = true;
+                        printContent = {
+                            enabled = true;
+                            format = true;
+                            maxLength = 250
+                        }
+                    }
                 }
+            }
         }
 
     let send (context:FinalContext) =
@@ -73,7 +85,7 @@ module Runtime =
             | _ -> ""
         async {
             let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
-            return string(content.Substring(0, Math.Min(maxLength, content.Length))) + (getTrimChars content)
+            return (Helper.substring content maxLength) + (getTrimChars content)
         }
     let toString maxLength (r: Response) =
         (toStringAsync maxLength r) |> Async.RunSynchronously
@@ -84,6 +96,8 @@ module Runtime =
     let toJsonArray (r:Response) =  ((toString Int32.MaxValue r) |> JsonValue.Parse).AsArray()
 
     let toXml (r:Response) =  toText r |> XDocument.Parse
+
+    // TODO: toHtml
 
     /// Tries to convert the response content according to it's type to a formatted string.
     let toFormattedText (r:Response) =
@@ -99,13 +113,26 @@ module Runtime =
         else 
             toText r
 
-    // Printing (Response -> Response)
-    let run (r:Response) = r
-    let go = run
-    let preview = run
-    let show maxLength r = { r with printHint = Show maxLength }
-    let expand r = { r with printHint = Expand }
+    [<AutoOpen>]
+    module PrintModifier =
+        let noRequest printHint = { printHint with requestPrintHint = { printHint.requestPrintHint with enabled = false } }
+        let noRequestHeader printHint = { printHint with requestPrintHint = { printHint.requestPrintHint with printHeader = false } }
+        let noResponse printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with enabled = false } }
+        let noResponseHeader printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printHeader = false } }
+        let noResponseContent printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with enabled = false } } }
+        let noResponseContentFormatting printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with format = false } } }
+        let withResponseContentMaxLength maxLength printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with maxLength = maxLength } } }
 
+    // Printing (Response -> Response)
+    let go (r:Response) = r
+    let print f r =
+        let response = go r
+        { response with printHint = f response.printHint }
+
+    let show maxLength = withResponseContentMaxLength maxLength |> print
+    let preview = print id // same as go
+    let expand = withResponseContentMaxLength Int32.MaxValue |> print
+    let raw = noResponseContentFormatting |> print
 
     // TODO:
     // Multipart

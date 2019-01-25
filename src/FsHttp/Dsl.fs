@@ -1,25 +1,12 @@
 
 namespace FsHttp
 
-open System
-open System.Net.Http
-open System.Text
-open System.Globalization
-
-module Helper =
-
-    let urlEncode (s: string) = System.Web.HttpUtility.UrlEncode(s)
-
-    let toBase64 (s: string) =
-        let utf8Bytes = Encoding.UTF8.GetBytes(s)
-        Convert.ToBase64String(utf8Bytes)
-
-    let fromBase64 (s: string) =
-        let base64Bytes = Convert.FromBase64String(s)
-        Encoding.UTF8.GetString(base64Bytes)
-
-
 module Dsl =
+
+    open System
+    open System.Net.Http
+    open System.Text
+    open System.Globalization
 
     [<AutoOpen>]
     module Operators =
