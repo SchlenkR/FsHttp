@@ -10,6 +10,7 @@
     <None Include="app.config" />
     <Compile Include="Server.fs" />
     <Compile Include="JsonTests.fs" />
+    <Compile Include="UnitTests.fs" />
     <Compile Include="IntegrationTests.fs" />
   </ItemGroup>
   <ItemGroup>

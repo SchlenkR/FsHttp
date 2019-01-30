@@ -75,10 +75,10 @@ module Runtime =
         async {
             let! response = finalizeContext context |> sendAsync
             return f response
-        } 
+        }
     
     // TODO: Don't read the whole response; read only requested chars.
-    let toStringAsync maxLength (r: Response) =
+    let toString maxLength (r: Response) =
         let getTrimChars (s: string) =
             match s.Length with
             | l when l > maxLength -> "\n..."
@@ -87,31 +87,42 @@ module Runtime =
             let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
             return (Helper.substring content maxLength) + (getTrimChars content)
         }
-    let toString maxLength (r: Response) =
-        (toStringAsync maxLength r) |> Async.RunSynchronously
 
-    let toText (r:Response) =  toString Int32.MaxValue r
+    let toText (r:Response) = toString Int32.MaxValue r
     
-    let toJson (r:Response) =  toText r |> JsonValue.Parse
-    let toJsonArray (r:Response) =  ((toString Int32.MaxValue r) |> JsonValue.Parse).AsArray()
+    let toJson (r:Response) = async {
+        let! s = toText r 
+        return JsonValue.Parse s
+    }
 
-    let toXml (r:Response) =  toText r |> XDocument.Parse
+    let toJsonArray (r:Response) = async {
+        let! json = toJson r
+        return json.AsArray()
+    } 
+
+    let toXml (r:Response) = async {
+        let! s = toText r 
+        return XDocument.Parse s
+    }
 
     // TODO: toHtml
 
     /// Tries to convert the response content according to it's type to a formatted string.
     let toFormattedText (r:Response) =
-        let mediaType = try r.content.Headers.ContentType.MediaType with _ -> ""
-        if mediaType.Contains("application/json") then
-            let json = toJson r
-            use tw = new System.IO.StringWriter()
-            json.WriteTo (tw, JsonSaveOptions.None)
-            tw.ToString()
-        else if mediaType.Contains("application/xml") then
-            let xml = toXml r
-            xml.ToString(SaveOptions.None)                
-        else 
-            toText r
+        async {
+            let mediaType = try r.content.Headers.ContentType.MediaType with _ -> ""
+            if mediaType.Contains("application/json") then
+                let! json = toJson r
+                use tw = new System.IO.StringWriter()
+                json.WriteTo (tw, JsonSaveOptions.None)
+                return tw.ToString()
+            else if mediaType.Contains("application/xml") then
+                let! xml = toXml r
+                return xml.ToString(SaveOptions.None)                
+            else 
+                let! s = toText r 
+                return s
+        }
 
     [<AutoOpen>]
     module PrintModifier =
