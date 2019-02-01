@@ -86,6 +86,12 @@ module Runtime =
     // TODO: All Async->Sync functions shouldn't handle explicitly the f parameters
     // let makeSync f = ?
     
+    let toStreamAsync (r:Response) = r.content.ReadAsStreamAsync() |> Async.AwaitTask
+    let toStream (r:Response) = toStreamAsync r |> Async.RunSynchronously
+    
+    let toBytesAsync (r:Response) = r.content.ReadAsByteArrayAsync() |> Async.AwaitTask
+    let toBytes (r:Response) = toBytesAsync r |> Async.RunSynchronously
+
     // TODO: Don't read the whole response; read only requested chars.
     let toStringAsync maxLength (r: Response) =
         let getTrimChars (s: string) =
