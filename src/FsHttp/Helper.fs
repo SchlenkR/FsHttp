@@ -20,7 +20,6 @@ module Helper =
     let substring (s:string) maxLength = string(s.Substring(0, Math.Min(maxLength, s.Length)))
 
     // TODO: Test
-    let combine (url1:string) (url2:string) =
+    let urlCombine (url1:string) (url2:string) =
         (url1.TrimEnd [|'/'|]) + "/" + (url2.TrimStart [|'/'|])
-    let (</>) = combine
-    
+    let (</>) = urlCombine
