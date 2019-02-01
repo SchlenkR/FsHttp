@@ -64,7 +64,6 @@ module FsiPrinting =
                             toFormattedText r
                         else
                             toText r
-                        |> Async.RunSynchronously
                     let trimmedContentText =
                         let maxLength = r.printHint.responsePrintHint.printContent.maxLength
                         if contentText.Length > maxLength then

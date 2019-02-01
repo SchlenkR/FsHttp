@@ -37,8 +37,6 @@ module Helper =
 let ``Synchronous GET call is invoked immediately``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
-    http { GET "http://127.0.0.1:8080" }
-    
     http { GET (url @"?test=Hallo") }
     |> toText
     |> should equal "test=Hallo"
