@@ -32,8 +32,9 @@ module Runtime =
             for name,value in request.headers do
                 requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
 
-            // TODO: dispose        
-            let client = new HttpClient()
+            // TODO: dispose
+            let clientHandler = new HttpClientHandler()
+            let client = new HttpClient(clientHandler, Timeout = finalContext.config.timeout)
             client.SendAsync(requestMessage)
 
         async {

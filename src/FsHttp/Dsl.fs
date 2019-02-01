@@ -11,8 +11,10 @@ module Dsl =
     [<AutoOpen>]
     module Operators =
 
-        let (/>) = (<|)
+        // TODO: Document
+        let (%%) = (<|)
 
+        // TODO: Document
         let (--) = (|>)
 
     [<AutoOpen>]
@@ -32,7 +34,8 @@ module Dsl =
                 //)
                 |> Seq.reduce (+)
 
-            { request = { url=formattedUrl; method=method; headers=[] } }
+            { request = { url=formattedUrl; method=method; headers=[] }; 
+              config = { timeout=TimeSpan.FromSeconds 100.0 } }
 
         // RFC 2626 specifies 8 methods + PATCH
         
@@ -272,10 +275,11 @@ module Dsl =
     [<AutoOpen>]
     module Body =
 
-        let body (headerContext: HeaderContext) : BodyContext = {
-            request = headerContext.request;
-            content = { content=""; contentType=""; headers=[] }
-        }
+        let body (headerContext: HeaderContext) : BodyContext =
+            { request = headerContext.request;
+              content = { content=""; contentType=""; headers=[] };
+              config = headerContext.config
+            }
 
         let private getContentTypeOrDefault (defaultValue:string) (context:BodyContext) =
             if String.IsNullOrEmpty(context.content.contentType) then
@@ -331,3 +335,15 @@ module Dsl =
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
         let contentTypeWithEncoding (contentTypeString) (charset:Encoding) (context: BodyContext) =
             contentType (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) context
+
+    [<AutoOpen>]
+    module Config =
+        
+        let inline config (f: Config -> Config) (context: ^t) =
+            (^t: (static member Config: ^t * (Config -> Config) -> ^t) (context,f))
+
+        let inline timeout value context =
+            config (fun config -> { config with timeout = value }) context
+
+        let inline timeoutInSeconds value context =
+            config (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context

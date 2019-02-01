@@ -7,6 +7,10 @@ module Domain =
     open System
     open System.Net.Http
 
+    type Config = {
+        timeout: TimeSpan;
+    }
+
     type Header = {
         url: string;
         method: HttpMethod;
@@ -24,20 +28,30 @@ module Domain =
     type FinalContext = {
         request: Header;
         content: Content option;
+        config: Config;
     }
 
-    type HeaderContext = { request: Header } with
+    type HeaderContext =
+        { request: Header;
+          config: Config } with
         static member Header (this: HeaderContext, name: string, value: string) =
             { this with request = { this.request with headers = this.request.headers @ [name,value] } }
+        static member Config (this: HeaderContext, f: Config -> Config) =
+            { this with config = f this.config }
         static member Finalize (this: HeaderContext) =
-            let finalContext = { request=this.request; content=None }
+            let finalContext = { request=this.request; content=None; config=this.config }
             finalContext
 
-    type BodyContext = { request: Header; content: Content; } with
+    type BodyContext =
+        { request: Header;
+          content: Content;
+          config: Config ; } with
         static member Header (this: BodyContext, name: string, value: string) =
             { this with request = { this.request with headers = this.request.headers @ [name,value] } }
+        static member Config (this: BodyContext, f: Config -> Config) =
+            { this with config = f this.config }
         static member Finalize (this: BodyContext) =
-            let finalContext:FinalContext = { request=this.request; content=Some this.content }
+            let finalContext:FinalContext = { request=this.request; content=Some this.content; config=this.config }
             finalContext
 
     type Response = {
