@@ -268,3 +268,13 @@ module Builder =
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
         [<CustomOperation("ContentTypeWithEncoding")>]
         member this.ContentTypeWithEncoding (context, contentType, charset) = Body.contentTypeWithEncoding contentType charset context
+
+
+    // Request Headers
+    type HttpBuilder with
+        
+        [<CustomOperation("timeout")>]
+        member inline this.Timeout (context, value) = Config.timeout value context
+        
+        [<CustomOperation("timeoutInSeconds")>]
+        member inline this.TimeoutInSeconds (context, value) = Config.timeoutInSeconds value context

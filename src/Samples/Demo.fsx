@@ -8,7 +8,12 @@ open FsHttp
 open FsHttp.Dsl
 
 
-get "http://www.google.de"
+let req = get "http://www.google.de" .> go
+req |> toText
+
+// should throw
+get "http://www.google.de" --timeoutInSeconds 0.1 .> go
+
 
 let r = get "https://reqres.in/api/users" .> go
 r.content.Headers.ContentType.MediaType.Contains("application/json")
@@ -48,3 +53,7 @@ httpLazy {
 }
 .> go
 
+http {
+    GET "http://www.google.de"
+    timeoutInSeconds 1.0
+}
