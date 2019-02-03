@@ -6,7 +6,6 @@ open System.Net.Http
 open System.Text
 open FsHttp
 open FSharp.Data
-open System.Xml
 open System.Xml.Linq
 
 [<AutoOpen>]
@@ -47,21 +46,7 @@ module Runtime =
                 statusCode = response.StatusCode;
                 requestMessage = response.RequestMessage;
                 version = response.Version;
-                printHint = {
-                    requestPrintHint = {
-                        enabled = true;
-                        printHeader = true;
-                    };
-                    responsePrintHint = {
-                        enabled = true;
-                        printHeader = true;
-                        printContent = {
-                            enabled = true;
-                            format = true;
-                            maxLength = 250
-                        }
-                    }
-                }
+                printHint = defaultPrintHint
             }
         }
 
@@ -78,11 +63,11 @@ module Runtime =
             return f response
         }
 
-    let run map (response:Response) =
-        map response |> Async.RunSynchronously
+    // let run map (response:Response) =
+    //     map response |> Async.RunSynchronously
     
-    /// run operator for applying an async map functions to a response and receiving the pure result.
-    let (|>>) (response:Response) map = run map response
+    // /// run operator for applying an async map functions to a response and receiving the pure result.
+    // let (|>>) (response:Response) map = run map response
 
     // TODO: All Async->Sync functions shouldn't handle explicitly the f parameters
     // let makeSync f = ?
@@ -139,27 +124,6 @@ module Runtime =
                 return s
         }
     let toFormattedText (r:Response) = toFormattedTextAsync r |> Async.RunSynchronously
-
-    [<AutoOpen>]
-    module PrintModifier =
-        let noRequest printHint = { printHint with requestPrintHint = { printHint.requestPrintHint with enabled = false } }
-        let noRequestHeader printHint = { printHint with requestPrintHint = { printHint.requestPrintHint with printHeader = false } }
-        let noResponse printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with enabled = false } }
-        let noResponseHeader printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printHeader = false } }
-        let noResponseContent printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with enabled = false } } }
-        let noResponseContentFormatting printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with format = false } } }
-        let withResponseContentMaxLength maxLength printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with maxLength = maxLength } } }
-
-    // Printing (Response -> Response)
-    let go (r:Response) = r
-    let print f r =
-        let response = go r
-        { response with printHint = f response.printHint }
-
-    let show maxLength = withResponseContentMaxLength maxLength |> print
-    let preview = print id // same as go
-    let expand = withResponseContentMaxLength Int32.MaxValue |> print
-    let raw = noResponseContentFormatting |> print
 
     // TODO:
     // Multipart

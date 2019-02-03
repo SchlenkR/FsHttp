@@ -9,6 +9,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Config.fs" />
     <Compile Include="Helper.fs" />
     <Compile Include="Domain.fs" />
     <Compile Include="Dsl.fs" />

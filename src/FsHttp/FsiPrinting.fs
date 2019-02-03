@@ -1,6 +1,34 @@
 
 namespace FsHttp
 
+[<AutoOpen>]
+module PrintTransformation =
+    
+    open System
+
+    [<AutoOpen>]
+    module PrintModifier =
+        let noRequest printHint = { printHint with requestPrintHint = { printHint.requestPrintHint with enabled = false } }
+        let noRequestHeader printHint = { printHint with requestPrintHint = { printHint.requestPrintHint with printHeader = false } }
+        let noResponse printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with enabled = false } }
+        let noResponseHeader printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printHeader = false } }
+        let withResponseContent printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with enabled = false } } }
+        let noResponseContentFormatting printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with format = false } } }
+        let withResponseContentMaxLength maxLength printHint =
+            { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with maxLength = maxLength } } } 
+            |> withResponseContent
+
+    // Printing (Response -> Response)
+    let go (r:Response) = r
+    let print f r =
+        let response = go r
+        { response with printHint = f response.printHint }
+
+    let show maxLength = (withResponseContentMaxLength maxLength >> withResponseContent) |> print
+    let preview = withResponseContent |> print
+    let expand = (withResponseContentMaxLength Int32.MaxValue >> withResponseContent) |> print
+    let raw = noResponseContentFormatting |> print
+
 module FsiPrinting =
 
     open System
@@ -32,10 +60,9 @@ module FsiPrinting =
                 appendLine (sprintf "%-*s: %s" (maxHeaderKeyLength + 3) h.Key values)
 
         let printRequest() =
-            appendSection "REQUEST"
-            
             let requestPrintHint = r.printHint.requestPrintHint
             if requestPrintHint.enabled then
+                appendSection "REQUEST"
                 appendLine (sprintf "%s %s HTTP/%s" (r.requestContext.request.method.ToString()) r.requestContext.request.url (r.version.ToString()))
 
                 if requestPrintHint.printHeader then
@@ -49,9 +76,8 @@ module FsiPrinting =
                 newLine()
 
         let printResponse() =
-            appendSection "RESPONSE"
-            
             if r.printHint.responsePrintHint.enabled then
+                appendSection "RESPONSE"
                 appendLine (sprintf "HTTP/%s %d %s" (r.version.ToString()) (int r.statusCode) (string r.statusCode))
 
                 if r.printHint.responsePrintHint.printHeader then
@@ -59,17 +85,19 @@ module FsiPrinting =
                     newLine()
 
                 if r.printHint.responsePrintHint.printContent.enabled then
-                    let contentText =
-                        if r.printHint.responsePrintHint.printContent.format then
-                            toFormattedText r
-                        else
-                            toText r
                     let trimmedContentText =
-                        let maxLength = r.printHint.responsePrintHint.printContent.maxLength
-                        if contentText.Length > maxLength then
-                            (contentText.Substring (0,maxLength)) + "\n..."
-                        else
-                            contentText
+                        try
+                            let contentText =
+                                if r.printHint.responsePrintHint.printContent.format then
+                                    toFormattedText r
+                                else
+                                    toText r
+                            let maxLength = r.printHint.responsePrintHint.printContent.maxLength
+                            if contentText.Length > maxLength then
+                                (contentText.Substring (0,maxLength)) + "\n..."
+                            else
+                                contentText
+                        with ex -> sprintf "ERROR reading response content: %s" (ex.ToString())
                     append trimmedContentText
                     newLine()
         

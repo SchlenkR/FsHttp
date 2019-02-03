@@ -54,6 +54,7 @@ module Domain =
             let finalContext:FinalContext = { request=this.request; content=Some this.content; config=this.config }
             finalContext
 
+    // TODO: Get rid of all the boolean switches and use options instead.
     type Response = {
         requestContext: FinalContext;
         requestMessage: HttpRequestMessage;
@@ -84,3 +85,20 @@ module Domain =
     }
 
     type HttpBuilder() = class end
+
+    let defaultPrintHint = 
+        {
+            requestPrintHint = {
+                enabled = true;
+                printHeader = true;
+            };
+            responsePrintHint = {
+                enabled = true;
+                printHeader = true;
+                printContent = {
+                    enabled = false;
+                    format = true;
+                    maxLength = 250
+                }
+            }
+        }

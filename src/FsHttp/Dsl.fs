@@ -35,7 +35,7 @@ module Dsl =
                 |> Seq.reduce (+)
 
             { request = { url=formattedUrl; method=method; headers=[] }; 
-              config = { timeout=TimeSpan.FromSeconds 100.0 } }
+              config = { timeout=defaultTimeout } }
 
         // RFC 2626 specifies 8 methods + PATCH
         

@@ -1,8 +1,10 @@
+
 # FsHttp
 
 FsHttp is a lightweight library for accessing HTTP/REST endpoints via F#.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp)
+
 [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
 
 It can looks like this:
@@ -37,18 +39,9 @@ post "https://reqres.in/api/users"
 .> go
 ```
 
-## TOC
+For a complete list of keyword used in the DSL, have a look at [the builder methods](src/FsHttp/Builder.fs) or [the DSL functions](src/FsHttp/Dsl.fs).
 
-- [FsHttp](#fshttp)
-    - [TOC](#toc)
-    - [Synopsis](#synopsis)
-    - [Setup (F# Interactive)](#setup-f-interactive)
-    - [Custom Operations Style](#custom-operations-style)
-        - [Different Types of Builders](#different-types-of-builders)
-    - [Alternative Style](#alternative-style)
-    - [Response Handling](#response-handling)
-    - [Testing](#testing)
-    - [TODO](#todo)
+Or have a look at the [Demos](src/Samples/Demo.fsx)
 
 ## Synopsis
 
@@ -75,7 +68,7 @@ open FsHttp.Dsl // enables alternative syntax; see below...
 open FSharp.Data.JsonExtensions
 ```
 
-## Custom Operations Style
+## Examples
 
 A simple GET request looks like this:
 
@@ -83,6 +76,10 @@ A simple GET request looks like this:
 http {
     GET "https://reqres.in/api/users?page=2&delay=3"
 }
+```
+
+```fsharp
+get "https://reqres.in/api/users?page=2&delay=3" .> go
 ```
 
 You can split query parameters like this:
@@ -96,6 +93,14 @@ http {
 }
 ```
 
+```fsharp
+get "https://reqres.in/api/users
+            ?page=2
+            &skip=5
+            &delay=3"
+.> go
+```
+
 F# line-comment syntax is supported in urls: skip is not contained in the query string.
 
 ```fsharp
@@ -107,6 +112,14 @@ http {
 }
 ```
 
+```fsharp
+get "https://reqres.in/api/users
+            ?page=2
+            //&skip=5
+            &delay=3"
+.> go
+```
+
 You can set header parameters like this:
 
 ```fsharp
@@ -114,6 +127,12 @@ http {
     GET "http://www.google.com"
     AcceptLanguage "de-DE"
 }
+```
+
+```fsharp
+get "http://www.google.com"
+--acceptLanguage "de-DE"
+.> go
 ```
 
 Post data like this:
@@ -133,29 +152,72 @@ http {
 }
 ```
 
-### Different Types of Builders
-
-The examples shown here use the **http** builder, which evaluates requests immediately and is executed synchronousely. There are more builders that can be used to achieve a different behavior:
-
-- **http** Immediately evaluated, synchronous
-- **httpAsync** Immediately evaluated, asynchronous
-- **httpLazy** Manually evaluated (use '|> send' or '|> sendAsync')
-
-The inner DSL is the same for all builders.
-
-
-The httpLazy builder results in a Request that has to be sent to the server:
-
 ```fsharp
-httpLazy {
-    GET "http://www.google.de"
-}
+post "https://reqres.in/api/users"
+--cacheControl "no-cache"
+--body
+--json """
+    {
+        "name": "morpheus",
+        "job": "leader"
+    }
+    """
 .> go
 ```
 
-The ```.> go``` function sends the request to the server and returns a response object.
+## Sync, Async and Lazy: Different Types of Builders
 
-## Alternative Style
+The examples shown here use the **http** builder, which evaluates requests immediately and is executed synchronousely. There are more builders that can be used to achieve a different behavior:
+
+**Hint:** The inner DSL is the same for all builders.
+
+### http
+
+- Immediately invoked
+- evaluates to ```Response```
+
+***Example:***
+
+```fsharp
+let (response:Response) = http {
+    GET "http://www.google.de"
+}
+```
+
+### httpAsync
+
+- Immediately invoked
+- evaluates to ```Async<Response>```
+
+***Example:***
+
+```fsharp
+let (response:Async<Response>) = httpAsync {
+    GET "http://www.google.de"
+}
+```
+
+### httpLazy
+
+- Must be invoked manually
+- evaluates to a request (represented by ```HeaderContext```or ```BodyContext```)
+- Can be invoked by using ```.> go``` (synchronous) or ```>. go``` (asynchronous)
+
+***Example:***
+
+```fsharp
+let request = httpLazy {
+    GET "http://www.google.de"
+}
+
+// invoke the request synchronousely
+let (syncResponse:Response) = request .> go
+
+// invoke the request asynchronousely
+let (asyncResponse:Async<Response>) = request >. go
+```
+
+### Alternative Style
 
 FsHttp comes in 2 flavors:
 
@@ -168,34 +230,113 @@ To enable the alternative syntax, you have to open the ```FsHttp.Dsl``` module:
 open FsHttp.Dsl
 ```
 
-This will make all the HTTP method-, header-, and body-functions available. It will also import the operators:
-- ```(--)``` (alias for pipe forward)
-- ```(.>)``` (synchronous request invocation)
-- ```(>.)``` (asynchronous request invocation)
-
 Now, you can do things like
 
 ```fsharp
 get "http://www.google.com" --acceptLanguage "de-DE" .> go
 ```
 
+There are some new operators that will look requests more like command-line style.
+
+This will make all the HTTP method-, header-, and body-functions available. It will also import the operators:
+- ```(--)``` (alias for ```|>``` pipe forward)
+- ```(%%)``` (alias for ```<|``` pipe backward)
+- ```(.>)``` (synchronous request invocation)
+- ```(>.)``` (asynchronous request invocation)
+
+The reason why there are aliases for ```|>``` and ```<| ```is the different precedence, that enables writing requests in a fluent way with less parenthesis.
+
+**Example**
+
+
+```fsharp
+let myOftenUsedBaseUrl url = "http://www.google.de" </> url
+
+get %% myOftenUsedBaseUrl "relativeUri?Hello=World"
+--acceptLanguage "de-DE"
+.> go
+```
+
 ## Response Handling 
 
-No matter which syntax you choose, there are several TODO
+No matter which syntax you choose, there are several (sync + async) functions that transform the response content. Here are some examples:
 
 Convert a response to a JsonValue:
+
+```fsharp
+open FSharp.Data
+open FSharp.Data.JsonExtensions
+
+http {
+    GET @"https://reqres.in/api/users?page=2&delay=3"
+}
+|> toJson
+|> fun json -> json?page.AsInteger()
+```
 
 ```fsharp
 http {
     GET @"https://reqres.in/api/users?page=2&delay=3"
 }
-|> toJson
+|> toFormattedText
 ```
 
-// TODO: all response functions
 
+## FSharp Interactive Response Printing
+
+When working inside FSI, there are several 'hints' that can be given to specify the way FSI will print the response. Have a look at [FsiPrinting](src/FsHttp/FsiPrinting.fs) for details.
+
+**Examples**
+
+```fsharp
+// Default print options (don't print request; print response headers, but no content)
+get @"https://reqres.in/api/users?page=2&delay=3" .> go
+
+// Default print options (don't print request; print response headers + a formatted preview of the content)
+get @"https://reqres.in/api/users?page=2&delay=3" .> preview
+
+// Default print options (see above) + max. content length of 100
+get @"https://reqres.in/api/users?page=2&delay=3" .> show 100
+```
+
+There are switches in the ```PrintModifier``` module that can be chained together for a fine grained control over the print style:
+
+```fsharp
+get @"https://reqres.in/api/users?page=2&delay=3"
+.> print (noRequest >> withResponseContentMaxLength 500)
+```
+
+
+
+## Others
+
+### Timeout
+
+Set a **timeout** like this:
+
+```fsharp
+get "http://www.google.de" --timeoutInSeconds 5.0 .> go
+
+// or:
+
+http {
+    GET "http://www.google.de"
+    timeoutInSeconds 5.0
+}
+
+```
+
+The default timeout for every request is set to TODO seconds and can be changed like this:
+
+
+```fsharp
+// all request created after this line is evaluated will have a timeout of 15s.
+FsHttp.Config.setTimeout System.TimeSpan.FromSeconds 15.0
+```
 
 ## Testing
+
+**Testing functions are included in the FsHttp.NUnit Nuget package.***
 
 For using the JSON testing functions, additional references to ```NUnit```, ```FSUnit``` and ```FsHttp.NUnit``` libraries are required as shown here:
 
@@ -204,7 +345,7 @@ For using the JSON testing functions, additional references to ```NUnit```, ```F
 #load @".\packages\schlenkr.fshttp\lib\netstandard2.0\FsHttp.fsx"
 
 // additional libs for testing
-#r @".\packages\schlenkr.fshttp.nunit\lib\netstandard2.0\FsHttp.nunit.dll"
+#r @".\packages\schlenkr.fshttp.nunit\lib\netstandard2.0\FsHttp.NUnit.dll"
 #r @".\packages\NUnit\lib\netstandard2.0\nunit.framework.dll"
 #r @".\packages\fsunit\lib\netstandard2.0\FsUnit.NUnit.dll"
 
@@ -244,17 +385,4 @@ http {
     """
 ```
 
-The `||>` operator means 'tee' [have a look at](https://fsharpforfunandprofit.com/rop/): It is useful when you want to chain expectations together that all work on the http response.
-
-## TODO
-
-* form url encoded
-    * Alternative: ContentType mit "text" body und string
-    * document .> and >. operators
-* content-type
-* edit raw request
-* a word to ContentType / Body
-* explain: expand, preview, raw, etc.
-* explain the DSL operators
-* Write Response to a file
-* 
+The `||>` operator means 'tee' [have a look at](https://fsharpforfunandprofit.com/rop/): It is useful when you want to chain expectation-functions together that all work on the http response.
