@@ -20,6 +20,14 @@ open System
 
 
 // [<TestCase>]
-// let ``Synchronous GET call is invoked immediately``() =
+let ``httpLazy and invocation signatures are correct``() =
+    let request = httpLazy {
+        GET "http://www.google.de"
+    }
 
+    let (response:Response) = request .> go
+    let (asyncResponse:Async<Response>) = request >. go
+
+    ()
+    
 // Sync / Async operator signatures test in DSL and CompExp style

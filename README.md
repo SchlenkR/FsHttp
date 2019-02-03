@@ -331,7 +331,7 @@ The default timeout for every request is set to TODO seconds and can be changed 
 
 ```fsharp
 // all request created after this line is evaluated will have a timeout of 15s.
-FsHttp.Config.setTimeout System.TimeSpan.FromSeconds 15.0
+FsHttp.Config.setTimeout (TimeSpan.FromSeconds 15.0)
 ```
 
 ## Testing

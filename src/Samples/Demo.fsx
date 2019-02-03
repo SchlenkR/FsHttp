@@ -87,7 +87,7 @@ let asyncBuilder =
 
 //////////////////////////////////////////////////////
 // change the global timeout for all requests
-FsHttp.Config.setTimeout System.TimeSpan.FromSeconds 15.0
+FsHttp.Config.setTimeout (System.TimeSpan.FromSeconds 15.0)
 
 
 //////////////////////////////////////////////////////
