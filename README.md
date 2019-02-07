@@ -310,6 +310,34 @@ get @"https://reqres.in/api/users?page=2&delay=3"
 
 ## Others
 
+### FSI Response Printing
+
+When forking in FSI, it is important to inspect the response (or the request) directly in the FSI output. Here is how it's done:
+
+```fsharp
+// FSI response formatting
+// TODO: Implement unit tests
+
+let url = "https://reqres.in/api/users?page=2&delay=3"
+
+// no custom printer in FSI
+get url .> raw
+
+// show no content in FSI
+get url .> noContent
+
+// equivalent - show a little bit content in FSI
+get url .> go
+get url .> preview
+
+// show the complete content in FSI
+get url .> expand
+
+// show a max of 100 chars of content in FSI
+get url .> show 100
+```
+
+
 ### Timeout
 
 Set a **timeout** like this:

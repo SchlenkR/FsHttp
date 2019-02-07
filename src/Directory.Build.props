@@ -3,13 +3,13 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>0.6.0</Version>
+    <Version>0.7.0</Version>
     <Company />
     <Copyright>Copyright 2019 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
-    <PackageReleaseNotes>A lot of API refinements (including breaking changes</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed a bug in FSI printing: Content isn't printed)</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
   </PropertyGroup>
