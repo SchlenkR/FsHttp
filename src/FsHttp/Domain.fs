@@ -66,6 +66,7 @@ module Domain =
         printHint: PrintHint
     }
     and PrintHint = {
+        isEnabled: bool;
         requestPrintHint: RequestPrintHint;
         responsePrintHint: ResponsePrintHint;
     }
@@ -88,17 +89,19 @@ module Domain =
 
     let defaultPrintHint = 
         {
+            isEnabled = true
             requestPrintHint = {
-                enabled = true;
-                printHeader = true;
-            };
+                enabled = true
+                printHeader = true
+            }
             responsePrintHint = {
-                enabled = true;
-                printHeader = true;
+                enabled = true
+                printHeader = true
                 printContent = {
-                    enabled = false;
-                    format = true;
-                    maxLength = 250
+                    enabled = false
+                    format = true
+                    // TODO: provide default in config
+                    maxLength = 500
                 }
             }
         }

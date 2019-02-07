@@ -13,8 +13,10 @@ open FsHttp.Dsl
 
 // evaluate until here and play with the samples.
 
+
 //////////////////////////////////////////////////////
-let req = get "http://www.google.de" .> go
+let req =
+    get "http://www.google.de" .> preview
 let html = req |> toText
 
 
@@ -137,3 +139,26 @@ http {
 |> toJson
 |> fun json -> json?page.AsInteger()
 
+
+
+//////////////////////////////////////////////////////
+// FSI response formatting
+// TODO: Implement unit tests
+
+let url = "https://reqres.in/api/users?page=2&delay=3"
+
+// no custom printer in FSI
+get url .> raw
+
+// show no content in FSI
+get url .> noContent
+
+// equivalent - show a little bit content in FSI
+get url .> go
+get url .> preview
+
+// show the complete content in FSI
+get url .> expand
+
+// show a max of 100 chars of content in FSI
+get url .> show 100

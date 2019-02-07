@@ -41,6 +41,7 @@ Target.create "Pack" (fun _ ->
     |> Seq.iter (fun p ->
         // let packageVersion = { version with (*Patch = 4711u;*) Original = None; PreRelease = PreRelease.TryParse "alpha" }.AsString
 
+        Trace.trace (sprintf "SourceDir is: %s" __SOURCE_DIRECTORY__)
         Shell.Exec ("dotnet", sprintf "pack %s -o %s --no-build" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
         |> assertSuccess
     )
