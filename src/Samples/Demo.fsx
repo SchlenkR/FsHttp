@@ -65,7 +65,7 @@ async {
 |> Async.RunSynchronously
 
 //////////////////////////////////////////////////////
-// lazy evaluation is invoked synchronousely
+// lazy evaluation is invoked synchronousely with .>
 let lazySyncBuilder =
     httpLazy {
         GET "http://www.google.de"
@@ -73,6 +73,7 @@ let lazySyncBuilder =
     .> go
 
 //////////////////////////////////////////////////////
+// lazy evaluation is invoked asynchronousely with >.
 let lazyAsyncBuilder =
     httpLazy {
         GET "http://www.google.de"

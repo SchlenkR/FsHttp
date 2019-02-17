@@ -14,13 +14,11 @@ module BuilderInstances =
 
     type HttpBuilderSync() =
         inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) =
-            f() |> finalizeContext |> send
+        member inline this.Delay(f: unit -> 'a) = f() .> preview
 
     type HttpBuilderAsync() =
         inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) =
-            f() |> finalizeContext |> sendAsync
+        member inline this.Delay(f: unit -> 'a) = f() >. preview
 
     type HttpBuilderLazy() =
         inherit HttpBuilder()
