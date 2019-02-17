@@ -31,10 +31,20 @@ module Runtime =
             for name,value in request.headers do
                 requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
 
+            let finalRequestMessage =
+                match finalContext.config.httpMessageTransformer with
+                | None -> requestMessage
+                | Some map -> map requestMessage
+
             // TODO: dispose
             let clientHandler = new HttpClientHandler()
             let client = new HttpClient(clientHandler, Timeout = finalContext.config.timeout)
-            client.SendAsync(requestMessage)
+
+            let finalClient =
+                match finalContext.config.httpClientTransformer with
+                | None -> client
+                | Some map -> map client
+            finalClient.SendAsync(finalRequestMessage)
 
         async {
             let! response = invoke() |> Async.AwaitTask

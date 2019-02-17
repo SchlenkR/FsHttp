@@ -158,5 +158,21 @@ let ``Specify content type explicitly``() =
     |> toText
     |> should contain contentType
 
+// [<TestCase>]
+// let ``Http reauest message can be modified``() =
+//     use server = GET >=> request (header "accept-language" >> OK) |> serve
+    
+//     let lang = "fr"
+//     http {
+//         GET (url @"")
+//         transformHttpRequestMessage (fun httpRequestMessage ->
+//             httpRequestMessage
+//         )
+//     }
+//     |> toText
+//     |> should equal lang
+
 // TODO: Timeout
 // TODO: ToFormattedText
+// TODO: transformHttpRequestMessage
+// TODO: transformHttpClient

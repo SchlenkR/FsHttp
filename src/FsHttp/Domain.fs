@@ -8,31 +8,33 @@ module Domain =
     open System.Net.Http
 
     type Config = {
-        timeout: TimeSpan;
+        timeout: TimeSpan
+        httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
+        httpClientTransformer: (HttpClient -> HttpClient) option
     }
 
     type Header = {
-        url: string;
-        method: HttpMethod;
-        headers: (string*string) list;
+        url: string
+        method: HttpMethod
+        headers: (string*string) list
     }
 
     type Content = {
-        content: string;
-        contentType: string;
-        headers: (string*string) list;
+        content: string
+        contentType: string
+        headers: (string*string) list
     } 
 
     type StartingContext = StartingContext
 
     type FinalContext = {
-        request: Header;
-        content: Content option;
-        config: Config;
+        request: Header
+        content: Content option
+        config: Config
     }
 
     type HeaderContext =
-        { request: Header;
+        { request: Header
           config: Config } with
         static member Header (this: HeaderContext, name: string, value: string) =
             { this with request = { this.request with headers = this.request.headers @ [name,value] } }
@@ -43,9 +45,9 @@ module Domain =
             finalContext
 
     type BodyContext =
-        { request: Header;
-          content: Content;
-          config: Config ; } with
+        { request: Header
+          content: Content
+          config: Config } with
         static member Header (this: BodyContext, name: string, value: string) =
             { this with request = { this.request with headers = this.request.headers @ [name,value] } }
         static member Config (this: BodyContext, f: Config -> Config) =
@@ -56,32 +58,32 @@ module Domain =
 
     // TODO: Get rid of all the boolean switches and use options instead.
     type Response = {
-        requestContext: FinalContext;
-        requestMessage: HttpRequestMessage;
-        content: HttpContent;
-        headers: Headers.HttpResponseHeaders;
-        reasonPhrase: string;
-        statusCode: System.Net.HttpStatusCode;
-        version: Version;
+        requestContext: FinalContext
+        requestMessage: HttpRequestMessage
+        content: HttpContent
+        headers: Headers.HttpResponseHeaders
+        reasonPhrase: string
+        statusCode: System.Net.HttpStatusCode
+        version: Version
         printHint: PrintHint
     }
     and PrintHint = {
-        isEnabled: bool;
-        requestPrintHint: RequestPrintHint;
-        responsePrintHint: ResponsePrintHint;
+        isEnabled: bool
+        requestPrintHint: RequestPrintHint
+        responsePrintHint: ResponsePrintHint
     }
     and RequestPrintHint = {
-        enabled: bool;
+        enabled: bool
         printHeader: bool
     }
     and ResponsePrintHint = {
-        enabled: bool;
-        printHeader: bool;
+        enabled: bool
+        printHeader: bool
         printContent: ContentPrintHint
     }
     and ContentPrintHint = {
-        enabled: bool;
-        format: bool;
+        enabled: bool
+        format: bool
         maxLength: int
     }
 

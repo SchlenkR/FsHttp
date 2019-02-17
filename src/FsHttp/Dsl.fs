@@ -34,8 +34,8 @@ module Dsl =
                 //)
                 |> Seq.reduce (+)
 
-            { request = { url=formattedUrl; method=method; headers=[] }; 
-              config = { timeout=defaultTimeout; } }
+            { request = { url=formattedUrl; method=method; headers=[] };
+              config = { timeout=defaultTimeout; httpMessageTransformer=None; httpClientTransformer=None } }
 
         // RFC 2626 specifies 8 methods + PATCH
         
@@ -347,3 +347,9 @@ module Dsl =
 
         let inline timeoutInSeconds value context =
             config (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
+        
+        let inline transformHttpRequestMessage map context =
+            config (fun config -> { config with httpMessageTransformer = Some map }) context
+        
+        let inline transformHttpClient map context =
+            config (fun config -> { config with httpClientTransformer = Some map }) context

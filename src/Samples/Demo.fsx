@@ -141,6 +141,26 @@ http {
 |> fun json -> json?page.AsInteger()
 
 
+//////////////////////////////////////////////////////
+// Transform underlying http client
+http {
+    GET @"https://reqres.in/api/users?page=2&delay=3"
+    transformHttpClient (fun httpClient ->
+        // this will cause a timeout exception
+        httpClient.Timeout <- System.TimeSpan.FromMilliseconds 1.0
+        httpClient)
+}
+
+
+//////////////////////////////////////////////////////
+// Transform underlying http request message
+http {
+    GET @"https://reqres.in/api/users?page=2&delay=3"
+    transformHttpRequestMessage (fun msg ->
+        printfn "HTTP message: %A" msg
+        msg)
+}
+
 
 //////////////////////////////////////////////////////
 // FSI response formatting

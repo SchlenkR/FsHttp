@@ -3,13 +3,16 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>0.7.0</Version>
+    <Version>0.8.0</Version>
     <Company />
     <Copyright>Copyright 2019 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
-    <PackageReleaseNotes>Fixed a bug in FSI printing: Content isn't printed)</PackageReleaseNotes>
+    <PackageReleaseNotes>
+- preview content by default when using http or httpASync builder
+- added transformer for underlying HttpRequestMessage ("transformHttpRequestMessage") and HttpClient ("transformHttpClient")
+    </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
   </PropertyGroup>

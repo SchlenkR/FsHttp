@@ -278,3 +278,9 @@ module Builder =
         
         [<CustomOperation("timeoutInSeconds")>]
         member inline this.TimeoutInSeconds (context, value) = Config.timeoutInSeconds value context
+        
+        [<CustomOperation("transformHttpRequestMessage")>]
+        member inline this.transformHttpRequestMessage (context, map) = Config.transformHttpRequestMessage map context
+        
+        [<CustomOperation("transformHttpClient")>]
+        member inline this.transformHttpClient (context, map) = Config.transformHttpClient map context
