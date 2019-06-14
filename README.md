@@ -316,14 +316,14 @@ When working inside FSI, there are several 'hints' that can be given to specify 
 **Examples**
 
 ```fsharp
-// Default print options (don't print request; print response headers, but no content)
+// Default print options (don't print request; print response headers, a formatted preview of the content)
 get @"https://reqres.in/api/users?page=2&delay=3" .> go
-
-// Default print options (don't print request; print response headers + a formatted preview of the content)
-get @"https://reqres.in/api/users?page=2&delay=3" .> preview
 
 // Default print options (see above) + max. content length of 100
 get @"https://reqres.in/api/users?page=2&delay=3" .> show 100
+
+// Default print options (don't print request; print response headers, whole content formatted)
+get @"https://reqres.in/api/users?page=2&delay=3" .> expand
 ```
 
 There are switches in the `PrintModifier` module that can be chained together for a fine grained control over the print style:
@@ -333,6 +333,7 @@ get @"https://reqres.in/api/users?page=2&delay=3"
 .> print (noRequest >> withResponseContentMaxLength 500)
 ```
 
+Have a look at the [print modifiers](src/FsHttp/PrintModifier.fs) for more details.
 
 ## Others
 
