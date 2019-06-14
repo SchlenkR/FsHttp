@@ -14,22 +14,27 @@ module Runtime =
     let inline internal finalizeContext (context: ^t) =
         (^t: (static member Finalize: ^t -> FinalContext) (context))
 
+    let toMessage (finalContext: FinalContext) : HttpRequestMessage =
+        let request = finalContext.request
+        let requestMessage = new HttpRequestMessage(request.method, request.url)
+    
+        requestMessage.Content <-
+            match finalContext.content with
+            | Some c -> 
+                let stringContent = new StringContent(c.content, Encoding.UTF8, c.contentType)
+                for name,value in c.headers do
+                    stringContent.Headers.TryAddWithoutValidation(name, value) |> ignore
+                stringContent
+            | _ -> null
+    
+        for name,value in request.headers do
+            requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
+
+        requestMessage
+    
     let inline sendAsync (finalContext:FinalContext) =
         let invoke() =
-            let request = finalContext.request
-            let requestMessage = new HttpRequestMessage(request.method, request.url)
-        
-            requestMessage.Content <-
-                match finalContext.content with
-                | Some c -> 
-                    let stringContent = new StringContent(c.content, Encoding.UTF8, c.contentType)
-                    for name,value in c.headers do
-                        stringContent.Headers.TryAddWithoutValidation(name, value) |> ignore
-                    stringContent
-                | _ -> null
-        
-            for name,value in request.headers do
-                requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
+            let requestMessage = toMessage finalContext
 
             let finalRequestMessage =
                 match finalContext.config.httpMessageTransformer with
