@@ -23,6 +23,12 @@ module BuilderInstances =
     type HttpBuilderLazy() =
         inherit HttpBuilder()
 
+    type HttpMessageBuilder() =
+        inherit HttpBuilder()
+        member inline this.Delay(f: unit -> 'a) =
+            f() |> finalizeContext |> toMessage
+    
     let http = HttpBuilderSync()
     let httpAsync = HttpBuilderAsync()
     let httpLazy = HttpBuilderLazy()
+    let httpMsg = HttpMessageBuilder()
