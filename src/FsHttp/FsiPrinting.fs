@@ -1,12 +1,13 @@
 
 namespace FsHttp
 
-module FsiPrinting =
+open System
+open System.Collections.Generic
+open System.Text
 
-    open System
-    open System.Collections.Generic
-    open System.Text
-    open FsHttp
+open FsHttp
+
+module FsiPrinting =
 
     // TODO: Printer for FinalContext
 
@@ -18,7 +19,7 @@ module FsiPrinting =
         let newLine() = appendLine ""
         let appendSection s =
             appendLine s
-            new System.String([0..s.Length] |> List.map (fun _ -> '-') |> List.toArray) |> appendLine
+            String([0..s.Length] |> List.map (fun _ -> '-') |> List.toArray) |> appendLine
         
         let printHeaderCollection (headers: KeyValuePair<string, string seq> seq) =
             let maxHeaderKeyLength =
@@ -39,7 +40,7 @@ module FsiPrinting =
 
                 if requestPrintHint.printHeader then
                     let contentHeader =
-                        if r.requestMessage.Content <> null 
+                        if not (isNull r.requestMessage.Content) 
                         then r.requestMessage.Content.Headers |> Seq.toList 
                         else []
 

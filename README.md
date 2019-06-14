@@ -55,13 +55,31 @@ The focus of FsHttp is:
 
 Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fsharp.github.io/FSharp.Data/library/Http.html).
 
+## TOC
+
+- [FsHttp](#fshttp)
+    - [Synopsis](#synopsis)
+    - [TOC](#toc)
+    - [Setup (F# Interactive)](#setup-f-interactive)
+    - [Examples](#examples)
+    - [Sync, Async and Lazy: Different Types of Builders](#sync-async-and-lazy-different-types-of-builders)
+        - [http](#http)
+        - [httpAsync](#httpasync)
+        - [httpLazy](#httplazy)
+        - [Alternative Style](#alternative-style)
+    - [Response Handling](#response-handling)
+    - [FSharp Interactive Response Printing](#fsharp-interactive-response-printing)
+    - [Others](#others)
+        - [FSI Response Printing](#fsi-response-printing)
+        - [Timeout](#timeout)
+    - [Testing](#testing)
+
 ## Setup (F# Interactive)
 
 Using FsHttp in F# interactive, the ```FsHttp.fsx``` file should be loaded instead of referencing the dll directly. This will enable pretty printing of a response in the FSI output. The ```FSharp.Data.dll``` has to be referenced in order to use the JSON functionality (e.g. ```toJson```respones function).
 
 ```fsharp
-#r @".\packages\fsharp.data\lib\net45\FSharp.Data.dll"
-#load @".\packages\schlenkr.fshttp\lib\netstandard2.0\FsHttp.fsx"
+#load "./packages/schlenkr.fshttp/lib/netstandard2.0/FsHttp.fsx"
 
 open FsHttp
 open FsHttp.Dsl // enables alternative syntax; see below...
@@ -176,7 +194,7 @@ The examples shown here use the **http** builder, which evaluates requests immed
 - Immediately invoked
 - evaluates to ```Response```
 
-***Example:***
+**Example:**
 
 ```fsharp
 let (response:Response) = http {
@@ -189,7 +207,7 @@ let (response:Response) = http {
 - Immediately invoked
 - evaluates to ```Async<Response>```
 
-***Example:***
+**Example:**
 
 ```fsharp
 let (response:Async<Response>) = httpAsync {
@@ -203,7 +221,7 @@ let (response:Async<Response>) = httpAsync {
 - evaluates to a request (represented by ```HeaderContext```or ```BodyContext```)
 - Can be invoked by using ```.> go``` (synchronous) or ```>. go``` (asynchronous)
 
-***Example:***
+**Example:**
 
 ```fsharp
 let request = httpLazy {
@@ -247,7 +265,6 @@ This will make all the HTTP method-, header-, and body-functions available. It w
 The reason why there are aliases for ```|>``` and ```<| ```is the different precedence, that enables writing requests in a fluent way with less parenthesis.
 
 **Example**
-
 
 ```fsharp
 let myOftenUsedBaseUrl url = "http://www.google.de" </> url
@@ -305,7 +322,6 @@ There are switches in the ```PrintModifier``` module that can be chained togethe
 get @"https://reqres.in/api/users?page=2&delay=3"
 .> print (noRequest >> withResponseContentMaxLength 500)
 ```
-
 
 
 ## Others
