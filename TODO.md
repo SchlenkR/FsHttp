@@ -12,3 +12,5 @@
 * explain the DSL operators
 * Write Response to a file
 * timeout
+* auth use case mit aufnehmen
+* 

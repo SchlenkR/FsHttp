@@ -60,13 +60,14 @@ Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fshar
 - [FsHttp](#fshttp)
     - [Synopsis](#synopsis)
     - [TOC](#toc)
-    - [Setup (F# Interactive)](#setup-f-interactive)
-    - [Examples](#examples)
-    - [Sync, Async and Lazy: Different Types of Builders](#sync-async-and-lazy-different-types-of-builders)
+    - [Getting Started](#getting-started)
+        - [Setup (F# Interactive)](#setup-f-interactive)
+    - [Sync, Async, Lazy and Message: Different Types of Builders](#sync-async-lazy-and-message-different-types-of-builders)
         - [http](#http)
         - [httpAsync](#httpasync)
         - [httpLazy](#httplazy)
-        - [Alternative Style](#alternative-style)
+        - [httpMsg](#httpmsg)
+    - [Alternative Style](#alternative-style)
     - [Response Handling](#response-handling)
     - [FSharp Interactive Response Printing](#fsharp-interactive-response-printing)
     - [Others](#others)
@@ -74,9 +75,11 @@ Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fshar
         - [Timeout](#timeout)
     - [Testing](#testing)
 
-## Setup (F# Interactive)
+## Getting Started
 
-Using FsHttp in F# interactive, the ```FsHttp.fsx``` file should be loaded instead of referencing the dll directly. This will enable pretty printing of a response in the FSI output. The ```FSharp.Data.dll``` has to be referenced in order to use the JSON functionality (e.g. ```toJson```respones function).
+### Setup (F# Interactive)
+
+Using FsHttp in F# interactive, the `FsHttp.fsx` file should be loaded instead of referencing the dll directly. This will enable pretty printing of a response in the FSI output. The `FSharp.Data.dll` has to be referenced in order to use the JSON functionality (e.g. `toJson`respones function).
 
 ```fsharp
 #load "./packages/schlenkr.fshttp/lib/netstandard2.0/FsHttp.fsx"
@@ -85,8 +88,6 @@ open FsHttp
 open FsHttp.Dsl // enables alternative syntax; see below...
 open FSharp.Data.JsonExtensions
 ```
-
-## Examples
 
 A simple GET request looks like this:
 
@@ -183,7 +184,7 @@ post "https://reqres.in/api/users"
 .> go
 ```
 
-## Sync, Async and Lazy: Different Types of Builders
+## Sync, Async, Lazy and Message: Different Types of Builders
 
 The examples shown here use the **http** builder, which evaluates requests immediately and is executed synchronousely. There are more builders that can be used to achieve a different behavior:
 
@@ -192,7 +193,7 @@ The examples shown here use the **http** builder, which evaluates requests immed
 ### http
 
 - Immediately invoked
-- evaluates to ```Response```
+- evaluates to `Response`
 
 **Example:**
 
@@ -205,7 +206,7 @@ let (response:Response) = http {
 ### httpAsync
 
 - Immediately invoked
-- evaluates to ```Async<Response>```
+- evaluates to `Async<Response>`
 
 **Example:**
 
@@ -218,8 +219,8 @@ let (response:Async<Response>) = httpAsync {
 ### httpLazy
 
 - Must be invoked manually
-- evaluates to a request (represented by ```HeaderContext```or ```BodyContext```)
-- Can be invoked by using ```.> go``` (synchronous) or ```>. go``` (asynchronous)
+- evaluates to a request (represented by `HeaderContext`or `BodyContext`)
+- Can be invoked by using `.> go` (synchronous) or `>. go` (asynchronous)
 
 **Example:**
 
@@ -235,14 +236,19 @@ let (syncResponse:Response) = request .> go
 let (asyncResponse:Async<Response>) = request >. go
 ```
 
-### Alternative Style
+### httpMsg
+
+The `httpMsg` builder outputs a `System.Net.Http.HttpRequestMessage` and thus acts as a concenient builder DSL for this type that can then be further processed.
+
+
+## Alternative Style
 
 FsHttp comes in 2 flavors:
 
-- A 'Custom Operation' syntax ```http { GET ... }``` (as shown above).
-- An alternative point free notation like ```get "http://..." .> go```.
+- A 'Custom Operation' syntax `http { GET ... }` (as shown above).
+- An alternative point free notation like `get "http://..." .> go`.
 
-To enable the alternative syntax, you have to open the ```FsHttp.Dsl``` module:
+To enable the alternative syntax, you have to open the `FsHttp.Dsl` module:
 
 ```fsharp
 open FsHttp.Dsl
@@ -257,12 +263,12 @@ get "http://www.google.com" --acceptLanguage "de-DE" .> go
 There are some new operators that will look requests more like command-line style.
 
 This will make all the HTTP method-, header-, and body-functions available. It will also import the operators:
-- ```(--)``` (alias for ```|>``` pipe forward)
-- ```(%%)``` (alias for ```<|``` pipe backward)
-- ```(.>)``` (synchronous request invocation)
-- ```(>.)``` (asynchronous request invocation)
+- `(--)` (alias for `|>` pipe forward)
+- `(%%)` (alias for `<|` pipe backward)
+- `(.>)` (synchronous request invocation)
+- `(>.)` (asynchronous request invocation)
 
-The reason why there are aliases for ```|>``` and ```<| ```is the different precedence, that enables writing requests in a fluent way with less parenthesis.
+The reason why there are aliases for `|>` and `<| `is the different precedence, that enables writing requests in a fluent way with less parenthesis.
 
 **Example**
 
@@ -317,7 +323,7 @@ get @"https://reqres.in/api/users?page=2&delay=3" .> preview
 get @"https://reqres.in/api/users?page=2&delay=3" .> show 100
 ```
 
-There are switches in the ```PrintModifier``` module that can be chained together for a fine grained control over the print style:
+There are switches in the `PrintModifier` module that can be chained together for a fine grained control over the print style:
 
 ```fsharp
 get @"https://reqres.in/api/users?page=2&delay=3"
@@ -383,7 +389,7 @@ FsHttp.Config.setTimeout (TimeSpan.FromSeconds 15.0)
 
 **Testing functions are included in the FsHttp.NUnit Nuget package.***
 
-For using the JSON testing functions, additional references to ```NUnit```, ```FSUnit``` and ```FsHttp.NUnit``` libraries are required as shown here:
+For using the JSON testing functions, additional references to `NUnit`, `FSUnit` and `FsHttp.NUnit` libraries are required as shown here:
 
 ```fsharp
 #r @".\packages\fsharp.data\lib\net45\FSharp.Data.dll"
