@@ -298,6 +298,7 @@ http {
 |> toFormattedText
 ```
 
+Have a look at the [Response Handling](src/FsHttp/ResponseHandling.fs) file.
 
 ## FSharp Interactive Response Printing
 
