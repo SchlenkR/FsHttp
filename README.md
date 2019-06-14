@@ -62,6 +62,7 @@ Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fshar
     - [TOC](#toc)
     - [Getting Started](#getting-started)
         - [Setup (F# Interactive)](#setup-f-interactive)
+        - [Examples](#examples)
     - [Sync, Async, Lazy and Message: Different Types of Builders](#sync-async-lazy-and-message-different-types-of-builders)
         - [http](#http)
         - [httpAsync](#httpasync)
@@ -88,6 +89,8 @@ open FsHttp
 open FsHttp.Dsl // enables alternative syntax; see below...
 open FSharp.Data.JsonExtensions
 ```
+
+### Examples
 
 A simple GET request looks like this:
 
