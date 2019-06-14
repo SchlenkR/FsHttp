@@ -1,11 +1,11 @@
 
 namespace FsHttp
 
+open System
+open System.Text
+
 [<AutoOpen>]
 module Helper =
-
-    open System
-    open System.Text
 
     let urlEncode (s: string) = System.Web.HttpUtility.UrlEncode(s)
 

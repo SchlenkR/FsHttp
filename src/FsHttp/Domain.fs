@@ -1,11 +1,11 @@
 
 namespace FsHttp
 
+open System
+open System.Net.Http
+
 [<AutoOpen>]
 module Domain =
-
-    open System
-    open System.Net.Http
 
     type Config = {
         timeout: TimeSpan

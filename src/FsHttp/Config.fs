@@ -1,10 +1,10 @@
 
 namespace FsHttp
 
+open System
+
 [<AutoOpen>]
 module Config =
-
-    open System
 
     let mutable internal defaultTimeout:TimeSpan = TimeSpan.FromSeconds 10.0
 

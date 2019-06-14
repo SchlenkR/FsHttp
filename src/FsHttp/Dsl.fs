@@ -1,12 +1,12 @@
 
 namespace FsHttp
 
-module Dsl =
+open System
+open System.Net.Http
+open System.Text
+open System.Globalization
 
-    open System
-    open System.Net.Http
-    open System.Text
-    open System.Globalization
+module Dsl =
 
     [<AutoOpen>]
     module Operators =

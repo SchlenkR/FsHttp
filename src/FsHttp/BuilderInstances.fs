@@ -1,10 +1,10 @@
 
 namespace FsHttp
 
+open FsHttp
+
 [<AutoOpen>]
 module BuilderInstances =
-
-    open FsHttp
 
     type HttpBuilder with
         member this.Bind(m, f) = f m
