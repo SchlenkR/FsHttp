@@ -10,8 +10,8 @@
     <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <PackageReleaseNotes>
-- toFormattedText returns the raw content string when parsing fails
-- Adds HttpMessage as one of the output options (thanks to dv00d00)
+- Bugfix: toFormattedText returns the raw content string when parsing fails
+- Feature: Adds HttpMessage as one of the output options (thanks to dv00d00)
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
