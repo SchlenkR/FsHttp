@@ -22,7 +22,7 @@ let html = req |> toText
 
 //////////////////////////////////////////////////////
 // specify a timeout (should throw because it's very short)
-get "http://www.google.de" --timeoutInSeconds 0.1 .> go
+get "http://www.google.de" timeoutInSeconds 0.1 .> preview
 
 
 //////////////////////////////////////////////////////

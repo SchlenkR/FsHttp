@@ -11,6 +11,6 @@
 * explain: expand, preview, raw, etc.
 * explain the DSL operators
 * Write Response to a file
-* timeout
 * auth use case mit aufnehmen
+* alle "content" headers (z.B. contentEncoding) sind in HeaderContext und müssen in BodyContext
 * 
