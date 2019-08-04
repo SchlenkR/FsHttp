@@ -1,10 +1,10 @@
 
 namespace FsHttp
 
-open FsHttp.Dsl2
+open FsHttp.Dsl
 
 [<AutoOpen>]
-module Builder =
+module DslCE =
 
     // Request Methods
     type HttpBuilder with

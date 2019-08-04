@@ -8,46 +8,58 @@ open System.Globalization
 
 module Dsl =
 
-    [<AutoOpen>]
-    module Operators =
-
-        // TODO: Document
-        let (%%) = (<|)
-
-        // TODO: Document
-        let (--) = (|>)
+    type Next<'a, 'b> = 'a -> 'b
 
     [<AutoOpen>]
     module Request =
         
+        let request (method: HttpMethod) (url: string) (next: Next<_,_>) =
+
+            let formattedUrl =
+                url.Split([|'\n'|], StringSplitOptions.RemoveEmptyEntries)
+                |> Seq.map (fun x -> x.Trim())
+                |> Seq.filter (fun x -> not (x.StartsWith("//")))
+                // TODO
+                //|> Seq.map (fun x ->
+                //    if x.StartsWith("?") || x.StartsWith("&")
+                //    then x.Substring(1)
+                //    else x
+                //)
+                |> Seq.reduce (+)
+
+            let headerContext =
+                { request = { url=formattedUrl; method=method; headers=[] };
+                  config = { timeout=defaultTimeout; httpMessageTransformer=None; httpClientTransformer=None } }
+            next headerContext
+
         // RFC 2626 specifies 8 methods + PATCH
         
-        let get (url:string) =
-            Dsl2.Request.get url id
+        let get (url:string) (next: Next<_,_>) =
+            request HttpMethod.Get url next
         
-        let put (url:string) =
-            Dsl2.Request.put url id
+        let put (url:string) (next: Next<_,_>) =
+            request HttpMethod.Put url next
         
-        let post (url:string) =
-            Dsl2.Request.post url id
+        let post (url:string) (next: Next<_,_>) =
+            request HttpMethod.Post url next
         
-        let delete (url:string) =
-            Dsl2.Request.delete url id
+        let delete (url:string) (next: Next<_,_>) =
+            request HttpMethod.Delete url next
         
-        let options (url:string) =
-            Dsl2.Request.options url id
+        let options (url:string) (next: Next<_,_>) =
+            request HttpMethod.Options url next
         
-        let head (url:string) =
-            Dsl2.Request.head url id
+        let head (url:string) (next: Next<_,_>) =
+            request HttpMethod.Head url next
         
-        let trace (url:string) =
-            Dsl2.Request.trace url id
+        let trace (url:string) (next: Next<_,_>) =
+            request HttpMethod.Trace url next
         
-        let connect (url:string) =
-            Dsl2.Request.connect url id
+        let connect (url:string) (next: Next<_,_>) =
+            request (HttpMethod("CONNECT")) url next
         
-        let patch (url:string) =
-            Dsl2.Request.patch url id
+        let patch (url:string) (next: Next<_,_>) =
+            request (HttpMethod("PATCH")) url next
 
         // RFC 4918 (WebDAV) adds 7 methods
         // TODO
@@ -55,224 +67,281 @@ module Dsl =
     [<AutoOpen>]
     module Header =
 
+        let inline header name value (context: ^t) =
+            (^t: (static member Header: ^t * string * string -> ^t) (context,name,value))
+
         /// Content-Types that are acceptable for the response
-        let accept contentType context =
-            Dsl2.Header.accept context contentType id
+        let accept (context:HeaderContext) (contentType:string) (next: Next<_,_>) =
+            header "Accept" contentType context |> next
 
         /// Character sets that are acceptable
-        let acceptCharset characterSets context =
-            Dsl2.Header.acceptCharset context characterSets id
+        let acceptCharset (context:HeaderContext) (characterSets:string) (next: Next<_,_>) =
+            header "Accept-Charset" characterSets context |> next
 
         /// Acceptable version in time
-        let acceptDatetime dateTime context =
-            Dsl2.Header.acceptDatetime context dateTime id
+        let acceptDatetime (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
+            header "Accept-Datetime" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context |> next
         
         /// List of acceptable encodings. See HTTP compression.
-        let acceptEncoding encoding context =
-            Dsl2.Header.acceptEncoding context encoding id
+        let acceptEncoding (context:HeaderContext) (encoding:string) (next: Next<_,_>) =
+            header "Accept-Encoding" encoding context |> next
         
         /// List of acceptable human languages for response
-        let acceptLanguage language context =
-            Dsl2.Header.acceptLanguage context language id
+        let acceptLanguage (context:HeaderContext) (language:string) (next: Next<_,_>) =
+            header "Accept-Language" language context |> next
         
         /// The Allow header, which specifies the set of HTTP methods supported.
-        let allow methods context =
-            Dsl2.Header.allow context methods id
+        let allow (context:HeaderContext) (methods: string) (next: Next<_,_>) =
+            header "Allow" methods context |> next
         
         /// Authentication credentials for HTTP authentication
-        let authorization credentials context =
-            Dsl2.Header.authorization context credentials id
-                
+        let authorization (context:HeaderContext) (credentials: string) (next: Next<_,_>) =
+            header "Authorization" credentials context |> next
+        
         /// Authentication header using Bearer Auth token
-        let bearerAuth token context =
-            Dsl2.Header.bearerAuth token context id
-
+        let bearerAuth (context:HeaderContext) (token: string) (next: Next<_,_>) =
+            let s = token |> sprintf "Bearer %s"
+            authorization context s next
+        
         /// Authentication header using Basic Auth encoding
-        let basicAuth username password context =
-            Dsl2.Header.basicAuth context username password id
+        let basicAuth (context:HeaderContext) (username: string) (password: string) (next: Next<_,_>) =
+            let s = sprintf "%s:%s" username password |> Helper.toBase64 |> sprintf "Basic %s"
+            authorization context s next
         
         /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
-        let cacheControl control context =
-            Dsl2.Header.cacheControl context control id
+        let cacheControl (context:HeaderContext) (control: string) (next: Next<_,_>) =
+            header "Cache-Control" control context |> next
         
         /// What type of connection the user-agent would prefer
-        let connection connection context =
-            Dsl2.Header.connection context connection id
+        let connection (context:HeaderContext) (connection: string) (next: Next<_,_>) =
+            header "Connection" connection context |> next
         
         /// Describes the placement of the content. Valid dispositions are: inline, attachment, form-data
-        let contentDisposition placement name fileName context =
-            Dsl2.Header.contentDisposition context placement name fileName id
+        let contentDisposition (context:HeaderContext) (placement: string) (name: string option) (fileName: string option) (next: Next<_,_>) =
+            let namePart = match name with Some n -> sprintf "; name=\"%s\"" n | None -> ""
+            let fileNamePart = match fileName with Some n -> sprintf "; filename=\"%s\"" n | None -> ""
+            header "Content-Disposition" (sprintf "%s%s%s" placement namePart fileNamePart) context |> next
         
         /// The type of encoding used on the data
-        let contentEncoding encoding context =
-            Dsl2.Header.contentEncoding context encoding id
+        let contentEncoding (context:HeaderContext) (encoding: string) (next: Next<_,_>) =
+            header "Content-Encoding" encoding context |> next
         
         /// The language the content is in
-        let contentLanguage language context =
-            Dsl2.Header.contentLanguage context language id
+        let contentLanguage (context:HeaderContext) (language: string) (next: Next<_,_>) =
+            header "Content-Language" language context |> next
         
         /// An alternate location for the returned data
-        let contentLocation location context =
-            Dsl2.Header.contentLocation context location id
+        let contentLocation (context:HeaderContext) (location: string) (next: Next<_,_>) =
+            header "Content-Location" location context |> next
         
         /// A Base64-encoded binary MD5 sum of the content of the request body
-        let contentMD5 md5sum context =
-            Dsl2.Header.contentMD5 context md5sum id
+        let contentMD5 (context:HeaderContext) (md5sum: string) (next: Next<_,_>) =
+            header "Content-MD5" md5sum context |> next
         
         /// Where in a full body message this partial message belongs
-        let contentRange range context =
-            Dsl2.Header.contentRange context range id
+        let contentRange (context:HeaderContext) (range: string) (next: Next<_,_>) =
+            header "Content-Range" range context |> next
 
+        // this is a property of the body.        
+        // // /// The MIME type of the body of the request (used with POST and PUT requests)
+        // // [<CustomOperation("ContentType")>]
+        // // let ContentType (context: HeaderContext, contentType: string) =
+        // //     this.header "Content-Type" contentType)
+        /////// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
+        ////let ContentTypeWithEncoding (context: HeaderContext, contentType, charset:Encoding) =
+        ////    this.header "Content-Type" sprintf "%s; charset=%s" contentType (charset.WebName))
+        
         /// The date and time that the message was sent
-        let date date context =
-            Dsl2.Header.date context date id
+        let date (context:HeaderContext) (date:DateTime) (next: Next<_,_>) =
+            header "Date" (date.ToString("R", CultureInfo.InvariantCulture)) context |> next
         
         /// Indicates that particular server behaviors are required by the client
-        let expect behaviors context =
-            Dsl2.Header.expect context behaviors id
+        let expect (context:HeaderContext) (behaviors: string) (next: Next<_,_>) =
+            header "Expect" behaviors context |> next
         
         /// Gives the date/time after which the response is considered stale
-        let expires dateTime context =
-            Dsl2.Header.expires context dateTime id
+        let expires (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
+            header "Expires" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context |> next
         
         /// The email address of the user making the request
-        let from email context =
-            Dsl2.Header.from context email id
+        let from (context:HeaderContext) (email: string) (next: Next<_,_>) =
+            header "From" email context |> next
         
         /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
         /// The port number may be omitted if the port is the standard port for the service requested.
-        let host host context =
-            Dsl2.Header.host context host id
+        let host (context:HeaderContext) (host: string) (next: Next<_,_>) =
+            header "Host" host context |> next
         
         /// Only perform the action if the client supplied entity matches the same entity on the server.
         /// This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: "737060cd8c284d8af7ad3082f209582d" Permanent
-        let ifMatch entity context =
-            Dsl2.Header.ifMatch context entity id
+        let ifMatch (context:HeaderContext) (entity: string) (next: Next<_,_>) =
+            header "If-Match" entity context |> next
         
         /// Allows a 304 Not Modified to be returned if content is unchanged
-        let ifModifiedSince dateTime context =
-            Dsl2.Header.ifModifiedSince context dateTime id
+        let ifModifiedSince (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
+            header "If-Modified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context |> next
         
         /// Allows a 304 Not Modified to be returned if content is unchanged
-        let ifNoneMatch etag context =
-            Dsl2.Header.ifNoneMatch context etag id
+        let ifNoneMatch (context:HeaderContext) (etag: string) (next: Next<_,_>) =
+            header "If-None-Match" etag context |> next
         
         /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
-        let ifRange range context =
-            Dsl2.Header.ifRange context range id
+        let ifRange (context:HeaderContext) (range: string) (next: Next<_,_>) =
+            header "If-Range" range context |> next
         
         /// Only send the response if the entity has not been modified since a specific time
-        let ifUnmodifiedSince dateTime context =
-            Dsl2.Header.ifUnmodifiedSince context dateTime id
+        let ifUnmodifiedSince (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
+            header "If-Unmodified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context |> next
         
         /// Specifies a parameter used into order to maintain a persistent connection
-        let keepAlive keepAlive context =
-            Dsl2.Header.keepAlive context keepAlive id
+        let keepAlive (context:HeaderContext) (keepAlive: string) (next: Next<_,_>) =
+            header "Keep-Alive" keepAlive context |> next
         
         /// Specifies the date and time at which the accompanying body data was last modified
-        let lastModified dateTime context =
-            Dsl2.Header.lastModified context dateTime id
+        let lastModified (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
+            header "Last-Modified" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context |> next
         
         /// Limit the number of times the message can be forwarded through proxies or gateways
-        let maxForwards count context =
-            Dsl2.Header.maxForwards context count id
+        let maxForwards (context:HeaderContext) (count:int) (next: Next<_,_>) =
+            header "Max-Forwards" (count.ToString()) context |> next
         
         /// Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response header)
-        let origin origin context =
-            Dsl2.Header.origin context origin id
+        let origin (context:HeaderContext) (origin: string) (next: Next<_,_>) =
+            header "Origin" origin context |> next
         
         /// Implementation-specific headers that may have various effects anywhere along the request-response chain.
-        let pragma pragma context =
-            Dsl2.Header.pragma context pragma id
+        let pragma (context:HeaderContext) (pragma: string) (next: Next<_,_>) =
+            header "Pragma" pragma context |> next
         
         /// Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
-        let prefer prefer context =
-            Dsl2.Header.prefer context prefer id
+        let prefer (context:HeaderContext) (prefer: string) (next: Next<_,_>) =
+            header "Prefer" prefer context |> next
         
         /// Authorization credentials for connecting to a proxy.
-        let proxyAuthorization credentials context =
-            Dsl2.Header.proxyAuthorization context credentials id
+        let proxyAuthorization (context:HeaderContext) (credentials: string) (next: Next<_,_>) =
+            header "Proxy-Authorization" credentials context |> next
         
         /// Request only part of an entity. Bytes are numbered from 0
-        let range start finish context =
-            Dsl2.Header.range context start finish id
+        let range (context:HeaderContext) (start:int64) (finish:int64) (next: Next<_,_>) =
+            header "Range" (sprintf "bytes=%d-%d" start finish) context |> next
         
         /// This is the address of the previous web page from which a link to the currently requested page was followed. (The word "referrer" is misspelled in the RFC as well as in most implementations.)
-        let referer referer context =
-            Dsl2.Header.referer context referer id
+        let referer (context:HeaderContext) (referer: string) (next: Next<_,_>) =
+            header "Referer" referer context |> next
         
         /// The transfer encodings the user agent is willing to accept: the same values as for the response header
         /// Transfer-Encoding can be used, plus the "trailers" value (related to the "chunked" transfer method) to
         /// notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
-        let te te context =
-            Dsl2.Header.te context te id
+        let te (context:HeaderContext) (te: string) (next: Next<_,_>) =
+            header "TE" te context |> next
         
         /// The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
-        let trailer trailer context =
-            Dsl2.Header.trailer context trailer id
+        let trailer (context:HeaderContext) (trailer: string) (next: Next<_,_>) =
+            header "Trailer" trailer context |> next
         
         /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.  The valid directives are one of: chunked, compress, deflate, gzip, or identity.
-        let transferEncoding directive context =
-            Dsl2.Header.transferEncoding context directive id
+        let transferEncoding (context:HeaderContext) (directive: string) (next: Next<_,_>) =
+            header "Transfer-Encoding" directive context |> next
         
         /// Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
-        let translate translate context =
-            Dsl2.Header.translate context translate id
+        let translate (context:HeaderContext) (translate: string) (next: Next<_,_>) =
+            header "Translate" translate context |> next
         
         /// Specifies additional communications protocols that the client supports.
-        let upgrade upgrade context =
-            Dsl2.Header.upgrade context upgrade id
+        let upgrade (context:HeaderContext) (upgrade: string) (next: Next<_,_>) =
+            header "Upgrade" upgrade context |> next
         
         /// The user agent string of the user agent
-        let userAgent userAgent context =
-            Dsl2.Header.userAgent context userAgent id
+        let userAgent (context:HeaderContext) (userAgent: string) (next: Next<_,_>) =
+            header "User-Agent" userAgent context |> next
         
         /// Informs the server of proxies through which the request was sent
-        let via server context =
-            Dsl2.Header.via context server id
+        let via (context:HeaderContext) (server: string) (next: Next<_,_>) =
+            header "Via" server context |> next
         
         /// A general warning about possible problems with the entity body
-        let warning message context =
-            Dsl2.Header.warning context message id
+        let warning (context:HeaderContext) (message: string) (next: Next<_,_>) =
+            header "Warning" message context |> next
         
         /// Override HTTP method.
-        let xhttpMethodOverride httpMethod context =
-            Dsl2.Header.xhttpMethodOverride context httpMethod id
+        let xhttpMethodOverride (context:HeaderContext) (httpMethod: string) (next: Next<_,_>) =
+            header "X-HTTP-Method-Override" httpMethod context
 
     [<AutoOpen>]
     module Body =
 
-        let body headerContext =
-            Dsl2.Body.body headerContext id
+        let body (headerContext: HeaderContext) (next: Next<_,_>) : BodyContext =
+            { request = headerContext.request;
+              content = { content=""; contentType=""; headers=[] };
+              config = headerContext.config
+            }
+            |> next
+
+        let private getContentTypeOrDefault (defaultValue:string) (context:BodyContext) =
+            if String.IsNullOrEmpty(context.content.contentType) then
+                defaultValue
+            else 
+                context.content.contentType
+
+        // TODO: Binary
+        // TODO: Base64
         
-        let text text context =
-            Dsl2.Body.text context text id
+        // TODO
+        // // [<CustomOperation("binary")>]
+        // // let Binary(context: BodyContext, data: byte[]) =
+        // //     let content = context.content
+        // //     let contentType =
+        // //         if context.content.contentType = null then
+        // //             "text/plain" 
+        // //         else 
+        // //             context.content.contentType
+        // //     { context with
+        // //         content = { content with content=text; contentType=contentType;  }
+        // //     }
+        
+        let text (context: BodyContext) (text: string) (next: Next<_,_>) =
+            let content = context.content
+            let contentType = getContentTypeOrDefault "text/plain" context
+            { context with content = { content with content=text; contentType=contentType;  } }
+            |> next
 
-        let json json context =
-            Dsl2.Body.json context json id
+        let json (context: BodyContext) (json: string) (next: Next<_,_>) =
+            let content = context.content
+            let contentType = getContentTypeOrDefault "application/json" context
+            { context with content = { content with content=json; contentType=contentType;  } }
+            |> next
 
-        let formUrlEncoded data context =
-            Dsl2.Body.formUrlEncoded context data id
+        let formUrlEncoded (context: BodyContext) (data: (string*string) list) (next: Next<_,_>) =
+            let content = context.content
+            let contentType = getContentTypeOrDefault "application/x-www-form-urlencoded" context
+            let contentString = String.Join("&", data |> List.map (fun (key,value) -> key + "=" + value))
+            { context with content = { content with content=contentString; contentType=contentType;  } }
+            |> next
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
-        let contentType contentType context =
-            Dsl2.Body.contentType context contentType id
+        let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
+            let content = context.content
+            { context with content = { content with contentType=contentType;  } }
+            |> next
 
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
-        let contentTypeWithEncoding contentTypeString charset context =
-            Dsl2.Body.contentTypeWithEncoding context contentTypeString charset id
+        let contentTypeWithEncoding (context: BodyContext) (contentTypeString) (charset:Encoding) (next: Next<_,_>) =
+            contentType context (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) next
 
     [<AutoOpen>]
     module Config =
         
-        let inline timeout value context =
-            Dsl2.Config.timeout context value id
+        let inline config (context: ^t) (f: Config -> Config) (next: Next<_,_>) =
+            (^t: (static member Config: ^t * (Config -> Config) -> ^t) (context,f))
 
-        let inline timeoutInSeconds value context =
-            Dsl2.Config.timeoutInSeconds context value id
+        let inline timeout context value (next: Next<_,_>) =
+            config context (fun config -> { config with timeout = value }) next
+
+        let inline timeoutInSeconds context value (next: Next<_,_>) =
+            config context (fun config -> { config with timeout = TimeSpan.FromSeconds value }) next
         
-        let inline transformHttpRequestMessage map context =
-            Dsl2.Config.transformHttpRequestMessage context map id
+        let inline transformHttpRequestMessage context map (next: Next<_,_>) =
+            config context (fun config -> { config with httpMessageTransformer = Some map }) next
         
-        let inline transformHttpClient map context =
-            Dsl2.Config.transformHttpClient context map id
+        let inline transformHttpClient context map (next: Next<_,_>) =
+            config context (fun config -> { config with httpClientTransformer = Some map }) next
