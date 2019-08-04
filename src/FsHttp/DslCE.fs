@@ -1,10 +1,19 @@
 
 namespace FsHttp
 
-open FsHttp.Dsl
+open Dsl
 
 [<AutoOpen>]
 module DslCE =
+
+    [<AutoOpen>]
+    module Operators =
+
+        /// synchronous request invocation
+        let inline ( .> ) context f = send context |>  f
+
+        /// asynchronous request invocation
+        let inline ( >. ) context f = sendAsync |> context f
 
     // Request Methods
     type HttpBuilder with

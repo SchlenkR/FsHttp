@@ -25,8 +25,8 @@ let ``httpLazy and invocation signatures are correct``() =
         GET "http://www.google.de"
     }
 
-    let (response:Response) = request .> go
-    let (asyncResponse:Async<Response>) = request >. go
+    let (response:Response) = request |> send
+    let (asyncResponse:Async<Response>) = request |> sendAsync
 
     ()
     

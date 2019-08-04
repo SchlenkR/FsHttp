@@ -27,11 +27,12 @@ module Domain =
 
     type StartingContext = StartingContext
 
-    type FinalContext = {
-        request: Header
-        content: Content option
-        config: Config
-    }
+    type FinalContext =
+        { request: Header
+          content: Content option
+          config: Config } with
+        // important because we can use sendFinal with all context types
+        static member Finalize (this: FinalContext) = this
 
     type HeaderContext =
         { request: Header

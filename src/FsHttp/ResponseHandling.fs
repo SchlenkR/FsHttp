@@ -2,11 +2,8 @@
 namespace FsHttp
 
 open System
-
-open FsHttp
-open FSharp.Data
-
 open System.Xml.Linq
+open FSharp.Data
 
 [<AutoOpen>]
 module ResponseHandling =

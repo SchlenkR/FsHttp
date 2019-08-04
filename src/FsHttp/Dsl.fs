@@ -10,6 +10,18 @@ module Dsl =
 
     type Next<'a, 'b> = 'a -> 'b
 
+    /// Finalized a Request build pipeline
+    let fin = id
+
+    [<AutoOpen>]
+    module Operators =
+
+        /// synchronous request invocation
+        let inline ( .> ) r f = send (r id) |> f
+
+        /// asynchronous request invocation
+        let inline ( >. ) r f = sendAsync (r id) |>  f
+
     [<AutoOpen>]
     module R =
         

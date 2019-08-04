@@ -4,10 +4,8 @@ namespace FsHttp
 open System.Net.Http
 open System.Text
 
-open FsHttp
-
 [<AutoOpen>]
-module Invocation =
+module Invoke =
 
     let inline finalizeContext (context: ^t) =
         (^t: (static member Finalize: ^t -> FinalContext) (context))
@@ -30,7 +28,8 @@ module Invocation =
 
         requestMessage
     
-    let inline sendAsync (finalContext:FinalContext) =
+    let inline sendAsync context =
+        let finalContext = finalizeContext context
         let invoke() =
             let requestMessage = toMessage finalContext
 
@@ -63,24 +62,9 @@ module Invocation =
             }
         }
 
-    let send (context:FinalContext) =
+    let inline send context =
         context |> sendAsync |> Async.RunSynchronously
 
-    /// synchronous request invocation
-    let inline (.>) context f = finalizeContext context |> send |> f
-
-    /// asynchronous request invocation
-    let inline (>.) context f =
-        async {
-            let! response = finalizeContext context |> sendAsync
-            return f response
-        }
-
-    // let run map (response:Response) =
-    //     map response |> Async.RunSynchronously
-    
-    // /// run operator for applying an async map functions to a response and receiving the pure result.
-    // let (|>>) (response:Response) map = run map response
-
-    // TODO: All Async->Sync functions shouldn't handle explicitly the f parameters
-    // let makeSync f = ?
+    // ----------------
+    // DSL specific operator overloads for invocation are present in the concrete DSL modules
+    // ----------------

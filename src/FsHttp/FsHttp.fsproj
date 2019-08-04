@@ -12,13 +12,13 @@
     <Compile Include="Config.fs" />
     <Compile Include="Helper.fs" />
     <Compile Include="Domain.fs" />
+    <Compile Include="Invoke.fs" />
     <Compile Include="Dsl.fs" />
     <Compile Include="DslPipe.fs" />
-    <Compile Include="PrintModifier.fs" />
     <Compile Include="DslCE.fs" />
-    <Compile Include="Invocation.fs" />
     <Compile Include="ResponseHandling.fs" />
     <Compile Include="BuilderInstances.fs" />
+    <Compile Include="FsiPrintModifier.fs" />
     <Compile Include="FsiPrinting.fs" />
     <None Include="FsHttp.fsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

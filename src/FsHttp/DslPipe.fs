@@ -1,15 +1,16 @@
 
 namespace FsHttp
 
-open System
-open System.Net.Http
-open System.Text
-open System.Globalization
-
 module DslPipe =
 
     [<AutoOpen>]
     module Operators =
+
+        /// synchronous request invocation
+        let inline ( .> ) context f = send context |> f
+
+        /// asynchronous request invocation
+        let inline ( >. ) context f = sendAsync context |> f
 
         /// Alias for pipe-backward
         let (%%) = (<|)

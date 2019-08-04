@@ -3,8 +3,7 @@ namespace FsHttp
 
 open System
 
-[<AutoOpen>]
-module PrintModifier =
+module FsiPrintModifier =
 
     let noCustomPrinting printHint = { printHint with isEnabled = false }
     let noRequest printHint = { printHint with requestPrintHint = { printHint.requestPrintHint with enabled = false } }

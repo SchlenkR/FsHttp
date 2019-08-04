@@ -1,8 +1,6 @@
 
 namespace FsHttp
 
-open FsHttp
-
 [<AutoOpen>]
 module BuilderInstances =
 
@@ -14,11 +12,11 @@ module BuilderInstances =
 
     type HttpBuilderSync() =
         inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() .> preview
+        member inline this.Delay(f: unit -> 'a) = f() |> send
 
     type HttpBuilderAsync() =
         inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() >. preview
+        member inline this.Delay(f: unit -> 'a) = f() |> sendAsync
 
     type HttpBuilderLazy() =
         inherit HttpBuilder()
