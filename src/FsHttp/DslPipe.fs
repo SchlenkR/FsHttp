@@ -243,7 +243,7 @@ module DslPipe =
     module B =
 
         let body headerContext =
-            Dsl.B.body headerContext id
+            Dsl.B.body headerContext
         
         let text text context =
             Dsl.B.text context text id

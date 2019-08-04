@@ -270,12 +270,11 @@ module Dsl =
     [<AutoOpen>]
     module B =
 
-        let body (headerContext: HeaderContext) (next: Next<_,_>) : BodyContext =
+        let body (headerContext: HeaderContext) : BodyContext =
             { request = headerContext.request;
               content = { content=""; contentType=""; headers=[] };
               config = headerContext.config
             }
-            |> next
 
         let private getContentTypeOrDefault (defaultValue:string) (context:BodyContext) =
             if String.IsNullOrEmpty(context.content.contentType) then
@@ -302,27 +301,23 @@ module Dsl =
         let text (context: BodyContext) (text: string) (next: Next<_,_>) =
             let content = context.content
             let contentType = getContentTypeOrDefault "text/plain" context
-            { context with content = { content with content=text; contentType=contentType;  } }
-            |> next
+            { context with content = { content with content=text; contentType=contentType;  } } |> next
 
         let json (context: BodyContext) (json: string) (next: Next<_,_>) =
             let content = context.content
             let contentType = getContentTypeOrDefault "application/json" context
-            { context with content = { content with content=json; contentType=contentType;  } }
-            |> next
+            { context with content = { content with content=json; contentType=contentType;  } } |> next
 
         let formUrlEncoded (context: BodyContext) (data: (string*string) list) (next: Next<_,_>) =
             let content = context.content
             let contentType = getContentTypeOrDefault "application/x-www-form-urlencoded" context
             let contentString = String.Join("&", data |> List.map (fun (key,value) -> key + "=" + value))
-            { context with content = { content with content=contentString; contentType=contentType;  } }
-            |> next
+            { context with content = { content with content=contentString; contentType=contentType;  } } |> next
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
         let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
             let content = context.content
-            { context with content = { content with contentType=contentType;  } }
-            |> next
+            { context with content = { content with contentType=contentType;  } } |> next
 
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
         let contentTypeWithEncoding (context: BodyContext) (contentTypeString) (charset:Encoding) (next: Next<_,_>) =
