@@ -1,13 +1,8 @@
-
+#nowarn "211"
 #I __SOURCE_DIRECTORY__
-#I "../../../../../packages/FSharp.Data/lib/netstandard2.0"
-#I "../../../packages/FSharp.Data/lib/netstandard2.0"
-#I "../packages/FSharp.Data/lib/netstandard2.0"
-#I "../FSharp.Data/lib/netstandard2.0"
-#I "../../../../../packages/FSharp.Data.3.1.1/lib/netstandard2.0"
-#I "../../../packages/FSharp.Data.3.1.1/lib/netstandard2.0"
-#I "../packages/FSharp.Data.3.1.1/lib/netstandard2.0"
-#I "../FSharp.Data.3.1.1/lib/netstandard2.0"
+#I "../../../../../packages/FSharp.Data/lib/netstandard2.0"  // dev + paket
+#I "../../../packages/FSharp.Data/lib/netstandard2.0"        // package + paket
+#I "../packages/FSharp.Data.3.1.1/lib/netstandard2.0"        // package + nuget
 
 #r "netstandard"
 #r "System.Net.Http"
