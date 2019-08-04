@@ -11,7 +11,7 @@ module Dsl =
     type Next<'a, 'b> = 'a -> 'b
 
     [<AutoOpen>]
-    module Request =
+    module R =
         
         let request (method: HttpMethod) (url: string) (next: Next<_,_>) =
 
@@ -65,7 +65,7 @@ module Dsl =
         // TODO
 
     [<AutoOpen>]
-    module Header =
+    module H =
 
         let inline header name value (context: ^t) =
             (^t: (static member Header: ^t * string * string -> ^t) (context,name,value))
@@ -268,7 +268,7 @@ module Dsl =
             header "X-HTTP-Method-Override" httpMethod context
 
     [<AutoOpen>]
-    module Body =
+    module B =
 
         let body (headerContext: HeaderContext) (next: Next<_,_>) : BodyContext =
             { request = headerContext.request;

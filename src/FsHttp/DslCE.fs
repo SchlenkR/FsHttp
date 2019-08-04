@@ -60,233 +60,233 @@ module DslCE =
         /// Content-Types that are acceptable for the response
         [<CustomOperation("Accept")>]
         member this.Accept (context, contentType) =
-            Header.accept context contentType id
+            Dsl.H.accept context contentType id
 
         /// Character sets that are acceptable
         [<CustomOperation("AcceptCharset")>]
         member this.AcceptCharset (context, characterSets) =
-            Header.acceptCharset context characterSets id
+            Dsl.H.acceptCharset context characterSets id
 
         /// Acceptable version in time
         [<CustomOperation("AcceptDatetime")>]
         member this.AcceptDatetime (context, dateTime) =
-            Header.acceptDatetime context dateTime id
+            Dsl.H.acceptDatetime context dateTime id
         
         /// List of acceptable encodings. See HTTP compression.
         [<CustomOperation("AcceptEncoding")>]
         member this.AcceptEncoding (context, encoding) =
-            Header.acceptEncoding context encoding id
+            Dsl.H.acceptEncoding context encoding id
         
         /// List of acceptable human languages for response
         [<CustomOperation("AcceptLanguage")>]
         member this.AcceptLanguage (context, language) =
-            Header.acceptLanguage context language id
+            Dsl.H.acceptLanguage context language id
         
         /// The Allow header, which specifies the set of HTTP methods supported.
         [<CustomOperation("Allow")>]
         member this.Allow (context, methods) =
-            Header.allow context methods id
+            Dsl.H.allow context methods id
         
         /// Authentication credentials for HTTP authentication
         [<CustomOperation("Authorization")>]
         member this.Authorization (context, credentials) =
-            Header.authorization context credentials id
+            Dsl.H.authorization context credentials id
         
         /// Authentication header using Bearer Auth token
         [<CustomOperation("BearerAuth")>]
         member this.BearerAuth (context, token) =
-            Header.bearerAuth context token id
+            Dsl.H.bearerAuth context token id
         
         /// Authentication header using Basic Auth encoding
         [<CustomOperation("BasicAuth")>]
         member this.BasicAuth (context, username, password) =
-            Header.basicAuth context username password id
+            Dsl.H.basicAuth context username password id
         
         /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
         [<CustomOperation("CacheControl")>]
         member this.CacheControl (context, control) =
-            Header.cacheControl context control id
+            Dsl.H.cacheControl context control id
         
         /// What type of connection the user-agent would prefer
         [<CustomOperation("Connection")>]
         member this.Connection (context, connection) =
-            Header.connection context connection id
+            Dsl.H.connection context connection id
         
         /// Describes the placement of the content. Valid dispositions are: inline, attachment, form-data
         [<CustomOperation("ContentDisposition")>]
         member this.ContentDisposition (context, placement, name, fileName) =
-            Header.contentDisposition context placement name fileName id
+            Dsl.H.contentDisposition context placement name fileName id
         
         /// The type of encoding used on the data
         [<CustomOperation("ContentEncoding")>]
         member this.ContentEncoding (context, encoding) =
-            Header.contentEncoding context encoding id
+            Dsl.H.contentEncoding context encoding id
         
         /// The language the content is in
         [<CustomOperation("ContentLanguage")>]
         member this.ContentLanguage (context, language) =
-            Header.contentLanguage context language id
+            Dsl.H.contentLanguage context language id
         
         /// An alternate location for the returned data
         [<CustomOperation("ContentLocation")>]
         member this.ContentLocation (context, location) =
-            Header.contentLocation context location id
+            Dsl.H.contentLocation context location id
         
         /// A Base64-encoded binary MD5 sum of the content of the request body
         [<CustomOperation("ContentMD5")>]
         member this.ContentMD5 (context, md5sum) =
-            Header.contentMD5 context md5sum id
+            Dsl.H.contentMD5 context md5sum id
         
         /// Where in a full body message this partial message belongs
         [<CustomOperation("ContentRange")>]
         member this.ContentRange (context, range) =
-            Header.contentRange context range id
+            Dsl.H.contentRange context range id
 
         /// The date and time that the message was sent
         [<CustomOperation("Date")>]
         member this.Date (context, date, id) =
-            Header.date context date id
+            Dsl.H.date context date id
         
         /// Indicates that particular server behaviors are required by the client
         [<CustomOperation("Expect")>]
         member this.Expect (context, behaviors) =
-            Header.expect context behaviors id
+            Dsl.H.expect context behaviors id
         
         /// Gives the date/time after which the response is considered stale
         [<CustomOperation("Expires")>]
         member this.Expires (context, dateTime) =
-            Header.expires context dateTime id
+            Dsl.H.expires context dateTime id
         
         /// The email address of the user making the request
         [<CustomOperation("From")>]
         member this.From (context, email) =
-            Header.from context email id
+            Dsl.H.from context email id
         
         /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
         /// The port number may be omitted if the port is the standard port for the service requested.
         [<CustomOperation("Host")>]
         member this.Host (context, host) =
-            Header.host context host id
+            Dsl.H.host context host id
         
         /// Only perform the action if the client supplied entity matches the same entity on the server.
         /// This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: "737060cd8c284d8af7ad3082f209582d" Permanent
         [<CustomOperation("IfMatch")>]
         member this.IfMatch (context, entity) =
-            Header.ifMatch context entity id
+            Dsl.H.ifMatch context entity id
         
         /// Allows a 304 Not Modified to be returned if content is unchanged
         [<CustomOperation("IfModifiedSince")>]
         member this.IfModifiedSince (context, dateTime) =
-            Header.ifModifiedSince context dateTime id
+            Dsl.H.ifModifiedSince context dateTime id
         
         /// Allows a 304 Not Modified to be returned if content is unchanged
         [<CustomOperation("IfNoneMatch")>]
         member this.IfNoneMatch (context, etag) =
-            Header.ifNoneMatch context etag id
+            Dsl.H.ifNoneMatch context etag id
         
         /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
         [<CustomOperation("IfRange")>]
         member this.IfRange (context, range) =
-            Header.ifRange context range id
+            Dsl.H.ifRange context range id
         
         /// Only send the response if the entity has not been modified since a specific time
         [<CustomOperation("IfUnmodifiedSince")>]
         member this.IfUnmodifiedSince (context, dateTime) =
-            Header.ifUnmodifiedSince context dateTime id
+            Dsl.H.ifUnmodifiedSince context dateTime id
         
         /// Specifies a parameter used into order to maintain a persistent connection
         [<CustomOperation("KeepAlive")>]
         member this.KeepAlive (context, keepAlive) =
-            Header.keepAlive context keepAlive id
+            Dsl.H.keepAlive context keepAlive id
         
         /// Specifies the date and time at which the accompanying body data was last modified
         [<CustomOperation("LastModified")>]
         member this.LastModified (context, dateTime) =
-            Header.lastModified context dateTime id
+            Dsl.H.lastModified context dateTime id
         
         /// Limit the number of times the message can be forwarded through proxies or gateways
         [<CustomOperation("MaxForwards")>]
         member this.MaxForwards (context, count) =
-            Header.maxForwards context count id
+            Dsl.H.maxForwards context count id
         
         /// Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response header)
         [<CustomOperation("Origin")>]
         member this.Origin (context, origin) =
-            Header.origin context origin id
+            Dsl.H.origin context origin id
         
         /// Implementation-specific headers that may have various effects anywhere along the request-response chain.
         [<CustomOperation("Pragma")>]
         member this.Pragma (context, pragma) =
-            Header.pragma context pragma id
+            Dsl.H.pragma context pragma id
         
         /// Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
         [<CustomOperation("Prefer")>]
         member this.Prefer (context, prefer) =
-            Header.prefer context prefer id
+            Dsl.H.prefer context prefer id
         
         /// Authorization credentials for connecting to a proxy.
         [<CustomOperation("ProxyAuthorization")>]
         member this.ProxyAuthorization (context, credentials) =
-            Header.proxyAuthorization context credentials id
+            Dsl.H.proxyAuthorization context credentials id
         
         /// Request only part of an entity. Bytes are numbered from 0
         [<CustomOperation("Range")>]
         member this.Range (context, start, finish) =
-            Header.range context start finish id
+            Dsl.H.range context start finish id
         
         /// This is the address of the previous web page from which a link to the currently requested page was followed.
         /// (The word "referrer" is misspelled in the RFC as well as in most implementations.)
         [<CustomOperation("Referer")>]
         member this.Referer (context, referer) =
-            Header.referer context referer id
+            Dsl.H.referer context referer id
         
         /// The transfer encodings the user agent is willing to accept: the same values as for the response header
         /// Transfer-Encoding can be used, plus the "trailers" value (related to the "chunked" transfer method) to
         /// notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
         [<CustomOperation("TE")>]
         member this.TE (context, te) =
-            Header.te context te id
+            Dsl.H.te context te id
         
         /// The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
         [<CustomOperation("Trailer")>]
         member this.Trailer (context, trailer) =
-            Header.trailer context trailer id
+            Dsl.H.trailer context trailer id
         
         /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.
         /// The valid directives are one of: chunked, compress, deflate, gzip, or identity.
         [<CustomOperation("TransferEncoding")>]
         member this.TransferEncoding (context, directive) =
-            Header.transferEncoding context directive id
+            Dsl.H.transferEncoding context directive id
         
         /// Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
         [<CustomOperation("Translate")>]
         member this.Translate (context, translate) =
-            Header.translate context translate id
+            Dsl.H.translate context translate id
         
         /// Specifies additional communications protocols that the client supports.
         [<CustomOperation("Upgrade")>]
         member this.Upgrade (context, upgrade) =
-            Header.upgrade context upgrade id
+            Dsl.H.upgrade context upgrade id
         
         /// The user agent string of the user agent
         [<CustomOperation("UserAgent")>]
         member this.UserAgent (context, userAgent) =
-            Header.userAgent context userAgent id
+            Dsl.H.userAgent context userAgent id
         
         /// Informs the server of proxies through which the request was sent
         [<CustomOperation("Via")>]
         member this.Via (context, server) =
-            Header.via context server id
+            Dsl.H.via context server id
         
         /// A general warning about possible problems with the entity body
         [<CustomOperation("Warning")>]
         member this.Warning (context, message) =
-            Header.warning context message id
+            Dsl.H.warning context message id
         
         /// Override HTTP method.
         [<CustomOperation("XHTTPMethodOverride")>]
         member this.XHTTPMethodOverride (context, httpMethod) =
-            Header.xhttpMethodOverride context httpMethod id
+            Dsl.H.xhttpMethodOverride context httpMethod id
 
 
     // Body
@@ -294,7 +294,7 @@ module DslCE =
 
         [<CustomOperation("body")>]
         member this.Body(context) =
-            Body.body context id
+            Dsl.B.body context id
 
         // TODO: Binary
         // TODO: Base64
@@ -314,25 +314,25 @@ module DslCE =
         
         [<CustomOperation("text")>]
         member this.Text(context, text) =
-            Body.text context text id
+            Dsl.B.text context text id
         
         [<CustomOperation("json")>]
         member this.Json(context, json) =
-            Body.json context json id
+            Dsl.B.json context json id
 
         [<CustomOperation("formUrlEncoded")>]
         member this.FormUrlEncoded(context, data) =
-            Body.formUrlEncoded context data id
+            Dsl.B.formUrlEncoded context data id
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
         [<CustomOperation("ContentType")>]
         member this.ContentType (context, contentType) =
-            Body.contentType context contentType id
+            Dsl.B.contentType context contentType id
                     
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
         [<CustomOperation("ContentTypeWithEncoding")>]
         member this.ContentTypeWithEncoding (context, contentType, charset) =
-            Body.contentTypeWithEncoding context contentType charset id
+            Dsl.B.contentTypeWithEncoding context contentType charset id
 
 
     // Request Headers
@@ -340,16 +340,16 @@ module DslCE =
         
         [<CustomOperation("timeout")>]
         member inline this.Timeout (context, value) =
-            Config.timeout context value id
+            Dsl.Config.timeout context value id
         
         [<CustomOperation("timeoutInSeconds")>]
         member inline this.TimeoutInSeconds (context, value) =
-            Config.timeoutInSeconds context value id
+            Dsl.Config.timeoutInSeconds context value id
         
         [<CustomOperation("transformHttpRequestMessage")>]
         member inline this.TransformHttpRequestMessage (context, map) =
-            Config.transformHttpRequestMessage context map id
+            Dsl.Config.transformHttpRequestMessage context map id
         
         [<CustomOperation("transformHttpClient")>]
         member inline this.TransformHttpClient (context, map) =
-            Config.transformHttpClient context map id
+            Dsl.Config.transformHttpClient context map id
