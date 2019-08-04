@@ -17,11 +17,11 @@ module FsiPrintModifier =
         |> withResponseContent
 
     // Printing (Response -> Response)
-    let print f r = { r with printHint = f r.printHint }
+    let modifyPrinter f r = { r with printHint = f r.printHint }
 
-    let raw = noCustomPrinting |> print
-    let noContent = print id
-    let show maxLength = (withResponseContentMaxLength maxLength >> withResponseContent) |> print
-    let preview = withResponseContent |> print
+    let raw = noCustomPrinting |> modifyPrinter
+    let noContent = modifyPrinter id
+    let show maxLength = (withResponseContentMaxLength maxLength >> withResponseContent) |> modifyPrinter
+    let preview = withResponseContent |> modifyPrinter
     let go = preview
-    let expand = (withResponseContentMaxLength Int32.MaxValue >> withResponseContent) |> print
+    let expand = (withResponseContentMaxLength Int32.MaxValue >> withResponseContent) |> modifyPrinter
