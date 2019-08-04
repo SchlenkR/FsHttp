@@ -3,15 +3,18 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>0.9.1</Version>
+    <Version>0.10.1-preview</Version>
     <Company />
     <Copyright>Copyright 2019 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <PackageReleaseNotes>
-- Bugfix: toFormattedText returns the raw content string when parsing fails
-- Feature: Adds HttpMessage as one of the output options (thanks to dv00d00)
+- Breaking change: Changes in the way a request is sent
+- Breaking change: (.>) and (>.) operators should only be used in FSI
+- Breaking change: Various namespace changes
+- Feature: New default DSL (operator-less syntax)
+- Minor changes and fixes
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
