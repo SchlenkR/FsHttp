@@ -9,7 +9,7 @@ open FsHttp
 [<AutoOpen>]
 module Invocation =
 
-    let inline internal finalizeContext (context: ^t) =
+    let inline finalizeContext (context: ^t) =
         (^t: (static member Finalize: ^t -> FinalContext) (context))
 
     let toMessage (finalContext: FinalContext) : HttpRequestMessage =
