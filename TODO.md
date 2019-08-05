@@ -13,4 +13,6 @@
 * Write Response to a file
 * auth use case mit aufnehmen
 * alle "content" headers (z.B. contentEncoding) sind in HeaderContext und müssen in BodyContext
+* Docu: FSI / nonFSI Szenarien besser herausarbeiten
+    * |> send    |> sendAsync verwenden anstatt .> oder >.
 * 
