@@ -282,11 +282,12 @@ module Dsl =
     [<AutoOpen>]
     module B =
 
-        let body (headerContext: HeaderContext) : BodyContext =
+        let body (headerContext: HeaderContext) (next: Next<_,_>) : BodyContext =
             { request = headerContext.request;
               content = { content=""; contentType=""; headers=[] };
               config = headerContext.config
             }
+            |> next
 
         let private getContentTypeOrDefault (defaultValue:string) (context:BodyContext) =
             if String.IsNullOrEmpty(context.content.contentType) then

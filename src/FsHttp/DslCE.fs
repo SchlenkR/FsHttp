@@ -303,7 +303,7 @@ module DslCE =
 
         [<CustomOperation("body")>]
         member this.Body(context) =
-            Dsl.B.body context
+            Dsl.B.body context id
 
         // TODO: Binary
         // TODO: Base64
