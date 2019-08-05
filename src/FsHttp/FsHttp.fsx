@@ -3,10 +3,10 @@
 #I __SOURCE_DIRECTORY__                                      // FsHttp.dll (dev after build)
 #I "bin/debug/netstandard2.0"                                // FsHttp.dll (dev before build)
 
-#I "../../packages/FSharp.Data/lib/netstandard2.0"           // dev before build + paket
-#I "../../../../../packages/FSharp.Data/lib/netstandard2.0"  // dev after build + paket
-#I "../../../packages/FSharp.Data/lib/netstandard2.0"        // package + paket
-#I "../packages/FSharp.Data.3.1.1/lib/netstandard2.0"        // package + nuget
+#I "../../packages/FSharp.Data/lib/netstandard2.0"           // FSharp.Data.dll - dev before build + paket
+#I "../../../../../packages/FSharp.Data/lib/netstandard2.0"  // FSharp.Data.dll - dev after build + paket
+#I "../../../FSharp.Data/lib/netstandard2.0"                 // FSharp.Data.dll - package + paket
+#I "../../../FSharp.Data.3.1.1/lib/netstandard2.0"           // FSharp.Data.dll - package + nuget
 
 #r "netstandard"
 #r "System.Net.Http"
