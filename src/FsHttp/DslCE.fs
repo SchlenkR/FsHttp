@@ -6,15 +6,6 @@ open Dsl
 [<AutoOpen>]
 module DslCE =
 
-    [<AutoOpen>]
-    module Operators =
-
-        /// synchronous request invocation
-        let inline ( .> ) context f = send context |>  f
-
-        /// asynchronous request invocation
-        let inline ( >. ) context f = sendAsync |> context f
-
     // Request Methods
     type HttpBuilder with
 
@@ -362,3 +353,32 @@ module DslCE =
         [<CustomOperation("transformHttpClient")>]
         member inline this.TransformHttpClient (context, map) =
             Dsl.Config.transformHttpClient context map id
+
+
+    // builder instances
+
+    type HttpBuilder with
+        member this.Bind(m, f) = f m
+        member this.Return(x) = x
+        member this.Yield(x) = StartingContext
+        member this.For(m, f) = this.Bind m f
+
+    type HttpBuilderSync() =
+        inherit HttpBuilder()
+        member inline this.Delay(f: unit -> 'a) = f() |> send
+    let http = HttpBuilderSync()
+
+    type HttpBuilderAsync() =
+        inherit HttpBuilder()
+        member inline this.Delay(f: unit -> 'a) = f() |> sendAsync
+    let httpAsync = HttpBuilderAsync()
+
+    type HttpBuilderLazy() =
+        inherit HttpBuilder()
+    let httpLazy = HttpBuilderLazy()
+
+    type HttpMessageBuilder() =
+        inherit HttpBuilder()
+        member inline this.Delay(f: unit -> 'a) =
+            f() |> finalizeContext |> toMessage
+    let httpMsg = HttpMessageBuilder()

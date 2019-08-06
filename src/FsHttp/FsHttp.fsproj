@@ -9,17 +9,15 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Config.fs" />
     <Compile Include="Helper.fs" />
+    <Compile Include="Config.fs" />
     <Compile Include="Domain.fs" />
-    <Compile Include="Invoke.fs" />
+    <Compile Include="RequestHandling.fs" />
+    <Compile Include="ResponseHandling.fs" />
+    <Compile Include="Fsi.fs" />
     <Compile Include="Dsl.fs" />
     <Compile Include="DslPipe.fs" />
     <Compile Include="DslCE.fs" />
-    <Compile Include="ResponseHandling.fs" />
-    <Compile Include="BuilderInstances.fs" />
-    <Compile Include="FsiPrintModifier.fs" />
-    <Compile Include="FsiPrinting.fs" />
     <None Include="FsHttp.fsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>true</Pack>

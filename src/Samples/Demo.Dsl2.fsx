@@ -1,12 +1,50 @@
 
-#r @"../../packages/NUnit/lib/netstandard2.0/nunit.framework.dll"
 #load @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.fsx"
 
-open FsHttp
-open FsHttp.Dsl
+module DslDemo =
 
-get "http://www.google.de"
-    bearerAuth "4354terjkljgdlfkj"
-    .> go
+    open FsHttp.Fsi
+    open FsHttp.Dsl
+    open FsHttp.Dsl.Fsi
 
-// TODO: fin
+    get "http://www.google.de"
+        bearerAuth "4354terjkljgdlfkj"
+        run go
+
+    post
+        "https://reqres.in/api/users"
+        cacheControl "no-cache"
+        body json
+        """
+        {
+            "name": "morpheus",
+            "job": "leader"
+        }
+        """
+        run exp
+
+    // TODO: fin
+
+module DslCEDemo =
+
+    open FsHttp
+    open FsHttp.DslCE
+
+    http {
+        GET "http://www.google.de"
+        BearerAuth "4354terjkljgdlfkj"
+    }
+
+    http {
+        POST "https://reqres.in/api/users"
+        CacheControl "no-cache"
+        body
+        json """
+        {
+            "name": "morpheus",
+            "job": "leader"
+        }
+        """
+    }
+
+    // TODO: fin

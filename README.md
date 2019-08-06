@@ -326,14 +326,14 @@ get @"https://reqres.in/api/users?page=2&delay=3" .> show 100
 get @"https://reqres.in/api/users?page=2&delay=3" .> expand
 ```
 
-There are switches in the `PrintModifier` module that can be chained together for a fine grained control over the print style:
+There are switches in the `Print` module that can be chained together for a fine grained control over the print style:
 
 ```fsharp
 get @"https://reqres.in/api/users?page=2&delay=3"
 .> print (noRequest >> withResponseContentMaxLength 500)
 ```
 
-Have a look at the [print modifiers](src/FsHttp/PrintModifier.fs) for more details.
+Have a look at the [print modifiers](src/FsHttp/Print.fs) for more details.
 
 ## Others
 

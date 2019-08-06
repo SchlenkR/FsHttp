@@ -5,7 +5,7 @@ open System.Net.Http
 open System.Text
 
 [<AutoOpen>]
-module Invoke =
+module RequestHandling =
 
     let inline finalizeContext (context: ^t) =
         (^t: (static member Finalize: ^t -> FinalContext) (context))
@@ -65,6 +65,11 @@ module Invoke =
     let inline send context =
         context |> sendAsync |> Async.RunSynchronously
 
-    // ----------------
-    // DSL specific operator overloads for invocation are present in the concrete DSL modules
-    // ----------------
+    [<AutoOpen>]
+    module Operators =
+
+        /// synchronous request invocation
+        let inline ( .> ) context f = send context |>  f
+
+        /// asynchronous request invocation
+        let inline ( >. ) context f = sendAsync |> context f

@@ -14,7 +14,6 @@
 #r "FsHttp.dll"
 
 open FsHttp
-open FsHttp.FsiPrintModifier
 
 // for debugging purpose
 // #r "./bin/Debug/netstandard2.0/FsHttp.dll"

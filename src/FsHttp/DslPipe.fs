@@ -6,12 +6,6 @@ module DslPipe =
     [<AutoOpen>]
     module Operators =
 
-        /// synchronous request invocation
-        let inline ( .> ) context f = send context |> f
-
-        /// asynchronous request invocation
-        let inline ( >. ) context f = sendAsync context |> f
-
         /// Alias for pipe-backward
         let (%%) = (<|)
 

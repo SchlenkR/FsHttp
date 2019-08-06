@@ -13,14 +13,12 @@ module Dsl =
     /// Finalized a Request build pipeline
     let fin = id
 
-    [<AutoOpen>]
-    module Operators =
-
-        /// synchronous request invocation
-        let inline ( .> ) r f = send (r id) |> f
-
-        /// asynchronous request invocation
-        let inline ( >. ) r f = sendAsync (r id) |>  f
+    // [<AutoOpen>]
+    // module Operators =
+    //     /// synchronous request invocation
+    //     let inline ( .> ) r f = send (r id) |> f
+    //     /// asynchronous request invocation
+    //     let inline ( >. ) r f = sendAsync (r id) |>  f
 
     [<AutoOpen>]
     module R =
@@ -353,3 +351,16 @@ module Dsl =
         
         let inline transformHttpClient context map (next: Next<_,_>) =
             config context (fun config -> { config with httpClientTransformer = Some map }) next
+
+    module Fsi =
+        let inline run context (printMod: Response -> Response) =
+            send context |> printMod
+
+        // let inline raw context = send context |> FsHttp.Fsi.raw
+        // let inline header context = send context |> FsHttp.Fsi.header
+        // let inline show context maxLength = send context |> FsHttp.Fsi.show maxLength
+        // let inline preview context = send context |> FsHttp.Fsi.preview
+        // let inline prv context = send context |> FsHttp.Fsi.prv
+        // let inline go context = send context |> FsHttp.Fsi.go
+        // let inline expand context = send context |> FsHttp.Fsi.expand
+        // let inline exp context = send context |> FsHttp.Fsi.exp
