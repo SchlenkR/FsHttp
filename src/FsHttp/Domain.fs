@@ -103,8 +103,7 @@ module Domain =
                 printContent = {
                     enabled = false
                     format = true
-                    // TODO: provide default in config
-                    maxLength = 500
+                    maxLength = Config.defaultPreviewLength
                 }
             }
         }
