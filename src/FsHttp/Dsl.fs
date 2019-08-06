@@ -282,7 +282,7 @@ module Dsl =
     [<AutoOpen>]
     module B =
 
-        let body (headerContext: HeaderContext) (next: Next<_,_>) : BodyContext =
+        let body (headerContext: HeaderContext) (next: Next<_,_>) =
             { request = headerContext.request;
               content = { content=""; contentType=""; headers=[] };
               config = headerContext.config
