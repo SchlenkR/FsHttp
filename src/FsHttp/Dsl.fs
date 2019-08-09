@@ -353,7 +353,7 @@ module Dsl =
             config context (fun config -> { config with httpClientTransformer = Some map }) next
 
     module Fsi =
-        let inline run context (printMod: Response -> Response) =
+        let inline run context (printMod: Response -> 'a) =
             send context |> printMod
 
         // let inline raw context = send context |> FsHttp.Fsi.raw
