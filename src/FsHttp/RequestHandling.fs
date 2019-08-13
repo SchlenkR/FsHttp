@@ -1,6 +1,7 @@
 
 namespace FsHttp
 
+open System.Net
 open System.Net.Http
 open System.Text
 
@@ -11,7 +12,7 @@ module RequestHandling =
         (^t: (static member Finalize: ^t -> FinalContext) (context))
 
     let toMessage (finalContext: FinalContext) : HttpRequestMessage =
-        let request = finalContext.request
+        let request = finalContext.header
         let requestMessage = new HttpRequestMessage(request.method, request.url)
     
         requestMessage.Content <-
@@ -38,8 +39,12 @@ module RequestHandling =
                 | None -> requestMessage
                 | Some map -> map requestMessage
 
+            let cookieContainer = CookieContainer()
+            finalContext.header.cookies |> List.iter cookieContainer.Add
+
             // TODO: dispose
             let clientHandler = new HttpClientHandler()
+            clientHandler.CookieContainer <- cookieContainer
             let client = new HttpClient(clientHandler, Timeout = finalContext.config.timeout)
 
             let finalClient =

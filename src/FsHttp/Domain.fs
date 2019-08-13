@@ -17,6 +17,9 @@ module Domain =
         url: string
         method: HttpMethod
         headers: (string*string) list
+        // We use a .Net type here, which we never do in other places.
+        // Since Cookie is record style, I see no problem here.
+        cookies: System.Net.Cookie list
     }
 
     type Content = {
@@ -28,33 +31,33 @@ module Domain =
     type StartingContext = StartingContext
 
     type FinalContext =
-        { request: Header
+        { header: Header
           content: Content option
           config: Config } with
         // important because we can use sendFinal with all context types
         static member Finalize (this: FinalContext) = this
 
     type HeaderContext =
-        { request: Header
+        { header: Header
           config: Config } with
         static member Header (this: HeaderContext, name: string, value: string) =
-            { this with request = { this.request with headers = this.request.headers @ [name,value] } }
+            { this with header = { this.header with headers = this.header.headers @ [name,value] } }
         static member Config (this: HeaderContext, f: Config -> Config) =
             { this with config = f this.config }
         static member Finalize (this: HeaderContext) =
-            let finalContext = { request=this.request; content=None; config=this.config }
+            let finalContext = { header=this.header; content=None; config=this.config }
             finalContext
 
     type BodyContext =
-        { request: Header
+        { header: Header
           content: Content
           config: Config } with
         static member Header (this: BodyContext, name: string, value: string) =
-            { this with request = { this.request with headers = this.request.headers @ [name,value] } }
+            { this with header = { this.header with headers = this.header.headers @ [name,value] } }
         static member Config (this: BodyContext, f: Config -> Config) =
             { this with config = f this.config }
         static member Finalize (this: BodyContext) =
-            let finalContext:FinalContext = { request=this.request; content=Some this.content; config=this.config }
+            let finalContext:FinalContext = { header=this.header; content=Some this.content; config=this.config }
             finalContext
 
     // TODO: Get rid of all the boolean switches and use options instead.

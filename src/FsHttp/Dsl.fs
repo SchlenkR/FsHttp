@@ -38,7 +38,7 @@ module Dsl =
                 |> Seq.reduce (+)
 
             let headerContext =
-                { request = { url=formattedUrl; method=method; headers=[] };
+                { header = { url=formattedUrl; method=method; headers=[]; cookies=[] };
                   config = { timeout=defaultTimeout; httpMessageTransformer=None; httpClientTransformer=None } }
             next headerContext
 
@@ -275,13 +275,19 @@ module Dsl =
         
         /// Override HTTP method.
         let xhttpMethodOverride (context:HeaderContext) (httpMethod: string) (next: Next<_,_>) =
-            header "X-HTTP-Method-Override" httpMethod context
+            header "X-HTTP-Method-Override" httpMethod context |> next
+
+
+        // let setCookie (context:HeaderContext) (name: string) (value: string) (next: Next<_,_>) = ()
+        // let setCookie2 (context:HeaderContext) (name: string) (value: string) (path: string) (next: Next<_,_>) = ()
+        // let setCookie3 (context:HeaderContext) (name: string) (value: string) (path: string) (domain: string) (next: Next<_,_>) = ()
+
 
     [<AutoOpen>]
     module B =
 
         let body (headerContext: HeaderContext) (next: Next<_,_>) =
-            { request = headerContext.request;
+            { header = headerContext.header;
               content = { content=""; contentType=""; headers=[] };
               config = headerContext.config
             }
