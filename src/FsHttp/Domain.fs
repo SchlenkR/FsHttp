@@ -40,10 +40,6 @@ module Domain =
     type HeaderContext =
         { header: Header
           config: Config } with
-        static member Header (this: HeaderContext, name: string, value: string) =
-            { this with header = { this.header with headers = this.header.headers @ [name,value] } }
-        static member Config (this: HeaderContext, f: Config -> Config) =
-            { this with config = f this.config }
         static member Finalize (this: HeaderContext) =
             let finalContext = { header=this.header; content=None; config=this.config }
             finalContext
@@ -52,10 +48,6 @@ module Domain =
         { header: Header
           content: Content
           config: Config } with
-        static member Header (this: BodyContext, name: string, value: string) =
-            { this with header = { this.header with headers = this.header.headers @ [name,value] } }
-        static member Config (this: BodyContext, f: Config -> Config) =
-            { this with config = f this.config }
         static member Finalize (this: BodyContext) =
             let finalContext:FinalContext = { header=this.header; content=Some this.content; config=this.config }
             finalContext

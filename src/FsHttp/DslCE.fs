@@ -288,6 +288,20 @@ module DslCE =
         member this.XHTTPMethodOverride (context, httpMethod) =
             Dsl.H.xhttpMethodOverride context httpMethod id
 
+        // no add cookie
+        // [<CustomOperation("AddCookie")>]
+        // member this.AddCookie (context, cookie) =
+        //     Dsl.H.addCookie context cookie id
+        [<CustomOperation("SetCookie")>]
+        member this.SetCookie (context, name, value) =
+            Dsl.H.setCookie context name value id
+        [<CustomOperation("SetCookieForPath")>]
+        member this.SetCookieForPath (context, name, value, path) =
+            Dsl.H.setCookieForPath context name value path id
+        [<CustomOperation("SetCookieForDomain")>]
+        member this.SetCookieForDomain (context, name, value, path, domain) =
+            Dsl.H.setCookieForDomain context name value path domain id
+
 
     // Body
     type HttpBuilder with
@@ -339,19 +353,19 @@ module DslCE =
     type HttpBuilder with
         
         [<CustomOperation("timeout")>]
-        member inline this.Timeout (context, value) =
+        member this.Timeout (context, value) =
             Dsl.Config.timeout context value id
         
         [<CustomOperation("timeoutInSeconds")>]
-        member inline this.TimeoutInSeconds (context, value) =
+        member this.TimeoutInSeconds (context, value) =
             Dsl.Config.timeoutInSeconds context value id
         
         [<CustomOperation("transformHttpRequestMessage")>]
-        member inline this.TransformHttpRequestMessage (context, map) =
+        member this.TransformHttpRequestMessage (context, map) =
             Dsl.Config.transformHttpRequestMessage context map id
         
         [<CustomOperation("transformHttpClient")>]
-        member inline this.TransformHttpClient (context, map) =
+        member this.TransformHttpClient (context, map) =
             Dsl.Config.transformHttpClient context map id
 
 

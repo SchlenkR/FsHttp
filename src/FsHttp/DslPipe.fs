@@ -234,6 +234,13 @@ module DslPipe =
         let xhttpMethodOverride httpMethod context =
             Dsl.H.xhttpMethodOverride context httpMethod id
 
+        let setCookie name value context =
+            Dsl.H.setCookie context name value id
+        let setCookieForPath name value path context =
+            Dsl.H.setCookieForPath context name value path id
+        let setCookieForDomain name value path domain context =
+            Dsl.H.setCookieForDomain context name value path domain id
+
     [<AutoOpen>]
     module B =
 
@@ -260,14 +267,14 @@ module DslPipe =
     [<AutoOpen>]
     module Config =
         
-        let inline timeout value context =
+        let timeout value context =
             Dsl.Config.timeout context value id
 
-        let inline timeoutInSeconds value context =
+        let timeoutInSeconds value context =
             Dsl.Config.timeoutInSeconds context value id
         
-        let inline transformHttpRequestMessage map context =
+        let transformHttpRequestMessage map context =
             Dsl.Config.transformHttpRequestMessage context map id
         
-        let inline transformHttpClient map context =
+        let transformHttpClient map context =
             Dsl.Config.transformHttpClient context map id
