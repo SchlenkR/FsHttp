@@ -338,7 +338,7 @@ module Dsl =
     module Config =
         
         let inline config (context: ^t) (f: Config -> Config) (next: Next<_,_>) =
-            (^t: (static member Config: ^t * (Config -> Config) -> ^t) (context,f))
+            (^t: (static member Config: ^t * (Config -> Config) -> ^t) (context,f)) |> next
 
         let inline timeout context value (next: Next<_,_>) =
             config context (fun config -> { config with timeout = value }) next
