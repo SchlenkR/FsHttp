@@ -1,6 +1,7 @@
 
 namespace FsHttp
 
+open System
 open System.Net
 open System.Net.Http
 open System.Text
@@ -40,7 +41,14 @@ module RequestHandling =
                 | Some map -> map requestMessage
 
             let cookieContainer = CookieContainer()
-            finalContext.header.cookies |> List.iter cookieContainer.Add
+            
+            finalContext.header.cookies
+            |> List.iter (fun cookie ->
+                let domain =
+                    if String.IsNullOrWhiteSpace cookie.Domain
+                    then finalContext.header.url
+                    else cookie.Domain
+                cookieContainer.Add(Uri(domain), cookie))
 
             // TODO: dispose
             let clientHandler = new HttpClientHandler()

@@ -18,6 +18,7 @@ open NUnit.Framework
 open Server
 open System
 open Suave
+open Suave.Cookie
 open Suave.ServerErrors
 open Suave.Operators
 open Suave.Filters
@@ -158,6 +159,25 @@ let ``Specify content type explicitly``() =
     |> toText
     |> should contain contentType
 
+[<TestCase>]
+let ``Cookies can be sent``() =
+    use server =
+        GET
+        >=> request (fun r ->
+            r.cookies
+            |> Map.find "test"
+            |> fun httpCookie -> httpCookie.value
+            |> OK)
+        |> serve
+
+    http {
+        GET (url @"")
+        SetCookie "test" "hello world"
+    }
+    |> toText
+    |> should equal "hello world"
+
+
 // [<TestCase>]
 // let ``Http reauest message can be modified``() =
 //     use server = GET >=> request (header "accept-language" >> OK) |> serve
@@ -176,4 +196,4 @@ let ``Specify content type explicitly``() =
 // TODO: ToFormattedText
 // TODO: transformHttpRequestMessage
 // TODO: transformHttpClient
-// TODO: Cookie tests
+// TODO: Cookie tests (test the overloads)
