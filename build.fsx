@@ -31,6 +31,15 @@ Target.create "Clean" (fun _ ->
     |> Shell.cleanDirs 
 )
 
+Target.create "Docu" (fun _ ->
+    Trace.trace "Generating README.md"
+    let docu =
+        !! "doc/*.md"
+        |> Seq.map (File.readAsString >> (+) "\n")
+        |> Seq.reduce (+)
+    File.writeString false (!! "README.md" |> Seq.head) docu
+)
+
 Target.create "Build" (fun _ ->
     !! "src/**/*.*proj"
     |> Seq.iter (
@@ -78,6 +87,7 @@ Target.create "Publish" (fun _ ->
 Target.create "Final" ignore
 
 "Clean"
+    ==> "Docu"
     ==> "Build"
     =?> ("Test", publish || test)
     =?> ("Pack", publish)
