@@ -355,6 +355,7 @@ module Dsl =
         let transformHttpClient context map (next: Next<_,_>) =
             config context (fun config -> { config with httpClientTransformer = Some map }) next
 
+    [<AutoOpen>]
     module Fsi =
     
         let inline run context (printMod: Response -> 'a) =
