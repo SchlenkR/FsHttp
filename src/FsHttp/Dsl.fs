@@ -68,7 +68,6 @@ module Dsl =
         // RFC 4918 (WebDAV) adds 7 methods
         // TODO
 
-
     [<AutoOpen>]
     module H =
 
@@ -280,7 +279,6 @@ module Dsl =
             addCookie context (Cookie(name, value, path)) next
         let setCookieForDomain (context:HeaderContext) (name: string) (value: string) (path: string) (domain: string) (next: Next<_,_>) =
             addCookie context (Cookie(name, value, path, domain)) next
-
 
     [<AutoOpen>]
     module B =

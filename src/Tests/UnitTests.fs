@@ -13,6 +13,7 @@ module ``Unit tests for FsHttp``
 
 open FsUnit
 open FsHttp
+open FsHttp.DslCE
 open FsHttp.Testing
 open NUnit.Framework
 open Server
