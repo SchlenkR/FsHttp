@@ -29,7 +29,7 @@ module RequestHandling =
             requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
 
         requestMessage
-    
+ 
     let inline sendAsync context =
         let finalContext = finalizeContext context
         let invoke() =
@@ -78,11 +78,11 @@ module RequestHandling =
     let inline send context =
         context |> sendAsync |> Async.RunSynchronously
 
-    [<AutoOpen>]
-    module Operators =
+    // [<AutoOpen>]
+    // module Operators =
 
-        /// synchronous request invocation
-        let inline ( .> ) context f = send context |>  f
+    //     /// synchronous request invocation
+    //     let inline ( .> ) context f = send context |>  f
 
-        /// asynchronous request invocation
-        let inline ( >. ) context f = sendAsync |> context f
+    //     /// asynchronous request invocation
+    //     let inline ( >. ) context f = sendAsync |> context f
