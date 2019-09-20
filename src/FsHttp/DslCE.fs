@@ -368,28 +368,31 @@ module DslCE =
             member this.TransformHttpClient (context, map) =
                 Dsl.Config.transformHttpClient context map id
 
-    type HttpBuilder with
-        member this.Bind(m, f) = f m
-        member this.Return(x) = x
-        member this.Yield(x) = StartingContext
-        member this.For(m, f) = this.Bind m f
+    [<AutoOpen>]
+    module Builder =
 
-    type HttpBuilderSync() =
-        inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() |> send
-    let http = HttpBuilderSync()
+        type HttpBuilder with
+            member this.Bind(m, f) = f m
+            member this.Return(x) = x
+            member this.Yield(x) = StartingContext
+            member this.For(m, f) = this.Bind m f
 
-    type HttpBuilderAsync() =
-        inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() |> sendAsync
-    let httpAsync = HttpBuilderAsync()
+        type HttpBuilderSync() =
+            inherit HttpBuilder()
+            member inline this.Delay(f: unit -> 'a) = f() |> send
+        let http = HttpBuilderSync()
 
-    type HttpBuilderLazy() =
-        inherit HttpBuilder()
-    let httpLazy = HttpBuilderLazy()
+        type HttpBuilderAsync() =
+            inherit HttpBuilder()
+            member inline this.Delay(f: unit -> 'a) = f() |> sendAsync
+        let httpAsync = HttpBuilderAsync()
 
-    type HttpMessageBuilder() =
-        inherit HttpBuilder()
-        member inline this.Delay(f: unit -> 'a) =
-            f() |> finalizeContext |> toMessage
-    let httpMsg = HttpMessageBuilder()
+        type HttpBuilderLazy() =
+            inherit HttpBuilder()
+        let httpLazy = HttpBuilderLazy()
+
+        type HttpMessageBuilder() =
+            inherit HttpBuilder()
+            member inline this.Delay(f: unit -> 'a) =
+                f() |> finalizeContext |> toMessage
+        let httpMsg = HttpMessageBuilder()
