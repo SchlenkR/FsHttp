@@ -5,6 +5,7 @@ open System
 open System.Net
 open System.Net.Http
 open System.Text
+open System.Threading
 
 [<AutoOpen>]
 module RequestHandling =
@@ -32,7 +33,7 @@ module RequestHandling =
     
     let inline sendAsync context =
         let finalContext = finalizeContext context
-        let invoke() =
+        let invoke(ctok : CancellationToken) =
             let requestMessage = toMessage finalContext
 
             let finalRequestMessage =
@@ -59,10 +60,11 @@ module RequestHandling =
                 match finalContext.config.httpClientTransformer with
                 | None -> client
                 | Some map -> map client
-            finalClient.SendAsync(finalRequestMessage)
+            finalClient.SendAsync(finalRequestMessage, ctok)
 
         async {
-            let! response = invoke() |> Async.AwaitTask
+            let! ctok = Async.CancellationToken
+            let! response = invoke ctok |> Async.AwaitTask
             return { 
                 requestContext = finalContext;
                 content = response.Content;
