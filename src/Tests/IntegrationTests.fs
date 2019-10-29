@@ -178,6 +178,26 @@ let ``Cookies can be sent``() =
     |> should equal "hello world"
 
 
+[<TestCase>]
+let ``Custom Headers``() =
+    let customHeaderKey = "X-Custom-Value"
+
+    use server =
+        GET
+        >=> request (fun r ->
+            r.header customHeaderKey
+            |> function | Choice1Of2 v -> v | Choice2Of2 e -> failwithf "Failed %s" e
+            |> OK)
+        |> serve
+
+    http {
+        GET (url @"")
+        Header customHeaderKey "hello world"
+    }
+    |> toText
+    |> should equal "hello world"
+
+
 // [<TestCase>]
 // let ``Http reauest message can be modified``() =
 //     use server = GET >=> request (header "accept-language" >> OK) |> serve
