@@ -17,7 +17,7 @@ module Dsl =
     [<AutoOpen>]
     module R =
         
-        let request (method: HttpMethod) (url: string) (next: Next<_,_>) =
+        let request (method: string) (url: string) (next: Next<_,_>) =
 
             let formattedUrl =
                 url.Split([|'\n'|], StringSplitOptions.RemoveEmptyEntries)
@@ -32,38 +32,38 @@ module Dsl =
                 |> Seq.reduce (+)
 
             let headerContext =
-                { header = { url=formattedUrl; method=method; headers=[]; cookies=[] };
+                { header = { url=formattedUrl; method=HttpMethod(method); headers=[]; cookies=[] };
                   config = { timeout=defaultTimeout; httpMessageTransformer=None; httpClientTransformer=None } }
             next headerContext
 
         // RFC 2626 specifies 8 methods + PATCH
         
         let get (url:string) (next: Next<_,_>) =
-            request HttpMethod.Get url next
+            request "GET" url next
         
         let put (url:string) (next: Next<_,_>) =
-            request HttpMethod.Put url next
+            request "PUT" url next
         
         let post (url:string) (next: Next<_,_>) =
-            request HttpMethod.Post url next
+            request "POST" url next
         
         let delete (url:string) (next: Next<_,_>) =
-            request HttpMethod.Delete url next
+            request "DELETE" url next
         
         let options (url:string) (next: Next<_,_>) =
-            request HttpMethod.Options url next
+            request "OPTIONS" url next
         
         let head (url:string) (next: Next<_,_>) =
-            request HttpMethod.Head url next
+            request "HEAD" url next
         
         let trace (url:string) (next: Next<_,_>) =
-            request HttpMethod.Trace url next
+            request "TRACE" url next
         
         let connect (url:string) (next: Next<_,_>) =
-            request (HttpMethod("CONNECT")) url next
+            request "CONNECT" url next
         
         let patch (url:string) (next: Next<_,_>) =
-            request (HttpMethod("PATCH")) url next
+            request "PATCH" url next
 
         // RFC 4918 (WebDAV) adds 7 methods
         // TODO

@@ -17,31 +17,34 @@ module DslPipe =
         
         // RFC 2626 specifies 8 methods + PATCH
         
-        let get (url:string) =
+        let request (method) url =
+            Dsl.R.request method url id
+        
+        let get url =
             Dsl.R.get url id
         
-        let put (url:string) =
+        let put url =
             Dsl.R.put url id
         
-        let post (url:string) =
+        let post url =
             Dsl.R.post url id
         
-        let delete (url:string) =
+        let delete url =
             Dsl.R.delete url id
         
-        let options (url:string) =
+        let options url =
             Dsl.R.options url id
         
-        let head (url:string) =
+        let head url =
             Dsl.R.head url id
         
-        let trace (url:string) =
+        let trace url =
             Dsl.R.trace url id
         
-        let connect (url:string) =
+        let connect url =
             Dsl.R.connect url id
         
-        let patch (url:string) =
+        let patch url =
             Dsl.R.patch url id
 
         // RFC 4918 (WebDAV) adds 7 methods
