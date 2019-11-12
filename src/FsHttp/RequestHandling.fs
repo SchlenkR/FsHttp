@@ -9,9 +9,12 @@ open System.Text
 [<AutoOpen>]
 module RequestHandling =
 
+    /// Takes a context (HeaderContext or BodyContext) and transforms it into a
+    /// FinalContext that can be used for invocation.
     let inline finalizeContext (context: ^t) =
         (^t: (static member Finalize: ^t -> FinalContext) (context))
 
+    /// Transforms a FinalContext into a System.Net.Http.HttpRequestMessage.
     let toMessage (finalContext: FinalContext) : HttpRequestMessage =
         let request = finalContext.header
         let requestMessage = new HttpRequestMessage(request.method, request.url)
@@ -30,6 +33,7 @@ module RequestHandling =
 
         requestMessage
  
+    /// Sends a context asynchronously.
     let inline sendAsync context =
         let finalContext = finalizeContext context
         let invoke() =
@@ -75,14 +79,6 @@ module RequestHandling =
             }
         }
 
+    /// Sends a context synchronously.
     let inline send context =
         context |> sendAsync |> Async.RunSynchronously
-
-    // [<AutoOpen>]
-    // module Operators =
-
-    //     /// synchronous request invocation
-    //     let inline ( .> ) context f = send context |>  f
-
-    //     /// asynchronous request invocation
-    //     let inline ( >. ) context f = sendAsync |> context f
