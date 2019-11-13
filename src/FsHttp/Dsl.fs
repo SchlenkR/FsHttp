@@ -359,15 +359,15 @@ module Dsl =
     module Fsi =
     
         // run is not needed anymore. disadvantage: no easy custom-printmodifiers
-        // let inline run context (printMod: Response -> 'a) =
-        //     send context |> printMod
+        let inline run context (printMod: Response -> 'a) =
+            send context |> printMod
 
         // overrides for print modifier in DSL
-        let inline raw context = send context |> raw
-        let inline header context = send context |> Fsi.header
-        let inline show context maxLength = send context |> (show maxLength)
-        let inline preview context = send context |> preview
-        let inline prv context = preview context
-        let inline go context = preview context
-        let inline expand context = send context |>  expand
-        let inline exp context = expand context
+        // let inline raw context = send context |> raw
+        // let inline header context = send context |> Fsi.header
+        // let inline show context maxLength = send context |> (show maxLength)
+        // let inline preview context = send context |> preview
+        // let inline prv context = preview context
+        // let inline go context = preview context
+        // let inline expand context = send context |>  expand
+        // let inline exp context = expand context
