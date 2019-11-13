@@ -178,6 +178,19 @@ let ``Cookies can be sent``() =
     |> toText
     |> should equal "hello world"
 
+[<TestCase>]
+let ``Custom HTTP method``() =
+    use server =
+        ``method`` (HttpMethod.parse "FLY")
+        >=> request (fun r -> OK "flying")
+        |> serve
+
+    http {
+        Request "FLY" (url @"")
+    }
+    |> toText
+    |> should equal "flying"
+
 
 // [<TestCase>]
 // let ``Http reauest message can be modified``() =
