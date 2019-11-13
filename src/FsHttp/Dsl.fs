@@ -358,8 +358,9 @@ module Dsl =
     [<AutoOpen>]
     module Fsi =
     
-        let inline run context (printMod: Response -> 'a) =
-            send context |> printMod
+        // run is not needed anymore. disadvantage: no easy custom-printmodifiers
+        // let inline run context (printMod: Response -> 'a) =
+        //     send context |> printMod
 
         // overrides for print modifier in DSL
         let inline raw context = send context |> raw
