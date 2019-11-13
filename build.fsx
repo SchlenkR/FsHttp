@@ -52,19 +52,21 @@ Target.create "Build" (fun _ ->
     ))
 )
 
+// TODO: use  --no-build again (currently broken)
 Target.create "Test" (fun _ ->
     !! "src/**/*Tests.fsproj"
     |> Seq.iter (fun p ->
-        Shell.Exec ("dotnet", sprintf "test %s --no-build" p) |> assertSuccess)
+        Shell.Exec ("dotnet", sprintf "test %s" p) |> assertSuccess)
 )
 
+// TODO: use  --no-build again (currently broken)
 Target.create "Pack" (fun _ ->
     !! "src/**/FsHttp*.fsproj"
     |> Seq.iter (fun p ->
         // let packageVersion = { version with (*Patch = 4711u;*) Original = None; PreRelease = PreRelease.TryParse "alpha" }.AsString
 
         Trace.trace (sprintf "SourceDir is: %s" __SOURCE_DIRECTORY__)
-        Shell.Exec ("dotnet", sprintf "pack %s -o %s --no-build -c Release" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
+        Shell.Exec ("dotnet", sprintf "pack %s -o %s -c Release" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
         |> assertSuccess
     )
 )

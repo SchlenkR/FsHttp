@@ -1,17 +1,33 @@
 ﻿
-/// -------
-/// From the repo root, run "fake build" before using this demo script.
-/// -------
+// TODO:
+// * There are different types of builders (`http`, `httpAsync`, `httpLazy`, and `httpMsg`)
+// * FSI: expand, etc.
 
-#r @"../../packages/NUnit/lib/netstandard2.0/nunit.framework.dll"
 #load @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.fsx"
 
 open FsHttp
-open FsHttp.Dsl
+open FsHttp.Fsi
+open FsHttp.DslCE
+
+http {
+    POST "https://reqres.in/api/users"
+    CacheControl "no-cache"
+    body
+    json """
+    {
+        "name": "morpheus",
+        "job": "leader"
+    }
+    """
+}
 
 
-// evaluate until here and play with the samples.
 
+
+
+
+// TODO: FSI printing geht hier auch
+// |> expand
 
 //////////////////////////////////////////////////////
 let req =

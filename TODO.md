@@ -22,3 +22,8 @@
 * aufteilen in: Basic und Advanced / Production and FSI
 * DSL: If you want it all sync, use just "go". If you want to control sync/async, use "id .> go" or "id >. go"
 * builder operations auch camelCase
+* make functions 'inline' when using send inside
+* -- und |> sind gleich
+* Adressing B and H explicitly
+* Body besser erklären
+* 
