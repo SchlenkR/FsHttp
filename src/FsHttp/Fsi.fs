@@ -7,19 +7,29 @@ module Fsi =
 
     open System
 
-    let noCustomPrinting printHint = { printHint with isEnabled = false }
-    let noRequest printHint = { printHint with requestPrintHint = { printHint.requestPrintHint with enabled = false } }
-    let noRequestHeader printHint = { printHint with requestPrintHint = { printHint.requestPrintHint with printHeader = false } }
-    let noResponse printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with enabled = false } }
-    let noResponseHeader printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printHeader = false } }
-    let withResponseContent printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with enabled = true } } }
-    let noResponseContentFormatting printHint = { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with format = false } } }
-    let withResponseContentMaxLength maxLength printHint =
-        { printHint with responsePrintHint = { printHint.responsePrintHint with printContent = { printHint.responsePrintHint.printContent with maxLength = maxLength } } } 
+    let noCustomPrinting (printHint: PrintHint) = 
+        { printHint with isEnabled = false }
+    let noRequest (printHint: PrintHint) = 
+        { printHint with requestPrintHint = { printHint.requestPrintHint with isEnabled = false } }
+    let noRequestHeader (printHint: PrintHint) = 
+        { printHint with requestPrintHint = { printHint.requestPrintHint with printHeader = false } }
+    let noResponse (printHint: PrintHint) = 
+        { printHint with responsePrintHint = { printHint.responsePrintHint with isEnabled = false } }
+    let noResponseHeader (printHint: PrintHint) = 
+        { printHint with responsePrintHint = { printHint.responsePrintHint with printHeader = false } }
+    let withResponseContent (printHint: PrintHint) = 
+        { printHint with responsePrintHint = { printHint.responsePrintHint with 
+                                                 printContent = { printHint.responsePrintHint.printContent with isEnabled = true } } }
+    let noResponseContentFormatting (printHint: PrintHint) = 
+        { printHint with responsePrintHint = { printHint.responsePrintHint with 
+                                                 printContent = { printHint.responsePrintHint.printContent with format = false } } }
+    let withResponseContentMaxLength maxLength (printHint: PrintHint) =
+        { printHint with responsePrintHint = { printHint.responsePrintHint with 
+                                                 printContent = { printHint.responsePrintHint.printContent with maxLength = maxLength } } } 
         |> withResponseContent
 
     // Printing (Response -> Response)
-    let modifyPrinter f r = { r with printHint = f r.printHint }
+    let modifyPrinter f r = { r with Response.printHint = f r.printHint }
 
     let raw = noCustomPrinting |> modifyPrinter
     let header = modifyPrinter id
@@ -62,7 +72,7 @@ module FsiPrinting =
 
         let printRequest() =
             let requestPrintHint = r.printHint.requestPrintHint
-            if requestPrintHint.enabled then
+            if requestPrintHint.isEnabled then
                 appendSection "REQUEST"
                 appendLine (sprintf "%s %s HTTP/%s" (r.requestContext.header.method.ToString()) r.requestContext.header.url (r.version.ToString()))
 
@@ -73,11 +83,11 @@ module FsiPrinting =
                         else []
 
                     printHeaderCollection ((r.requestMessage.Headers |> Seq.toList) @ contentHeader)
-                
+
                 newLine()
 
         let printResponse() =
-            if r.printHint.responsePrintHint.enabled then
+            if r.printHint.responsePrintHint.isEnabled then
                 appendSection "RESPONSE"
                 appendLine (sprintf "HTTP/%s %d %s" (r.version.ToString()) (int r.statusCode) (string r.statusCode))
 
@@ -85,7 +95,7 @@ module FsiPrinting =
                     printHeaderCollection ((r.headers |> Seq.toList) @ (r.content.Headers |> Seq.toList))
                     newLine()
 
-                if r.printHint.responsePrintHint.printContent.enabled then
+                if r.printHint.responsePrintHint.printContent.isEnabled then
                     let trimmedContentText =
                         try
                             let contentText =

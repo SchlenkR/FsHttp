@@ -7,8 +7,25 @@ open System.Net.Http
 [<AutoOpen>]
 module Domain =
 
+    type PrintHint = 
+        { isEnabled: bool
+          requestPrintHint: RequestPrintHint
+          responsePrintHint: ResponsePrintHint }
+    and RequestPrintHint = 
+        { isEnabled: bool
+          printHeader: bool }
+    and ResponsePrintHint =
+        { isEnabled: bool
+          printHeader: bool
+          printContent: ContentPrintHint }
+    and ContentPrintHint =
+        { isEnabled: bool
+          format: bool
+          maxLength: int }
+
     type Config = {
         timeout: TimeSpan
+        printHint: PrintHint
         httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
         httpClientTransformer: (HttpClient -> HttpClient) option
     }
@@ -53,32 +70,12 @@ module Domain =
             finalContext
 
     // TODO: Get rid of all the boolean switches and use options instead.
-    type Response = {
-        requestContext: FinalContext
-        requestMessage: HttpRequestMessage
-        content: HttpContent
-        headers: Headers.HttpResponseHeaders
-        reasonPhrase: string
-        statusCode: System.Net.HttpStatusCode
-        version: Version
-        printHint: PrintHint
-    }
-    and PrintHint = {
-        isEnabled: bool
-        requestPrintHint: RequestPrintHint
-        responsePrintHint: ResponsePrintHint
-    }
-    and RequestPrintHint = {
-        enabled: bool
-        printHeader: bool
-    }
-    and ResponsePrintHint = {
-        enabled: bool
-        printHeader: bool
-        printContent: ContentPrintHint
-    }
-    and ContentPrintHint = {
-        enabled: bool
-        format: bool
-        maxLength: int
-    }
+    type Response = 
+        { requestContext: FinalContext
+          requestMessage: HttpRequestMessage
+          content: HttpContent
+          headers: Headers.HttpResponseHeaders
+          reasonPhrase: string
+          statusCode: System.Net.HttpStatusCode
+          version: Version
+          printHint: PrintHint }

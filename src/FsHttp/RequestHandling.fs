@@ -68,14 +68,14 @@ module RequestHandling =
         async {
             let! response = invoke() |> Async.AwaitTask
             return { 
-                requestContext = finalContext;
-                content = response.Content;
-                headers = response.Headers;
-                reasonPhrase = response.ReasonPhrase;
-                statusCode = response.StatusCode;
-                requestMessage = response.RequestMessage;
-                version = response.Version;
-                printHint = defaultPrintHint
+                requestContext = finalContext
+                content = response.Content
+                headers = response.Headers
+                reasonPhrase = response.ReasonPhrase
+                statusCode = response.StatusCode
+                requestMessage = response.RequestMessage
+                version = response.Version
+                printHint = finalContext.config.printHint
             }
         }
 

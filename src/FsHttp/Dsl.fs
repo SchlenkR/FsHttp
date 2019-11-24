@@ -32,8 +32,14 @@ module Dsl =
                 |> Seq.reduce (+)
 
             let headerContext =
-                { header = { url=formattedUrl; method=HttpMethod(method); headers=[]; cookies=[] };
-                  config = { timeout=defaultTimeout; httpMessageTransformer=None; httpClientTransformer=None } }
+                { header = { url=formattedUrl
+                             method=HttpMethod(method)
+                             headers=[]
+                             cookies=[] }
+                  config = { timeout=defaultTimeout
+                             printHint = defaultPrintHint
+                             httpMessageTransformer=None
+                             httpClientTransformer=None } }
             next headerContext
 
         // RFC 2626 specifies 8 methods + PATCH
