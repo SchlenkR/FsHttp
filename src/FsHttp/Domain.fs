@@ -82,23 +82,3 @@ module Domain =
         format: bool
         maxLength: int
     }
-
-    type HttpBuilder() = class end
-
-    let defaultPrintHint = 
-        {
-            isEnabled = true
-            requestPrintHint = {
-                enabled = true
-                printHeader = true
-            }
-            responsePrintHint = {
-                enabled = true
-                printHeader = true
-                printContent = {
-                    enabled = false
-                    format = true
-                    maxLength = Config.defaultPreviewLength
-                }
-            }
-        }

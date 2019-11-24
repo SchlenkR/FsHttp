@@ -5,6 +5,8 @@ open Dsl
 
 module DslCE =
 
+    type HttpBuilder() = class end
+
     [<AutoOpen>]
     module R =
         type HttpBuilder with
