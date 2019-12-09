@@ -290,17 +290,14 @@ module Dsl =
     module B =
 
         let body (headerContext: HeaderContext) (next: Next<_,_>) =
-            { header = headerContext.header;
-              content = { content=""; contentType=""; headers=[] };
-              config = headerContext.config
-            }
+            { header = headerContext.header
+              content = { contentData = ContentData.StringContent ""; contentType = ""; headers = [] }
+              config = headerContext.config }
             |> next
 
         let private getContentTypeOrDefault (defaultValue:string) (context:BodyContext) =
-            if String.IsNullOrEmpty(context.content.contentType) then
-                defaultValue
-            else 
-                context.content.contentType
+            if String.IsNullOrEmpty(context.content.contentType) then defaultValue
+            else context.content.contentType
 
         // TODO: Binary
         // TODO: Base64
@@ -317,27 +314,39 @@ module Dsl =
         // //     { context with
         // //         content = { content with content=text; contentType=contentType;  }
         // //     }
+
+        let content (context: BodyContext) defaultContentType data (next: Next<_,_>) =
+            let content = context.content
+            let contentType = getContentTypeOrDefault defaultContentType context
+            
+            { context with content = { content with contentData = data; contentType = contentType;  } }
+            |> next
+        
+        let binary (context: BodyContext) (data: byte array) (next: Next<_,_>) =
+            content context "application/octet-stream" (ContentData.ByteArrayContent data) next
+        
+        let stream (context: BodyContext) (stream: System.IO.Stream) (next: Next<_,_>) =
+            content context "application/octet-stream" (ContentData.StreamContent stream) next
         
         let text (context: BodyContext) (text: string) (next: Next<_,_>) =
-            let content = context.content
-            let contentType = getContentTypeOrDefault "text/plain" context
-            { context with content = { content with content=text; contentType=contentType;  } } |> next
+            content context "text/plain" (ContentData.StringContent text) next
 
         let json (context: BodyContext) (json: string) (next: Next<_,_>) =
-            let content = context.content
-            let contentType = getContentTypeOrDefault "application/json" context
-            { context with content = { content with content=json; contentType=contentType;  } } |> next
+            content context "application/json" (ContentData.StringContent json) next
 
-        let formUrlEncoded (context: BodyContext) (data: (string*string) list) (next: Next<_,_>) =
-            let content = context.content
-            let contentType = getContentTypeOrDefault "application/x-www-form-urlencoded" context
-            let contentString = String.Join("&", data |> List.map (fun (key,value) -> key + "=" + value))
-            { context with content = { content with content=contentString; contentType=contentType;  } } |> next
+        let formUrlEncoded (context: BodyContext) (data: (string * string) list) (next: Next<_,_>) =
+            content context "application/x-www-form-urlencoded" (ContentData.FormUrlEncodedContent data) next
+            // let content = context.content
+            // let contentType = getContentTypeOrDefault "application/x-www-form-urlencoded" context
+            // let contentString = String.Join("&", data |> List.map (fun (key,value) -> key + "=" + value))
+            // { context with content = { content with content=contentString; contentType=contentType;  } } |> next
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
         let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
             let content = context.content
-            { context with content = { content with contentType=contentType;  } } |> next
+            
+            { context with content = { content with contentType=contentType;  } }
+            |> next
 
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
         let contentTypeWithEncoding (context: BodyContext) (contentTypeString) (charset:Encoding) (next: Next<_,_>) =

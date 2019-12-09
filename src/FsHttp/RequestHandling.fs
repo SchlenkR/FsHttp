@@ -21,11 +21,20 @@ module RequestHandling =
     
         requestMessage.Content <-
             match finalContext.content with
-            | Some c -> 
-                let stringContent = new StringContent(c.content, Encoding.UTF8, c.contentType)
+            | Some c ->
+                let dotnetContent =
+                    match c.contentData with
+                    | StringContent s ->
+                        // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header. 
+                        new System.Net.Http.StringContent(s, Encoding.UTF8, c.contentType) :> HttpContent
+                    | ByteArrayContent data -> new System.Net.Http.ByteArrayContent(data) :> HttpContent
+                    | StreamContent s -> new System.Net.Http.StreamContent(s) :> HttpContent
+                    | FormUrlEncodedContent data ->
+                        let kvps = data |> List.map (fun (k,v) -> System.Collections.Generic.KeyValuePair<string, string>(k, v))
+                        new System.Net.Http.FormUrlEncodedContent(kvps) :> HttpContent
                 for name,value in c.headers do
-                    stringContent.Headers.TryAddWithoutValidation(name, value) |> ignore
-                stringContent
+                    dotnetContent.Headers.TryAddWithoutValidation(name, value) |> ignore
+                dotnetContent
             | _ -> null
     
         for name,value in request.headers do

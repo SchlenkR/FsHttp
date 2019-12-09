@@ -250,6 +250,12 @@ module DslPipe =
         let body headerContext =
             Dsl.B.body headerContext id
         
+        let binary data context =
+            Dsl.B.binary context data id
+        
+        let stream stream context =
+            Dsl.B.stream context stream id
+
         let text text context =
             Dsl.B.text context text id
 

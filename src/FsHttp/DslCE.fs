@@ -5,11 +5,11 @@ open Dsl
 
 module DslCE =
 
-    type HttpBuilder() = class end
+    type HttpBuilderBase() = class end
 
     [<AutoOpen>]
     module R =
-        type HttpBuilder with
+        type HttpBuilderBase with
 
             [<CustomOperation("Request")>]
             member this.Request(StartingContext, method, url) =
@@ -57,7 +57,7 @@ module DslCE =
 
     [<AutoOpen>]
     module H =
-        type HttpBuilder with
+        type HttpBuilderBase with
 
             /// Content-Types that are acceptable for the response
             [<CustomOperation("Accept")>]
@@ -306,7 +306,7 @@ module DslCE =
 
     [<AutoOpen>]
     module B =
-        type HttpBuilder with
+        type HttpBuilderBase with
 
             [<CustomOperation("body")>]
             member this.Body(context) =
@@ -327,6 +327,14 @@ module DslCE =
             // //     { context with
             // //         content = { content with content=text; contentType=contentType;  }
             // //     }
+
+            [<CustomOperation("binary")>]
+            member this.Binary(context, data) =
+                Dsl.B.binary context data id
+
+            [<CustomOperation("stream")>]
+            member this.Stream(context, stream) =
+                Dsl.B.stream context stream id
             
             [<CustomOperation("text")>]
             member this.Text(context, text) =
@@ -352,7 +360,7 @@ module DslCE =
 
     [<AutoOpen>]
     module Config =
-        type HttpBuilder with
+        type HttpBuilderBase with
             
             [<CustomOperation("timeout")>]
             member this.Timeout (context, value) =
@@ -373,11 +381,18 @@ module DslCE =
     [<AutoOpen>]
     module Builder =
 
-        type HttpBuilder with
+        type HttpBuilderBase with
             member this.Bind(m, f) = f m
             member this.Return(x) = x
-            member this.Yield(x) = StartingContext
             member this.For(m, f) = this.Bind m f
+        
+        type HttpRequestBuilder<'a>(context: 'a) =
+            inherit HttpBuilderBase()
+            member this.Yield(x) = context
+        let httpRequest context = HttpRequestBuilder context
+
+        type HttpBuilder() =
+            inherit HttpRequestBuilder<StartingContext>(StartingContext)
 
         type HttpBuilderSync() =
             inherit HttpBuilder()

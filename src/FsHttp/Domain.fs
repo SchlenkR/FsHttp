@@ -40,10 +40,18 @@ module Domain =
     }
 
     type Content = {
-        content: string
+        contentData: ContentData
         contentType: string
         headers: (string*string) list
-    } 
+    }
+    and ContentData =
+    | StringContent of string
+    | ByteArrayContent of byte array
+    | StreamContent of System.IO.Stream
+    | FormUrlEncodedContent of (string * string) list
+    // TODO: Multipart
+    // TODO: File (shortcut)
+
 
     type StartingContext = StartingContext
 

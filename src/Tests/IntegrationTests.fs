@@ -33,6 +33,7 @@ module Helper =
     let query key (r: HttpRequest) = defaultArg (Option.ofChoice (r.query ^^ key)) keyNotFoundString
     let header key (r: HttpRequest) = defaultArg (Option.ofChoice (r.header key)) keyNotFoundString
     let form key (r: HttpRequest) = defaultArg (Option.ofChoice (r.form ^^ key)) keyNotFoundString
+    let text (r: HttpRequest) = r.rawForm |> System.Text.Encoding.UTF8.GetString
 
 
 [<TestCase>]
@@ -114,7 +115,41 @@ let ``Comments in urls are discarded``() =
     |> should equal ("Query1_" + keyNotFoundString + "_Query3")
 
 [<TestCase>]
-let ``Form url encoded POSTs``() =
+let ``POST string data``() =
+    use server =
+        POST 
+        >=> request (text >> OK)
+        |> serve
+
+    let data = "hello world"
+
+    http {
+        POST (url @"")
+        body
+        text data
+    }
+    |> toText
+    |> should equal data
+
+[<TestCase>]
+let ``POST binary data``() =
+    use server =
+        POST 
+        >=> request (fun r -> r.rawForm |> Suave.Successful.ok)
+        |> serve
+
+    let data = [| 12uy; 22uy; 99uy |]
+
+    http {
+        POST (url @"")
+        body
+        binary data
+    }
+    |> toBytes
+    |> should equal data
+
+[<TestCase>]
+let ``POST Form url encoded data``() =
     use server =
         POST 
         >=> request (fun r -> (form "q1" r) + "_" + (form "q2" r) |> OK) 
@@ -130,6 +165,9 @@ let ``Form url encoded POSTs``() =
     }
     |> toText
     |> should equal ("Query1_Query2")
+
+// TODO: POST stream
+// TODO: POST multipart
 
 [<TestCase>]
 let ``Expect status code``() =

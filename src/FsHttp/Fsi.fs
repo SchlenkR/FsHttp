@@ -74,7 +74,8 @@ module FsiPrinting =
             let requestPrintHint = r.printHint.requestPrintHint
             if requestPrintHint.isEnabled then
                 appendSection "REQUEST"
-                appendLine (sprintf "%s %s HTTP/%s" (r.requestContext.header.method.ToString()) r.requestContext.header.url (r.version.ToString()))
+                appendLine
+                    (sprintf "%s %s HTTP/%s" (r.requestContext.header.method.ToString()) r.requestContext.header.url (r.version.ToString()))
 
                 if requestPrintHint.printHeader then
                     let contentHeader =
