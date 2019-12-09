@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Helper.fs" />
     <Compile Include="Domain.fs" />
+    <Compile Include="Multipart.fs" />
     <Compile Include="Config.fs" />
     <Compile Include="RequestHandling.fs" />
     <Compile Include="ResponseHandling.fs" />
