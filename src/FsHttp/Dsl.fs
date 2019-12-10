@@ -295,6 +295,7 @@ module B =
     let private emptyContentData =
         { contentData = ContentData.ByteArrayContent [||]
           contentType = ""
+          name = None
           headers = [] }
 
     let private add cd cds = cd :: cds

@@ -28,11 +28,25 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
             | StringContent s ->
                 // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header. 
                 new StringContent(s, Encoding.UTF8) :> HttpContent
-            | ByteArrayContent data -> new ByteArrayContent(data) :> HttpContent
-            | StreamContent s -> new StreamContent(s) :> HttpContent
+            | ByteArrayContent data ->
+                new ByteArrayContent(data) :> HttpContent
+            | StreamContent s ->
+                new StreamContent(s) :> HttpContent
             | FormUrlEncodedContent data ->
                 let kvps = data |> List.map (fun (k,v) -> KeyValuePair<string, string>(k, v))
                 new FormUrlEncodedContent(kvps) :> HttpContent
+            | FileContent path ->
+                let content =
+                    let fs = System.IO.File.OpenRead path
+                    new StreamContent(fs)
+
+                let contentDispoHeaderValue = Headers.ContentDispositionHeaderValue("form-data")
+                if part.name.IsSome then
+                    contentDispoHeaderValue.Name <- part.name.Value
+                contentDispoHeaderValue.FileName  <- path
+                content.Headers.ContentDisposition <- contentDispoHeaderValue
+
+                content :> HttpContent
 
         dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue part.contentType
 

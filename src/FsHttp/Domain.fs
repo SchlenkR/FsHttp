@@ -41,6 +41,7 @@ type Header = {
 type ContentPart = {
     contentData: ContentData
     contentType: string
+    name: string option
     headers: (string * string) list
 }
 and ContentData =
@@ -48,6 +49,7 @@ and ContentData =
 | ByteArrayContent of byte array
 | StreamContent of System.IO.Stream
 | FormUrlEncodedContent of (string * string) list
+| FileContent of string
 // TODO: File (shortcut)
 
 
