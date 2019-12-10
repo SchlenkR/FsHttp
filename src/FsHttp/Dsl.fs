@@ -292,37 +292,40 @@ module H =
 [<AutoOpen>]
 module B =
 
+    let private emptyContentData =
+        { contentData = ContentData.ByteArrayContent [||]
+          contentType = ""
+          headers = [] }
+
+    let private add cd cds = cd :: cds
+    let private replaceCurrent cds cd = (cds |> List.tail) |> add cd
+    let private currentContentOf cds = cds |> List.head 
+
     let body (headerContext: HeaderContext) (next: Next<_,_>) =
         { header = headerContext.header
-          content = { contentData = ContentData.StringContent ""; contentType = ""; headers = [] }
+          contentDefinition = [ emptyContentData ]
           config = headerContext.config }
         |> next
 
-    let private getContentTypeOrDefault (defaultValue:string) (context:BodyContext) =
-        if String.IsNullOrEmpty(context.content.contentType) then defaultValue
-        else context.content.contentType
+    let part (bodyContext: BodyContext) (next: Next<_,_>) =
+        { bodyContext with
+              contentDefinition = bodyContext.contentDefinition |> add emptyContentData }
 
-    // TODO: Binary
+    let private getContentTypeOrDefault (defaultValue:string) (contentDef: ContentDefinition) =
+        if String.IsNullOrEmpty(contentDef.contentType) then defaultValue
+        else contentDef.contentType
+
     // TODO: Base64
-    
-    // TODO
-    // // [<CustomOperation("binary")>]
-    // // let Binary(context: BodyContext, data: byte[]) =
-    // //     let content = context.content
-    // //     let contentType =
-    // //         if context.content.contentType = null then
-    // //             "text/plain" 
-    // //         else 
-    // //             context.content.contentType
-    // //     { context with
-    // //         content = { content with content=text; contentType=contentType;  }
-    // //     }
 
     let content (context: BodyContext) defaultContentType data (next: Next<_,_>) =
-        let content = context.content
-        let contentType = getContentTypeOrDefault defaultContentType context
+        let content = currentContentOf context.contentDefinition
+        let contentType = getContentTypeOrDefault defaultContentType content
         
-        { context with content = { content with contentData = data; contentType = contentType;  } }
+        { context with
+            contentDefinition =
+                { content with contentData = data; contentType = contentType;  }
+                |> replaceCurrent context.contentDefinition
+        }
         |> next
     
     let binary (context: BodyContext) (data: byte array) (next: Next<_,_>) =
@@ -346,9 +349,13 @@ module B =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
-        let content = context.content
+        let content = currentContentOf context.contentDefinition
         
-        { context with content = { content with contentType=contentType;  } }
+        { context with
+            contentDefinition =
+                { content with contentType=contentType }
+                |> replaceCurrent context.contentDefinition
+        }
         |> next
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding

@@ -3,6 +3,7 @@
 module FsHttp.RequestHandling
 
 open System
+open System.Collections.Generic
 open System.Net
 open System.Net.Http
 open System.Text
@@ -16,26 +17,46 @@ let inline finalizeContext (context: ^t) =
 
 /// Transforms a FinalContext into a System.Net.Http.HttpRequestMessage.
 let toMessage (finalContext: FinalContext) : HttpRequestMessage =
+
     let request = finalContext.header
+
     let requestMessage = new HttpRequestMessage(request.method, request.url)
+
+    let buildDotnetContent (contentDefinition: ContentDefinition) =
+        let dotnetContent =
+            match contentDefinition.contentData with
+            | StringContent s ->
+                // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header. 
+                new StringContent(s, Encoding.UTF8) :> HttpContent
+            | ByteArrayContent data -> new ByteArrayContent(data) :> HttpContent
+            | StreamContent s -> new StreamContent(s) :> HttpContent
+            | FormUrlEncodedContent data ->
+                let kvps = data |> List.map (fun (k,v) -> KeyValuePair<string, string>(k, v))
+                new FormUrlEncodedContent(kvps) :> HttpContent
+
+        dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentDefinition.contentType
+
+        for name,value in contentDefinition.headers do
+            printfn "Adding content header: %s %s" name value
+            dotnetContent.Headers.TryAddWithoutValidation(name, value) |> ignore
+
+        dotnetContent
 
     requestMessage.Content <-
         match finalContext.content with
-        | Some c ->
-            let dotnetContent =
-                match c.contentData with
-                | StringContent s ->
-                    // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header. 
-                    new System.Net.Http.StringContent(s, Encoding.UTF8, c.contentType) :> HttpContent
-                | ByteArrayContent data -> new System.Net.Http.ByteArrayContent(data) :> HttpContent
-                | StreamContent s -> new System.Net.Http.StreamContent(s) :> HttpContent
-                | FormUrlEncodedContent data ->
-                    let kvps = data |> List.map (fun (k,v) -> System.Collections.Generic.KeyValuePair<string, string>(k, v))
-                    new System.Net.Http.FormUrlEncodedContent(kvps) :> HttpContent
-            for name,value in c.headers do
-                dotnetContent.Headers.TryAddWithoutValidation(name, value) |> ignore
-            dotnetContent
-        | _ -> null
+        | [] ->
+            null
+        | [single] ->
+            printfn "SINGLE %A" single
+            buildDotnetContent single
+        | multi ->
+            printfn "MULTI: %d" multi.Length
+            let multipartContent = new MultipartFormDataContent()
+            do
+                multi
+                |> List.map buildDotnetContent
+                |> List.iter (fun x -> multipartContent.Add(x))
+            multipartContent :> HttpContent
 
     for name,value in request.headers do
         requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
