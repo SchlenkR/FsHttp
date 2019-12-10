@@ -303,28 +303,28 @@ module B =
 
     let body (headerContext: HeaderContext) (next: Next<_,_>) =
         { header = headerContext.header
-          contentDefinition = [ emptyContentData ]
+          contentParts = [ emptyContentData ]
           config = headerContext.config }
         |> next
 
     let part (bodyContext: BodyContext) (next: Next<_,_>) =
         { bodyContext with
-              contentDefinition = bodyContext.contentDefinition |> add emptyContentData }
+              contentParts = bodyContext.contentParts |> add emptyContentData }
 
-    let private getContentTypeOrDefault (defaultValue:string) (contentDef: ContentDefinition) =
+    let private getContentTypeOrDefault (defaultValue:string) (contentDef: ContentPart) =
         if String.IsNullOrEmpty(contentDef.contentType) then defaultValue
         else contentDef.contentType
 
     // TODO: Base64
 
     let content (context: BodyContext) defaultContentType data (next: Next<_,_>) =
-        let content = currentContentOf context.contentDefinition
+        let content = currentContentOf context.contentParts
         let contentType = getContentTypeOrDefault defaultContentType content
         
         { context with
-            contentDefinition =
+            contentParts =
                 { content with contentData = data; contentType = contentType;  }
-                |> replaceCurrent context.contentDefinition
+                |> replaceCurrent context.contentParts
         }
         |> next
     
@@ -349,12 +349,12 @@ module B =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
-        let content = currentContentOf context.contentDefinition
+        let content = currentContentOf context.contentParts
         
         { context with
-            contentDefinition =
+            contentParts =
                 { content with contentType=contentType }
-                |> replaceCurrent context.contentDefinition
+                |> replaceCurrent context.contentParts
         }
         |> next
 

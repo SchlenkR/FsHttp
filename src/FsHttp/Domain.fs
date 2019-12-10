@@ -38,7 +38,7 @@ type Header = {
     cookies: System.Net.Cookie list
 }
 
-type ContentDefinition = {
+type ContentPart = {
     contentData: ContentData
     contentType: string
     headers: (string * string) list
@@ -55,7 +55,7 @@ type StartingContext = StartingContext
 
 type FinalContext =
     { header: Header
-      content: ContentDefinition list
+      content: ContentPart list
       config: Config } with
     // important because we can use sendFinal with all context types
     static member Finalize (this: FinalContext) = this
@@ -69,12 +69,12 @@ type HeaderContext =
 
 type BodyContext =
     { header: Header
-      contentDefinition: ContentDefinition list
+      contentParts: ContentPart list
       config: Config } with
     static member Finalize (this: BodyContext) =
         let finalContext:FinalContext =
             { header=this.header
-              content=this.contentDefinition
+              content=this.contentParts
               config=this.config }
         finalContext
 

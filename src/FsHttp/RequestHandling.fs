@@ -22,9 +22,9 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
 
     let requestMessage = new HttpRequestMessage(request.method, request.url)
 
-    let buildDotnetContent (contentDefinition: ContentDefinition) =
+    let buildDotnetContent (part: ContentPart) =
         let dotnetContent =
-            match contentDefinition.contentData with
+            match part.contentData with
             | StringContent s ->
                 // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header. 
                 new StringContent(s, Encoding.UTF8) :> HttpContent
@@ -34,9 +34,9 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
                 let kvps = data |> List.map (fun (k,v) -> KeyValuePair<string, string>(k, v))
                 new FormUrlEncodedContent(kvps) :> HttpContent
 
-        dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentDefinition.contentType
+        dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue part.contentType
 
-        for name,value in contentDefinition.headers do
+        for name,value in part.headers do
             printfn "Adding content header: %s %s" name value
             dotnetContent.Headers.TryAddWithoutValidation(name, value) |> ignore
 
@@ -44,13 +44,9 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
 
     requestMessage.Content <-
         match finalContext.content with
-        | [] ->
-            null
-        | [single] ->
-            printfn "SINGLE %A" single
-            buildDotnetContent single
+        | [] -> null
+        | [single] -> buildDotnetContent single
         | multi ->
-            printfn "MULTI: %d" multi.Length
             let multipartContent = new MultipartFormDataContent()
             do
                 multi
