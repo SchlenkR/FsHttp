@@ -14,7 +14,7 @@ open Domain
 /// Takes a context (HeaderContext or BodyContext) and transforms it into a
 /// FinalContext that can be used for invocation.
 let inline finalizeContext (context: ^t) =
-    (^t: (static member Finalize: ^t -> FinalContext) (context))
+    (^t: (member Finalize: unit -> FinalContext) (context))
 
 /// Transforms a FinalContext into a System.Net.Http.HttpRequestMessage.
 let toMessage (finalContext: FinalContext) : HttpRequestMessage =
@@ -23,9 +23,9 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
 
     let requestMessage = new HttpRequestMessage(request.method, request.url)
 
-    let buildDotnetContent (part: Content) =
+    let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
         let dotnetContent =
-            match part.contentData with
+            match part with
             | StringContent s ->
                 // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header. 
                 new StringContent(s, Encoding.UTF8) :> HttpContent
@@ -42,28 +42,37 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
                     new StreamContent(fs)
 
                 let contentDispoHeaderValue = Headers.ContentDispositionHeaderValue("form-data")
-                if part.name.IsSome then
-                    contentDispoHeaderValue.Name <- part.name.Value
+                
+                match name with
+                | Some v ->  contentDispoHeaderValue.Name <- v
+                | None -> ()
+                
                 contentDispoHeaderValue.FileName  <- path
                 content.Headers.ContentDisposition <- contentDispoHeaderValue
 
                 content :> HttpContent
-
-        dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue part.contentType
+        
+        match contentType with
+        | Some v ->  dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue v
+        | None -> ()
 
         dotnetContent
 
     requestMessage.Content <-
         match finalContext.content with
-        | [] -> null
-        | [single] -> buildDotnetContent single
-        | multi ->
-            let multipartContent = new MultipartFormDataContent()
-            do
-                multi
-                |> List.map buildDotnetContent
-                |> List.iter (fun x -> multipartContent.Add(x))
-            multipartContent :> HttpContent
+        | Empty -> null
+        | Single bodyContent ->
+            buildDotnetContent bodyContent.contentData (Some bodyContent.contentType) None
+        | Multi multipartContent ->
+            match multipartContent.contentData with
+            | [] -> null
+            | multi ->
+                let multipartContent = new MultipartFormDataContent()
+                do
+                    multi
+                    |> List.map (fun x -> buildDotnetContent x.content None (Some x.name))
+                    |> List.iter (fun x -> multipartContent.Add(x))
+                multipartContent :> HttpContent
 
     for name,value in request.headers do
         requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore

@@ -39,14 +39,6 @@ type Header =
       // Since Cookie is record style, I see no problem here.
       cookies: System.Net.Cookie list }
 
-type Content =
-    { contentData: ContentData
-      contentType: string
-      name: string option }
-
-and ContentType =
-    | Single of ContentData
-    | Multi of ContentData list
 
 and ContentData =
     | StringContent of string
@@ -55,33 +47,61 @@ and ContentData =
     | FormUrlEncodedContent of (string * string) list
     | FileContent of string
 
-
 type StartingContext = StartingContext
 
-type FinalContext =
-    { header: Header
-      content: Content option
-      config: Config } with
-    // important because we can use sendFinal with all context types
-    static member Finalize (this: FinalContext) = this
+
 
 type HeaderContext =
     { header: Header
       config: Config } with
-    static member Finalize (this: HeaderContext) =
-        let finalContext = { header = this.header; content = None; config = this.config }
-        finalContext
 
-type BodyContext =
+    member this.Finalize () =
+        { FinalContext.header = this.header
+          content = Empty
+          config = this.config }
+
+and BodyContent =
+    { contentData: ContentData
+      contentType: string }
+        
+and BodyContext =
     { header: Header
-      content: Content
+      content: BodyContent
       config: Config } with
-    static member Finalize (this: BodyContext) =
-        let finalContext:FinalContext =
-            { header = this.header
-              content = Some this.content
-              config = this.config }
-        finalContext
+
+    member this.Finalize () =
+        { FinalContext.header = this.header
+          content = Single this.content
+          config = this.config }
+
+        
+and MultipartContext =
+    { header: Header
+      content: MultipartContent
+      config: Config } with
+
+    member this.Finalize () =
+        { FinalContext.header = this.header
+          content = Multi this.content
+          config = this.config }
+
+and MultipartContent =
+    { contentData: {| name: string; content: ContentData |} list
+      contentType: string }
+
+and FinalContentData =
+    | Empty
+    | Single of BodyContent
+    | Multi of MultipartContent
+
+and FinalContext =
+    { header: Header
+      content: FinalContentData
+      config: Config } with
+
+    // important because we can use sendFinal with all context types
+    member this.Finalize () = this
+
 
 // TODO: Get rid of all the boolean switches and use options instead.
 type Response = 

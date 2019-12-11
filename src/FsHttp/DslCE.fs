@@ -286,11 +286,6 @@ module B =
         member this.Body(context) =
             Dsl.B.body context id
         
-        /// Describes the placement of the content. Valid dispositions are: inline, attachment, form-data
-        [<CustomOperation("ContentDisposition")>]
-        member this.ContentDisposition (context, placement, name, fileName) =
-            Dsl.B.contentDisposition context placement name fileName id
-        
         /// The type of encoding used on the data
         [<CustomOperation("ContentEncoding")>]
         member this.ContentEncoding (context, encoding) =

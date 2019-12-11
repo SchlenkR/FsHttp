@@ -271,30 +271,14 @@ module H =
 module B =
 
     let private emptyContentData =
-        { contentData = ContentData.ByteArrayContent [||]
-          contentType = ""
-          name = None }
-
-    let private add cd cds = cd :: cds
-    let private replaceCurrent cds cd = (cds |> List.tail) |> add cd
-    let private currentContentOf cds = cds |> List.head 
+        { BodyContent.contentData = ContentData.ByteArrayContent [||]
+          contentType = "application/octet-stream" }
 
     let body (headerContext: HeaderContext) (next: Next<_,_>) =
-        { header = headerContext.header
-          content = Some emptyContentData
+        { BodyContext.header = headerContext.header
+          content = emptyContentData
           config = headerContext.config }
         |> next
-
-    let part (bodyContext: BodyContext) (next: Next<_,_>) =
-        { bodyContext with
-              content = bodyContext.content |> add emptyContentData }
-        |> next
-
-    /// Describes the placement of the content. Valid dispositions are: inline, attachment, form-data
-    let contentDisposition (context:HeaderContext) (placement: string) (name: string option) (fileName: string option) (next: Next<_,_>) =
-        let namePart = match name with Some n -> sprintf "; name=\"%s\"" n | None -> ""
-        let fileNamePart = match fileName with Some n -> sprintf "; filename=\"%s\"" n | None -> ""
-        header "Content-Disposition" (sprintf "%s%s%s" placement namePart fileNamePart) context  next
     
     /// The type of encoding used on the data
     let contentEncoding (context:HeaderContext) (encoding: string) (next: Next<_,_>) =
@@ -319,20 +303,15 @@ module B =
     ////let contentRange (context:HeaderContext) (range: string) (next: Next<_,_>) =
     ////    header "Content-Range" range context  next
 
-
-    let private getContentTypeOrDefault (defaultValue:string) (contentDef: Content) =
+    let private getContentTypeOrDefault (defaultValue:string) (contentDef: BodyContent) =
         if String.IsNullOrEmpty(contentDef.contentType) then defaultValue
         else contentDef.contentType
 
     let private content (context: BodyContext) defaultContentType data (next: Next<_,_>) =
-        let content = currentContentOf context.content
+        let content = context.content
         let contentType = getContentTypeOrDefault defaultContentType content
         
-        { context with
-            content =
-                { content with contentData = data; contentType = contentType;  }
-                |> replaceCurrent context.content
-        }
+        { context with content = { content with contentData = data; contentType = contentType; } }
         |> next
     
     let binary (context: BodyContext) (data: byte array) (next: Next<_,_>) =
@@ -357,18 +336,43 @@ module B =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
-        let content = currentContentOf context.content
-        
-        { context with
-            content =
-                { content with contentType=contentType }
-                |> replaceCurrent context.content
-        }
+        { context with content = { context.content with contentType=contentType } }
         |> next
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
     let contentTypeWithEncoding (context: BodyContext) (contentTypeString) (charset:Encoding) (next: Next<_,_>) =
         contentType context (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) next
+
+[<AutoOpen>]
+module M =
+
+    let private emptyContentData =
+        { MultipartContent.contentData = []
+          contentType = """multipart/form-data;boundary="boundary" """ }
+
+    let multipart (bodyContext: BodyContext) (next: Next<_,_>) =
+        { MultipartContext.header = bodyContext.header
+          content = emptyContentData
+          config = bodyContext.config }
+        |> next
+
+    let private addPart (context: MultipartContext) content name (next: Next<_,_>) =
+        { context with
+            content =
+                { context.content with
+                    contentData =
+                        context.content.contentData @ [ {| name = name; content = content |} ] }
+        }
+        |> next
+    
+    let binary (context: MultipartContext) name (data: byte array) (next: Next<_,_>) =
+        addPart context (ContentData.ByteArrayContent data) name next
+
+    let value (context: MultipartContext) name (value: string) (next: Next<_,_>) =
+        addPart context (ContentData.StringContent value) name next
+
+    let file (context: MultipartContext) name (path: string) (next: Next<_,_>) =
+        addPart context (ContentData.FileContent path) name next
 
 [<AutoOpen>]
 module Config =
