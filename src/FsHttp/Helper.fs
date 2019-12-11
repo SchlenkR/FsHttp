@@ -17,6 +17,10 @@ let fromBase64 (s: string) =
 
 let substring (s:string) maxLength = string(s.Substring(0, Math.Min(maxLength, s.Length)))
 
+let valueOrDefault (value: string) (defaultValue: string) =
+    if String.IsNullOrEmpty(value) then defaultValue
+    else value
+
 // TODO: Test
 let urlCombine (url1:string) (url2:string) =
     (url1.TrimEnd [|'/'|]) + "/" + (url2.TrimStart [|'/'|])

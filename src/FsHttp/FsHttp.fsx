@@ -28,6 +28,6 @@ fsi.AddPrintTransformer printTransformer
 
 let printer (r:PrintableResponse) =
     let (PrintableResponse inner) = r
-    try FsiPrinting.print inner
+    try FsHttp.Fsi.print inner
     with ex -> ex.ToString()
 fsi.AddPrinter printer

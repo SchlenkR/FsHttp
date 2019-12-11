@@ -272,7 +272,7 @@ module B =
 
     let private emptyContentData =
         { BodyContent.contentData = ContentData.ByteArrayContent [||]
-          contentType = "application/octet-stream" }
+          contentType = MimeTypes.defaultMimeType }
 
     let body (headerContext: HeaderContext) (next: Next<_,_>) =
         { BodyContext.header = headerContext.header
@@ -284,6 +284,15 @@ module B =
     let contentEncoding (context:HeaderContext) (encoding: string) (next: Next<_,_>) =
         header "Content-Encoding" encoding context  next
     
+    /// The MIME type of the body of the request (used with POST and PUT requests)
+    let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
+        { context with content = { context.content with contentType=contentType } }
+        |> next
+
+    /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
+    let contentTypeWithEncoding (context: BodyContext) (contentTypeString) (charset:Encoding) (next: Next<_,_>) =
+        contentType context (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) next
+
     // a) MD5 is obsolete. See https://tools.ietf.org/html/rfc7231#appendix-B
     // b) the others are response fields
 
@@ -303,73 +312,80 @@ module B =
     ////let contentRange (context:HeaderContext) (range: string) (next: Next<_,_>) =
     ////    header "Content-Range" range context  next
 
-    let private getContentTypeOrDefault (defaultValue:string) (contentDef: BodyContent) =
-        if String.IsNullOrEmpty(contentDef.contentType) then defaultValue
-        else contentDef.contentType
-
     let private content (context: BodyContext) defaultContentType data (next: Next<_,_>) =
         let content = context.content
-        let contentType = getContentTypeOrDefault defaultContentType content
+        let contentType = valueOrDefault content.contentType defaultContentType
         
         { context with content = { content with contentData = data; contentType = contentType; } }
         |> next
     
     let binary (context: BodyContext) (data: byte array) (next: Next<_,_>) =
-        content context "application/octet-stream" (ContentData.ByteArrayContent data) next
+        content context MimeTypes.octetStream (ContentData.ByteArrayContent data) next
     
     let stream (context: BodyContext) (stream: System.IO.Stream) (next: Next<_,_>) =
-        content context "application/octet-stream" (ContentData.StreamContent stream) next
+        content context MimeTypes.octetStream (ContentData.StreamContent stream) next
     
     let text (context: BodyContext) (text: string) (next: Next<_,_>) =
-        content context "text/plain" (ContentData.StringContent text) next
+        content context MimeTypes.textPlain (ContentData.StringContent text) next
 
     let json (context: BodyContext) (json: string) (next: Next<_,_>) =
-        content context "application/json" (ContentData.StringContent json) next
+        content context MimeTypes.applicationJson (ContentData.StringContent json) next
 
     let formUrlEncoded (context: BodyContext) (data: (string * string) list) (next: Next<_,_>) =
         content context "application/x-www-form-urlencoded" (ContentData.FormUrlEncodedContent data) next
 
     let file (context: BodyContext) (path: string) (next: Next<_,_>) =
-        content context "application/octet-stream" (ContentData.FileContent path) next
+        content context MimeTypes.octetStream (ContentData.FileContent path) next
 
     // TODO: Base64
-
-    /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
-        { context with content = { context.content with contentType=contentType } }
-        |> next
-
-    /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
-    let contentTypeWithEncoding (context: BodyContext) (contentTypeString) (charset:Encoding) (next: Next<_,_>) =
-        contentType context (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) next
 
 [<AutoOpen>]
 module M =
 
     let private emptyContentData =
         { MultipartContent.contentData = []
-          contentType = """multipart/form-data;boundary="boundary" """ }
+          contentType = sprintf "multipart/form-data; boundary=%s" (Guid.NewGuid().ToString("N")) }
 
-    let multipart (bodyContext: BodyContext) (next: Next<_,_>) =
-        { MultipartContext.header = bodyContext.header
+    let multipart (headerContext: HeaderContext) (next: Next<_,_>) =
+        { MultipartContext.header = headerContext.header
           content = emptyContentData
-          config = bodyContext.config }
+          currentPartContentType = None
+          config = headerContext.config }
+        |> next
+    
+    /// The MIME type of the body of the request (used with POST and PUT requests)
+    let contentType (context: MultipartContext) (contentType: string) (next: Next<_,_>) =
+        { context with currentPartContentType = Some contentType }
         |> next
 
-    let private addPart (context: MultipartContext) content name (next: Next<_,_>) =
+    let private addPart 
+            (context: MultipartContext)
+            (content: ContentData)
+            (defaultContentType: string option)
+            name
+            (next: Next<_,_>) =
+
+        let contentType =
+            match context.currentPartContentType with
+            | None -> defaultContentType
+            | Some v -> Some v
+        
+        let newContentData = {| name = name; contentType = contentType; content = content |}
+
         { context with
             content =
                 { context.content with
                     contentData =
-                        context.content.contentData @ [ {| name = name; content = content |} ] }
+                        context.content.contentData @ [ newContentData ] }
         }
         |> next
 
     let valuePart (context: MultipartContext) name (value: string) (next: Next<_,_>) =
-        addPart context (ContentData.StringContent value) name next
+        addPart context (ContentData.StringContent value) None name next
 
     let filePartWithName (context: MultipartContext) name (path: string) (next: Next<_,_>) =
-        addPart context (ContentData.FileContent path) name next
+        let contentType = MimeTypes.guessMineTypeFromPath path MimeTypes.defaultMimeType
+        addPart context (ContentData.FileContent path) (Some contentType) name next
 
     let filePart context path (next: Next<_,_>) =
         filePartWithName context (System.IO.Path.GetFileNameWithoutExtension path) path next

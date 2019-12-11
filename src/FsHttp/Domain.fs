@@ -78,6 +78,7 @@ and BodyContext =
 and MultipartContext =
     { header: Header
       content: MultipartContent
+      currentPartContentType : string option
       config: Config } with
 
     member this.Finalize () =
@@ -86,7 +87,10 @@ and MultipartContext =
           config = this.config }
 
 and MultipartContent =
-    { contentData: {| name: string; content: ContentData |} list
+    { contentData:
+        {| name: string
+           contentType: string option
+           content: ContentData |} list
       contentType: string }
 
 and FinalContentData =

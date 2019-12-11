@@ -18,6 +18,7 @@ open FsHttp.Testing
 open NUnit.Framework
 open Server
 open System
+open System.IO
 open Suave
 open Suave.Cookie
 open Suave.ServerErrors
@@ -168,20 +169,40 @@ let ``POST Form url encoded data``() =
 
 [<TestCase>]
 let ``POST Multipart form data``() =
+    
+    let joinLines =  String.concat "\n"
+    
     use server =
         POST 
-        >=> request (fun r -> r.files.Length.ToString() |> OK)
+        >=> request (fun r ->
+            let fileContents =
+                r.files
+                |> List.map (fun f -> File.ReadAllText f.tempFilePath)
+                |> joinLines
+            let multipartContents =
+                r.multiPartFields
+                |> List.map (fun (k,v) -> k + "=" + v)
+                |> joinLines
+            [ fileContents; multipartContents ] |> joinLines |> OK)
         |> serve
 
     http {
         POST (url @"")
-        body
         multipart
-        filePart "c:\\temp\\test.txt"
-        filePart "c:\\temp\\test.txt"
+        filePart "uploadFile.txt"
+        filePart "uploadFile2.txt"
+        valuePart "hurz1" "das"
+        valuePart "hurz2" "Lamm"
+        valuePart "hurz3" "schrie"
     }
     |> toText
-    |> should equal ("2")
+    |> should equal (joinLines [
+        "I'm a chicken and I can fly!"
+        "Lemonade was a popular drink, and it still is."
+        "hurz1=das"
+        "hurz2=Lamm"
+        "hurz3=schrie"
+    ])
 
 // TODO: Post single file
 

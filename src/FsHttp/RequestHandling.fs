@@ -6,6 +6,7 @@ open System
 open System.Collections.Generic
 open System.Net
 open System.Net.Http
+open System.Net.Http.Headers
 open System.Text
 open System.Threading
 
@@ -28,7 +29,7 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
             match part with
             | StringContent s ->
                 // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header. 
-                new StringContent(s, Encoding.UTF8) :> HttpContent
+                new StringContent(s) :> HttpContent
             | ByteArrayContent data ->
                 new ByteArrayContent(data) :> HttpContent
             | StreamContent s ->
@@ -41,7 +42,7 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
                     let fs = System.IO.File.OpenRead path
                     new StreamContent(fs)
 
-                let contentDispoHeaderValue = Headers.ContentDispositionHeaderValue("form-data")
+                let contentDispoHeaderValue = ContentDispositionHeaderValue("form-data")
                 
                 match name with
                 | Some v ->  contentDispoHeaderValue.Name <- v
@@ -52,9 +53,8 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
 
                 content :> HttpContent
         
-        match contentType with
-        | Some v ->  dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue v
-        | None -> ()
+        if contentType.IsSome then
+            dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentType.Value
 
         dotnetContent
 
@@ -70,8 +70,8 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
                 let multipartContent = new MultipartFormDataContent()
                 do
                     multi
-                    |> List.map (fun x -> buildDotnetContent x.content None (Some x.name))
-                    |> List.iter (fun x -> multipartContent.Add(x))
+                    |> List.map (fun x -> x.name, buildDotnetContent x.content x.contentType (Some x.name))
+                    |> List.iter (fun (name, dotnetContent) -> multipartContent.Add(dotnetContent, name))
                 multipartContent :> HttpContent
 
     for name,value in request.headers do

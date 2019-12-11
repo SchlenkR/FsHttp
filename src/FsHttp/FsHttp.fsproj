@@ -6,6 +6,7 @@
     <Description>A lightweight HTTP/REST library for F#.</Description>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MimeTypes.fs" />
     <Compile Include="Helper.fs" />
     <Compile Include="Domain.fs" />
     <Compile Include="Config.fs" />
