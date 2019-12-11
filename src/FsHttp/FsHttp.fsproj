@@ -13,7 +13,6 @@
     <Compile Include="ResponseHandling.fs" />
     <Compile Include="Fsi.fs" />
     <Compile Include="Dsl.fs" />
-    <Compile Include="DslPipe.fs" />
     <Compile Include="DslCE.fs" />
     <None Include="FsHttp.fsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

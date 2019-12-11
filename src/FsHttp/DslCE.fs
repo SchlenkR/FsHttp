@@ -84,11 +84,6 @@ module H =
         member this.AcceptLanguage (context, language) =
             Dsl.H.acceptLanguage context language id
         
-        /// The Allow header, which specifies the set of HTTP methods supported.
-        [<CustomOperation("Allow")>]
-        member this.Allow (context, methods) =
-            Dsl.H.allow context methods id
-        
         /// Authentication credentials for HTTP authentication
         [<CustomOperation("Authorization")>]
         member this.Authorization (context, credentials) =
@@ -114,35 +109,23 @@ module H =
         member this.Connection (context, connection) =
             Dsl.H.connection context connection id
         
-        /// Describes the placement of the content. Valid dispositions are: inline, attachment, form-data
-        [<CustomOperation("ContentDisposition")>]
-        member this.ContentDisposition (context, placement, name, fileName) =
-            Dsl.H.contentDisposition context placement name fileName id
+        /// An HTTP cookie previously sent by the server with 'Set-Cookie'.
+        [<CustomOperation("Cookie")>]
+        member this.SetCookie (context, name, value) =
+            Dsl.H.cookie context name value id
+
+        /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
+        /// the subset of URIs on the origin server to which this Cookie applies.
+        [<CustomOperation("CookieForPath")>]
+        member this.SetCookieForPath (context, name, value, path) =
+            Dsl.H.cookieForPath context name value path id
         
-        /// The type of encoding used on the data
-        [<CustomOperation("ContentEncoding")>]
-        member this.ContentEncoding (context, encoding) =
-            Dsl.H.contentEncoding context encoding id
-        
-        /// The language the content is in
-        [<CustomOperation("ContentLanguage")>]
-        member this.ContentLanguage (context, language) =
-            Dsl.H.contentLanguage context language id
-        
-        /// An alternate location for the returned data
-        [<CustomOperation("ContentLocation")>]
-        member this.ContentLocation (context, location) =
-            Dsl.H.contentLocation context location id
-        
-        /// A Base64-encoded binary MD5 sum of the content of the request body
-        [<CustomOperation("ContentMD5")>]
-        member this.ContentMD5 (context, md5sum) =
-            Dsl.H.contentMD5 context md5sum id
-        
-        /// Where in a full body message this partial message belongs
-        [<CustomOperation("ContentRange")>]
-        member this.ContentRange (context, range) =
-            Dsl.H.contentRange context range id
+        /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
+        /// the subset of URIs on the origin server to which this Cookie applies
+        /// and the internet domain for which this Cookie is valid.
+        [<CustomOperation("CookieForDomain")>]
+        member this.SetCookieForDomain (context, name, value, path, domain) =
+            Dsl.H.cookieForDomain context name value path domain id
 
         /// The date and time that the message was sent
         [<CustomOperation("Date")>]
@@ -290,20 +273,6 @@ module H =
         member this.XHTTPMethodOverride (context, httpMethod) =
             Dsl.H.xhttpMethodOverride context httpMethod id
 
-        // no add cookie
-        // [<CustomOperation("AddCookie")>]
-        // member this.AddCookie (context, cookie) =
-        //     Dsl.H.addCookie context cookie id
-        [<CustomOperation("SetCookie")>]
-        member this.SetCookie (context, name, value) =
-            Dsl.H.setCookie context name value id
-        [<CustomOperation("SetCookieForPath")>]
-        member this.SetCookieForPath (context, name, value, path) =
-            Dsl.H.setCookieForPath context name value path id
-        [<CustomOperation("SetCookieForDomain")>]
-        member this.SetCookieForDomain (context, name, value, path, domain) =
-            Dsl.H.setCookieForDomain context name value path domain id
-
 [<AutoOpen>]
 module B =
     type HttpBuilderBase with
@@ -311,22 +280,16 @@ module B =
         [<CustomOperation("body")>]
         member this.Body(context) =
             Dsl.B.body context id
-
-        // TODO: Binary
-        // TODO: Base64
         
-        // TODO
-        // // [<CustomOperation("binary")>]
-        // // member this.Binary(context, data: byte[]) =
-        // //     let content = context.content
-        // //     let contentType =
-        // //         if context.content.contentType = null then
-        // //             "text/plain" 
-        // //         else 
-        // //             context.content.contentType
-        // //     { context with
-        // //         content = { content with content=text; contentType=contentType;  }
-        // //     }
+        /// Describes the placement of the content. Valid dispositions are: inline, attachment, form-data
+        [<CustomOperation("ContentDisposition")>]
+        member this.ContentDisposition (context, placement, name, fileName) =
+            Dsl.B.contentDisposition context placement name fileName id
+        
+        /// The type of encoding used on the data
+        [<CustomOperation("ContentEncoding")>]
+        member this.ContentEncoding (context, encoding) =
+            Dsl.B.contentEncoding context encoding id
 
         [<CustomOperation("binary")>]
         member this.Binary(context, data) =
@@ -347,6 +310,10 @@ module B =
         [<CustomOperation("formUrlEncoded")>]
         member this.FormUrlEncoded(context, data) =
             Dsl.B.formUrlEncoded context data id
+
+        [<CustomOperation("file")>]
+        member this.File(context, path) =
+            Dsl.B.file context path id
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
         [<CustomOperation("ContentType")>]

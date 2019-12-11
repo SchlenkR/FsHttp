@@ -166,6 +166,23 @@ let ``POST Form url encoded data``() =
     |> toText
     |> should equal ("Query1_Query2")
 
+////[<TestCase>]
+////let ``POST Multipart form data``() =
+////    use server =
+////        POST 
+////        >=> request (fun r -> r.files.Length.ToString() |> OK)
+////        |> serve
+
+////    http {
+////        POST (url @"")
+////        body
+////        file
+////    }
+////    |> toText
+////    |> should equal ("Query1_Query2")
+
+// TODO: Post single file
+
 // TODO: POST stream
 // TODO: POST multipart
 
@@ -211,7 +228,7 @@ let ``Cookies can be sent``() =
 
     http {
         GET (url @"")
-        SetCookie "test" "hello world"
+        Cookie "test" "hello world"
     }
     |> toText
     |> should equal "hello world"

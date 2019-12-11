@@ -50,10 +50,6 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
 
         dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue part.contentType
 
-        for name,value in part.headers do
-            printfn "Adding content header: %s %s" name value
-            dotnetContent.Headers.TryAddWithoutValidation(name, value) |> ignore
-
         dotnetContent
 
     requestMessage.Content <-

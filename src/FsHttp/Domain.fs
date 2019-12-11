@@ -10,47 +10,46 @@ type PrintHint =
     { isEnabled: bool
       requestPrintHint: RequestPrintHint
       responsePrintHint: ResponsePrintHint }
+
 and RequestPrintHint = 
     { isEnabled: bool
       printHeader: bool }
+
 and ResponsePrintHint =
     { isEnabled: bool
       printHeader: bool
       printContent: ContentPrintHint }
+
 and ContentPrintHint =
     { isEnabled: bool
       format: bool
       maxLength: int }
 
-type Config = {
-    timeout: TimeSpan
-    printHint: PrintHint
-    httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
-    httpClientTransformer: (HttpClient -> HttpClient) option
-}
+type Config =
+    { timeout: TimeSpan
+      printHint: PrintHint
+      httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
+      httpClientTransformer: (HttpClient -> HttpClient) option }
 
-type Header = {
-    url: string
-    method: HttpMethod
-    headers: (string * string) list
-    // We use a .Net type here, which we never do in other places.
-    // Since Cookie is record style, I see no problem here.
-    cookies: System.Net.Cookie list
-}
+type Header =
+    { url: string
+      method: HttpMethod
+      headers: (string * string) list
+      // We use a .Net type here, which we never do in other places.
+      // Since Cookie is record style, I see no problem here.
+      cookies: System.Net.Cookie list }
 
-type ContentPart = {
-    contentData: ContentData
-    contentType: string
-    name: string option
-    headers: (string * string) list
-}
+type ContentPart =
+    { contentData: ContentData
+      contentType: string
+      name: string option }
+
 and ContentData =
-| StringContent of string
-| ByteArrayContent of byte array
-| StreamContent of System.IO.Stream
-| FormUrlEncodedContent of (string * string) list
-| FileContent of string
-// TODO: File (shortcut)
+    | StringContent of string
+    | ByteArrayContent of byte array
+    | StreamContent of System.IO.Stream
+    | FormUrlEncodedContent of (string * string) list
+    | FileContent of string
 
 
 type StartingContext = StartingContext
