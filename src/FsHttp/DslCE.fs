@@ -147,6 +147,11 @@ module H =
         member this.From (context, email) =
             Dsl.H.from context email id
         
+        /// Custom header
+        [<CustomOperation("Header")>]
+        member this.Header (context, key, value) =
+            Dsl.H.header key value context id
+
         /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
         /// The port number may be omitted if the port is the standard port for the service requested.
         [<CustomOperation("Host")>]
