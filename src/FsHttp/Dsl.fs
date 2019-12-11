@@ -281,13 +281,13 @@ module B =
 
     let body (headerContext: HeaderContext) (next: Next<_,_>) =
         { header = headerContext.header
-          contentParts = [ emptyContentData ]
+          content = Some emptyContentData
           config = headerContext.config }
         |> next
 
     let part (bodyContext: BodyContext) (next: Next<_,_>) =
         { bodyContext with
-              contentParts = bodyContext.contentParts |> add emptyContentData }
+              content = bodyContext.content |> add emptyContentData }
         |> next
 
     /// Describes the placement of the content. Valid dispositions are: inline, attachment, form-data
@@ -320,18 +320,18 @@ module B =
     ////    header "Content-Range" range context  next
 
 
-    let private getContentTypeOrDefault (defaultValue:string) (contentDef: ContentPart) =
+    let private getContentTypeOrDefault (defaultValue:string) (contentDef: Content) =
         if String.IsNullOrEmpty(contentDef.contentType) then defaultValue
         else contentDef.contentType
 
     let private content (context: BodyContext) defaultContentType data (next: Next<_,_>) =
-        let content = currentContentOf context.contentParts
+        let content = currentContentOf context.content
         let contentType = getContentTypeOrDefault defaultContentType content
         
         { context with
-            contentParts =
+            content =
                 { content with contentData = data; contentType = contentType;  }
-                |> replaceCurrent context.contentParts
+                |> replaceCurrent context.content
         }
         |> next
     
@@ -357,12 +357,12 @@ module B =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
-        let content = currentContentOf context.contentParts
+        let content = currentContentOf context.content
         
         { context with
-            contentParts =
+            content =
                 { content with contentType=contentType }
-                |> replaceCurrent context.contentParts
+                |> replaceCurrent context.content
         }
         |> next
 

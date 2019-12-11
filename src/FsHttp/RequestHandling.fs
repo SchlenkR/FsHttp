@@ -23,7 +23,7 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
 
     let requestMessage = new HttpRequestMessage(request.method, request.url)
 
-    let buildDotnetContent (part: ContentPart) =
+    let buildDotnetContent (part: Content) =
         let dotnetContent =
             match part.contentData with
             | StringContent s ->

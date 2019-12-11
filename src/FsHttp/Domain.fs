@@ -39,10 +39,14 @@ type Header =
       // Since Cookie is record style, I see no problem here.
       cookies: System.Net.Cookie list }
 
-type ContentPart =
+type Content =
     { contentData: ContentData
       contentType: string
       name: string option }
+
+and ContentType =
+    | Single of ContentData
+    | Multi of ContentData list
 
 and ContentData =
     | StringContent of string
@@ -56,7 +60,7 @@ type StartingContext = StartingContext
 
 type FinalContext =
     { header: Header
-      content: ContentPart list
+      content: Content option
       config: Config } with
     // important because we can use sendFinal with all context types
     static member Finalize (this: FinalContext) = this
@@ -65,18 +69,18 @@ type HeaderContext =
     { header: Header
       config: Config } with
     static member Finalize (this: HeaderContext) =
-        let finalContext = { header=this.header; content=[]; config=this.config }
+        let finalContext = { header = this.header; content = None; config = this.config }
         finalContext
 
 type BodyContext =
     { header: Header
-      contentParts: ContentPart list
+      content: Content
       config: Config } with
     static member Finalize (this: BodyContext) =
         let finalContext:FinalContext =
-            { header=this.header
-              content=this.contentParts
-              config=this.config }
+            { header = this.header
+              content = Some this.content
+              config = this.config }
         finalContext
 
 // TODO: Get rid of all the boolean switches and use options instead.
