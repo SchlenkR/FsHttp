@@ -17,9 +17,6 @@ type Next<'a, 'b> = 'a -> 'b
 /// Finalizes a Request build pipeline.
 let fin = id
 
-let headerField name value (context: HeaderContext)  (next: Next<_,_>) =
-    { context with header = { context.header with headers = context.header.headers @ [name,value] } } |> next
-
 [<AutoOpen>]
 module R =
     
@@ -83,25 +80,29 @@ module R =
 [<AutoOpen>]
 module H =
 
+    /// Adds a custom header
+    let header name value (context: HeaderContext)  (next: Next<_,_>) =
+        { context with header = { context.header with headers = context.header.headers @ [name,value] } } |> next
+
     /// Content-Types that are acceptable for the response
     let accept (context:HeaderContext) (contentType:string) (next: Next<_,_>) =
-        headerField "Accept" contentType context next
+        header "Accept" contentType context next
 
     /// Character sets that are acceptable
     let acceptCharset (context:HeaderContext) (characterSets:string) (next: Next<_,_>) =
-        headerField "Accept-Charset" characterSets context  next
+        header "Accept-Charset" characterSets context  next
 
     /// Acceptable version in time
     let acceptDatetime (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
-        headerField "Accept-Datetime" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
+        header "Accept-Datetime" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
     
     /// List of acceptable encodings. See HTTP compression.
     let acceptEncoding (context:HeaderContext) (encoding:string) (next: Next<_,_>) =
-        headerField "Accept-Encoding" encoding context  next
+        header "Accept-Encoding" encoding context  next
     
     /// List of acceptable human languages for response
     let acceptLanguage (context:HeaderContext) (language:string) (next: Next<_,_>) =
-        headerField "Accept-Language" language context  next
+        header "Accept-Language" language context  next
     
     // response field
     /////// The Allow header, which specifies the set of HTTP methods supported.
@@ -110,7 +111,7 @@ module H =
     
     /// Authentication credentials for HTTP authentication
     let authorization (context:HeaderContext) (credentials: string) (next: Next<_,_>) =
-        headerField "Authorization" credentials context  next
+        header "Authorization" credentials context  next
     
     /// Authentication header using Bearer Auth token
     let bearerAuth (context:HeaderContext) (token: string) (next: Next<_,_>) =
@@ -124,11 +125,11 @@ module H =
     
     /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
     let cacheControl (context:HeaderContext) (control: string) (next: Next<_,_>) =
-        headerField "Cache-Control" control context  next
+        header "Cache-Control" control context  next
     
     /// What type of connection the user-agent would prefer
     let connection (context:HeaderContext) (connection: string) (next: Next<_,_>) =
-        headerField "Connection" connection context  next
+        header "Connection" connection context  next
     
     let private addCookie (context:HeaderContext) (cookie:Cookie) (next: Next<_,_>) =
         { context with header = { context.header with cookies = context.header.cookies @ [cookie] } } |> next
@@ -150,121 +151,121 @@ module H =
 
     /// The date and time that the message was sent
     let date (context:HeaderContext) (date:DateTime) (next: Next<_,_>) =
-        headerField "Date" (date.ToString("R", CultureInfo.InvariantCulture)) context  next
+        header "Date" (date.ToString("R", CultureInfo.InvariantCulture)) context  next
     
     /// Indicates that particular server behaviors are required by the client
     let expect (context:HeaderContext) (behaviors: string) (next: Next<_,_>) =
-        headerField "Expect" behaviors context  next
+        header "Expect" behaviors context  next
     
     /// Gives the date/time after which the response is considered stale
     let expires (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
-        headerField "Expires" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
+        header "Expires" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
     
     // TODO: Forwarded ?
 
     /// The email address of the user making the request
     let from (context:HeaderContext) (email: string) (next: Next<_,_>) =
-        headerField "From" email context  next
+        header "From" email context  next
     
     /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
     /// The port number may be omitted if the port is the standard port for the service requested.
     let host (context:HeaderContext) (host: string) (next: Next<_,_>) =
-        headerField "Host" host context  next
+        header "Host" host context  next
     
     /// Only perform the action if the client supplied entity matches the same entity on the server.
     /// This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: "737060cd8c284d8af7ad3082f209582d" Permanent
     let ifMatch (context:HeaderContext) (entity: string) (next: Next<_,_>) =
-        headerField "If-Match" entity context  next
+        header "If-Match" entity context  next
     
     /// Allows a 304 Not Modified to be returned if content is unchanged
     let ifModifiedSince (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
-        headerField "If-Modified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
+        header "If-Modified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
     
     /// Allows a 304 Not Modified to be returned if content is unchanged
     let ifNoneMatch (context:HeaderContext) (etag: string) (next: Next<_,_>) =
-        headerField "If-None-Match" etag context  next
+        header "If-None-Match" etag context  next
     
     /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
     let ifRange (context:HeaderContext) (range: string) (next: Next<_,_>) =
-        headerField "If-Range" range context  next
+        header "If-Range" range context  next
     
     /// Only send the response if the entity has not been modified since a specific time
     let ifUnmodifiedSince (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
-        headerField "If-Unmodified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
+        header "If-Unmodified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
     
     /// Specifies a parameter used into order to maintain a persistent connection
     let keepAlive (context:HeaderContext) (keepAlive: string) (next: Next<_,_>) =
-        headerField "Keep-Alive" keepAlive context  next
+        header "Keep-Alive" keepAlive context  next
     
     /// Specifies the date and time at which the accompanying body data was last modified
     let lastModified (context:HeaderContext) (dateTime:DateTime) (next: Next<_,_>) =
-        headerField "Last-Modified" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
+        header "Last-Modified" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context  next
     
     /// Limit the number of times the message can be forwarded through proxies or gateways
     let maxForwards (context:HeaderContext) (count:int) (next: Next<_,_>) =
-        headerField "Max-Forwards" (count.ToString()) context  next
+        header "Max-Forwards" (count.ToString()) context  next
     
     /// Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response header)
     let origin (context:HeaderContext) (origin: string) (next: Next<_,_>) =
-        headerField "Origin" origin context  next
+        header "Origin" origin context  next
     
     /// Implementation-specific headers that may have various effects anywhere along the request-response chain.
     let pragma (context:HeaderContext) (pragma: string) (next: Next<_,_>) =
-        headerField "Pragma" pragma context  next
+        header "Pragma" pragma context  next
     
     /// Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
     let prefer (context:HeaderContext) (prefer: string) (next: Next<_,_>) =
-        headerField "Prefer" prefer context  next
+        header "Prefer" prefer context  next
     
     /// Authorization credentials for connecting to a proxy.
     let proxyAuthorization (context:HeaderContext) (credentials: string) (next: Next<_,_>) =
-        headerField "Proxy-Authorization" credentials context  next
+        header "Proxy-Authorization" credentials context  next
 
     /// Request only part of an entity. Bytes are numbered from 0
     let range (context:HeaderContext) (start:int64) (finish:int64) (next: Next<_,_>) =
-        headerField "Range" (sprintf "bytes=%d-%d" start finish) context  next
+        header "Range" (sprintf "bytes=%d-%d" start finish) context  next
     
     /// This is the address of the previous web page from which a link to the currently requested page was followed. (The word "referrer" is misspelled in the RFC as well as in most implementations.)
     let referer (context:HeaderContext) (referer: string) (next: Next<_,_>) =
-        headerField "Referer" referer context  next
+        header "Referer" referer context  next
     
     /// The transfer encodings the user agent is willing to accept: the same values as for the response header
     /// Transfer-Encoding can be used, plus the "trailers" value (related to the "chunked" transfer method) to
     /// notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
     let te (context:HeaderContext) (te: string) (next: Next<_,_>) =
-        headerField "TE" te context  next
+        header "TE" te context  next
     
     /// The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
     let trailer (context:HeaderContext) (trailer: string) (next: Next<_,_>) =
-        headerField "Trailer" trailer context  next
+        header "Trailer" trailer context  next
     
     /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.  The valid directives are one of: chunked, compress, deflate, gzip, or identity.
     let transferEncoding (context:HeaderContext) (directive: string) (next: Next<_,_>) =
-        headerField "Transfer-Encoding" directive context  next
+        header "Transfer-Encoding" directive context  next
     
     /// Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
     let translate (context:HeaderContext) (translate: string) (next: Next<_,_>) =
-        headerField "Translate" translate context  next
+        header "Translate" translate context  next
     
     /// Specifies additional communications protocols that the client supports.
     let upgrade (context:HeaderContext) (upgrade: string) (next: Next<_,_>) =
-        headerField "Upgrade" upgrade context  next
+        header "Upgrade" upgrade context  next
     
     /// The user agent string of the user agent
     let userAgent (context:HeaderContext) (userAgent: string) (next: Next<_,_>) =
-        headerField "User-Agent" userAgent context  next
+        header "User-Agent" userAgent context  next
     
     /// Informs the server of proxies through which the request was sent
     let via (context:HeaderContext) (server: string) (next: Next<_,_>) =
-        headerField "Via" server context  next
+        header "Via" server context  next
     
     /// A general warning about possible problems with the entity body
     let warning (context:HeaderContext) (message: string) (next: Next<_,_>) =
-        headerField "Warning" message context  next
+        header "Warning" message context  next
     
     /// Override HTTP method.
     let xhttpMethodOverride (context:HeaderContext) (httpMethod: string) (next: Next<_,_>) =
-        headerField "X-HTTP-Method-Override" httpMethod context  next
+        header "X-HTTP-Method-Override" httpMethod context  next
 
 [<AutoOpen>]
 module B =
@@ -293,11 +294,11 @@ module B =
     let contentDisposition (context:HeaderContext) (placement: string) (name: string option) (fileName: string option) (next: Next<_,_>) =
         let namePart = match name with Some n -> sprintf "; name=\"%s\"" n | None -> ""
         let fileNamePart = match fileName with Some n -> sprintf "; filename=\"%s\"" n | None -> ""
-        headerField "Content-Disposition" (sprintf "%s%s%s" placement namePart fileNamePart) context  next
+        header "Content-Disposition" (sprintf "%s%s%s" placement namePart fileNamePart) context  next
     
     /// The type of encoding used on the data
     let contentEncoding (context:HeaderContext) (encoding: string) (next: Next<_,_>) =
-        headerField "Content-Encoding" encoding context  next
+        header "Content-Encoding" encoding context  next
     
     // a) MD5 is obsolete. See https://tools.ietf.org/html/rfc7231#appendix-B
     // b) the others are response fields
