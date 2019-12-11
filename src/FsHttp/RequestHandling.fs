@@ -81,14 +81,17 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
 
 /// Sends a context asynchronously.
 let inline sendAsync context =
+    
     let finalContext = finalizeContext context
-    let invoke(ctok : CancellationToken) =
-        let requestMessage = toMessage finalContext
 
-        let finalRequestMessage =
-            match finalContext.config.httpMessageTransformer with
-            | None -> requestMessage
-            | Some map -> map requestMessage
+    let requestMessage = toMessage finalContext
+
+    let finalRequestMessage =
+        match finalContext.config.httpMessageTransformer with
+        | None -> requestMessage
+        | Some map -> map requestMessage
+
+    let invoke(ctok : CancellationToken) =
 
         let cookieContainer = CookieContainer()
         
@@ -120,7 +123,7 @@ let inline sendAsync context =
             headers = response.Headers
             reasonPhrase = response.ReasonPhrase
             statusCode = response.StatusCode
-            requestMessage = response.RequestMessage
+            requestMessage = requestMessage
             version = response.Version
             printHint = finalContext.config.printHint
         }

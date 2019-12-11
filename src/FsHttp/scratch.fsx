@@ -10,5 +10,5 @@ http {
     POST "http://www.csm-testcenter.org/test"
     multipart
     filePart "c:\\temp\\test.txt"
+    filePart "c:\\temp\\test.txt"
 }
-|> toText

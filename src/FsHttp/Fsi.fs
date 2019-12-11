@@ -3,6 +3,7 @@ module FsHttp.Fsi
 
 open System
 open System.Collections.Generic
+open System.Net.Http
 open System.Text
 
 open Domain
@@ -74,12 +75,24 @@ let print (r: Response) =
                 (sprintf "%s %s HTTP/%s" (r.requestContext.header.method.ToString()) r.requestContext.header.url (r.version.ToString()))
 
             if requestPrintHint.printHeader then
-                let contentHeader =
-                    if not (isNull r.requestMessage.Content) 
-                    then r.requestMessage.Content.Headers |> Seq.toList 
-                    else []
+                let contentHeaders,multipartHeaders =
+                    if not (isNull r.requestMessage.Content) then
+                        let a = r.requestMessage.Content.Headers |> Seq.toList
+                        let b =
+                            match r.requestMessage.Content with
+                            | :? MultipartFormDataContent as m ->
+                                m
+                                |> Seq.collect (fun part -> part.Headers)
+                                |> Seq.toList
+                            | _ -> []
+                        a,b
+                    else
+                        [],[]
 
-                printHeaderCollection ((r.requestMessage.Headers |> Seq.toList) @ contentHeader)
+                printHeaderCollection (
+                    (r.requestMessage.Headers |> Seq.toList)
+                    @ contentHeaders
+                    @ multipartHeaders)
 
             newLine()
 
