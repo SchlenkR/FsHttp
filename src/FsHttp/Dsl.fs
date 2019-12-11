@@ -364,15 +364,15 @@ module M =
                         context.content.contentData @ [ {| name = name; content = content |} ] }
         }
         |> next
-    
-    let binary (context: MultipartContext) name (data: byte array) (next: Next<_,_>) =
-        addPart context (ContentData.ByteArrayContent data) name next
 
-    let value (context: MultipartContext) name (value: string) (next: Next<_,_>) =
+    let valuePart (context: MultipartContext) name (value: string) (next: Next<_,_>) =
         addPart context (ContentData.StringContent value) name next
 
-    let file (context: MultipartContext) name (path: string) (next: Next<_,_>) =
+    let filePartWithName (context: MultipartContext) name (path: string) (next: Next<_,_>) =
         addPart context (ContentData.FileContent path) name next
+
+    let filePart context path (next: Next<_,_>) =
+        filePartWithName context (System.IO.Path.GetFileNameWithoutExtension path) path next
 
 [<AutoOpen>]
 module Config =

@@ -326,6 +326,27 @@ module B =
             Dsl.B.contentTypeWithEncoding context contentType charset id
 
 [<AutoOpen>]
+module M =
+    type HttpBuilderBase with
+
+        [<CustomOperation("multipart")>]
+        member this.Multipart(context) =
+            Dsl.M.multipart context id
+        
+        [<CustomOperation("valuePart")>]
+        member this.Value(context, name, value) =
+            Dsl.M.valuePart context name value id
+
+        [<CustomOperation("filePart")>]
+        member this.FilePart(context, path) =
+            Dsl.M.filePart context path id
+
+        [<CustomOperation("filePartWithName")>]
+        member this.FilePartWithName(context, name, path) =
+            Dsl.M.filePartWithName context name path id
+
+
+[<AutoOpen>]
 module Config =
     type HttpBuilderBase with
         

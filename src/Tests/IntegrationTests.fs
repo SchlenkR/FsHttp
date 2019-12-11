@@ -166,20 +166,22 @@ let ``POST Form url encoded data``() =
     |> toText
     |> should equal ("Query1_Query2")
 
-////[<TestCase>]
-////let ``POST Multipart form data``() =
-////    use server =
-////        POST 
-////        >=> request (fun r -> r.files.Length.ToString() |> OK)
-////        |> serve
+[<TestCase>]
+let ``POST Multipart form data``() =
+    use server =
+        POST 
+        >=> request (fun r -> r.files.Length.ToString() |> OK)
+        |> serve
 
-////    http {
-////        POST (url @"")
-////        body
-////        file
-////    }
-////    |> toText
-////    |> should equal ("Query1_Query2")
+    http {
+        POST (url @"")
+        body
+        multipart
+        filePart "c:\\temp\\test.txt"
+        filePart "c:\\temp\\test.txt"
+    }
+    |> toText
+    |> should equal ("2")
 
 // TODO: Post single file
 
