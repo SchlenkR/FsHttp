@@ -401,3 +401,18 @@ module Builder =
         member inline this.Delay(f: unit -> 'a) =
             f() |> finalizeContext |> toMessage
     let httpMsg = HttpMessageBuilder()
+
+[<AutoOpen>]
+module Fsi =
+
+    open System
+    open FsHttp.Fsi
+
+    let raw = rawPrinterTransformer |> modifyPrinter
+    let header = headerPrinterTransformer
+    let show maxLength = showPrinterTransformer maxLength |> modifyPrinter
+    let preview = previewPrinterTransformer |> modifyPrinter
+    let prv = preview
+    let go = preview
+    let expand = expandPrinterTransformer |> modifyPrinter
+    let exp = expand

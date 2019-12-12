@@ -5,7 +5,7 @@ module FsHttp.Config
 open System
 open Domain
 
-let private defaultPreviewLength = Int32.MaxValue
+let private defaultPreviewLength = 10000
 let internal initialPrintHint =
     {
         isEnabled = true

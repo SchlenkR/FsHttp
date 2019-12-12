@@ -413,16 +413,16 @@ module Fsi =
 
     open FsHttp.Fsi
 
-    // run is not needed anymore. disadvantage: no easy custom-printmodifiers
-    let inline run context (printMod: Response -> 'a) =
-        send context |> printMod
+    ////// run is not needed anymore. disadvantage: no easy custom-printmodifiers
+    ////let inline run context (printMod: Response -> 'a) =
+    ////    send context |> printMod
 
     // overrides for print modifier in DSL
-    let inline raw context = send context |> raw
-    let inline header context = send context |> Fsi.header
-    let inline show maxLength context = send context |> (show maxLength)
-    let inline preview context = send context |> preview
+    let inline raw context = send context |> modifyPrinter rawPrinterTransformer
+    let inline header context = send context |> headerPrinterTransformer
+    let inline show maxLength context = send context |> modifyPrinter (showPrinterTransformer maxLength)
+    let inline preview context = send context |> modifyPrinter previewPrinterTransformer
     let inline prv context = preview context
     let inline go context = preview context
-    let inline expand context = send context |>  expand
+    let inline expand context = send context |> modifyPrinter expandPrinterTransformer
     let inline exp context = expand context

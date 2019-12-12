@@ -58,15 +58,13 @@ let withResponseContentMaxLength maxLength (printHint: PrintHint) =
 // Printing (Response -> Response)
 let modifyPrinter f r = { r with Response.printHint = f r.printHint }
 
-let raw = noCustomPrinting |> modifyPrinter
-let header = modifyPrinter id
-let show maxLength = (withResponseContentMaxLength maxLength >> withResponseContent) |> modifyPrinter
-let preview = withResponseContent |> modifyPrinter
-let prv = preview
-let go = preview
-let expand = (withResponseContentMaxLength Int32.MaxValue >> withResponseContent) |> modifyPrinter
-let exp = expand
+let rawPrinterTransformer = noCustomPrinting
+let headerPrinterTransformer = modifyPrinter id
+let showPrinterTransformer maxLength = (withResponseContentMaxLength maxLength >> withResponseContent)
+let previewPrinterTransformer = withResponseContent
+let expandPrinterTransformer = (withResponseContentMaxLength Int32.MaxValue >> withResponseContent)
 
+Config.setPrintHint (previewPrinterTransformer Config.initialPrintHint)
 
 // TODO: Printer for FinalContext
 
