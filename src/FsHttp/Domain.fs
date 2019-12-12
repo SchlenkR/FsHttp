@@ -60,6 +60,9 @@ type HeaderContext =
           content = Empty
           config = this.config }
 
+    member this.Configure transformConfig =
+        { this with config = transformConfig this.config }
+
 and BodyContent =
     { contentData: ContentData
       contentType: string option }
@@ -74,6 +77,9 @@ and BodyContext =
           content = Single this.content
           config = this.config }
 
+    member this.Configure transformConfig =
+        { this with config = transformConfig this.config }
+
         
 and MultipartContext =
     { header: Header
@@ -85,6 +91,9 @@ and MultipartContext =
         { FinalContext.header = this.header
           content = Multi this.content
           config = this.config }
+
+    member this.Configure transformConfig =
+        { this with config = transformConfig this.config }
 
 and MultipartContent =
     { contentData:

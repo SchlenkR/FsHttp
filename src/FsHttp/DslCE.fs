@@ -5,7 +5,9 @@ open Dsl
 open Domain
 open RequestHandling
 
+
 type HttpBuilderBase() = class end
+
 
 [<AutoOpen>]
 module R =
@@ -54,6 +56,7 @@ module R =
 
         // RFC 4918 (WebDAV) adds 7 methods
         // TODO
+
 
 [<AutoOpen>]
 module H =
@@ -278,6 +281,7 @@ module H =
         member this.XHTTPMethodOverride (context, httpMethod) =
             Dsl.H.xhttpMethodOverride context httpMethod id
 
+
 [<AutoOpen>]
 module B =
     type HttpBuilderBase with
@@ -325,6 +329,7 @@ module B =
         member this.ContentTypeWithEncoding (context, contentType, charset) =
             Dsl.B.contentTypeWithEncoding context contentType charset id
 
+
 [<AutoOpen>]
 module M =
     type HttpBuilderBase with
@@ -366,6 +371,7 @@ module Config =
         member this.TransformHttpClient (context, map) =
             Dsl.Config.transformHttpClient context map id
 
+
 [<AutoOpen>]
 module Builder =
 
@@ -402,10 +408,33 @@ module Builder =
             f() |> finalizeContext |> toMessage
     let httpMsg = HttpMessageBuilder()
 
+
+[<AutoOpen>]
+module Shortcuts =
+    
+    type httpShortcutBuilder(context) =
+        inherit HttpRequestBuilder<HeaderContext>(context)
+        member inline this.Delay(f: unit -> 'a) = f() |> send
+        
+        [<CustomOperation("id")>]
+        member this.Id (context) = context
+
+    let private req = httpRequest(StartingContext)
+
+    let request method url = req.Request(StartingContext, method, url) |> httpShortcutBuilder
+    let get url = req.Get(StartingContext, url) |> httpShortcutBuilder
+    let put url = req.Put(StartingContext, url) |> httpShortcutBuilder
+    let post url = req.Post(StartingContext, url) |> httpShortcutBuilder
+    let delete url = req.Delete(StartingContext, url) |> httpShortcutBuilder
+    let options url = req.Options(StartingContext, url) |> httpShortcutBuilder
+    let head url = req.Head(StartingContext, url) |> httpShortcutBuilder
+    let trace url = req.Trace(StartingContext, url) |> httpShortcutBuilder
+    let connect url = req.Connect(StartingContext, url) |> httpShortcutBuilder
+    let patch url = req.Patch(StartingContext, url) |> httpShortcutBuilder
+
 [<AutoOpen>]
 module Fsi =
 
-    open System
     open FsHttp.Fsi
 
     let raw = rawPrinterTransformer |> modifyPrinter
@@ -416,3 +445,28 @@ module Fsi =
     let go = preview
     let expand = expandPrinterTransformer |> modifyPrinter
     let exp = expand
+
+    let inline private modifyPrintHint (context: ^t) f =
+        let transformPrintHint (config: Config) =
+            { config with printHint = f config.printHint}
+        (^t: (member Configure: (Config -> Config) -> ^t) (context, transformPrintHint))
+
+    type HttpBuilderBase with
+        
+        [<CustomOperation("raw")>]
+        member inline this.Raw (context: ^t) = modifyPrintHint context rawPrinterTransformer
+
+        [<CustomOperation("preview")>]
+        member inline this.Preview (context: ^t) = modifyPrintHint context previewPrinterTransformer
+
+        [<CustomOperation("prv")>]
+        member inline this.Prv (context: ^t) = modifyPrintHint context previewPrinterTransformer
+
+        [<CustomOperation("go")>]
+        member inline this.Go (context: ^t) = modifyPrintHint context previewPrinterTransformer
+
+        [<CustomOperation("expand")>]
+        member inline this.Expand (context: ^t) = modifyPrintHint context expandPrinterTransformer
+
+        [<CustomOperation("exp")>]
+        member inline this.Exp (context: ^t) = modifyPrintHint context expandPrinterTransformer
