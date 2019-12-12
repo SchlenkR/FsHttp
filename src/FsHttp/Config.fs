@@ -5,7 +5,7 @@ module FsHttp.Config
 open System
 open Domain
 
-let private defaultPreviewLength = 5000
+let private defaultPreviewLength = Int32.MaxValue
 let internal initialPrintHint =
     {
         isEnabled = true
@@ -24,6 +24,7 @@ let internal initialPrintHint =
         }
     }
 let mutable internal defaultPrintHint = initialPrintHint
+let getPrintHint () = defaultPrintHint
 let setPrintHint (printHint: PrintHint) = defaultPrintHint <- printHint
 
 let mutable internal defaultTimeout = TimeSpan.FromSeconds 10.0

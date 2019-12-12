@@ -12,23 +12,47 @@ open ResponseHandling
 
 let noCustomPrinting (printHint: PrintHint) = 
     { printHint with isEnabled = false }
+
 let noRequest (printHint: PrintHint) = 
-    { printHint with requestPrintHint = { printHint.requestPrintHint with isEnabled = false } }
+    { printHint with
+        requestPrintHint =
+            { printHint.requestPrintHint with isEnabled = false } }
+
 let noRequestHeader (printHint: PrintHint) = 
-    { printHint with requestPrintHint = { printHint.requestPrintHint with printHeader = false } }
+    { printHint with
+        requestPrintHint =
+            { printHint.requestPrintHint with printHeader = false } }
+
 let noResponse (printHint: PrintHint) = 
-    { printHint with responsePrintHint = { printHint.responsePrintHint with isEnabled = false } }
+    { printHint with
+        responsePrintHint =
+            { printHint.responsePrintHint with isEnabled = false } }
+
 let noResponseHeader (printHint: PrintHint) = 
-    { printHint with responsePrintHint = { printHint.responsePrintHint with printHeader = false } }
+    { printHint with
+        responsePrintHint =
+            { printHint.responsePrintHint with printHeader = false } }
+
 let withResponseContent (printHint: PrintHint) = 
-    { printHint with responsePrintHint = { printHint.responsePrintHint with 
-                                             printContent = { printHint.responsePrintHint.printContent with isEnabled = true } } }
+    { printHint with
+        responsePrintHint =
+            { printHint.responsePrintHint with
+                printContent =
+                    { printHint.responsePrintHint.printContent with isEnabled = true } } }
+
 let noResponseContentFormatting (printHint: PrintHint) = 
-    { printHint with responsePrintHint = { printHint.responsePrintHint with 
-                                             printContent = { printHint.responsePrintHint.printContent with format = false } } }
+    { printHint with
+        responsePrintHint =
+            { printHint.responsePrintHint with
+                printContent =
+                    { printHint.responsePrintHint.printContent with format = false } } }
+
 let withResponseContentMaxLength maxLength (printHint: PrintHint) =
-    { printHint with responsePrintHint = { printHint.responsePrintHint with 
-                                             printContent = { printHint.responsePrintHint.printContent with maxLength = maxLength } } } 
+    { printHint with
+        responsePrintHint =
+            { printHint.responsePrintHint with
+                printContent =
+                    { printHint.responsePrintHint.printContent with maxLength = maxLength } } } 
     |> withResponseContent
 
 // Printing (Response -> Response)

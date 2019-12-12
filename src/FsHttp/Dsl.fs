@@ -420,7 +420,7 @@ module Fsi =
     // overrides for print modifier in DSL
     let inline raw context = send context |> raw
     let inline header context = send context |> Fsi.header
-    let inline show context maxLength = send context |> (show maxLength)
+    let inline show maxLength context = send context |> (show maxLength)
     let inline preview context = send context |> preview
     let inline prv context = preview context
     let inline go context = preview context

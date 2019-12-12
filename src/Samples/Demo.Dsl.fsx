@@ -4,6 +4,8 @@
 open FsHttp
 open FsHttp.Dsl
 
+
+
 post "https://reqres.in/api/users"
     cacheControl "no-cache"
     body json """
@@ -33,43 +35,38 @@ let users =
     |> toJson
 
 
-module FsiExamples =
-
-    // Open 
-    open FsHttp.Fsi
-
-    // Default print options (don't print request; print response headers, a formatted preview of the content)
-    get @"https://reqres.in/api/users?page=2&delay=3" run go
-
-    // Default print options (see above) + max. content length of 100
-    get @"https://reqres.in/api/users?page=2&delay=3" run (show 100)
-
-    // Default print options (don't print request; print response headers, whole content formatted)
-    get @"https://reqres.in/api/users?page=2&delay=3" run expand
+(***************
+    FSI examples
+****************)
 
 
+// Default print options (don't print request; print response headers, a formatted preview of the content)
+get @"https://reqres.in/api/users?page=2&delay=3" go
+
+// Default print options (see above) + max. content length of 100
+get @"https://reqres.in/api/users?page=2&delay=3" (show 100)
+
+// Default print options (don't print request; print response headers, whole content formatted)
+get @"https://reqres.in/api/users?page=2&delay=3" expand
 
 
 
-
-    get "http://www.google.de" run go
+get "http://www.google.de" go
 
 
 
 
+post "https://reqres.in/api/users"
+    cacheControl "no-cache"
+    bearerAuth "lskdjfjseriuwu8u854"
+    acceptLanguage "de"
+    body json
+    """
+    {
+        "name": "morpheus",
+        "job": "leader"
+    }
+    """
+    exp
 
-
-    post "https://reqres.in/api/users"
-        cacheControl "no-cache"
-        bearerAuth "lskdjfjseriuwu8u854"
-        acceptLanguage "de"
-        body json
-        """
-        {
-            "name": "morpheus",
-            "job": "leader"
-        }
-        """
-        run exp
-
-    // TODO: fin
+// TODO: fin
