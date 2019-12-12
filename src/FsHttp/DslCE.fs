@@ -438,7 +438,7 @@ module Fsi =
     open FsHttp.Fsi
 
     let raw = rawPrinterTransformer |> modifyPrinter
-    let header = headerPrinterTransformer
+    let headerOnly = headerOnlyPrinterTransformer |> modifyPrinter
     let show maxLength = showPrinterTransformer maxLength |> modifyPrinter
     let preview = previewPrinterTransformer |> modifyPrinter
     let prv = preview
@@ -455,6 +455,12 @@ module Fsi =
         
         [<CustomOperation("raw")>]
         member inline this.Raw (context: ^t) = modifyPrintHint context rawPrinterTransformer
+        
+        [<CustomOperation("headerOnly")>]
+        member inline this.HeaderOnly (context: ^t) = modifyPrintHint context headerOnlyPrinterTransformer
+        
+        [<CustomOperation("show")>]
+        member inline this.Show (context: ^t, maxLength) = modifyPrintHint context (showPrinterTransformer maxLength)
 
         [<CustomOperation("preview")>]
         member inline this.Preview (context: ^t) = modifyPrintHint context previewPrinterTransformer

@@ -40,6 +40,13 @@ let withResponseContent (printHint: PrintHint) =
                 printContent =
                     { printHint.responsePrintHint.printContent with isEnabled = true } } }
 
+let noResponseContentPrinting (printHint: PrintHint) = 
+    { printHint with
+        responsePrintHint =
+            { printHint.responsePrintHint with
+                printContent =
+                    { printHint.responsePrintHint.printContent with isEnabled = false } } }
+
 let noResponseContentFormatting (printHint: PrintHint) = 
     { printHint with
         responsePrintHint =
@@ -59,7 +66,7 @@ let withResponseContentMaxLength maxLength (printHint: PrintHint) =
 let modifyPrinter f r = { r with Response.printHint = f r.printHint }
 
 let rawPrinterTransformer = noCustomPrinting
-let headerPrinterTransformer = modifyPrinter id
+let headerOnlyPrinterTransformer = noResponseContentPrinting
 let showPrinterTransformer maxLength = (withResponseContentMaxLength maxLength >> withResponseContent)
 let previewPrinterTransformer = withResponseContent
 let expandPrinterTransformer = (withResponseContentMaxLength Int32.MaxValue >> withResponseContent)

@@ -419,7 +419,7 @@ module Fsi =
 
     // overrides for print modifier in DSL
     let inline raw context = send context |> modifyPrinter rawPrinterTransformer
-    let inline header context = send context |> headerPrinterTransformer
+    let inline headerOnly context = send context |> modifyPrinter headerOnlyPrinterTransformer
     let inline show maxLength context = send context |> modifyPrinter (showPrinterTransformer maxLength)
     let inline preview context = send context |> modifyPrinter previewPrinterTransformer
     let inline prv context = preview context

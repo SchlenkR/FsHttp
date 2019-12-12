@@ -314,7 +314,16 @@ let ``Custom Headers``() =
     }
     |> toText
     |> should equal "hello world"
-
+    
+[<TestCase>]
+let ``Shortcut for GET works``() =
+    use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
+    
+    get (url @"?test=Hallo") {go}
+    |> toText
+    |> should equal "test=Hallo"
+   
+// TODO: 
 
 // [<TestCase>]
 // let ``Http reauest message can be modified``() =
