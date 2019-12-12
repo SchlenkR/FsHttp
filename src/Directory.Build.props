@@ -3,18 +3,16 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>1.0.0</Version>
+    <Version>2.0.0-preview1</Version>
     <Company />
     <Copyright>Copyright 2019 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <PackageReleaseNotes>
-- Breaking change: Changes in the way a request is sent
-- Breaking change: (.>) and (>.) operators should only be used in FSI
-- Breaking change: Various namespace changes
-- Feature: New default DSL (operator-less syntax)
-- Lots of changes and fixes
+- Breaking change: Discarded pipe style DSL
+- Addition: Multipart content
+- Breaking change: Smaller breaking API changes
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
