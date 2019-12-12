@@ -62,7 +62,7 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
         match finalContext.content with
         | Empty -> null
         | Single bodyContent ->
-            buildDotnetContent bodyContent.contentData (Some bodyContent.contentType) None
+            buildDotnetContent bodyContent.contentData bodyContent.contentType None
         | Multi multipartContent ->
             match multipartContent.contentData with
             | [] -> null

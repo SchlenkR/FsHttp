@@ -272,7 +272,7 @@ module B =
 
     let private emptyContentData =
         { BodyContent.contentData = ContentData.ByteArrayContent [||]
-          contentType = MimeTypes.defaultMimeType }
+          contentType = None }
 
     let body (headerContext: HeaderContext) (next: Next<_,_>) =
         { BodyContext.header = headerContext.header
@@ -286,7 +286,7 @@ module B =
     
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (context: BodyContext) (contentType: string) (next: Next<_,_>) =
-        { context with content = { context.content with contentType=contentType } }
+        { context with content = { context.content with contentType = Some contentType } }
         |> next
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
@@ -314,9 +314,9 @@ module B =
 
     let private content (context: BodyContext) defaultContentType data (next: Next<_,_>) =
         let content = context.content
-        let contentType = valueOrDefault content.contentType defaultContentType
+        let contentType = content.contentType |> Option.defaultValue defaultContentType
         
-        { context with content = { content with contentData = data; contentType = contentType; } }
+        { context with content = { content with contentData = data; contentType = Some contentType; } }
         |> next
     
     let binary (context: BodyContext) (data: byte array) (next: Next<_,_>) =

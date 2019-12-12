@@ -62,7 +62,7 @@ type HeaderContext =
 
 and BodyContent =
     { contentData: ContentData
-      contentType: string }
+      contentType: string option }
         
 and BodyContext =
     { header: Header

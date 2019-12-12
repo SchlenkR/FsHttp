@@ -236,7 +236,34 @@ let ``Specify content type explicitly``() =
         ContentType contentType
     }
     |> toText
-    |> should contain contentType
+    |> should equal contentType
+
+[<TestCase>]
+let ``Default content type for JSON is specified correctly``() =
+    use server = POST >=> request (header "content-type" >> OK) |> serve
+
+    http {
+        POST (url @"")
+        body
+        json " [] "
+    }
+    |> toText
+    |> should equal MimeTypes.applicationJson
+
+[<TestCase>]
+let ``Explicitly specified content type is dominant``() =
+    use server = POST >=> request (header "content-type" >> OK) |> serve
+
+    let explicitContentType = "application/whatever"
+
+    http {
+        POST (url @"")
+        body
+        ContentType explicitContentType
+        json " [] "
+    }
+    |> toText
+    |> should equal explicitContentType
 
 [<TestCase>]
 let ``Cookies can be sent``() =
@@ -268,7 +295,6 @@ let ``Custom HTTP method``() =
     }
     |> toText
     |> should equal "flying"
-
 
 [<TestCase>]
 let ``Custom Headers``() =
