@@ -81,6 +81,10 @@ let print (r: Response) =
                         let b =
                             match r.requestMessage.Content with
                             | :? MultipartFormDataContent as m ->
+
+                                // TODO: After having the request invoked, the dotnet multiparts
+                                // have no headers anymore...
+
                                 m
                                 |> Seq.collect (fun part -> part.Headers)
                                 |> Seq.toList

@@ -123,7 +123,7 @@ let inline sendAsync context =
             headers = response.Headers
             reasonPhrase = response.ReasonPhrase
             statusCode = response.StatusCode
-            requestMessage = requestMessage
+            requestMessage = response.RequestMessage
             version = response.Version
             printHint = finalContext.config.printHint
         }
