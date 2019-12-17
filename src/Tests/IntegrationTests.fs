@@ -266,6 +266,34 @@ let ``Explicitly specified content type is dominant``() =
     |> should equal explicitContentType
 
 [<TestCase>]
+let ``Explicitly specified content type part is dominant``() =
+    
+    let explicitContentType1 = "application/whatever1"
+    let explicitContentType2 = "application/whatever2"
+
+    use server =
+        POST 
+        >=> request (fun r ->
+            r.files
+            |> List.map (fun f -> f.mimeType)
+            |> String.concat ","
+            |> OK)
+        |> serve
+
+    http {
+        POST (url @"")
+        multipart
+
+        ContentTypePart explicitContentType1
+        filePart "uploadFile.txt"
+        
+        ContentTypePart explicitContentType2
+        filePart "uploadFile2.txt"
+    }
+    |> toText
+    |> should equal (explicitContentType1 + "," + explicitContentType2)
+
+[<TestCase>]
 let ``Cookies can be sent``() =
     use server =
         GET

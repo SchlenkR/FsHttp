@@ -29,4 +29,4 @@ http {
 
 // shortcuts
 
-get "https://reqres.in/api/users" {raw}
+get "https://reqres.in/api/users" {go}

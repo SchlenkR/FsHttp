@@ -352,13 +352,8 @@ module M =
           currentPartContentType = None
           config = headerContext.config }
         |> next
-    
-    /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType (context: MultipartContext) (contentType: string) (next: Next<_,_>) =
-        { context with currentPartContentType = Some contentType }
-        |> next
 
-    let private addPart 
+    let part
             (context: MultipartContext)
             (content: ContentData)
             (defaultContentType: string option)
@@ -381,14 +376,19 @@ module M =
         |> next
 
     let valuePart (context: MultipartContext) name (value: string) (next: Next<_,_>) =
-        addPart context (ContentData.StringContent value) None name next
+        part context (ContentData.StringContent value) None name next
 
     let filePartWithName (context: MultipartContext) name (path: string) (next: Next<_,_>) =
         let contentType = MimeTypes.guessMineTypeFromPath path MimeTypes.defaultMimeType
-        addPart context (ContentData.FileContent path) (Some contentType) name next
+        part context (ContentData.FileContent path) (Some contentType) name next
 
     let filePart context path (next: Next<_,_>) =
         filePartWithName context (System.IO.Path.GetFileNameWithoutExtension path) path next
+        
+    /// The MIME type of the body of the request (used with POST and PUT requests)
+    let contentType (context: MultipartContext) (contentType: string) (next: Next<_,_>) =
+        { context with currentPartContentType = Some contentType }
+        |> next
 
 [<AutoOpen>]
 module Config =

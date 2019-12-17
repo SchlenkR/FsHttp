@@ -289,11 +289,6 @@ module B =
         [<CustomOperation("body")>]
         member this.Body(context) =
             Dsl.B.body context id
-        
-        /// The type of encoding used on the data
-        [<CustomOperation("ContentEncoding")>]
-        member this.ContentEncoding (context, encoding) =
-            Dsl.B.contentEncoding context encoding id
 
         [<CustomOperation("binary")>]
         member this.Binary(context, data) =
@@ -318,6 +313,11 @@ module B =
         [<CustomOperation("file")>]
         member this.File(context, path) =
             Dsl.B.file context path id
+        
+        /// The type of encoding used on the data
+        [<CustomOperation("ContentEncoding")>]
+        member this.ContentEncoding (context, encoding) =
+            Dsl.B.contentEncoding context encoding id
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
         [<CustomOperation("ContentType")>]
@@ -338,8 +338,12 @@ module M =
         member this.Multipart(context) =
             Dsl.M.multipart context id
         
+        [<CustomOperation("part")>]
+        member this.Part(context, content, defaultContentType, name) =
+            Dsl.M.part context content defaultContentType name id
+        
         [<CustomOperation("valuePart")>]
-        member this.Value(context, name, value) =
+        member this.ValuePart(context, name, value) =
             Dsl.M.valuePart context name value id
 
         [<CustomOperation("filePart")>]
@@ -349,6 +353,11 @@ module M =
         [<CustomOperation("filePartWithName")>]
         member this.FilePartWithName(context, name, path) =
             Dsl.M.filePartWithName context name path id
+
+        /// The MIME type of the body of the request (used with POST and PUT requests)
+        [<CustomOperation("ContentTypePart")>]
+        member this.ContentTypePart (context, contentType) =
+            Dsl.M.contentType context contentType id
 
 
 [<AutoOpen>]

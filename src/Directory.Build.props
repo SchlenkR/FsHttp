@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>2.0.0-preview2</Version>
+    <Version>2.0.0</Version>
     <Company />
     <Copyright>Copyright 2019 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
@@ -12,6 +12,7 @@
     <PackageReleaseNotes>
 - Breaking change: Discarded pipe style DSL
 - Addition: Multipart content
+- Addition: Shortcuts and chainable builder
 - Breaking change: Smaller breaking API changes
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
