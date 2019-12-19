@@ -13,6 +13,7 @@ module ``Unit tests for FsHttp``
 
 open FsUnit
 open FsHttp
+open FsHttp.DslCE
 open FsHttp.Testing
 open NUnit.Framework
 open Server
@@ -25,8 +26,8 @@ let ``httpLazy and invocation signatures are correct``() =
         GET "http://www.google.de"
     }
 
-    let (response:Response) = request .> go
-    let (asyncResponse:Async<Response>) = request >. go
+    let (response:Response) = request |> send
+    let (asyncResponse:Async<Response>) = request |> sendAsync
 
     ()
     

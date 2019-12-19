@@ -1,7 +1,11 @@
 language: csharp
-dotnet: 2.1.500
+mono: none
+#dotnet: 2.1.500
+dotnet: 3.0.101
+#dotnet: 2.1.502
 sudo: false
-dist: trusty
+#dist: trusty
+dist: xenial
 env:
   - PATH=$PATH:/home/travis/.dotnet/tools
 script:

@@ -1,24 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>SchlenkR.FsHttp</PackageId>
+    <Description>A lightweight HTTP/REST library for F#.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Config.fs" />
+    <Compile Include="MimeTypes.fs" />
     <Compile Include="Helper.fs" />
     <Compile Include="Domain.fs" />
-    <Compile Include="Dsl.fs" />
-    <Compile Include="PrintModifier.fs" />
-    <Compile Include="Builder.fs" />
-    <Compile Include="Invocation.fs" />
+    <Compile Include="Config.fs" />
+    <Compile Include="RequestHandling.fs" />
     <Compile Include="ResponseHandling.fs" />
-    <Compile Include="BuilderInstances.fs" />
-    <Compile Include="FsiPrinting.fs" />
+    <Compile Include="Fsi.fs" />
+    <Compile Include="Dsl.fs" />
+    <Compile Include="DslCE.fs" />
     <None Include="FsHttp.fsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </None>
+    <None Include="scratch.fsx" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

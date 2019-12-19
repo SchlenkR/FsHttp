@@ -13,11 +13,14 @@ module ``Integration tests for FsHttp``
 
 open FsUnit
 open FsHttp
+open FsHttp.DslCE
 open FsHttp.Testing
 open NUnit.Framework
 open Server
 open System
+open System.IO
 open Suave
+open Suave.Cookie
 open Suave.ServerErrors
 open Suave.Operators
 open Suave.Filters
@@ -31,6 +34,7 @@ module Helper =
     let query key (r: HttpRequest) = defaultArg (Option.ofChoice (r.query ^^ key)) keyNotFoundString
     let header key (r: HttpRequest) = defaultArg (Option.ofChoice (r.header key)) keyNotFoundString
     let form key (r: HttpRequest) = defaultArg (Option.ofChoice (r.form ^^ key)) keyNotFoundString
+    let text (r: HttpRequest) = r.rawForm |> System.Text.Encoding.UTF8.GetString
 
 
 [<TestCase>]
@@ -112,7 +116,41 @@ let ``Comments in urls are discarded``() =
     |> should equal ("Query1_" + keyNotFoundString + "_Query3")
 
 [<TestCase>]
-let ``Form url encoded POSTs``() =
+let ``POST string data``() =
+    use server =
+        POST 
+        >=> request (text >> OK)
+        |> serve
+
+    let data = "hello world"
+
+    http {
+        POST (url @"")
+        body
+        text data
+    }
+    |> toText
+    |> should equal data
+
+[<TestCase>]
+let ``POST binary data``() =
+    use server =
+        POST 
+        >=> request (fun r -> r.rawForm |> Suave.Successful.ok)
+        |> serve
+
+    let data = [| 12uy; 22uy; 99uy |]
+
+    http {
+        POST (url @"")
+        body
+        binary data
+    }
+    |> toBytes
+    |> should equal data
+
+[<TestCase>]
+let ``POST Form url encoded data``() =
     use server =
         POST 
         >=> request (fun r -> (form "q1" r) + "_" + (form "q2" r) |> OK) 
@@ -128,6 +166,48 @@ let ``Form url encoded POSTs``() =
     }
     |> toText
     |> should equal ("Query1_Query2")
+
+[<TestCase>]
+let ``POST Multipart form data``() =
+    
+    let joinLines =  String.concat "\n"
+    
+    use server =
+        POST 
+        >=> request (fun r ->
+            let fileContents =
+                r.files
+                |> List.map (fun f -> File.ReadAllText f.tempFilePath)
+                |> joinLines
+            let multipartContents =
+                r.multiPartFields
+                |> List.map (fun (k,v) -> k + "=" + v)
+                |> joinLines
+            [ fileContents; multipartContents ] |> joinLines |> OK)
+        |> serve
+
+    http {
+        POST (url @"")
+        multipart
+        filePart "uploadFile.txt"
+        filePart "uploadFile2.txt"
+        valuePart "hurz1" "das"
+        valuePart "hurz2" "Lamm"
+        valuePart "hurz3" "schrie"
+    }
+    |> toText
+    |> should equal (joinLines [
+        "I'm a chicken and I can fly!"
+        "Lemonade was a popular drink, and it still is."
+        "hurz1=das"
+        "hurz2=Lamm"
+        "hurz3=schrie"
+    ])
+
+// TODO: Post single file
+
+// TODO: POST stream
+// TODO: POST multipart
 
 [<TestCase>]
 let ``Expect status code``() =
@@ -156,7 +236,122 @@ let ``Specify content type explicitly``() =
         ContentType contentType
     }
     |> toText
-    |> should contain contentType
+    |> should equal contentType
+
+[<TestCase>]
+let ``Default content type for JSON is specified correctly``() =
+    use server = POST >=> request (header "content-type" >> OK) |> serve
+
+    http {
+        POST (url @"")
+        body
+        json " [] "
+    }
+    |> toText
+    |> should equal MimeTypes.applicationJson
+
+[<TestCase>]
+let ``Explicitly specified content type is dominant``() =
+    use server = POST >=> request (header "content-type" >> OK) |> serve
+
+    let explicitContentType = "application/whatever"
+
+    http {
+        POST (url @"")
+        body
+        ContentType explicitContentType
+        json " [] "
+    }
+    |> toText
+    |> should equal explicitContentType
+
+[<TestCase>]
+let ``Explicitly specified content type part is dominant``() =
+    
+    let explicitContentType1 = "application/whatever1"
+    let explicitContentType2 = "application/whatever2"
+
+    use server =
+        POST 
+        >=> request (fun r ->
+            r.files
+            |> List.map (fun f -> f.mimeType)
+            |> String.concat ","
+            |> OK)
+        |> serve
+
+    http {
+        POST (url @"")
+        multipart
+
+        ContentTypePart explicitContentType1
+        filePart "uploadFile.txt"
+        
+        ContentTypePart explicitContentType2
+        filePart "uploadFile2.txt"
+    }
+    |> toText
+    |> should equal (explicitContentType1 + "," + explicitContentType2)
+
+[<TestCase>]
+let ``Cookies can be sent``() =
+    use server =
+        GET
+        >=> request (fun r ->
+            r.cookies
+            |> Map.find "test"
+            |> fun httpCookie -> httpCookie.value
+            |> OK)
+        |> serve
+
+    http {
+        GET (url @"")
+        Cookie "test" "hello world"
+    }
+    |> toText
+    |> should equal "hello world"
+
+[<TestCase>]
+let ``Custom HTTP method``() =
+    use server =
+        ``method`` (HttpMethod.parse "FLY")
+        >=> request (fun r -> OK "flying")
+        |> serve
+
+    http {
+        Request "FLY" (url @"")
+    }
+    |> toText
+    |> should equal "flying"
+
+[<TestCase>]
+let ``Custom Headers``() =
+    let customHeaderKey = "X-Custom-Value"
+
+    use server =
+        GET
+        >=> request (fun r ->
+            r.header customHeaderKey
+            |> function | Choice1Of2 v -> v | Choice2Of2 e -> failwithf "Failed %s" e
+            |> OK)
+        |> serve
+
+    http {
+        GET (url @"")
+        Header customHeaderKey "hello world"
+    }
+    |> toText
+    |> should equal "hello world"
+    
+[<TestCase>]
+let ``Shortcut for GET works``() =
+    use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
+    
+    get (url @"?test=Hallo") {go}
+    |> toText
+    |> should equal "test=Hallo"
+   
+// TODO: 
 
 // [<TestCase>]
 // let ``Http reauest message can be modified``() =
@@ -176,3 +371,4 @@ let ``Specify content type explicitly``() =
 // TODO: ToFormattedText
 // TODO: transformHttpRequestMessage
 // TODO: transformHttpClient
+// TODO: Cookie tests (test the overloads)

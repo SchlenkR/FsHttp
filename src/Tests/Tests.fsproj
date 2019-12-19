@@ -7,12 +7,21 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="uploadFile2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="uploadFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="Server.fs" />
     <Compile Include="JsonTests.fs" />
     <Compile Include="UnitTests.fs" />
     <Compile Include="IntegrationTests.fs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
