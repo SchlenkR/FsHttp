@@ -2,8 +2,6 @@
 module FsHttp.Testing
 
 open FSharp.Data
-open NUnit.Framework
-open Domain
 
 /// tee operator: useful for chaining expectations
 let ( ||> ) x f =
@@ -12,6 +10,21 @@ let ( ||> ) x f =
 
 //let (>>>) (y: 'b) (x: Async<'a>) =
 //    y
+
+let inline private raisef<'a, 'b, 'c> : Printf.StringFormat<'a, 'b> -> 'a =
+    let otype =
+        [
+            "Xunit.Sdk.XunitException, xunit.assert"
+            "NUnit.Framework.AssertionException, nunit.framework"
+            "Expecto.AssertException, expecto"
+        ]
+        |> List.tryPick(System.Type.GetType >> Option.ofObj)
+    match otype with
+    | None -> failwithf
+    | Some t ->
+        let ctor = t.GetConstructor [|typeof<string>|]
+        let exnCtor msg = ctor.Invoke [| msg|] :?> exn
+        Printf.kprintf (exnCtor >> raise)
 
 type ArrayComparison = | RespectOrder | IgnoreOrder
 type StructuralComparison = | Subset | Exact
@@ -59,7 +72,7 @@ let jsonShouldLookLike
         let eMinusR = expectedPaths |> List.except resultPaths
         match eMinusR with
         | [] -> resultJson
-        | _ -> raise (AssertionException (sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements)))
+        | _ -> raisef "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements)
     | Exact ->
         let eMinusR = expectedPaths |> List.except resultPaths
         let rMinusE = resultPaths |> List.except expectedPaths
@@ -68,7 +81,7 @@ let jsonShouldLookLike
         | _ ->
             let a1 = (sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements))
             let a2 = (sprintf "Elements not contained in expectation: \n%s" (rMinusE |> aggregateUnmatchedElements))
-            raise (AssertionException (a1 + "\n" + a2))
+            raisef "%s\n%s" a1 a2
 
 let jsonStringShouldLookLike
         (arrayComparison: ArrayComparison)
@@ -90,7 +103,7 @@ type JsonValue with
 
 let statusCodeShouldBe (code: System.Net.HttpStatusCode) (response: Response) =
     if response.statusCode <> code then
-        raise (AssertionException (sprintf "Expected status code of %A, but was %A" code response.statusCode))
+        raisef "Expected status code of %A, but was %A" code response.statusCode
     ()
 
 
@@ -115,3 +128,4 @@ let statusCodeShouldBe (code: System.Net.HttpStatusCode) (response: Response) =
 // (Ok 1).GetType().ReflectedType.Name
 // (Failed (1,"j")).GetType().ReflectedType.Name
 // (Failed (1,"j")).GetType().Name
+
