@@ -22,8 +22,8 @@ let inline private raisef<'a, 'b, 'c> : Printf.StringFormat<'a, 'b> -> 'a =
     match otype with
     | None -> failwithf
     | Some t ->
-        let ctor = t.GetConstructor [|typeof<string>|]
-        let exnCtor msg = ctor.Invoke [| msg|] :?> exn
+        let ctor = t.GetConstructor [| typeof<string> |]
+        let exnCtor msg = ctor.Invoke [| msg |] :?> exn
         Printf.kprintf (exnCtor >> raise)
 
 type ArrayComparison = | RespectOrder | IgnoreOrder

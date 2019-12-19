@@ -3,17 +3,14 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Company />
-    <Copyright>Copyright 2019 Ronald Schlenker</Copyright>
+    <Copyright>Copyright 2020 Ronald Schlenker</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <PackageReleaseNotes>
-- Breaking change: Discarded pipe style DSL
-- Addition: Multipart content
-- Addition: Shortcuts and chainable builder
-- Breaking change: Smaller breaking API changes
+- FsHttp.NUnit is now FsHttp.Testing and it is test framework agnostic (thanks @vilinski)
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>

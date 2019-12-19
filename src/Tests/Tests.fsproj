@@ -21,12 +21,9 @@
     <Compile Include="UnitTests.fs" />
     <Compile Include="IntegrationTests.fs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\FsHttp.Testing\FsHttp.Testing.fsproj" />
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FsHttp.NUnit\FsHttp.NUnit.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

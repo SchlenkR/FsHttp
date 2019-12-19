@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>SchlenkR.FsHttp.NUnit</PackageId>
+    <PackageId>SchlenkR.FsHttp.Testing</PackageId>
     <Description>An addition for the FsHttp library, providing convenience for testing.</Description>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -12,7 +12,7 @@
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FsHttp.NUnit.fs" />
+    <Compile Include="FsHttp.Testing.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
