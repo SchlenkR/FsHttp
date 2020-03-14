@@ -3,14 +3,12 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>2.1.0</Version>
+    <Version>3.0.0-prerelease-1</Version>
     <Company />
     <Copyright>Copyright 2020 Ronald Schlenker</Copyright>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/ronaldschlenker/FsHttp/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/ronaldschlenker/FsHttp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
-- FsHttp.NUnit is now FsHttp.Testing and it is test framework agnostic (thanks @vilinski)
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
