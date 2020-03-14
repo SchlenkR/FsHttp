@@ -394,25 +394,33 @@ module Builder =
         member this.Yield(x) = context
     let httpRequest context = HttpRequestBuilder context
 
-    type HttpBuilder() =
+    // TODO: this can be a better way of chaining requests
+    // (as a replacement / enhancement for HttpRequestBuilder):
+    //type HttpChainableBuilder<'a>(context: 'a) =
+    //    inherit HttpBuilderBase()
+    //    member this.Yield(x) = context
+    //    member this.Delay(f: unit -> 'a) = HttpChainableBuilder<'a>(f())
+    //let httpChain context = HttpContextBuilder context
+
+    type HttpStartingBuilder() =
         inherit HttpRequestBuilder<StartingContext>(StartingContext)
 
     type HttpBuilderSync() =
-        inherit HttpBuilder()
+        inherit HttpStartingBuilder()
         member inline this.Delay(f: unit -> 'a) = f() |> send
     let http = HttpBuilderSync()
 
     type HttpBuilderAsync() =
-        inherit HttpBuilder()
+        inherit HttpStartingBuilder()
         member inline this.Delay(f: unit -> 'a) = f() |> sendAsync
     let httpAsync = HttpBuilderAsync()
 
     type HttpBuilderLazy() =
-        inherit HttpBuilder()
+        inherit HttpStartingBuilder()
     let httpLazy = HttpBuilderLazy()
 
     type HttpMessageBuilder() =
-        inherit HttpBuilder()
+        inherit HttpStartingBuilder()
         member inline this.Delay(f: unit -> 'a) =
             f() |> finalizeContext |> toMessage
     let httpMsg = HttpMessageBuilder()
