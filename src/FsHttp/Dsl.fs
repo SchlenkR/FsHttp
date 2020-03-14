@@ -382,7 +382,7 @@ module M =
         let contentType = MimeTypes.guessMineTypeFromPath path MimeTypes.defaultMimeType
         part context (ContentData.FileContent path) (Some contentType) name next
 
-    let filePart context path (next: Next<_,_>) =
+    let filePart context (path : string) (next: Next<_,_>) =
         filePartWithName context (System.IO.Path.GetFileNameWithoutExtension path) path next
         
     /// The MIME type of the body of the request (used with POST and PUT requests)

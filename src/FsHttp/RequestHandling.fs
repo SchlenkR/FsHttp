@@ -1,4 +1,3 @@
-
 [<AutoOpen>]
 module FsHttp.RequestHandling
 
@@ -7,7 +6,6 @@ open System.Collections.Generic
 open System.Net
 open System.Net.Http
 open System.Net.Http.Headers
-open System.Text
 open System.Threading
 
 open Domain
@@ -17,18 +15,22 @@ open Domain
 let inline finalizeContext (context: ^t) =
     (^t: (member Finalize: unit -> FinalContext) (context))
 
+[<Literal>]
+let TimeoutPropertyName = "RequestTimeout"
+
 /// Transforms a FinalContext into a System.Net.Http.HttpRequestMessage.
 let toMessage (finalContext: FinalContext) : HttpRequestMessage =
 
     let request = finalContext.header
 
     let requestMessage = new HttpRequestMessage(request.method, request.url)
+    requestMessage.Properties.[TimeoutPropertyName] <- finalContext.config.timeout
 
     let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
         let dotnetContent =
             match part with
             | StringContent s ->
-                // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header. 
+                // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header.
                 new StringContent(s) :> HttpContent
             | ByteArrayContent data ->
                 new ByteArrayContent(data) :> HttpContent
@@ -43,16 +45,16 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
                     new StreamContent(fs)
 
                 let contentDispoHeaderValue = ContentDispositionHeaderValue("form-data")
-                
+
                 match name with
                 | Some v ->  contentDispoHeaderValue.Name <- v
                 | None -> ()
-                
+
                 contentDispoHeaderValue.FileName  <- path
                 content.Headers.ContentDisposition <- contentDispoHeaderValue
 
                 content :> HttpContent
-        
+
         if contentType.IsSome then
             dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentType.Value
 
@@ -79,9 +81,37 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
 
     requestMessage
 
+let httpClient =
+    let timeoutHandler innerHandler =
+        { new DelegatingHandler(InnerHandler = innerHandler) with
+            override _.SendAsync(request : HttpRequestMessage, cancellationToken : CancellationToken) =
+                let cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
+                cts.CancelAfter(request.Properties.[TimeoutPropertyName] :?> TimeSpan)
+                base.SendAsync(request, cts.Token)
+        }
+#if NETSTANDARD_2
+    fun () ->
+        let clientHandler = new HttpClientHandler()
+        new HttpClient(
+            timeoutHandler clientHandler,
+            Timeout = Timeout.InfiniteTimeSpan)
+#else
+    let socketsHandler =
+        new SocketsHttpHandler(
+            UseCookies = false,
+            PooledConnectionLifetime = TimeSpan.FromMinutes 5.)
+
+    let client = 
+        new HttpClient(
+            timeoutHandler socketsHandler,
+            Timeout = Timeout.InfiniteTimeSpan)
+
+    fun () -> client
+#endif
+
 /// Sends a context asynchronously.
 let inline sendAsync context =
-    
+
     let finalContext = finalizeContext context
 
     let requestMessage = toMessage finalContext
@@ -92,21 +122,13 @@ let inline sendAsync context =
         | Some map -> map requestMessage
 
     let invoke(ctok : CancellationToken) =
+        let client = httpClient ()
+        let cookies =
+            finalContext.header.cookies
+            |> List.map string
+            |> String.concat "; "
 
-        let cookieContainer = CookieContainer()
-        
-        finalContext.header.cookies
-        |> List.iter (fun cookie ->
-            let domain =
-                if String.IsNullOrWhiteSpace cookie.Domain
-                then finalContext.header.url
-                else cookie.Domain
-            cookieContainer.Add(Uri(domain), cookie))
-
-        // TODO: dispose
-        let clientHandler = new HttpClientHandler()
-        clientHandler.CookieContainer <- cookieContainer
-        let client = new HttpClient(clientHandler, Timeout = finalContext.config.timeout)
+        finalRequestMessage.Headers.Add("Cookie", cookies)
 
         let finalClient =
             match finalContext.config.httpClientTransformer with
@@ -117,7 +139,7 @@ let inline sendAsync context =
     async {
         let! ctok = Async.CancellationToken
         let! response = invoke ctok |> Async.AwaitTask
-        return { 
+        return {
             requestContext = finalContext
             content = response.Content
             headers = response.Headers

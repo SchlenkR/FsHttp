@@ -1,5 +1,4 @@
-﻿
-module FsHttp.MimeTypes
+﻿module FsHttp.MimeTypes
 
 open System.IO
 
@@ -995,7 +994,7 @@ let map =
     |]
     |> Array.toList
 
-let guessMineTypeFromPath path defaultValue =
+let guessMineTypeFromPath (path : string) defaultValue =
     map
     |> List.tryFind (fun (ext,_) -> "." + ext = Path.GetExtension path)
     |> function
