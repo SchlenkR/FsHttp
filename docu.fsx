@@ -9,31 +9,56 @@
 //let script = Path.Combine(source, "./src/Samples/Demo.DslCE.fsx")
 //let md = Literate.ParseScriptFile(script).MarkdownDocument
 
+open System
 open System.IO
 
 let source = __SOURCE_DIRECTORY__
 let script = Path.Combine(source, "./src/Samples/Demo.DslCE.fsx")
 
-type Mode = Start | Markdown | Code
+type Mode 
+    = Markdown
+    | Code
 
-let lines =
+let taggedLines =
     [
-        let mutable mode = Start
+        let mutable currentMode = Markdown
+
         for line in File.ReadAllLines script do
-            let isMarkdownStart = line.Trim() = "(**"
-            let isMarkdownEnd = line.Trim() = "*)"
-            match mode, isMarkdownStart, isMarkdownEnd with
-            | Start, true, _ ->
-                mode <- Markdown
+            let trimmedLine = line.Trim()
+            let isMarkdownStart = trimmedLine = "(**"
+            let isMarkdownEnd = trimmedLine = "*)"
+
+            match currentMode, isMarkdownStart, isMarkdownEnd with
             | Markdown, _, true ->
-                mode <- Code
-                yield "```fsharp"
+                yield currentMode, ""
+                yield currentMode, "```fsharp"
+                currentMode <- Code
             | Code, true, _ ->
-                mode <- Markdown
-                yield "```"
+                currentMode <- Markdown
+                yield  currentMode, "```"
+            | _, true,_
+            | _, _, true ->
+                ()
             | _ ->
-                yield line
+                yield currentMode, line
     ]
 
+let linesWhereTrailingEmptyCodeLinesRemoved =
+    [
+        let mutable lastMode = Markdown
+
+        for mode,line in taggedLines |> List.rev do
+            match mode, lastMode, line.Trim() with
+            | Code, Code, _ ->
+                yield line
+            | Code, _, ""->
+                ()
+            | _ ->
+                lastMode <- mode
+                yield line
+    ]
+    |> List.rev
+//let linesWhereTrailingEmptyCodeLinesRemoved = taggedLines |> List.map (fun (_,x) -> x)
+
 let readme = Path.Combine(source, "./Readme.md")
-File.WriteAllLines(readme, lines)
+File.WriteAllLines(readme, linesWhereTrailingEmptyCodeLinesRemoved)

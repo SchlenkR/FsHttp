@@ -41,23 +41,30 @@ open FsHttp.DslCE
 
 
 
+
 (**
-## Getting Started
+
+## Getting Started: Build up a GET request
+
+*Hint:* The request will be sent immediately and synchronous.
+
 *)
 
-// Build up a GET request.
-// The request will be sent immediately and synchronous.
 http {
     GET "https://reqres.in/api/users"
 }
 
-// add a header...
+(**
+add a header...
+*)
 http {
     GET "https://reqres.in/api/users"
     CacheControl "no-cache"
 }
 
-// Here is an example of a POST with JSON as body:
+(**
+Here is an example of a POST with JSON as body:
+*)
 http {
     POST "https://reqres.in/api/users"
     CacheControl "no-cache"
@@ -73,14 +80,18 @@ http {
 
 (**
 ## FSI Request/Response Formatting
+
+When you work in FSI, you can control the output formatting with special keywords.
+
+Some predefined printers are defined in ```./src/FsHttp/DslCE.fs, module Fsi```
+
+2 most common printers are:
+
+ - 'go' (alias: 'preview'): This will render a small part of the response content.
+ - 'exp' (alias: 'expand'): This will render the whole response content.
+
 *)
 
-// When you work in FSI, you can control the output
-// formatting with special keywords. Some predefined //
-// printers are defined in './src/FsHttp/DslCE.fs, module Fsi':
-// 2 most common printers are:
-//   * 'go' (alias: 'preview'): This will render a small part of the response content.
-//   * 'exp' (alias: 'expand'): This will render the whole response content.
 http {
     GET "https://reqres.in/api/users"
     CacheControl "no-cache"
@@ -89,16 +100,20 @@ http {
 
 
 (**
-## Verb-First Requests
+## Verb-First Requests (Syntax)
+
+Alternatively, you can write the verb first.
+Note that computation expressions must not be empty, so you
+have to write at lease something, like 'id', 'go', 'exp', etc.
+
+Have a look at: ```./src/FsHttp/DslCE.fs, module Shortcuts```
 *)
 
-// Alternatively, you can write the verb first.
-// Note that computation expressions must not be empty, so you
-// have to write at lease something, like 'id', 'go', 'exp', etc.
-// (have a look at: './src/FsHttp/DslCE.fs, module Shortcuts'.)
 get "https://reqres.in/api/users" { exp }
 
-// Inside the { }, you can place headers as usual...
+(**
+Inside the ```{ }```, you can place headers as usual...
+*)
 get "https://reqres.in/api/users" {
     CacheControl "no-cache"
     exp
@@ -107,10 +122,10 @@ get "https://reqres.in/api/users" {
 
 (**
 ## URL Formatting (Line Breaks and Comments)
-*)
 
-// You can split URL query parameters or comment lines out by using F# line-comment syntax.
-// Line breaks and trailing / leading spaces will be removed:
+You can split URL query parameters or comment lines out by using F# line-comment syntax.
+Line breaks and trailing or leading spaces will be removed:
+*)
 get "https://reqres.in/api/users
             ?page=2
             //&skip=5
@@ -120,11 +135,13 @@ get "https://reqres.in/api/users
 
 (**
 ## Response Content Transformations
+
+There are several ways transforming the content of the returned response to
+something like text or JSON:
+
+See also: ```./src/FsHttp/ResponseHandling.fs```
 *)
 
-// There are several ways transforming the content of the returned response to
-// something like text or JSON:
-// See also: ./src/FsHttp/ResponseHandling.fs
 http {
     POST "https://reqres.in/api/users"
     CacheControl "no-cache"
@@ -138,7 +155,9 @@ http {
 }
 |> toJson
 
-// works of cource also like this:
+(**
+Works of course also like this:
+*)
 post "https://reqres.in/api/users" {
     CacheControl "no-cache"
     body
@@ -152,7 +171,9 @@ post "https://reqres.in/api/users" {
 |> toJson
 
 
-// Use FSharp.Data.JsonExtensions to do JSON stuff:
+(**
+Use FSharp.Data.JsonExtensions to do JSON stuff:
+*)
 open FSharp.Data
 open FSharp.Data.JsonExtensions
 
@@ -163,19 +184,28 @@ http {
 |> fun json -> json?page.AsInteger()
 
 
+(**
+## Configuration: Timeouts, etc.
 
-// You can specify a timeout (should throw because it's very short)
+You can specify a timeout:
+*)
+// should throw because it's very short
 http {
     GET "http://www.google.de"
     timeoutInSeconds 0.1
 }
 
-// You can also set config values globally (inherited when requests are created):
+(**
+You can also set config values globally (inherited when requests are created):
+*)
 FsHttp.Config.setTimeout (System.TimeSpan.FromSeconds 15.0)
 
 
+(**
+## Access HttpClient and HttpMessage
 
-// Transform underlying http client and do whatever you feel you gave to do:
+Transform underlying http client and do whatever you feel you gave to do:
+*)
 http {
     GET @"https://reqres.in/api/users?page=2&delay=3"
     transformHttpClient (fun httpClient ->
@@ -184,8 +214,9 @@ http {
         httpClient)
 }
 
-
-// Transform underlying http request message
+(**
+Transform underlying http request message:
+*)
 http {
     GET @"https://reqres.in/api/users?page=2&delay=3"
     transformHttpRequestMessage (fun msg ->
@@ -193,24 +224,34 @@ http {
         msg)
 }
 
+(**
+## Lazy Evaluation / Chaining Builders
 
-// There is not only the immediate + synchronous way of specifying requests.
-// Have a look at: './src/FsHttp/DslCE.fs, module Fsi'.
+*Hint:* Have a look at: ```./src/FsHttp/DslCE.fs, module Fsi'```
 
-// chaining builders together: First, use a httpLazy to create a 'HeaderContext'
-// (Hint: "httpLazy { ... }" is just a shortcut for "httpRequest StartingContext { ... }")."
+There is not only the immediate + synchronous way of specifying requests. It's also possible to
+simply build a request, pass it around and send it later or to warp it in async.
+
+Chaining builders together: First, use a httpLazy to create a 'HeaderContext'
+
+*Hint:* ```httpLazy { ... }``` is just a shortcut for ```httpRequest StartingContext { ... }```
+*)
 let postOnly =
     httpLazy {
         POST "https://reqres.in/api/users"
     }
 
-// add some HTTP headers to the context
+(**
+Add some HTTP headers to the context:
+*)
 let postWithCacheControlBut =
     httpRequest postOnly {
         CacheControl "no-cache"
     }
 
-// transform the HeaderContext to a BodyContext and add JSON content
+(**
+Transform the HeaderContext to a BodyContext and add JSON content:
+*)
 let finalPostWithBody =
     httpRequest postWithCacheControlBut {
         body
@@ -222,14 +263,19 @@ let finalPostWithBody =
         """
     }
 
-// finally, send the request (sync or async)
+(**
+Finally, send the request (sync or async):
+*)
 let finalPostResponse = finalPostWithBody |> send
 let finalPostResponseAsync = finalPostWithBody |> sendAsync
 
 
 
+(**
+### Async Builder
 
-// HTTP in an async context:
+HTTP in an async context:
+*)
 let pageAsync =
     async {
         let! response = 
@@ -243,8 +289,3 @@ let pageAsync =
         return page
     }
 
-
-
-
-// TODO:
-// * There are different types of builders (`http`, `httpAsync`, `httpLazy`, and `httpMsg`)
