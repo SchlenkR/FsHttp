@@ -1,4 +1,15 @@
 
+(* ----------------------------
+
+    Here you find some asorted use cases using the operator-less syntax.
+    For a more complete demo of FsHttp, please have a look at:
+        ./Demo.DslCE.fsx
+
+---------------------------- *)
+
+
+
+
 #load @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.fsx"
 
 open FsHttp
@@ -14,42 +25,27 @@ post "https://reqres.in/api/users"
         "job": "leader"
     }
     """
-    send
+    go
+
 
 post "https://reqres.in/api/users"
     H.cacheControl "no-cache"
     body
     B.json """ { } """
-    send
+    go
+
 
 get "https://reqres.in/api/users
         ?page=2
         //&skip=5
         &delay=3"
-    send
+    go
 
 
 let users =
     get "https://reqres.in/api/users?page=2"
         send
     |> toJson
-
-    
-## Explicit Headers
-    
-When you want to have intellisense for the header values, you can use `H` for header and `B` for body (not for CE flavour):
-    
-```fsharp
-post "https://reqres.in/api/users"
-    H.cacheControl "no-cache"
-    body
-    B.json """ { "name": "morpheus" } """
-    send
-```
-
-(***************
-    FSI examples
-****************)
 
 
 // Default print options (don't print request; print response headers, a formatted preview of the content)
@@ -60,12 +56,6 @@ get @"https://reqres.in/api/users?page=2&delay=3" (show 100)
 
 // Default print options (don't print request; print response headers, whole content formatted)
 get @"https://reqres.in/api/users?page=2&delay=3" expand
-
-
-
-get "http://www.google.de" go
-
-
 
 
 post "https://reqres.in/api/users"
@@ -81,4 +71,3 @@ post "https://reqres.in/api/users"
     """
     exp
 
-// TODO: fin

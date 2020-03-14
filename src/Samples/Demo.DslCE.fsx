@@ -1,4 +1,35 @@
 ﻿
+(**
+# FsHttp
+
+FsHttp is a convenient library for consuming HTTP/REST endpoints via F#. It is based on System.Net.Http.
+
+[![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
+
+The goal of FsHttp is to provide ways for describing HTTP requests in a convenient way, and it is inspired by the RestClient VSCode extension. It can be used in production code, in tests, and in F# interactive.
+
+Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fsharp.github.io/FSharp.Data/library/Http.html).
+
+FsHttp comes in 2 'flavours' that can be used to describe HTTP requests. Although it is a good thing to have 1 solution for a problem instead of 2, it's up to you which style you prefer.
+
+## Sources and Demos
+
+Have a look at these files for more use cases:
+
+* [Demo script for CE Dsl](src/Samples/Demo.DslCE.fsx)
+  This file demonstrates the use of the CE (computation expression) syntax.
+
+* [Demo script for op-less Dsl](src/Samples/Demo.Dsl.fsx)
+  This file demonstrates the use of the op-less (operator-less) syntax.
+
+* [Integration Tests](src/Tests/IntegrationTests.fs)
+  The tests show various use cases.
+
+
+## Setup (including FSI)
+
+*)
+
 // Inside F# Interactive, load the FsHttp script instead of referencing the dll.
 // This will register pretty output printers for HTTP requests and responses.
 #load @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.fsx"
@@ -9,7 +40,12 @@ open FsHttp
 open FsHttp.DslCE
 
 
-// build up a GET request.
+
+(**
+## Getting Started
+*)
+
+// Build up a GET request.
 // The request will be sent immediately and synchronous.
 http {
     GET "https://reqres.in/api/users"
@@ -20,6 +56,24 @@ http {
     GET "https://reqres.in/api/users"
     CacheControl "no-cache"
 }
+
+// Here is an example of a POST with JSON as body:
+http {
+    POST "https://reqres.in/api/users"
+    CacheControl "no-cache"
+    body
+    json """
+    {
+        "name": "morpheus",
+        "job": "leader"
+    }
+    """
+}
+
+
+(**
+## FSI Request/Response Formatting
+*)
 
 // When you work in FSI, you can control the output
 // formatting with special keywords. Some predefined //
@@ -34,6 +88,10 @@ http {
 }
 
 
+(**
+## Verb-First Requests
+*)
+
 // Alternatively, you can write the verb first.
 // Note that computation expressions must not be empty, so you
 // have to write at lease something, like 'id', 'go', 'exp', etc.
@@ -46,6 +104,11 @@ get "https://reqres.in/api/users" {
     exp
 }
 
+
+(**
+## URL Formatting (Line Breaks and Comments)
+*)
+
 // You can split URL query parameters or comment lines out by using F# line-comment syntax.
 // Line breaks and trailing / leading spaces will be removed:
 get "https://reqres.in/api/users
@@ -54,22 +117,14 @@ get "https://reqres.in/api/users
             &delay=3"
             { go }
 
-// Here is an example of a POST with JSON as body.
-http {
-    POST "https://reqres.in/api/users"
-    CacheControl "no-cache"
-    body
-    json """
-    {
-        "name": "morpheus",
-        "job": "leader"
-    }
-    """
-}
+
+(**
+## Response Content Transformations
+*)
 
 // There are several ways transforming the content of the returned response to
 // something like text or JSON:
-// (have a look at: ./src/FsHttp/ResponseHandling.fs)
+// See also: ./src/FsHttp/ResponseHandling.fs
 http {
     POST "https://reqres.in/api/users"
     CacheControl "no-cache"
