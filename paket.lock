@@ -4,11 +4,16 @@ NUGET
     FSharp.Data (3.1.1)
       FSharp.Core (>= 4.0.0.1) - restriction: >= net45
       FSharp.Core (>= 4.3.4) - restriction: && (< net45) (>= netstandard2.0)
+
+GROUP Test
+NUGET
+  remote: https://api.nuget.org/v3/index.json
+    FSharp.Core (4.7) - restriction: || (>= net46) (>= netstandard2.0)
     FsUnit (3.8)
       FSharp.Core (>= 4.2.3) - restriction: || (>= net46) (>= netstandard2.0)
       NETStandard.Library (>= 2.0.3) - restriction: && (< net46) (>= netstandard2.0)
       NUnit (>= 3.12 < 4.0) - restriction: || (>= net46) (>= netstandard2.0)
-    Microsoft.CodeCoverage (16.4) - restriction: || (>= net45) (>= netcoreapp2.1)
+    Microsoft.CodeCoverage (16.5) - restriction: || (>= net45) (>= netcoreapp2.1)
     Microsoft.CSharp (4.7) - restriction: || (&& (< netstandard1.3) (>= uap10.0)) (&& (< netstandard2.0) (>= uap10.0))
     Microsoft.DotNet.InternalAbstractions (1.0) - restriction: >= netcoreapp2.1
       System.AppContext (>= 4.1) - restriction: && (< net451) (>= netstandard1.3)
@@ -19,19 +24,19 @@ NUGET
       System.Runtime.Extensions (>= 4.1) - restriction: && (< net451) (>= netstandard1.3)
       System.Runtime.InteropServices (>= 4.1) - restriction: && (< net451) (>= netstandard1.3)
       System.Runtime.InteropServices.RuntimeInformation (>= 4.0) - restriction: && (< net451) (>= netstandard1.3)
-    Microsoft.NET.Test.Sdk (16.4)
-      Microsoft.CodeCoverage (>= 16.4) - restriction: || (>= net45) (>= netcoreapp2.1)
-      Microsoft.TestPlatform.TestHost (>= 16.4) - restriction: >= netcoreapp2.1
+    Microsoft.NET.Test.Sdk (16.5)
+      Microsoft.CodeCoverage (>= 16.5) - restriction: || (>= net45) (>= netcoreapp2.1)
+      Microsoft.TestPlatform.TestHost (>= 16.5) - restriction: >= netcoreapp2.1
       Newtonsoft.Json (>= 9.0.1) - restriction: >= uap10.0
       System.ComponentModel.Primitives (>= 4.1) - restriction: >= uap10.0
       System.ComponentModel.TypeConverter (>= 4.1) - restriction: >= uap10.0
       System.Runtime.InteropServices.RuntimeInformation (>= 4.0) - restriction: >= uap10.0
     Microsoft.NETCore.Platforms (3.1) - restriction: || (&& (< monoandroid) (< monotouch) (< net35) (>= netstandard1.5) (< netstandard2.0) (< win8) (< wpa81) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net35) (< netstandard1.3) (>= netstandard1.4) (< win8) (< wpa81)) (&& (< monoandroid) (< net35) (< netstandard1.3) (>= netstandard1.5) (< win8) (< wpa81)) (&& (< monoandroid) (< net35) (>= netstandard1.4) (< netstandard1.5) (< win8) (< wpa81)) (&& (>= net45) (< netstandard1.3) (>= netstandard2.0)) (&& (< net45) (>= netstandard2.0)) (&& (< net46) (>= net461) (>= netstandard2.0)) (>= netcoreapp2.0) (&& (>= netcoreapp2.1) (< netcoreapp3.0)) (&& (< netstandard1.0) (>= netstandard2.0) (< portable-net45+win8)) (&& (< netstandard1.0) (>= netstandard2.0) (>= win8)) (&& (< netstandard1.0) (>= netstandard2.0) (< win8)) (&& (< netstandard1.3) (>= netstandard2.0) (< win8) (>= wpa81)) (&& (< netstandard1.5) (>= netstandard2.0) (>= uap10.0)) (&& (>= netstandard2.0) (< portable-net45+win8+wpa81)) (&& (>= netstandard2.0) (>= uap10.1)) (&& (>= netstandard2.0) (>= wp8))
     Microsoft.NETCore.Targets (3.1) - restriction: || (&& (< monoandroid) (< monotouch) (< net35) (>= netstandard1.5) (< netstandard2.0) (< win8) (< wpa81) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net35) (< netstandard1.3) (>= netstandard1.4) (< win8) (< wpa81)) (&& (< monoandroid) (< net35) (< netstandard1.3) (>= netstandard1.5) (< win8) (< wpa81)) (&& (< monoandroid) (< net35) (>= netstandard1.4) (< netstandard1.5) (< win8) (< wpa81)) (>= netcoreapp2.1)
-    Microsoft.TestPlatform.ObjectModel (16.4) - restriction: >= netcoreapp2.1
+    Microsoft.TestPlatform.ObjectModel (16.5) - restriction: >= netcoreapp2.1
       NuGet.Frameworks (>= 5.0) - restriction: || (>= net451) (>= netstandard2.0)
-    Microsoft.TestPlatform.TestHost (16.4) - restriction: >= netcoreapp2.1
-      Microsoft.TestPlatform.ObjectModel (>= 16.4) - restriction: || (>= netcoreapp2.1) (>= uap10.0)
+    Microsoft.TestPlatform.TestHost (16.5) - restriction: >= netcoreapp2.1
+      Microsoft.TestPlatform.ObjectModel (>= 16.5) - restriction: || (>= netcoreapp2.1) (>= uap10.0)
       Newtonsoft.Json (>= 9.0.1) - restriction: || (>= netcoreapp2.1) (>= uap10.0)
     Microsoft.Win32.Primitives (4.3) - restriction: >= netcoreapp2.1
       Microsoft.NETCore.Platforms (>= 1.1) - restriction: && (< monoandroid) (< monotouch) (< net46) (>= netstandard1.3) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)
@@ -55,7 +60,7 @@ NUGET
       NETStandard.Library (>= 2.0) - restriction: && (< net35) (>= netstandard2.0)
       System.ComponentModel.TypeConverter (>= 4.3) - restriction: && (< net35) (>= netstandard1.4) (< netstandard2.0)
       System.Reflection.TypeExtensions (>= 4.4) - restriction: && (< net35) (>= netstandard1.4) (< netstandard2.0)
-    NUnit3TestAdapter (3.16)
+    NUnit3TestAdapter (3.16.1)
       Microsoft.DotNet.InternalAbstractions (>= 1.0) - restriction: >= netcoreapp2.1
       System.ComponentModel.EventBasedAsync (>= 4.3) - restriction: >= netcoreapp2.1
       System.ComponentModel.TypeConverter (>= 4.3) - restriction: >= netcoreapp2.1
