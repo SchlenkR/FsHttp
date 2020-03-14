@@ -34,6 +34,18 @@ let users =
         send
     |> toJson
 
+    
+## Explicit Headers
+    
+When you want to have intellisense for the header values, you can use `H` for header and `B` for body (not for CE flavour):
+    
+```fsharp
+post "https://reqres.in/api/users"
+    H.cacheControl "no-cache"
+    body
+    B.json """ { "name": "morpheus" } """
+    send
+```
 
 (***************
     FSI examples

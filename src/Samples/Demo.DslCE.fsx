@@ -46,7 +46,8 @@ get "https://reqres.in/api/users" {
     exp
 }
 
-// You can also insert line breaks and F#/C# style line commenting:
+// You can split URL query parameters or comment lines out by using F# line-comment syntax.
+// Line breaks and trailing / leading spaces will be removed:
 get "https://reqres.in/api/users
             ?page=2
             //&skip=5
