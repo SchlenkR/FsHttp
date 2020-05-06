@@ -350,6 +350,17 @@ let ``Shortcut for GET works``() =
     get (url @"?test=Hallo") {go}
     |> toText
     |> should equal "test=Hallo"
+
+[<TestCase>]
+let ``Proxy should works`` () =
+    use server = GET >=> OK "proxified" |> serve
+
+    http {
+        GET "http://google.com"
+        proxy (url "")
+    }
+    |> toText
+    |> should equal "proxified"
    
 // TODO: 
 
