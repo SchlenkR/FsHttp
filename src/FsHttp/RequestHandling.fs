@@ -90,23 +90,34 @@ let httpClient =
                 base.SendAsync(request, cts.Token)
         }
 #if NETSTANDARD_2
-    fun () ->
+    fun (config: Config) ->
         let clientHandler = new HttpClientHandler()
+        match config.proxy with
+        | Some proxy -> 
+            clientHandler.Proxy <- WebProxy(proxy.url)
+            Option.iter (fun c -> clientHandler.Proxy.Credentials <- c) proxy.credentials
+        | None ->
+            ()
+        
         new HttpClient(
             timeoutHandler clientHandler,
             Timeout = Timeout.InfiniteTimeSpan)
 #else
-    let socketsHandler =
-        new SocketsHttpHandler(
-            UseCookies = false,
-            PooledConnectionLifetime = TimeSpan.FromMinutes 5.)
+    fun (config: Config) ->
+        let socketsHandler =
+            new SocketsHttpHandler(
+                UseCookies = false,
+                PooledConnectionLifetime = TimeSpan.FromMinutes 5.)
+        match config.proxy with
+        | Some proxy -> 
+            socketsHandler.Proxy <- WebProxy(proxy.url)
+            Option.iter (fun c -> socketsHandler.Proxy.Credentials <- c) proxy.credentials
+        | None ->
+            ()
 
-    let client = 
         new HttpClient(
             timeoutHandler socketsHandler,
             Timeout = Timeout.InfiniteTimeSpan)
-
-    fun () -> client
 #endif
 
 /// Sends a context asynchronously.
@@ -122,7 +133,7 @@ let inline sendAsync context =
         | Some map -> map requestMessage
 
     let invoke(ctok : CancellationToken) =
-        let client = httpClient ()
+        let client = httpClient finalContext.config
         let cookies =
             finalContext.header.cookies
             |> List.map string
