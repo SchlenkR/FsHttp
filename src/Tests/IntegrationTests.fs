@@ -355,7 +355,7 @@ let ``Shortcut for GET works``() =
     |> should equal "test=Hallo"
 
 [<TestCase>]
-let ``Proxy should works`` () =
+let ``Proxy usage works`` () =
     use server = GET >=> OK "proxified" |> serve
 
     http {
@@ -366,13 +366,16 @@ let ``Proxy should works`` () =
     |> should equal "proxified"
 
 [<TestCase>]
-let ``Proxy with credentials should works`` () =
+let ``Proxy usage with credentials works`` () =
     use server =
-        GET >=> request (fun r -> printfn "Headers: %A" r.headers; 
-                                    match r.header "Proxy-Authorization" with
-                                    | Choice1Of2 cred -> cred |> OK
-                                    | _ -> response HTTP_407 (Text.Encoding.UTF8.GetBytes "No credentials")
-                                            >=> setHeader "Proxy-Authenticate" "Basic")
+        GET >=> request (fun r ->
+            printfn "Headers: %A" r.headers
+            
+            match r.header "Proxy-Authorization" with
+            | Choice1Of2 cred -> cred |> OK
+            | _ ->
+                response HTTP_407 (Text.Encoding.UTF8.GetBytes "No credentials")
+                >=> setHeader "Proxy-Authenticate" "Basic")
         |> serve
     let credentials = NetworkCredential("test", "password")
 
