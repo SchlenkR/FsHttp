@@ -3,13 +3,14 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>3.0.1</Version>
+    <Version>3.1.0</Version>
     <Company />
     <Copyright>Copyright 2020 Ronald Schlenker</Copyright>
     <PackageIconUrl></PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
 - Fixed #43 FsHttp.fsx is deployed to the wrong location
+- Possibility for Proxy config (thanks @MaxDeg)
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
