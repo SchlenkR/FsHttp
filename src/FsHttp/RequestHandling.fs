@@ -23,8 +23,7 @@ let toMessage (finalContext: FinalContext): HttpRequestMessage =
 
     let request = finalContext.header
 
-    let requestMessage =
-        new HttpRequestMessage(request.method, request.url)
+    let requestMessage = new HttpRequestMessage(request.method, request.url)
 
     requestMessage.Properties.[TimeoutPropertyName] <- finalContext.config.timeout
 
@@ -38,8 +37,7 @@ let toMessage (finalContext: FinalContext): HttpRequestMessage =
             | StreamContent s -> new StreamContent(s) :> HttpContent
             | FormUrlEncodedContent data ->
                 let kvps =
-                    data
-                    |> List.map (fun (k, v) -> KeyValuePair<string, string>(k, v))
+                    data |> List.map (fun (k, v) -> KeyValuePair<string, string>(k, v))
 
                 new FormUrlEncodedContent(kvps) :> HttpContent
             | FileContent path ->
@@ -59,8 +57,7 @@ let toMessage (finalContext: FinalContext): HttpRequestMessage =
 
                 content :> HttpContent
 
-        if contentType.IsSome
-        then dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentType.Value
+        if contentType.IsSome then dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentType.Value
 
         dotnetContent
 
@@ -79,17 +76,15 @@ let toMessage (finalContext: FinalContext): HttpRequestMessage =
                 multipartContent :> HttpContent
 
     for name, value in request.headers do
-        requestMessage.Headers.TryAddWithoutValidation(name, value)
-        |> ignore
+        requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
 
     requestMessage
 
 let httpClient =
     let timeoutHandler innerHandler =
         { new DelegatingHandler(InnerHandler = innerHandler) with
-            override _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
-                let cts =
-                    CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
+            member _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
+                let cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
 
                 cts.CancelAfter(request.Properties.[TimeoutPropertyName] :?> TimeSpan)
                 base.SendAsync(request, cts.Token) }
@@ -98,8 +93,7 @@ let httpClient =
 #if NETSTANDARD_2
         let handler = new HttpClientHandler()
 #else
-        let handler =
-            new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.)
+        let handler = new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
 #endif
         match config.proxy with
         | Some proxy ->
@@ -158,4 +152,6 @@ let inline sendAsync context =
 
 /// Sends a context synchronously.
 let inline send context =
-    context |> sendAsync |> Async.RunSynchronously
+    context
+    |> sendAsync
+    |> Async.RunSynchronously

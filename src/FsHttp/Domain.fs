@@ -27,8 +27,8 @@ and ContentPrintHint =
       maxLength: int }
 
 type Proxy =
-  { url: string
-    credentials: ICredentials option }
+    { url: string
+      credentials: ICredentials option }
 
 type Config =
     { timeout: TimeSpan
