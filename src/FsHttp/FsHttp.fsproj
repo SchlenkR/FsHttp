@@ -21,7 +21,7 @@
     <None Include="FsHttp.fsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>true</Pack>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
+      <PackagePath>lib/netcoreapp2.1;lib/netcoreapp2.2;lib/netcoreapp3.0;lib/netcoreapp3.1;lib/netstandard2.0</PackagePath>
     </None>
     <None Include="scratch.fsx" />
   </ItemGroup>

@@ -23,6 +23,7 @@ let args = Target.getArguments() |> Option.defaultValue [||]
 
 let test = args |> Array.contains "--test"
 let publish = args |> Array.contains "--publish"
+let pack = args |> Array.contains "--pack"
 
 Target.create "Clean" (fun _ ->
     !! "src/**/bin"
@@ -93,7 +94,7 @@ Target.create "Final" ignore
     ==> "Docu"
     ==> "Build"
     =?> ("Test", publish || test)
-    =?> ("Pack", publish)
+    =?> ("Pack", publish || pack)
     =?> ("Publish", publish)
     ==> "Final"
 
