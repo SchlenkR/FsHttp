@@ -11,6 +11,7 @@
     <PackageReleaseNotes>
 - Fixed #43 FsHttp.fsx is deployed to the wrong location
 - Possibility for Proxy config (thanks @MaxDeg)
+- Possibility to inject custom HttpClient instance
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
