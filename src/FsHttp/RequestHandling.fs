@@ -19,11 +19,13 @@ let inline finalizeContext (context: ^t) =
 let TimeoutPropertyName = "RequestTimeout"
 
 /// Transforms a FinalContext into a System.Net.Http.HttpRequestMessage.
-let toMessage (finalContext: FinalContext) : HttpRequestMessage =
+let toMessage (finalContext: FinalContext): HttpRequestMessage =
 
     let request = finalContext.header
 
-    let requestMessage = new HttpRequestMessage(request.method, request.url)
+    let requestMessage =
+        new HttpRequestMessage(request.method, request.url)
+
     requestMessage.Properties.[TimeoutPropertyName] <- finalContext.config.timeout
 
     let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
@@ -32,82 +34,85 @@ let toMessage (finalContext: FinalContext) : HttpRequestMessage =
             | StringContent s ->
                 // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header.
                 new StringContent(s) :> HttpContent
-            | ByteArrayContent data ->
-                new ByteArrayContent(data) :> HttpContent
-            | StreamContent s ->
-                new StreamContent(s) :> HttpContent
+            | ByteArrayContent data -> new ByteArrayContent(data) :> HttpContent
+            | StreamContent s -> new StreamContent(s) :> HttpContent
             | FormUrlEncodedContent data ->
-                let kvps = data |> List.map (fun (k,v) -> KeyValuePair<string, string>(k, v))
+                let kvps =
+                    data
+                    |> List.map (fun (k, v) -> KeyValuePair<string, string>(k, v))
+
                 new FormUrlEncodedContent(kvps) :> HttpContent
             | FileContent path ->
                 let content =
                     let fs = System.IO.File.OpenRead path
                     new StreamContent(fs)
 
-                let contentDispoHeaderValue = ContentDispositionHeaderValue("form-data")
+                let contentDispoHeaderValue =
+                    ContentDispositionHeaderValue("form-data")
 
                 match name with
-                | Some v ->  contentDispoHeaderValue.Name <- v
+                | Some v -> contentDispoHeaderValue.Name <- v
                 | None -> ()
 
-                contentDispoHeaderValue.FileName  <- path
+                contentDispoHeaderValue.FileName <- path
                 content.Headers.ContentDisposition <- contentDispoHeaderValue
 
                 content :> HttpContent
 
-        if contentType.IsSome then
-            dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentType.Value
+        if contentType.IsSome
+        then dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentType.Value
 
         dotnetContent
 
     requestMessage.Content <-
         match finalContext.content with
         | Empty -> null
-        | Single bodyContent ->
-            buildDotnetContent bodyContent.contentData bodyContent.contentType None
+        | Single bodyContent -> buildDotnetContent bodyContent.contentData bodyContent.contentType None
         | Multi multipartContent ->
             match multipartContent.contentData with
             | [] -> null
             | multi ->
                 let multipartContent = new MultipartFormDataContent()
-                do
-                    multi
-                    |> List.map (fun x -> x.name, buildDotnetContent x.content x.contentType (Some x.name))
-                    |> List.iter (fun (name, dotnetContent) -> multipartContent.Add(dotnetContent, name))
+                do multi
+                   |> List.map (fun x -> x.name, buildDotnetContent x.content x.contentType (Some x.name))
+                   |> List.iter (fun (name, dotnetContent) -> multipartContent.Add(dotnetContent, name))
                 multipartContent :> HttpContent
 
-    for name,value in request.headers do
-        requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
+    for name, value in request.headers do
+        requestMessage.Headers.TryAddWithoutValidation(name, value)
+        |> ignore
 
     requestMessage
 
 let httpClient =
     let timeoutHandler innerHandler =
         { new DelegatingHandler(InnerHandler = innerHandler) with
-            override _.SendAsync(request : HttpRequestMessage, cancellationToken : CancellationToken) =
-                let cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
+            override _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
+                let cts =
+                    CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
+
                 cts.CancelAfter(request.Properties.[TimeoutPropertyName] :?> TimeSpan)
-                base.SendAsync(request, cts.Token)
-        }
+                base.SendAsync(request, cts.Token) }
+
+    fun (config: Config) ->
 #if NETSTANDARD_2
-    fun () ->
-        let clientHandler = new HttpClientHandler()
-        new HttpClient(
-            timeoutHandler clientHandler,
-            Timeout = Timeout.InfiniteTimeSpan)
+        let handler = new HttpClientHandler()
 #else
-    let socketsHandler =
-        new SocketsHttpHandler(
-            UseCookies = false,
-            PooledConnectionLifetime = TimeSpan.FromMinutes 5.)
-
-    let client = 
-        new HttpClient(
-            timeoutHandler socketsHandler,
-            Timeout = Timeout.InfiniteTimeSpan)
-
-    fun () -> client
+        let handler =
+            new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.)
 #endif
+        match config.proxy with
+        | Some proxy ->
+            let webProxy = WebProxy(proxy.url)
+            match proxy.credentials with
+            | Some cred ->
+                webProxy.UseDefaultCredentials <- false
+                webProxy.Credentials <- cred
+            | None -> webProxy.UseDefaultCredentials <- true
+            handler.Proxy <- webProxy
+        | None -> ()
+
+        new HttpClient(timeoutHandler handler, Timeout = Timeout.InfiniteTimeSpan)
 
 /// Sends a context asynchronously.
 let inline sendAsync context =
@@ -121,8 +126,9 @@ let inline sendAsync context =
         | None -> requestMessage
         | Some map -> map requestMessage
 
-    let invoke(ctok : CancellationToken) =
-        let client = httpClient ()
+    let invoke (ctok: CancellationToken) =
+        let client = httpClient finalContext.config
+
         let cookies =
             finalContext.header.cookies
             |> List.map string
@@ -134,21 +140,20 @@ let inline sendAsync context =
             match finalContext.config.httpClientTransformer with
             | None -> client
             | Some map -> map client
+
         finalClient.SendAsync(finalRequestMessage, ctok)
 
     async {
         let! ctok = Async.CancellationToken
         let! response = invoke ctok |> Async.AwaitTask
-        return {
-            requestContext = finalContext
-            content = response.Content
-            headers = response.Headers
-            reasonPhrase = response.ReasonPhrase
-            statusCode = response.StatusCode
-            requestMessage = response.RequestMessage
-            version = response.Version
-            printHint = finalContext.config.printHint
-        }
+        return { requestContext = finalContext
+                 content = response.Content
+                 headers = response.Headers
+                 reasonPhrase = response.ReasonPhrase
+                 statusCode = response.StatusCode
+                 requestMessage = response.RequestMessage
+                 version = response.Version
+                 printHint = finalContext.config.printHint }
     }
 
 /// Sends a context synchronously.
