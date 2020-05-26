@@ -44,7 +44,8 @@ module R =
                     printHint = defaultPrintHint
                     httpMessageTransformer = None
                     httpClientTransformer = None
-                    proxy = None } }
+                    proxy = None
+                    httpClient = None } }
 
         next headerContext
 
@@ -408,6 +409,10 @@ module Config =
 
     let proxyWithCredentials context url credentials (next: Next<_, _>) =
         config context (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) next
+
+    /// Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
+    let useHttpClient context (client: HttpClient) (next: Next<_, _>) =
+        config context (fun config -> { config with httpClient = Some client }) next
 
 [<AutoOpen>]
 module Fsi =

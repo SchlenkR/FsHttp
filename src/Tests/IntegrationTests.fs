@@ -20,6 +20,8 @@ open Server
 open System
 open System.IO
 open System.Net
+open System.Net.Http
+open System.Threading
 open Suave
 open Suave.Cookie
 open Suave.ServerErrors
@@ -385,6 +387,29 @@ let ``Proxy usage with credentials works`` () =
     }
     |> toText
     |> should equal ("Basic " + ("test:password" |> Text.Encoding.UTF8.GetBytes |> Convert.ToBase64String))
+
+[<TestCase>]
+let ``Inject custom HttpClient`` () =
+    use server = GET >=> OK "" |> serve
+
+    let mutable intercepted = false
+    
+    let interceptor =
+        { new DelegatingHandler(InnerHandler = new HttpClientHandler()) with
+            member _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
+                intercepted <- true
+                base.SendAsync(request, cancellationToken) }
+    let httpClient = new HttpClient(interceptor)
+
+    intercepted |> should equal false
+
+    http {
+        GET "http://google.com"
+        useHttpClient httpClient
+    }
+    |> ignore
+    
+    intercepted |> should equal true
    
 // TODO: 
 

@@ -298,6 +298,9 @@ module M =
 
 [<AutoOpen>]
 module Config =
+    
+    open System.Net.Http
+    
     type HttpBuilderBase with
 
         [<CustomOperation("timeout")>]
@@ -319,6 +322,10 @@ module Config =
         member this.ProxyWithCredentials(context, url, credentials) =
             Dsl.Config.proxyWithCredentials context url credentials id
 
+        /// Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
+        [<CustomOperation("useHttpClient")>]
+        member this.UseHttpClient(context, client: HttpClient) =
+            Dsl.Config.useHttpClient context client id
 
 [<AutoOpen>]
 module Builder =

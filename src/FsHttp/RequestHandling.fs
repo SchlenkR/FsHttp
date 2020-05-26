@@ -90,23 +90,26 @@ let httpClient =
                 base.SendAsync(request, cts.Token) }
 
     fun (config: Config) ->
+        match config.httpClient with
+        | Some client -> client
+        | None ->
 #if NETSTANDARD_2
-        let handler = new HttpClientHandler()
+            let handler = new HttpClientHandler()
 #else
-        let handler = new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
+            let handler = new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
 #endif
-        match config.proxy with
-        | Some proxy ->
-            let webProxy = WebProxy(proxy.url)
-            match proxy.credentials with
-            | Some cred ->
-                webProxy.UseDefaultCredentials <- false
-                webProxy.Credentials <- cred
-            | None -> webProxy.UseDefaultCredentials <- true
-            handler.Proxy <- webProxy
-        | None -> ()
+            match config.proxy with
+            | Some proxy ->
+                let webProxy = WebProxy(proxy.url)
+                match proxy.credentials with
+                | Some cred ->
+                    webProxy.UseDefaultCredentials <- false
+                    webProxy.Credentials <- cred
+                | None -> webProxy.UseDefaultCredentials <- true
+                handler.Proxy <- webProxy
+            | None -> ()
 
-        new HttpClient(timeoutHandler handler, Timeout = Timeout.InfiniteTimeSpan)
+            new HttpClient(timeoutHandler handler, Timeout = Timeout.InfiniteTimeSpan)
 
 /// Sends a context asynchronously.
 let inline sendAsync context =

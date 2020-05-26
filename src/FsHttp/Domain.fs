@@ -35,7 +35,8 @@ type Config =
       printHint: PrintHint
       httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
       httpClientTransformer: (HttpClient -> HttpClient) option
-      proxy: Proxy option }
+      proxy: Proxy option
+      httpClient: HttpClient option }
 
 type Header =
     { url: string
