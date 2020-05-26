@@ -19,6 +19,7 @@ open NUnit.Framework
 open Server
 open System
 open System.IO
+open System.Net
 open Suave
 open Suave.Cookie
 open Suave.ServerErrors
@@ -26,6 +27,8 @@ open Suave.Operators
 open Suave.Filters
 open Suave.Utils.Collections
 open Suave.Successful
+open Suave.Response
+open Suave.Writers
 
 [<AutoOpen>]
 module Helper =
@@ -350,6 +353,35 @@ let ``Shortcut for GET works``() =
     get (url @"?test=Hallo") {go}
     |> toText
     |> should equal "test=Hallo"
+
+[<TestCase>]
+let ``Proxy should works`` () =
+    use server = GET >=> OK "proxified" |> serve
+
+    http {
+        GET "http://google.com"
+        proxy (url "")
+    }
+    |> toText
+    |> should equal "proxified"
+
+[<TestCase>]
+let ``Proxy with credentials should works`` () =
+    use server =
+        GET >=> request (fun r -> printfn "Headers: %A" r.headers; 
+                                    match r.header "Proxy-Authorization" with
+                                    | Choice1Of2 cred -> cred |> OK
+                                    | _ -> response HTTP_407 (Text.Encoding.UTF8.GetBytes "No credentials")
+                                            >=> setHeader "Proxy-Authenticate" "Basic")
+        |> serve
+    let credentials = NetworkCredential("test", "password")
+
+    http {
+        GET "http://google.com"
+        proxyWithCredentials (url "") credentials
+    }
+    |> toText
+    |> should equal ("Basic " + ("test:password" |> Text.Encoding.UTF8.GetBytes |> Convert.ToBase64String))
    
 // TODO: 
 

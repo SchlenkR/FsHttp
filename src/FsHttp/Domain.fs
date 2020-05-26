@@ -3,6 +3,7 @@
 module FsHttp.Domain
 
 open System
+open System.Net
 open System.Net.Http
 
 
@@ -25,11 +26,16 @@ and ContentPrintHint =
       format: bool
       maxLength: int }
 
+type Proxy =
+  { url: string
+    credentials: ICredentials option }
+
 type Config =
     { timeout: TimeSpan
       printHint: PrintHint
       httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
-      httpClientTransformer: (HttpClient -> HttpClient) option }
+      httpClientTransformer: (HttpClient -> HttpClient) option
+      proxy: Proxy option }
 
 type Header =
     { url: string
