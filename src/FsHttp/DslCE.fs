@@ -73,6 +73,10 @@ module H =
         [<CustomOperation("AcceptLanguage")>]
         member this.AcceptLanguage(context, language) = Dsl.H.acceptLanguage context language id
 
+        /// Append query params
+        [<CustomOperation("Query")>]
+        member this.Query(context, queryParams) = Dsl.H.query context queryParams id
+        
         /// Authentication credentials for HTTP authentication
         [<CustomOperation("Authorization")>]
         member this.Authorization(context, credentials) = Dsl.H.authorization context credentials id
