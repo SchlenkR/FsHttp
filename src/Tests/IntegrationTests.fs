@@ -120,6 +120,50 @@ let ``Comments in urls are discarded``() =
     |> toText
     |> should equal ("Query1_" + keyNotFoundString + "_Query3")
 
+
+[<TestCase>]
+let ``Empty query params``() =
+    use server = 
+        GET
+        >=> request (fun _ -> "" |> OK)
+        |> serve
+
+    http {
+        GET (url "")
+        Query []
+    }
+    |> toText
+    |> should equal ""
+    
+[<TestCase>]
+let ``Merge query params with url params``() =
+    use server = 
+        GET
+        >=> request (fun r -> (query "q1" r) + "_" + (query "q2" r) |> OK)
+        |> serve
+
+    http {
+        GET (url "?q1=Query1")
+        Query ["q2", "Query2"]
+    }
+    |> toText
+    |> should equal "Query1_Query2"    
+    
+[<TestCase>]
+let ``Query params``() =
+    use server = 
+        GET
+        >=> request (fun r -> (query "q1" r) + "_" + (query "q2" r) |> OK)
+        |> serve
+
+    http {
+        GET (url "")
+        Query ["q1", "Query1"
+               "q2", "Query2"]
+    }
+    |> toText
+    |> should equal "Query1_Query2"
+
 [<TestCase>]
 let ``POST string data``() =
     use server =
