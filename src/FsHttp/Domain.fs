@@ -124,7 +124,10 @@ and RequestContent =
 
 
 and IContext =
-    abstract member ToRequest : unit -> Request 
+    abstract member ToRequest : unit -> Request
+    
+    // We cannot use an OOP interface for Configure because no HKTs here
+    // abstract member Configure : (Config -> Config) -> ? 
 
 
 // TODO: Get rid of all the boolean switches and use options instead.
