@@ -12,21 +12,21 @@ open System.Threading
 open Domain
 
 /// Takes a context (HeaderContext or BodyContext) and transforms it into a
-/// FinalContext that can be used for invocation.
-let inline finalizeContext (context: ^t) =
-    (^t: (member Finalize: unit -> FinalContext) (context))
+/// Request that can be used for invocation.
+let inline toRequest (context: ^t) =
+    (^t: (member ToRequest: unit -> Request) (context))
 
 [<Literal>]
 let TimeoutPropertyName = "RequestTimeout"
 
-/// Transforms a FinalContext into a System.Net.Http.HttpRequestMessage.
-let toMessage (finalContext: FinalContext): HttpRequestMessage =
+/// Transforms a Request into a System.Net.Http.HttpRequestMessage.
+let toMessage (request: Request): HttpRequestMessage =
 
-    let request = finalContext.header
+    let header = request.header
 
-    let requestMessage = new HttpRequestMessage(request.method, request.url)
+    let requestMessage = new HttpRequestMessage(header.method, header.url)
 
-    requestMessage.Properties.[TimeoutPropertyName] <- finalContext.config.timeout
+    requestMessage.Properties.[TimeoutPropertyName] <- request.config.timeout
 
     let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
         let dotnetContent =
@@ -63,7 +63,7 @@ let toMessage (finalContext: FinalContext): HttpRequestMessage =
         dotnetContent
 
     requestMessage.Content <-
-        match finalContext.content with
+        match request.content with
         | Empty -> null
         | Single bodyContent -> buildDotnetContent bodyContent.contentData bodyContent.contentType None
         | Multi multipartContent ->
@@ -76,7 +76,7 @@ let toMessage (finalContext: FinalContext): HttpRequestMessage =
                    |> List.iter (fun (name, dotnetContent) -> multipartContent.Add(dotnetContent, name))
                 multipartContent :> HttpContent
 
-    for name, value in request.headers do
+    for name, value in header.headers do
         requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
 
     requestMessage
@@ -115,27 +115,27 @@ let httpClient =
 /// Sends a context asynchronously.
 let inline sendAsync context =
 
-    let finalContext = finalizeContext context
+    let request = toRequest context
 
-    let requestMessage = toMessage finalContext
+    let requestMessage = toMessage request
 
     let finalRequestMessage =
-        match finalContext.config.httpMessageTransformer with
+        match request.config.httpMessageTransformer with
         | None -> requestMessage
         | Some map -> map requestMessage
 
     let invoke (ctok: CancellationToken) =
-        let client = httpClient finalContext.config
+        let client = httpClient request.config
 
         let cookies =
-            finalContext.header.cookies
+            request.header.cookies
             |> List.map string
             |> String.concat "; "
 
         finalRequestMessage.Headers.Add("Cookie", cookies)
 
         let finalClient =
-            match finalContext.config.httpClientTransformer with
+            match request.config.httpClientTransformer with
             | None -> client
             | Some map -> map client
 
@@ -144,14 +144,14 @@ let inline sendAsync context =
     async {
         let! ctok = Async.CancellationToken
         let! response = invoke ctok |> Async.AwaitTask
-        return { requestContext = finalContext
+        return { requestContext = request
                  content = response.Content
                  headers = response.Headers
                  reasonPhrase = response.ReasonPhrase
                  statusCode = response.StatusCode
                  requestMessage = response.RequestMessage
                  version = response.Version
-                 printHint = finalContext.config.printHint }
+                 printHint = request.config.printHint }
     }
 
 /// Sends a context synchronously.

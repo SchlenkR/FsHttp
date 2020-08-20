@@ -5,7 +5,6 @@ module FsHttp.Response
 open System
 open System.Xml.Linq
 open FSharp.Data
-
 open Domain
 
 let toStreamAsync (r:Response) = r.content.ReadAsStreamAsync() |> Async.AwaitTask

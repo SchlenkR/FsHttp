@@ -3,7 +3,6 @@
 module FsHttp.Domain
 
 open System
-open System.Net
 open System.Net.Http
 
 
@@ -28,7 +27,7 @@ and ContentPrintHint =
 
 type Proxy =
     { url: string
-      credentials: ICredentials option }
+      credentials: System.Net.ICredentials option }
 
 type Config =
     { timeout: TimeSpan
@@ -62,8 +61,8 @@ type HeaderContext =
     { header: Header
       config: Config } with
 
-    member this.Finalize () =
-        { FinalContext.header = this.header
+    member this.ToRequest () =
+        { Request.header = this.header
           content = Empty
           config = this.config }
 
@@ -79,8 +78,8 @@ and BodyContext =
       content: BodyContent
       config: Config } with
 
-    member this.Finalize () =
-        { FinalContext.header = this.header
+    member this.ToRequest () =
+        { Request.header = this.header
           content = Single this.content
           config = this.config }
 
@@ -94,8 +93,8 @@ and MultipartContext =
       currentPartContentType : string option
       config: Config } with
 
-    member this.Finalize () =
-        { FinalContext.header = this.header
+    member this.ToRequest () =
+        { Request.header = this.header
           content = Multi this.content
           config = this.config }
 
@@ -109,23 +108,23 @@ and MultipartContent =
            content: ContentData |} list
       contentType: string }
 
-and FinalContentData =
-    | Empty
-    | Single of BodyContent
-    | Multi of MultipartContent
-
-and FinalContext =
+and Request =
     { header: Header
-      content: FinalContentData
+      content: RequestContent
       config: Config } with
 
-    // important because we can use sendFinal with all context types
-    member this.Finalize () = this
+    // important because we can use send with all context types
+    member this.ToRequest () = this
+
+and RequestContent =
+| Empty
+| Single of BodyContent
+| Multi of MultipartContent
 
 
 // TODO: Get rid of all the boolean switches and use options instead.
 type Response = 
-    { requestContext: FinalContext
+    { requestContext: Request
       requestMessage: HttpRequestMessage
       content: HttpContent
       headers: Headers.HttpResponseHeaders

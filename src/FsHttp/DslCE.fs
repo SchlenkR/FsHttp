@@ -372,7 +372,7 @@ module Builder =
         inherit HttpStartingBuilder()
         member inline this.Delay(f: unit -> 'a) =
             f()
-            |> Request.finalizeContext
+            |> Request.toRequest
             |> Request.toMessage
 
     let httpMsg = HttpMessageBuilder()

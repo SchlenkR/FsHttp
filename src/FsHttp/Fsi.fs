@@ -72,7 +72,7 @@ let expandPrinterTransformer = (withResponseContentMaxLength Int32.MaxValue >> w
 
 Config.setPrintHint (previewPrinterTransformer Config.initialPrintHint)
 
-// TODO: Printer for FinalContext
+// TODO: Printer for Request
 
 let print (r: Response) =
     let sb = StringBuilder()
