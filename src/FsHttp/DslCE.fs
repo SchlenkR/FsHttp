@@ -2,7 +2,6 @@ module FsHttp.DslCE
 
 open Dsl
 open Domain
-open RequestHandling
 
 
 type HttpBuilderBase() =
@@ -354,13 +353,13 @@ module Builder =
 
     type HttpBuilderSync() =
         inherit HttpStartingBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() |> send
+        member inline this.Delay(f: unit -> 'a) = f() |> Request.send
 
     let http = HttpBuilderSync()
 
     type HttpBuilderAsync() =
         inherit HttpStartingBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() |> sendAsync
+        member inline this.Delay(f: unit -> 'a) = f() |> Request.sendAsync
 
     let httpAsync = HttpBuilderAsync()
 
@@ -373,8 +372,8 @@ module Builder =
         inherit HttpStartingBuilder()
         member inline this.Delay(f: unit -> 'a) =
             f()
-            |> finalizeContext
-            |> toMessage
+            |> Request.finalizeContext
+            |> Request.toMessage
 
     let httpMsg = HttpMessageBuilder()
 
@@ -384,7 +383,7 @@ module Shortcuts =
 
     type httpShortcutBuilder(context) =
         inherit HttpRequestBuilder<HeaderContext>(context)
-        member inline this.Delay(f: unit -> 'a) = f() |> send
+        member inline this.Delay(f: unit -> 'a) = f() |> Request.send
 
         [<CustomOperation("id")>]
         member this.Id(context) = context

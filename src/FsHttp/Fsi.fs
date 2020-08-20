@@ -7,7 +7,6 @@ open System.Net.Http
 open System.Text
 
 open Domain
-open ResponseHandling
 
 
 let noCustomPrinting (printHint: PrintHint) = 
@@ -143,9 +142,9 @@ let print (r: Response) =
                     try
                         let contentText =
                             if r.printHint.responsePrintHint.printContent.format then
-                                toFormattedText r
+                                Response.toFormattedText r
                             else
-                                toText r
+                                Response.toText r
                         let maxLength = r.printHint.responsePrintHint.printContent.maxLength
                         if contentText.Length > maxLength then
                             (contentText.Substring (0,maxLength)) + "\n..."

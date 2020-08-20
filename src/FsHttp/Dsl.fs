@@ -8,7 +8,6 @@ open System.Globalization
 
 open Domain
 open Config
-open RequestHandling
 
 
 type Next<'a, 'b> = 'a -> 'b
@@ -117,7 +116,7 @@ module H =
     let basicAuth (context: HeaderContext) (username: string) (password: string) (next: Next<_, _>) =
         let s =
             sprintf "%s:%s" username password
-            |> Helper.toBase64
+            |> String.toBase64
             |> sprintf "Basic %s"
         authorization context s next
 
@@ -424,11 +423,11 @@ module Fsi =
     ////    send context |> printMod
 
     // overrides for print modifier in DSL
-    let inline raw context = send context |> modifyPrinter rawPrinterTransformer
-    let inline headerOnly context = send context |> modifyPrinter headerOnlyPrinterTransformer
-    let inline show maxLength context = send context |> modifyPrinter (showPrinterTransformer maxLength)
-    let inline preview context = send context |> modifyPrinter previewPrinterTransformer
+    let inline raw context = Request.send context |> modifyPrinter rawPrinterTransformer
+    let inline headerOnly context = Request.send context |> modifyPrinter headerOnlyPrinterTransformer
+    let inline show maxLength context = Request.send context |> modifyPrinter (showPrinterTransformer maxLength)
+    let inline preview context = Request.send context |> modifyPrinter previewPrinterTransformer
     let inline prv context = preview context
     let inline go context = preview context
-    let inline expand context = send context |> modifyPrinter expandPrinterTransformer
+    let inline expand context = Request.send context |> modifyPrinter expandPrinterTransformer
     let inline exp context = expand context

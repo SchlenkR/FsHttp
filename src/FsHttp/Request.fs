@@ -1,5 +1,6 @@
-[<AutoOpen>]
-module FsHttp.RequestHandling
+
+[<RequireQualifiedAccess>]
+module FsHttp.Request
 
 open System
 open System.Collections.Generic

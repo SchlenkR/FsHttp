@@ -13,8 +13,8 @@
     <Compile Include="Helper.fs" />
     <Compile Include="Domain.fs" />
     <Compile Include="Config.fs" />
-    <Compile Include="RequestHandling.fs" />
-    <Compile Include="ResponseHandling.fs" />
+    <Compile Include="Request.fs" />
+    <Compile Include="Response.fs" />
     <Compile Include="Fsi.fs" />
     <Compile Include="Dsl.fs" />
     <Compile Include="DslCE.fs" />

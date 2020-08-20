@@ -1,6 +1,6 @@
 
-[<AutoOpen>]
-module FsHttp.ResponseHandling
+[<RequireQualifiedAccess>]
+module FsHttp.Response
 
 open System
 open System.Xml.Linq
@@ -22,7 +22,7 @@ let toStringAsync maxLength (r: Response) =
         | _ -> ""
     async {
         let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
-        return (Helper.substring content maxLength) + (getTrimChars content)
+        return (String.substring content maxLength) + (getTrimChars content)
     }
 let toString maxLength response = toStringAsync maxLength response |> Async.RunSynchronously
 

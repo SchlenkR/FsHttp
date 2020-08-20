@@ -1,6 +1,6 @@
 
-[<AutoOpen>]
-module FsHttp.Helper
+[<RequireQualifiedAccess>]
+module FsHttp.String
 
 open System
 open System.Text
