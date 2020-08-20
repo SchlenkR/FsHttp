@@ -370,9 +370,9 @@ module Builder =
 
     type HttpMessageBuilder() =
         inherit HttpStartingBuilder()
-        member inline this.Delay(f: unit -> 'a) =
+        member inline this.Delay(f: unit -> IContext) =
             f()
-            |> Request.toRequest
+            |> fun context -> context.ToRequest()
             |> Request.toMessage
 
     let httpMsg = HttpMessageBuilder()

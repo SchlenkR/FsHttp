@@ -11,11 +11,6 @@ open System.Threading
 
 open Domain
 
-/// Takes a context (HeaderContext or BodyContext) and transforms it into a
-/// Request that can be used for invocation.
-let inline toRequest (context: ^t) =
-    (^t: (member ToRequest: unit -> Request) (context))
-
 [<Literal>]
 let TimeoutPropertyName = "RequestTimeout"
 
@@ -113,9 +108,9 @@ let httpClient =
             new HttpClient(timeoutHandler handler, Timeout = Timeout.InfiniteTimeSpan)
 
 /// Sends a context asynchronously.
-let inline sendAsync context =
+let sendAsync (context: IContext) =
 
-    let request = toRequest context
+    let request = context.ToRequest()
 
     let requestMessage = toMessage request
 

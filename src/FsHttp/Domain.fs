@@ -56,15 +56,15 @@ and ContentData =
 type StartingContext = StartingContext
 
 
-
 type HeaderContext =
     { header: Header
       config: Config } with
 
-    member this.ToRequest () =
-        { Request.header = this.header
-          content = Empty
-          config = this.config }
+    interface IContext with
+        member this.ToRequest () =
+            { Request.header = this.header
+              content = Empty
+              config = this.config }
 
     member this.Configure transformConfig =
         { this with config = transformConfig this.config }
@@ -78,10 +78,11 @@ and BodyContext =
       content: BodyContent
       config: Config } with
 
-    member this.ToRequest () =
-        { Request.header = this.header
-          content = Single this.content
-          config = this.config }
+    interface IContext with
+        member this.ToRequest () =
+            { Request.header = this.header
+              content = Single this.content
+              config = this.config }
 
     member this.Configure transformConfig =
         { this with config = transformConfig this.config }
@@ -92,11 +93,12 @@ and MultipartContext =
       content: MultipartContent
       currentPartContentType : string option
       config: Config } with
-
-    member this.ToRequest () =
-        { Request.header = this.header
-          content = Multi this.content
-          config = this.config }
+    
+    interface IContext with
+        member this.ToRequest() =
+            { Request.header = this.header
+              content = Multi this.content
+              config = this.config }
 
     member this.Configure transformConfig =
         { this with config = transformConfig this.config }
@@ -108,18 +110,21 @@ and MultipartContent =
            content: ContentData |} list
       contentType: string }
 
+
+
 and Request =
     { header: Header
       content: RequestContent
-      config: Config } with
-
-    // important because we can use send with all context types
-    member this.ToRequest () = this
+      config: Config }
 
 and RequestContent =
 | Empty
 | Single of BodyContent
 | Multi of MultipartContent
+
+
+and IContext =
+    abstract member ToRequest : unit -> Request 
 
 
 // TODO: Get rid of all the boolean switches and use options instead.
