@@ -28,14 +28,16 @@ let toString maxLength response = toStringAsync maxLength response |> Async.RunS
 let toTextAsync (r:Response) = toStringAsync Int32.MaxValue r
 let toText (r:Response) = toTextAsync r |> Async.RunSynchronously
 
-let parseJson = JsonValue.Parse
+let private  parseJson = JsonValue.Parse
+
 let toJsonAsync (r:Response) = async {
     let! s = toTextAsync r 
     return parseJson s
 }
 let toJson (r:Response) = toJsonAsync r |> Async.RunSynchronously
 
-let parseXml = XDocument.Parse
+let private parseXml = XDocument.Parse
+
 let toXmlAsync (r:Response) = async {
     let! s = toTextAsync r 
     return parseXml s
