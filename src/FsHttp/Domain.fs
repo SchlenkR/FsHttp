@@ -12,12 +12,11 @@ type PrintHint =
       responsePrintHint: ResponsePrintHint }
 
 and RequestPrintHint = 
-    { isEnabled: bool
-      printHeader: bool }
+    { printHeader: bool
+      printBody: bool }
 
 and ResponsePrintHint =
-    { isEnabled: bool
-      printHeader: bool
+    { printHeader: bool
       printContent: ContentPrintHint }
 
 and ContentPrintHint =
