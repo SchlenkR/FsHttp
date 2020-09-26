@@ -132,7 +132,7 @@ let ``Empty query params``() =
         GET (url "")
         Query []
     }
-    |> toText
+    |> Response.toText
     |> should equal ""
     
 [<TestCase>]
@@ -146,7 +146,7 @@ let ``Merge query params with url params``() =
         GET (url "?q1=Query1")
         Query ["q2", "Query2"]
     }
-    |> toText
+    |> Response.toText
     |> should equal "Query1_Query2"    
     
 [<TestCase>]
@@ -161,7 +161,7 @@ let ``Query params``() =
         Query ["q1", "Query1"
                "q2", "Query2"]
     }
-    |> toText
+    |> Response.toText
     |> should equal "Query1_Query2"
 
 [<TestCase>]

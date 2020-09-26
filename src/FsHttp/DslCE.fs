@@ -74,7 +74,7 @@ module H =
 
         /// Append query params
         [<CustomOperation("Query")>]
-        member this.Query(context, queryParams) = Dsl.H.query context queryParams id
+        member this.Query(context, queryParams) = Dsl.H.query queryParams context
         
         /// Authentication credentials for HTTP authentication
         [<CustomOperation("Authorization")>]
