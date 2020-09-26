@@ -10,16 +10,10 @@ open Domain
 open Config
 open RequestHandling
 
-
-type Next<'a, 'b> = 'a -> 'b
-
-/// Finalizes a Request build pipeline.
-let fin = id
-
 [<AutoOpen>]
 module R =
 
-    let request (method: string) (url: string) (next: Next<_, _>) =
+    let request (method: string) (url: string) =
 
         let formattedUrl =
             url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
@@ -33,41 +27,38 @@ module R =
             //)
             |> Seq.reduce (+)
 
-        let headerContext =
-            { header =
-                  { url = formattedUrl
-                    method = HttpMethod(method)
-                    headers = []
-                    cookies = [] }
-              config =
-                  { timeout = defaultTimeout
-                    printHint = defaultPrintHint
-                    httpMessageTransformer = None
-                    httpClientTransformer = None
-                    proxy = None
-                    httpClient = None } }
-
-        next headerContext
+        { header =
+            { url = formattedUrl
+              method = HttpMethod(method)
+              headers = []
+              cookies = [] }
+          config =
+            { timeout = defaultTimeout
+              printHint = defaultPrintHint
+              httpMessageTransformer = None
+              httpClientTransformer = None
+              proxy = None
+              httpClient = None } }
 
     // RFC 2626 specifies 8 methods + PATCH
 
-    let get (url: string) (next: Next<_, _>) = request "GET" url next
+    let get (url: string) = request "GET" url
 
-    let put (url: string) (next: Next<_, _>) = request "PUT" url next
+    let put (url: string) = request "PUT" url
 
-    let post (url: string) (next: Next<_, _>) = request "POST" url next
+    let post (url: string) = request "POST" url
 
-    let delete (url: string) (next: Next<_, _>) = request "DELETE" url next
+    let delete (url: string) = request "DELETE" url
 
-    let options (url: string) (next: Next<_, _>) = request "OPTIONS" url next
+    let options (url: string) = request "OPTIONS" url
 
-    let head (url: string) (next: Next<_, _>) = request "HEAD" url next
+    let head (url: string) = request "HEAD" url
 
-    let trace (url: string) (next: Next<_, _>) = request "TRACE" url next
+    let trace (url: string) = request "TRACE" url
 
-    let connect (url: string) (next: Next<_, _>) = request "CONNECT" url next
+    let connect (url: string) = request "CONNECT" url
 
-    let patch (url: string) (next: Next<_, _>) = request "PATCH" url next
+    let patch (url: string) = request "PATCH" url
 
 // RFC 4918 (WebDAV) adds 7 methods
 // TODO
@@ -76,192 +67,191 @@ module R =
 module H =
 
     /// Adds a custom header
-    let header name value (context: HeaderContext) (next: Next<_, _>) =
-        { context with header = { context.header with headers = context.header.headers @ [ name, value ] } } |> next
+    let header name value (context: HeaderContext) =
+        { context with header = { context.header with headers = context.header.headers @ [ name, value ] } }
 
     /// Content-Types that are acceptable for the response
-    let accept (context: HeaderContext) (contentType: string) (next: Next<_, _>) =
-        header "Accept" contentType context next
+    let accept (contentType: string) (context: HeaderContext) =
+        header "Accept" contentType context
 
     /// Character sets that are acceptable
-    let acceptCharset (context: HeaderContext) (characterSets: string) (next: Next<_, _>) =
-        header "Accept-Charset" characterSets context next
+    let acceptCharset (characterSets: string) (context: HeaderContext) =
+        header "Accept-Charset" characterSets context
 
     /// Acceptable version in time
-    let acceptDatetime (context: HeaderContext) (dateTime: DateTime) (next: Next<_, _>) =
-        header "Accept-Datetime" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context next
+    let acceptDatetime (dateTime: DateTime) (context: HeaderContext) =
+        header "Accept-Datetime" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
 
     /// List of acceptable encodings. See HTTP compression.
-    let acceptEncoding (context: HeaderContext) (encoding: string) (next: Next<_, _>) =
-        header "Accept-Encoding" encoding context next
+    let acceptEncoding (encoding: string) (context: HeaderContext) =
+        header "Accept-Encoding" encoding context
 
     /// List of acceptable human languages for response
-    let acceptLanguage (context: HeaderContext) (language: string) (next: Next<_, _>) =
-        header "Accept-Language" language context next
+    let acceptLanguage (language: string) (context: HeaderContext) =
+        header "Accept-Language" language context
 
     // response field
     /////// The Allow header, which specifies the set of HTTP methods supported.
-    ////let allow (context:HeaderContext) (methods: string) (next: Next<_,_>) =
-    ////    headerField "Allow" methods context  next
+    ////let allow (methods: string) (context:HeaderContext) =
+    ////    headerField "Allow" methods context 
 
     /// Authentication credentials for HTTP authentication
-    let authorization (context: HeaderContext) (credentials: string) (next: Next<_, _>) =
-        header "Authorization" credentials context next
+    let authorization (credentials: string) (context: HeaderContext) =
+        header "Authorization" credentials context
 
     /// Authentication header using Bearer Auth token
-    let bearerAuth (context: HeaderContext) (token: string) (next: Next<_, _>) =
+    let bearerAuth (token: string) (context: HeaderContext) =
         let s = token |> sprintf "Bearer %s"
-        authorization context s next
+        authorization s context
 
     /// Authentication header using Basic Auth encoding
-    let basicAuth (context: HeaderContext) (username: string) (password: string) (next: Next<_, _>) =
+    let basicAuth (username: string) (password: string) (context: HeaderContext) =
         let s =
             sprintf "%s:%s" username password
             |> Helper.toBase64
             |> sprintf "Basic %s"
-        authorization context s next
+        authorization s context
 
     /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
-    let cacheControl (context: HeaderContext) (control: string) (next: Next<_, _>) =
-        header "Cache-Control" control context next
+    let cacheControl (control: string) (context: HeaderContext) =
+        header "Cache-Control" control context
 
     /// What type of connection the user-agent would prefer
-    let connection (context: HeaderContext) (connection: string) (next: Next<_, _>) =
-        header "Connection" connection context next
+    let connection (connection: string) (context: HeaderContext) =
+        header "Connection" connection context
 
-    let private addCookie (context: HeaderContext) (cookie: Cookie) (next: Next<_, _>) =
-        { context with header = { context.header with cookies = context.header.cookies @ [ cookie ] } } |> next
+    let private addCookie (cookie: Cookie) (context: HeaderContext) =
+        { context with header = { context.header with cookies = context.header.cookies @ [ cookie ] } }
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie'.
-    let cookie (context: HeaderContext) (name: string) (value: string) (next: Next<_, _>) =
-        addCookie context (Cookie(name, value)) next
+    let cookie (name: string) (value: string) (context: HeaderContext) =
+        addCookie (Cookie(name, value)) context
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
     /// the subset of URIs on the origin server to which this Cookie applies.
-    let cookieForPath (context: HeaderContext) (name: string) (value: string) (path: string) (next: Next<_, _>) =
-        addCookie context (Cookie(name, value, path)) next
+    let cookieForPath (name: string) (value: string) (path: string) (context: HeaderContext) =
+        addCookie (Cookie(name, value, path)) context
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
     /// the subset of URIs on the origin server to which this Cookie applies
     /// and the internet domain for which this Cookie is valid.
     let cookieForDomain
-        (context: HeaderContext)
         (name: string)
         (value: string)
         (path: string)
         (domain: string)
-        (next: Next<_, _>)
+        (context: HeaderContext)
         =
-        addCookie context (Cookie(name, value, path, domain)) next
+        addCookie (Cookie(name, value, path, domain)) context
 
     /// The date and time that the message was sent
-    let date (context: HeaderContext) (date: DateTime) (next: Next<_, _>) =
-        header "Date" (date.ToString("R", CultureInfo.InvariantCulture)) context next
+    let date (date: DateTime) (context: HeaderContext) =
+        header "Date" (date.ToString("R", CultureInfo.InvariantCulture)) context
 
     /// Indicates that particular server behaviors are required by the client
-    let expect (context: HeaderContext) (behaviors: string) (next: Next<_, _>) =
-        header "Expect" behaviors context next
+    let expect (behaviors: string) (context: HeaderContext) =
+        header "Expect" behaviors context
 
     /// Gives the date/time after which the response is considered stale
-    let expires (context: HeaderContext) (dateTime: DateTime) (next: Next<_, _>) =
-        header "Expires" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context next
+    let expires (dateTime: DateTime) (context: HeaderContext) =
+        header "Expires" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
 
     // TODO: Forwarded ?
 
     /// The email address of the user making the request
-    let from (context: HeaderContext) (email: string) (next: Next<_, _>) = header "From" email context next
+    let from (email: string) (context: HeaderContext) = header "From" email context
 
     /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
     /// The port number may be omitted if the port is the standard port for the service requested.
-    let host (context: HeaderContext) (host: string) (next: Next<_, _>) = header "Host" host context next
+    let host (host: string) (context: HeaderContext) = header "Host" host context
 
     /// Only perform the action if the client supplied entity matches the same entity on the server.
     /// This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: "737060cd8c284d8af7ad3082f209582d" Permanent
-    let ifMatch (context: HeaderContext) (entity: string) (next: Next<_, _>) = header "If-Match" entity context next
+    let ifMatch (entity: string) (context: HeaderContext) = header "If-Match" entity context
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
-    let ifModifiedSince (context: HeaderContext) (dateTime: DateTime) (next: Next<_, _>) =
-        header "If-Modified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context next
+    let ifModifiedSince (dateTime: DateTime) (context: HeaderContext) =
+        header "If-Modified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
-    let ifNoneMatch (context: HeaderContext) (etag: string) (next: Next<_, _>) =
-        header "If-None-Match" etag context next
+    let ifNoneMatch (etag: string) (context: HeaderContext) =
+        header "If-None-Match" etag context
 
     /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
-    let ifRange (context: HeaderContext) (range: string) (next: Next<_, _>) = header "If-Range" range context next
+    let ifRange (range: string) (context: HeaderContext) = header "If-Range" range context
 
     /// Only send the response if the entity has not been modified since a specific time
-    let ifUnmodifiedSince (context: HeaderContext) (dateTime: DateTime) (next: Next<_, _>) =
-        header "If-Unmodified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context next
+    let ifUnmodifiedSince (dateTime: DateTime) (context: HeaderContext) =
+        header "If-Unmodified-Since" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
 
     /// Specifies a parameter used into order to maintain a persistent connection
-    let keepAlive (context: HeaderContext) (keepAlive: string) (next: Next<_, _>) =
-        header "Keep-Alive" keepAlive context next
+    let keepAlive (keepAlive: string) (context: HeaderContext) =
+        header "Keep-Alive" keepAlive context
 
     /// Specifies the date and time at which the accompanying body data was last modified
-    let lastModified (context: HeaderContext) (dateTime: DateTime) (next: Next<_, _>) =
-        header "Last-Modified" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context next
+    let lastModified (dateTime: DateTime) (context: HeaderContext) =
+        header "Last-Modified" (dateTime.ToString("R", CultureInfo.InvariantCulture)) context
 
     /// Limit the number of times the message can be forwarded through proxies or gateways
-    let maxForwards (context: HeaderContext) (count: int) (next: Next<_, _>) =
-        header "Max-Forwards" (count.ToString()) context next
+    let maxForwards (count: int) (context: HeaderContext) =
+        header "Max-Forwards" (count.ToString()) context
 
     /// Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response header)
-    let origin (context: HeaderContext) (origin: string) (next: Next<_, _>) = header "Origin" origin context next
+    let origin (origin: string) (context: HeaderContext) = header "Origin" origin context
 
     /// Implementation-specific headers that may have various effects anywhere along the request-response chain.
-    let pragma (context: HeaderContext) (pragma: string) (next: Next<_, _>) = header "Pragma" pragma context next
+    let pragma (pragma: string) (context: HeaderContext) = header "Pragma" pragma context
 
     /// Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
-    let prefer (context: HeaderContext) (prefer: string) (next: Next<_, _>) = header "Prefer" prefer context next
+    let prefer (prefer: string) (context: HeaderContext) = header "Prefer" prefer context
 
     /// Authorization credentials for connecting to a proxy.
-    let proxyAuthorization (context: HeaderContext) (credentials: string) (next: Next<_, _>) =
-        header "Proxy-Authorization" credentials context next
+    let proxyAuthorization (credentials: string) (context: HeaderContext) =
+        header "Proxy-Authorization" credentials context
 
     /// Request only part of an entity. Bytes are numbered from 0
-    let range (context: HeaderContext) (start: int64) (finish: int64) (next: Next<_, _>) =
-        header "Range" (sprintf "bytes=%d-%d" start finish) context next
+    let range (start: int64) (finish: int64) (context: HeaderContext) =
+        header "Range" (sprintf "bytes=%d-%d" start finish) context
 
     /// This is the address of the previous web page from which a link to the currently requested page was followed. (The word "referrer" is misspelled in the RFC as well as in most implementations.)
-    let referer (context: HeaderContext) (referer: string) (next: Next<_, _>) =
-        header "Referer" referer context next
+    let referer (referer: string) (context: HeaderContext) =
+        header "Referer" referer context
 
     /// The transfer encodings the user agent is willing to accept: the same values as for the response header
     /// Transfer-Encoding can be used, plus the "trailers" value (related to the "chunked" transfer method) to
     /// notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
-    let te (context: HeaderContext) (te: string) (next: Next<_, _>) = header "TE" te context next
+    let te (te: string) (context: HeaderContext) = header "TE" te context
 
     /// The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
-    let trailer (context: HeaderContext) (trailer: string) (next: Next<_, _>) =
-        header "Trailer" trailer context next
+    let trailer (trailer: string) (context: HeaderContext) =
+        header "Trailer" trailer context
 
     /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.  The valid directives are one of: chunked, compress, deflate, gzip, or identity.
-    let transferEncoding (context: HeaderContext) (directive: string) (next: Next<_, _>) =
-        header "Transfer-Encoding" directive context next
+    let transferEncoding (directive: string) (context: HeaderContext) =
+        header "Transfer-Encoding" directive context
 
     /// Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
-    let translate (context: HeaderContext) (translate: string) (next: Next<_, _>) =
-        header "Translate" translate context next
+    let translate (translate: string) (context: HeaderContext) =
+        header "Translate" translate context
 
     /// Specifies additional communications protocols that the client supports.
-    let upgrade (context: HeaderContext) (upgrade: string) (next: Next<_, _>) =
-        header "Upgrade" upgrade context next
+    let upgrade (upgrade: string) (context: HeaderContext) =
+        header "Upgrade" upgrade context
 
     /// The user agent string of the user agent
-    let userAgent (context: HeaderContext) (userAgent: string) (next: Next<_, _>) =
-        header "User-Agent" userAgent context next
+    let userAgent (userAgent: string) (context: HeaderContext) =
+        header "User-Agent" userAgent context
 
     /// Informs the server of proxies through which the request was sent
-    let via (context: HeaderContext) (server: string) (next: Next<_, _>) = header "Via" server context next
+    let via (server: string) (context: HeaderContext) = header "Via" server context
 
     /// A general warning about possible problems with the entity body
-    let warning (context: HeaderContext) (message: string) (next: Next<_, _>) =
-        header "Warning" message context next
+    let warning (message: string) (context: HeaderContext) =
+        header "Warning" message context
 
     /// Override HTTP method.
-    let xhttpMethodOverride (context: HeaderContext) (httpMethod: string) (next: Next<_, _>) =
-        header "X-HTTP-Method-Override" httpMethod context next
+    let xhttpMethodOverride (httpMethod: string) (context: HeaderContext) =
+        header "X-HTTP-Method-Override" httpMethod context
 
 [<AutoOpen>]
 module B =
@@ -270,44 +260,44 @@ module B =
         { BodyContent.contentData = ContentData.ByteArrayContent [||]
           contentType = None }
 
-    let body (headerContext: HeaderContext) (next: Next<_, _>) =
+    let body (headerContext: HeaderContext) =
         { BodyContext.header = headerContext.header
           content = emptyContentData
           config = headerContext.config }
-        |> next
+       
 
     /// The type of encoding used on the data
-    let contentEncoding (context: HeaderContext) (encoding: string) (next: Next<_, _>) =
-        header "Content-Encoding" encoding context next
+    let contentEncoding (encoding: string) (context: HeaderContext) =
+        header "Content-Encoding" encoding context
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType (context: BodyContext) (contentType: string) (next: Next<_, _>) =
-        { context with content = { context.content with contentType = Some contentType } } |> next
+    let contentType (contentType: string) (context: BodyContext) =
+        { context with content = { context.content with contentType = Some contentType } }
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
-    let contentTypeWithEncoding (context: BodyContext) (contentTypeString) (charset: Encoding) (next: Next<_, _>) =
-        contentType context (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) next
+    let contentTypeWithEncoding (contentTypeString) (charset: Encoding) (context: BodyContext) =
+        contentType (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) context
 
     // a) MD5 is obsolete. See https://tools.ietf.org/html/rfc7231#appendix-B
     // b) the others are response fields
 
     /////// The language the content is in
-    ////let contentLanguage (context:HeaderContext) (language: string) (next: Next<_,_>) =
-    ////    header "Content-Language" language context  next
+    ////let contentLanguage (context:HeaderContext) (language: string) (next:<_,_>) =
+    ////    header "Content-Language" language context 
 
     /////// An alternate location for the returned data
-    ////let contentLocation (context:HeaderContext) (location: string) (next: Next<_,_>) =
-    ////    header "Content-Location" location context  next
+    ////let contentLocation (context:HeaderContext) (location: string) (next:<_,_>) =
+    ////    header "Content-Location" location context 
 
     /////// A Base64-encoded binary MD5 sum of the content of the request body
-    ////let contentMD5 (context:HeaderContext) (md5sum: string) (next: Next<_,_>) =
-    ////    header "Content-MD5" md5sum context  next
+    ////let contentMD5 (context:HeaderContext) (md5sum: string) (next:<_,_>) =
+    ////    header "Content-MD5" md5sum context 
 
     /////// Where in a full body message this partial message belongs
-    ////let contentRange (context:HeaderContext) (range: string) (next: Next<_,_>) =
-    ////    header "Content-Range" range context  next
+    ////let contentRange (context:HeaderContext) (range: string) (next:<_,_>) =
+    ////    header "Content-Range" range context 
 
-    let private content (context: BodyContext) defaultContentType data (next: Next<_, _>) =
+    let private content defaultContentType data (context: BodyContext) =
         let content = context.content
         let contentType = content.contentType |> Option.defaultValue defaultContentType
 
@@ -316,25 +306,25 @@ module B =
                   { content with
                         contentData = data
                         contentType = Some contentType } }
-        |> next
+       
 
-    let binary (context: BodyContext) (data: byte array) (next: Next<_, _>) =
-        content context MimeTypes.octetStream (ContentData.ByteArrayContent data) next
+    let binary (data: byte array) (context: BodyContext) =
+        content MimeTypes.octetStream (ContentData.ByteArrayContent data) context
 
-    let stream (context: BodyContext) (stream: System.IO.Stream) (next: Next<_, _>) =
-        content context MimeTypes.octetStream (ContentData.StreamContent stream) next
+    let stream (stream: System.IO.Stream) (context: BodyContext) =
+        content MimeTypes.octetStream (ContentData.StreamContent stream) context
 
-    let text (context: BodyContext) (text: string) (next: Next<_, _>) =
-        content context MimeTypes.textPlain (ContentData.StringContent text) next
+    let text (text: string) (context: BodyContext) =
+        content MimeTypes.textPlain (ContentData.StringContent text) context
 
-    let json (context: BodyContext) (json: string) (next: Next<_, _>) =
-        content context MimeTypes.applicationJson (ContentData.StringContent json) next
+    let json (json: string) (context: BodyContext) =
+        content MimeTypes.applicationJson (ContentData.StringContent json) context
 
-    let formUrlEncoded (context: BodyContext) (data: (string * string) list) (next: Next<_, _>) =
-        content context "application/x-www-form-urlencoded" (ContentData.FormUrlEncodedContent data) next
+    let formUrlEncoded (data: (string * string) list) (context: BodyContext) =
+        content "application/x-www-form-urlencoded" (ContentData.FormUrlEncodedContent data) context
 
-    let file (context: BodyContext) (path: string) (next: Next<_, _>) =
-        content context MimeTypes.octetStream (ContentData.FileContent path) next
+    let file (path: string) (context: BodyContext) =
+        content MimeTypes.octetStream (ContentData.FileContent path) context
 
 // TODO: Base64
 
@@ -345,19 +335,19 @@ module M =
         { MultipartContent.contentData = []
           contentType = sprintf "multipart/form-data; boundary=%s" (Guid.NewGuid().ToString("N")) }
 
-    let multipart (headerContext: HeaderContext) (next: Next<_, _>) =
+    let multipart (headerContext: HeaderContext) =
         { MultipartContext.header = headerContext.header
           content = emptyContentData
           currentPartContentType = None
           config = headerContext.config }
-        |> next
+       
 
     let part
-        (context: MultipartContext)
         (content: ContentData)
         (defaultContentType: string option)
-        name
-        (next: Next<_, _>) =
+        (name: string)
+        (context: MultipartContext)
+        =
 
         let contentType =
             match context.currentPartContentType with
@@ -370,49 +360,50 @@ module M =
                content = content |}
 
         { context with content = { context.content with contentData = context.content.contentData @ [ newContentData ] } }
-        |> next
+       
 
-    let valuePart (context: MultipartContext) name (value: string) (next: Next<_, _>) =
-        part context (ContentData.StringContent value) None name next
+    let valuePart name (value: string) (context: MultipartContext) =
+        part (ContentData.StringContent value) None name context
 
-    let filePartWithName (context: MultipartContext) name (path: string) (next: Next<_, _>) =
+    let filePartWithName name (path: string) (context: MultipartContext) =
         let contentType = MimeTypes.guessMineTypeFromPath path MimeTypes.defaultMimeType
-        part context (ContentData.FileContent path) (Some contentType) name next
+        part (ContentData.FileContent path) (Some contentType) name context
 
-    let filePart context (path: string) (next: Next<_, _>) =
-        filePartWithName context (System.IO.Path.GetFileNameWithoutExtension path) path next
+    let filePart (path: string) (context: MultipartContext) =
+        filePartWithName (System.IO.Path.GetFileNameWithoutExtension path) path context
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType (context: MultipartContext) (contentType: string) (next: Next<_, _>) =
-        { context with currentPartContentType = Some contentType } |> next
+    let contentType (contentType: string) (context: MultipartContext) =
+        { context with currentPartContentType = Some contentType }
 
+// TODO: Config should work on any context, not just header context
 [<AutoOpen>]
 module Config =
 
-    let config (context: HeaderContext) (f: Config -> Config) (next: Next<_, _>) =
-        { context with config = f context.config } |> next
+    let config (f: Config -> Config) (context: HeaderContext) =
+        { context with config = f context.config }
 
-    let timeout context value (next: Next<_, _>) =
-        config context (fun config -> { config with timeout = value }) next
+    let timeout value (context: HeaderContext) =
+        config (fun config -> { config with timeout = value }) context
 
-    let timeoutInSeconds context value (next: Next<_, _>) =
-        config context (fun config -> { config with timeout = TimeSpan.FromSeconds value }) next
+    let timeoutInSeconds value (context: HeaderContext) =
+        config (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
 
-    let transformHttpRequestMessage context map (next: Next<_, _>) =
-        config context (fun config -> { config with httpMessageTransformer = Some map }) next
+    let transformHttpRequestMessage map (context: HeaderContext) =
+        config (fun config -> { config with httpMessageTransformer = Some map }) context
 
-    let transformHttpClient context map (next: Next<_, _>) =
-        config context (fun config -> { config with httpClientTransformer = Some map }) next
+    let transformHttpClient map (context: HeaderContext) =
+        config (fun config -> { config with httpClientTransformer = Some map }) context
 
-    let proxy context url (next: Next<_, _>) =
-        config context (fun config -> { config with proxy = Some { url = url; credentials = None } }) next
+    let proxy url (context: HeaderContext) =
+        config (fun config -> { config with proxy = Some { url = url; credentials = None } }) context
 
-    let proxyWithCredentials context url credentials (next: Next<_, _>) =
-        config context (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) next
+    let proxyWithCredentials url credentials (context: HeaderContext) =
+        config (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) context 
 
     /// Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
-    let useHttpClient context (client: HttpClient) (next: Next<_, _>) =
-        config context (fun config -> { config with httpClient = Some client }) next
+    let useHttpClient (client: HttpClient) (context: HeaderContext) =
+        config (fun config -> { config with httpClient = Some client }) context
 
 [<AutoOpen>]
 module Fsi =
