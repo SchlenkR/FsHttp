@@ -1,11 +1,10 @@
 
-[<AutoOpen>]
-module FsHttp.ResponseHandling
+[<RequireQualifiedAccess>]
+module FsHttp.Response
 
 open System
 open System.Xml.Linq
 open FSharp.Data
-
 open Domain
 
 let toStreamAsync (r:Response) = r.content.ReadAsStreamAsync() |> Async.AwaitTask
@@ -22,21 +21,23 @@ let toStringAsync maxLength (r: Response) =
         | _ -> ""
     async {
         let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
-        return (Helper.substring content maxLength) + (getTrimChars content)
+        return (String.substring content maxLength) + (getTrimChars content)
     }
 let toString maxLength response = toStringAsync maxLength response |> Async.RunSynchronously
 
 let toTextAsync (r:Response) = toStringAsync Int32.MaxValue r
 let toText (r:Response) = toTextAsync r |> Async.RunSynchronously
 
-let parseJson = JsonValue.Parse
+let private  parseJson = JsonValue.Parse
+
 let toJsonAsync (r:Response) = async {
     let! s = toTextAsync r 
     return parseJson s
 }
 let toJson (r:Response) = toJsonAsync r |> Async.RunSynchronously
 
-let parseXml = XDocument.Parse
+let private parseXml = XDocument.Parse
+
 let toXmlAsync (r:Response) = async {
     let! s = toTextAsync r 
     return parseXml s

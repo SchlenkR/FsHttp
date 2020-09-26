@@ -47,7 +47,7 @@ let ``Synchronous GET call is invoked immediately``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
     http { GET (url @"?test=Hallo") }
-    |> toText
+    |> Response.toText
     |> should equal "test=Hallo"
 
 [<TestCase>]
@@ -58,7 +58,7 @@ let ``Split URL are interpreted correctly``() =
                     ?test=Hallo
                     &test2=Welt")
     }
-    |> toText
+    |> Response.toText
     |> should equal "test=Hallo&test2=Welt"
 
 [<TestCase>]
@@ -71,7 +71,7 @@ let ``Smoke test for a header``() =
         GET (url @"")
         AcceptLanguage lang
     }
-    |> toText
+    |> Response.toText
     |> should equal lang
 
 [<TestCase>]
@@ -86,7 +86,7 @@ let ``ContentType override``() =
         ContentType contentType
         text "hello world"
     }
-    |> toText
+    |> Response.toText
     |> should contain contentType
 
 [<TestCase>]
@@ -101,7 +101,7 @@ let ``Multiline urls``() =
                     ?q1=Query1
                     &q2=Query2")
     }
-    |> toText
+    |> Response.toText
     |> should equal "Query1_Query2"
 
 [<TestCase>]
@@ -117,7 +117,7 @@ let ``Comments in urls are discarded``() =
                     //&q2=Query2
                     &q3=Query3")
     }
-    |> toText
+    |> Response.toText
     |> should equal ("Query1_" + keyNotFoundString + "_Query3")
 
 [<TestCase>]
@@ -134,7 +134,7 @@ let ``POST string data``() =
         body
         text data
     }
-    |> toText
+    |> Response.toText
     |> should equal data
 
 [<TestCase>]
@@ -151,7 +151,7 @@ let ``POST binary data``() =
         body
         binary data
     }
-    |> toBytes
+    |> Response.toBytes
     |> should equal data
 
 [<TestCase>]
@@ -169,7 +169,7 @@ let ``POST Form url encoded data``() =
             "q2","Query2"
         ]
     }
-    |> toText
+    |> Response.toText
     |> should equal ("Query1_Query2")
 
 [<TestCase>]
@@ -200,7 +200,7 @@ let ``POST Multipart form data``() =
         valuePart "hurz2" "Lamm"
         valuePart "hurz3" "schrie"
     }
-    |> toText
+    |> Response.toText
     |> should equal (joinLines [
         "I'm a chicken and I can fly!"
         "Lemonade was a popular drink, and it still is."
@@ -240,7 +240,7 @@ let ``Specify content type explicitly``() =
         body
         ContentType contentType
     }
-    |> toText
+    |> Response.toText
     |> should equal contentType
 
 [<TestCase>]
@@ -252,7 +252,7 @@ let ``Default content type for JSON is specified correctly``() =
         body
         json " [] "
     }
-    |> toText
+    |> Response.toText
     |> should equal MimeTypes.applicationJson
 
 [<TestCase>]
@@ -267,7 +267,7 @@ let ``Explicitly specified content type is dominant``() =
         ContentType explicitContentType
         json " [] "
     }
-    |> toText
+    |> Response.toText
     |> should equal explicitContentType
 
 [<TestCase>]
@@ -295,7 +295,7 @@ let ``Explicitly specified content type part is dominant``() =
         ContentTypePart explicitContentType2
         filePart "uploadFile2.txt"
     }
-    |> toText
+    |> Response.toText
     |> should equal (explicitContentType1 + "," + explicitContentType2)
 
 [<TestCase>]
@@ -313,7 +313,7 @@ let ``Cookies can be sent``() =
         GET (url @"")
         Cookie "test" "hello world"
     }
-    |> toText
+    |> Response.toText
     |> should equal "hello world"
 
 [<TestCase>]
@@ -326,7 +326,7 @@ let ``Custom HTTP method``() =
     http {
         Request "FLY" (url @"")
     }
-    |> toText
+    |> Response.toText
     |> should equal "flying"
 
 [<TestCase>]
@@ -345,7 +345,7 @@ let ``Custom Headers``() =
         GET (url @"")
         Header customHeaderKey "hello world"
     }
-    |> toText
+    |> Response.toText
     |> should equal "hello world"
     
 [<TestCase>]
@@ -353,7 +353,7 @@ let ``Shortcut for GET works``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
     
     get (url @"?test=Hallo") {go}
-    |> toText
+    |> Response.toText
     |> should equal "test=Hallo"
 
 [<TestCase>]
@@ -364,7 +364,7 @@ let ``Proxy usage works`` () =
         GET "http://google.com"
         proxy (url "")
     }
-    |> toText
+    |> Response.toText
     |> should equal "proxified"
 
 [<TestCase>]
@@ -385,7 +385,7 @@ let ``Proxy usage with credentials works`` () =
         GET "http://google.com"
         proxyWithCredentials (url "") credentials
     }
-    |> toText
+    |> Response.toText
     |> should equal ("Basic " + ("test:password" |> Text.Encoding.UTF8.GetBytes |> Convert.ToBase64String))
 
 [<TestCase>]

@@ -3,7 +3,6 @@
 module FsHttp.Domain
 
 open System
-open System.Net
 open System.Net.Http
 
 
@@ -28,7 +27,7 @@ and ContentPrintHint =
 
 type Proxy =
     { url: string
-      credentials: ICredentials option }
+      credentials: System.Net.ICredentials option }
 
 type Config =
     { timeout: TimeSpan
@@ -57,15 +56,15 @@ and ContentData =
 type StartingContext = StartingContext
 
 
-
 type HeaderContext =
     { header: Header
       config: Config } with
 
-    member this.Finalize () =
-        { FinalContext.header = this.header
-          content = Empty
-          config = this.config }
+    interface IContext with
+        member this.ToRequest () =
+            { Request.header = this.header
+              content = Empty
+              config = this.config }
 
     member this.Configure transformConfig =
         { this with config = transformConfig this.config }
@@ -79,10 +78,11 @@ and BodyContext =
       content: BodyContent
       config: Config } with
 
-    member this.Finalize () =
-        { FinalContext.header = this.header
-          content = Single this.content
-          config = this.config }
+    interface IContext with
+        member this.ToRequest () =
+            { Request.header = this.header
+              content = Single this.content
+              config = this.config }
 
     member this.Configure transformConfig =
         { this with config = transformConfig this.config }
@@ -93,11 +93,12 @@ and MultipartContext =
       content: MultipartContent
       currentPartContentType : string option
       config: Config } with
-
-    member this.Finalize () =
-        { FinalContext.header = this.header
-          content = Multi this.content
-          config = this.config }
+    
+    interface IContext with
+        member this.ToRequest() =
+            { Request.header = this.header
+              content = Multi this.content
+              config = this.config }
 
     member this.Configure transformConfig =
         { this with config = transformConfig this.config }
@@ -109,23 +110,29 @@ and MultipartContent =
            content: ContentData |} list
       contentType: string }
 
-and FinalContentData =
-    | Empty
-    | Single of BodyContent
-    | Multi of MultipartContent
 
-and FinalContext =
+
+and Request =
     { header: Header
-      content: FinalContentData
-      config: Config } with
+      content: RequestContent
+      config: Config }
 
-    // important because we can use sendFinal with all context types
-    member this.Finalize () = this
+and RequestContent =
+| Empty
+| Single of BodyContent
+| Multi of MultipartContent
+
+
+and IContext =
+    abstract member ToRequest : unit -> Request
+    
+    // We cannot use an OOP interface for Configure because no HKTs here
+    // abstract member Configure : (Config -> Config) -> ? 
 
 
 // TODO: Get rid of all the boolean switches and use options instead.
 type Response = 
-    { requestContext: FinalContext
+    { requestContext: Request
       requestMessage: HttpRequestMessage
       content: HttpContent
       headers: Headers.HttpResponseHeaders
