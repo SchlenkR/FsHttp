@@ -94,6 +94,9 @@ module H =
     ////let allow (methods: string) (context:HeaderContext) =
     ////    headerField "Allow" methods context 
 
+    let query (context: HeaderContext) (queryParams: (string * string) list) (next: Next<_, _>) =
+        { context with header = { context.header with url = context.header.url |> appendQueryToUrl queryParams } } |> next
+    
     /// Authentication credentials for HTTP authentication
     let authorization (credentials: string) (context: HeaderContext) =
         header "Authorization" credentials context
