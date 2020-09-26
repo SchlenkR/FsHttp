@@ -10,8 +10,9 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
 - *Breaking Change* DSL is now pipe style and not cont passing style anymore
-- *Breaking Change* Require qualified module names for: FsHttp.String, Request, Response
+- *Breaking Change* Require qualified module names for "Request" and "Response"
 - *Breaking Change* Renamed FinalContext to Request
+- Add "query" operation (thanks to @Mefgalm)
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
