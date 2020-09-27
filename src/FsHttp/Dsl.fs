@@ -299,7 +299,7 @@ module B =
     ////let contentRange (context:HeaderContext) (range: string) (next:<_,_>) =
     ////    header "Content-Range" range context 
 
-    let private content defaultContentType data (context: BodyContext) =
+    let private content defaultContentType (data: ContentData) (context: BodyContext) =
         let content = context.content
         let contentType = content.contentType |> Option.defaultValue defaultContentType
 
@@ -311,24 +311,25 @@ module B =
        
 
     let binary (data: byte array) (context: BodyContext) =
-        content MimeTypes.octetStream (ContentData.ByteArrayContent data) context
+        content MimeTypes.octetStream (ByteArrayContent data) context
 
     let stream (stream: System.IO.Stream) (context: BodyContext) =
-        content MimeTypes.octetStream (ContentData.StreamContent stream) context
+        content MimeTypes.octetStream (StreamContent stream) context
 
     let text (text: string) (context: BodyContext) =
-        content MimeTypes.textPlain (ContentData.StringContent text) context
+        content MimeTypes.textPlain (StringContent text) context
+
+    let base64 (base64: byte []) (context: BodyContext) =
+        content MimeTypes.octetStream (StringContent (Convert.ToBase64String base64)) context
 
     let json (json: string) (context: BodyContext) =
-        content MimeTypes.applicationJson (ContentData.StringContent json) context
+        content MimeTypes.applicationJson (StringContent json) context
 
     let formUrlEncoded (data: (string * string) list) (context: BodyContext) =
-        content "application/x-www-form-urlencoded" (ContentData.FormUrlEncodedContent data) context
+        content "application/x-www-form-urlencoded" (FormUrlEncodedContent data) context
 
     let file (path: string) (context: BodyContext) =
-        content MimeTypes.octetStream (ContentData.FileContent path) context
-
-// TODO: Base64
+        content MimeTypes.octetStream (FileContent path) context
 
 [<AutoOpen>]
 module M =

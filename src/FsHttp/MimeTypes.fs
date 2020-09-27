@@ -8,7 +8,7 @@ let defaultMimeType = octetStream
 let textPlain = "text/plain"
 let applicationJson = "application/json"
 
-let map =
+let extToMimeType =
     [|
         "123", "application/vnd.lotus-1-2-3"
         "3dml", "text/vnd.in3d.3dml"
@@ -995,7 +995,7 @@ let map =
     |> Array.toList
 
 let guessMineTypeFromPath (path : string) defaultValue =
-    map
+    extToMimeType
     |> List.tryFind (fun (ext,_) -> "." + ext = Path.GetExtension path)
     |> function
         | None -> defaultValue
