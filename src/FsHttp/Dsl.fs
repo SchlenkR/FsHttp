@@ -38,6 +38,7 @@ module Method =
               httpClientHandlerTransformer = None
               httpClientTransformer = None
               proxy = None
+              certErrorStrategy = Default
               httpClient = None } }
 
     // RFC 2626 specifies 8 methods + PATCH

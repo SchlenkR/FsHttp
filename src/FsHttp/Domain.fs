@@ -28,6 +28,10 @@ type Proxy =
     { url: string
       credentials: System.Net.ICredentials option }
 
+type CertErrorStrategy =
+    | Default
+    | AlwaysAccept
+
 type Config =
     { timeout: TimeSpan
       printHint: PrintHint
@@ -39,6 +43,7 @@ type Config =
 #endif
       httpClientTransformer: (HttpClient -> HttpClient) option
       proxy: Proxy option
+      certErrorStrategy: CertErrorStrategy
       httpClient: HttpClient option }
 
 type Header =

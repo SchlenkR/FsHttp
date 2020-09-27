@@ -98,6 +98,19 @@ let getHttpClient =
                     new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
 #endif
 
+            match config.certErrorStrategy with
+            | Default -> ()
+            | AlwaysAccept ->
+#if NETSTANDARD_2
+                handler.ServerCertificateCustomValidationCallback <- (fun msg cert chain errors -> true)
+#else
+                handler.SslOptions <-
+                    let options = Security.SslClientAuthenticationOptions()
+                    options.RemoteCertificateValidationCallback <-
+                        Security.RemoteCertificateValidationCallback(fun sender cert chain errors -> true)
+                    options
+#endif
+
             match config.proxy with
             | Some proxy ->
                 let webProxy = WebProxy(proxy.url)
