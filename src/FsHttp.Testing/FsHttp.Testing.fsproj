@@ -1,12 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>SchlenkR.FsHttp.Testing</PackageId>
     <Description>An addition for the FsHttp library, providing convenience for testing.</Description>
+    <Configurations>Debug_netstandard2;Release;Debug_netcore</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug_netstandard2'">
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <DefineConstants>NETSTANDARD_2</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug_netcore'">
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release' AND '$(TargetFramework)'=='netstandard2.0'">
+    <DefineConstants>NETSTANDARD_2</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
