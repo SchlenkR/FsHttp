@@ -35,6 +35,7 @@ module Method =
             { timeout = defaultTimeout
               printHint = defaultPrintHint
               httpMessageTransformer = None
+              httpClientHandlerTransformer = None
               httpClientTransformer = None
               proxy = None
               httpClient = None } }
@@ -394,6 +395,9 @@ module Config =
 
     let transformHttpRequestMessage map (context: HeaderContext) =
         config (fun config -> { config with httpMessageTransformer = Some map }) context
+
+    let transformHttpClientHandler map (context: HeaderContext) =
+        config (fun config -> { config with httpClientHandlerTransformer = Some map }) context
 
     let transformHttpClient map (context: HeaderContext) =
         config (fun config -> { config with httpClientTransformer = Some map }) context

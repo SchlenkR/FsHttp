@@ -21,7 +21,7 @@ let toMessage (request: Request): HttpRequestMessage =
 
     let requestMessage = new HttpRequestMessage(header.method, header.url)
 
-    requestMessage.Properties.[TimeoutPropertyName] <- request.config.timeout
+    do requestMessage.Properties.[TimeoutPropertyName] <- request.config.timeout
 
     let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
         let dotnetContent =
@@ -57,7 +57,7 @@ let toMessage (request: Request): HttpRequestMessage =
 
         dotnetContent
 
-    requestMessage.Content <-
+    do requestMessage.Content <-
         match request.content with
         | Empty -> null
         | Single bodyContent -> buildDotnetContent bodyContent.contentData bodyContent.contentType None
@@ -76,7 +76,7 @@ let toMessage (request: Request): HttpRequestMessage =
 
     requestMessage
 
-let httpClient =
+let getHttpClient =
     let timeoutHandler innerHandler =
         { new DelegatingHandler(InnerHandler = innerHandler) with
             member _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
@@ -89,11 +89,15 @@ let httpClient =
         match config.httpClient with
         | Some client -> client
         | None ->
+            let transformHandler = Option.defaultValue id config.httpClientHandlerTransformer
+            let handler =
+                transformHandler <|
 #if NETSTANDARD_2
-            let handler = new HttpClientHandler()
+                    new HttpClientHandler()
 #else
-            let handler = new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
+                    new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
 #endif
+
             match config.proxy with
             | Some proxy ->
                 let webProxy = WebProxy(proxy.url)
@@ -114,13 +118,10 @@ let sendAsync (context: IContext) =
 
     let requestMessage = toMessage request
 
-    let finalRequestMessage =
-        match request.config.httpMessageTransformer with
-        | None -> requestMessage
-        | Some map -> map requestMessage
+    let finalRequestMessage = requestMessage |> Option.defaultValue id request.config.httpMessageTransformer
 
     let invoke (ctok: CancellationToken) =
-        let client = httpClient request.config
+        let client = getHttpClient request.config
 
         let cookies =
             request.header.cookies
@@ -129,10 +130,7 @@ let sendAsync (context: IContext) =
 
         finalRequestMessage.Headers.Add("Cookie", cookies)
 
-        let finalClient =
-            match request.config.httpClientTransformer with
-            | None -> client
-            | Some map -> map client
+        let finalClient = client |> Option.defaultValue id request.config.httpClientTransformer
 
         finalClient.SendAsync(finalRequestMessage, ctok)
 

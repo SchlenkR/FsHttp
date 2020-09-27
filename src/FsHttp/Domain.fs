@@ -32,6 +32,11 @@ type Config =
     { timeout: TimeSpan
       printHint: PrintHint
       httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
+#if NETSTANDARD_2
+      httpClientHandlerTransformer: (HttpClientHandler -> HttpClientHandler) option
+#else
+      httpClientHandlerTransformer: (SocketsHttpHandler -> SocketsHttpHandler) option
+#endif
       httpClientTransformer: (HttpClient -> HttpClient) option
       proxy: Proxy option
       httpClient: HttpClient option }

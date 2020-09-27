@@ -318,6 +318,9 @@ module Config =
         [<CustomOperation("transformHttpClient")>]
         member this.TransformHttpClient(context, map) = Dsl.Config.transformHttpClient map context
 
+        [<CustomOperation("transformHttpClientHandler")>]
+        member this.TransformHttpClientHandler(context, map) = Dsl.Config.transformHttpClientHandler map context
+
         [<CustomOperation("proxy")>]
         member this.Proxy(context, url) = Dsl.Config.proxy url context
 

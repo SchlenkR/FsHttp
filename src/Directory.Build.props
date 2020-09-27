@@ -12,7 +12,9 @@
 - *Breaking Change* DSL is now pipe style and not cont passing style anymore
 - *Breaking Change* Require qualified module names for "Request" and "Response"
 - *Breaking Change* Renamed FinalContext to Request
+- *Breaking Change* Renamed Dsl and DslCE submodule names
 - Add "query" operation (thanks to @Mefgalm)
+- Add Http ClientHandler Transformer
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
