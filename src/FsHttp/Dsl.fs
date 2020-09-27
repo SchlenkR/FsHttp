@@ -10,7 +10,7 @@ open Domain
 open Config
 
 [<AutoOpen>]
-module R =
+module Method =
 
     let request (method: string) (url: string) =
 
@@ -63,7 +63,7 @@ module R =
 // TODO
 
 [<AutoOpen>]
-module H =
+module Header =
 
     /// Adds a custom header
     let header name value (context: HeaderContext) =
@@ -256,7 +256,7 @@ module H =
         header "X-HTTP-Method-Override" httpMethod context
 
 [<AutoOpen>]
-module B =
+module Body =
 
     let private emptyContentData =
         { BodyContent.contentData = ContentData.ByteArrayContent [||]
@@ -332,7 +332,7 @@ module B =
         content MimeTypes.octetStream (FileContent path) context
 
 [<AutoOpen>]
-module M =
+module Multipart =
 
     let private emptyContentData =
         { MultipartContent.contentData = []
