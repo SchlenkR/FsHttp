@@ -5,8 +5,11 @@ open Domain
 type HttpBuilder<'context>(context: 'context) =
     member this.Context = context
 
+    member this.Bind(m, f) = f m
+    member this.Return(x) = x
     member this.Yield(_) = HttpBuilder context
-    member this.Delay(f) = f
+    member this.For(m, f) = this.Bind m f
+    // member this.Delay(f) = f
 
 
 [<AutoOpen>]
@@ -23,42 +26,42 @@ module Method =
     let connect (url: string) = Dsl.Method.connect url |> HttpBuilder
     let patch (url: string) = Dsl.Method.patch url |> HttpBuilder
 
-    // TODO
-    //type HttpBuilder<'context> with
+    // TODO: RFC 4918 (WebDAV) adds 7 methods
 
-    //    [<CustomOperation("Request")>]
-    //    member this.Request(StartingContext, method, url) = Request.request method url
+    /// supports the ```http { .. }``` syntax
+    type ExplicitHttpBuilder() =
+        inherit HttpBuilder<StartingContext>(StartingContext)
 
-    //    // RFC 2626 specifies 8 methods
-    //    [<CustomOperation("GET")>]
-    //    member this.Get(StartingContext, url) = Request.get url
+        [<CustomOperation("Request")>]
+        member this.Request(_: HttpBuilder<StartingContext>, method, url) = request method url
 
-    //    [<CustomOperation("PUT")>]
-    //    member this.Put(StartingContext, url) = Request.put url
+        // RFC 2626 specifies 8 methods
+        [<CustomOperation("GET")>]
+        member this.Get(_: HttpBuilder<StartingContext>, url) = get url
 
-    //    [<CustomOperation("POST")>]
-    //    member this.Post(StartingContext, url) = Request.post url
+        [<CustomOperation("PUT")>]
+        member this.Put(_: HttpBuilder<StartingContext>, url) = put url
 
-    //    [<CustomOperation("DELETE")>]
-    //    member this.Delete(StartingContext, url) = Request.delete url
+        [<CustomOperation("POST")>]
+        member this.Post(_: HttpBuilder<StartingContext>, url) = post url
 
-    //    [<CustomOperation("OPTIONS")>]
-    //    member this.Options(StartingContext, url) = Request.options url
+        [<CustomOperation("DELETE")>]
+        member this.Delete(_: HttpBuilder<StartingContext>, url) = delete url
 
-    //    [<CustomOperation("HEAD")>]
-    //    member this.Head(StartingContext, url) = Request.head url
+        [<CustomOperation("OPTIONS")>]
+        member this.Options(_: HttpBuilder<StartingContext>, url) = options url
 
-    //    [<CustomOperation("TRACE")>]
-    //    member this.Trace(StartingContext, url) = Request.trace url
+        [<CustomOperation("HEAD")>]
+        member this.Head(_: HttpBuilder<StartingContext>, url) = head url
 
-    //    [<CustomOperation("CONNECT")>]
-    //    member this.Connect(StartingContext, url) = Request.connect url
+        [<CustomOperation("TRACE")>]
+        member this.Trace(_: HttpBuilder<StartingContext>, url) = trace url
 
-    //    [<CustomOperation("PATCH")>]
-    //    member this.Patch(StartingContext, url) = Request.patch url
+        [<CustomOperation("CONNECT")>]
+        member this.Connect(_: HttpBuilder<StartingContext>, url) = connect url
 
-// RFC 4918 (WebDAV) adds 7 methods
-// TODO
+        [<CustomOperation("PATCH")>]
+        member this.Patch(_: HttpBuilder<StartingContext>, url) = patch url
 
 
 [<AutoOpen>]
@@ -373,6 +376,7 @@ module Config =
     
     open System.Net.Http
     
+    // TODO: (see comment in Dsl, module Config): Config should work on any context, not just header context
     type HttpBuilder<'context> with
 
         [<CustomOperation("timeout")>]
@@ -411,42 +415,17 @@ module Config =
 [<AutoOpen>]
 module Builder =
 
-    /// supports the ```http { .. }``` syntax
-    type ExplicitHttpBuilder() =
-        inherit HttpBuilder<StartingContext>(StartingContext)
-
-        [<CustomOperation("Request")>]
-        member this.Request(_: HttpBuilder<StartingContext>, method, url) = request method url
-
-        // RFC 2626 specifies 8 methods
-        [<CustomOperation("GET")>]
-        member this.Get(_: HttpBuilder<StartingContext>, url) = get url
-
-        [<CustomOperation("PUT")>]
-        member this.Put(_: HttpBuilder<StartingContext>, url) = put url
-
-        [<CustomOperation("POST")>]
-        member this.Post(_: HttpBuilder<StartingContext>, url) = post url
-
-        [<CustomOperation("DELETE")>]
-        member this.Delete(_: HttpBuilder<StartingContext>, url) = delete url
-
-        [<CustomOperation("OPTIONS")>]
-        member this.Options(_: HttpBuilder<StartingContext>, url) = options url
-
-        [<CustomOperation("HEAD")>]
-        member this.Head(_: HttpBuilder<StartingContext>, url) = head url
-
-        [<CustomOperation("TRACE")>]
-        member this.Trace(_: HttpBuilder<StartingContext>, url) = trace url
-
-        [<CustomOperation("CONNECT")>]
-        member this.Connect(_: HttpBuilder<StartingContext>, url) = connect url
-
-        [<CustomOperation("PATCH")>]
-        member this.Patch(_: HttpBuilder<StartingContext>, url) = patch url
-
     let http = ExplicitHttpBuilder()
+    
+    type HttpBuilder<'context> with
+    
+        [<CustomOperation("send")>]
+        member this.Send(builder: HttpBuilder<_>) =
+            builder.Context |> Request.send
+    
+        [<CustomOperation("sendAsync")>]
+        member this.SendAsync(builder: HttpBuilder<_>) =
+            builder.Context |> Request.sendAsync
 
 //    type HttpBuilderBase with
 //        member this.Bind(m, f) = f m
