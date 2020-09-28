@@ -62,7 +62,8 @@ and ContentData =
     | FormUrlEncodedContent of (string * string) list
     | FileContent of string
 
-type StartingContext = StartingContext
+type StartingContext =
+    | StartingContext
 
 
 type HeaderContext =

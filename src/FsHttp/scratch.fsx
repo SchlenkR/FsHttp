@@ -14,6 +14,11 @@ http {
 }
 
 
+http {
+    GET "https://reqres.in/api/users"
+}
+
+
 
 http {
     POST "https://reqres.in/api/users"

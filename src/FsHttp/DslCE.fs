@@ -1,48 +1,61 @@
 module FsHttp.DslCE
 
-open Dsl
 open Domain
 
+type HttpBuilder<'context>(context: 'context) =
+    member this.Context = context
 
-type HttpBuilderBase() =
-    class
-    end
+    member this.Yield(_) = HttpBuilder context
+    member this.Delay(f) = f
 
 
 [<AutoOpen>]
 module Method =
-    type HttpBuilderBase with
+    // RFC 2626 specifies 8 methods + PATCH
+    let request (method: string) (url: string) = Dsl.Method.request method url |> HttpBuilder
+    let get (url: string) = Dsl.Method.get url |> HttpBuilder
+    let put (url: string) = Dsl.Method.put url |> HttpBuilder
+    let post (url: string) = Dsl.Method.post url |> HttpBuilder
+    let delete (url: string) = Dsl.Method.delete url |> HttpBuilder
+    let options (url: string) = Dsl.Method.options url |> HttpBuilder
+    let head (url: string) = Dsl.Method.head url |> HttpBuilder
+    let trace (url: string) = Dsl.Method.trace url |> HttpBuilder
+    let connect (url: string) = Dsl.Method.connect url |> HttpBuilder
+    let patch (url: string) = Dsl.Method.patch url |> HttpBuilder
 
-        [<CustomOperation("Request")>]
-        member this.Request(StartingContext, method, url) = request method url
+    // TODO
+    //type HttpBuilder<'context> with
 
-        // RFC 2626 specifies 8 methods
-        [<CustomOperation("GET")>]
-        member this.Get(StartingContext, url) = get url
+    //    [<CustomOperation("Request")>]
+    //    member this.Request(StartingContext, method, url) = Request.request method url
 
-        [<CustomOperation("PUT")>]
-        member this.Put(StartingContext, url) = put url
+    //    // RFC 2626 specifies 8 methods
+    //    [<CustomOperation("GET")>]
+    //    member this.Get(StartingContext, url) = Request.get url
 
-        [<CustomOperation("POST")>]
-        member this.Post(StartingContext, url) = post url
+    //    [<CustomOperation("PUT")>]
+    //    member this.Put(StartingContext, url) = Request.put url
 
-        [<CustomOperation("DELETE")>]
-        member this.Delete(StartingContext, url) = delete url
+    //    [<CustomOperation("POST")>]
+    //    member this.Post(StartingContext, url) = Request.post url
 
-        [<CustomOperation("OPTIONS")>]
-        member this.Options(StartingContext, url) = options url
+    //    [<CustomOperation("DELETE")>]
+    //    member this.Delete(StartingContext, url) = Request.delete url
 
-        [<CustomOperation("HEAD")>]
-        member this.Head(StartingContext, url) = head url
+    //    [<CustomOperation("OPTIONS")>]
+    //    member this.Options(StartingContext, url) = Request.options url
 
-        [<CustomOperation("TRACE")>]
-        member this.Trace(StartingContext, url) = trace url
+    //    [<CustomOperation("HEAD")>]
+    //    member this.Head(StartingContext, url) = Request.head url
 
-        [<CustomOperation("CONNECT")>]
-        member this.Connect(StartingContext, url) = connect url
+    //    [<CustomOperation("TRACE")>]
+    //    member this.Trace(StartingContext, url) = Request.trace url
 
-        [<CustomOperation("PATCH")>]
-        member this.Patch(StartingContext, url) = patch url
+    //    [<CustomOperation("CONNECT")>]
+    //    member this.Connect(StartingContext, url) = Request.connect url
+
+    //    [<CustomOperation("PATCH")>]
+    //    member this.Patch(StartingContext, url) = Request.patch url
 
 // RFC 4918 (WebDAV) adds 7 methods
 // TODO
@@ -50,253 +63,309 @@ module Method =
 
 [<AutoOpen>]
 module Header =
-    type HttpBuilderBase with
+    type HttpBuilder<'context> with
 
         /// Content-Types that are acceptable for the response
         [<CustomOperation("Accept")>]
-        member this.Accept(context, contentType) = Dsl.Header.accept contentType context
+        member this.Accept(builder: HttpBuilder<_>, contentType) =
+            Dsl.Header.accept contentType builder.Context |> HttpBuilder
 
         /// Character sets that are acceptable
         [<CustomOperation("AcceptCharset")>]
-        member this.AcceptCharset(context, characterSets) = Dsl.Header.acceptCharset characterSets context
+        member this.AcceptCharset(builder: HttpBuilder<_>, characterSets) =
+            Dsl.Header.acceptCharset characterSets builder.Context |> HttpBuilder
 
         /// Acceptable version in time
         [<CustomOperation("AcceptDatetime")>]
-        member this.AcceptDatetime(context, dateTime) = Dsl.Header.acceptDatetime dateTime context
+        member this.AcceptDatetime(builder: HttpBuilder<_>, dateTime) =
+            Dsl.Header.acceptDatetime dateTime builder.Context |> HttpBuilder
 
         /// List of acceptable encodings. See HTTP compression.
         [<CustomOperation("AcceptEncoding")>]
-        member this.AcceptEncoding(context, encoding) = Dsl.Header.acceptEncoding encoding context
+        member this.AcceptEncoding(builder: HttpBuilder<_>, encoding) =
+            Dsl.Header.acceptEncoding encoding builder.Context |> HttpBuilder
 
         /// List of acceptable human languages for response
         [<CustomOperation("AcceptLanguage")>]
-        member this.AcceptLanguage(context, language) = Dsl.Header.acceptLanguage language context
+        member this.AcceptLanguage(builder: HttpBuilder<_>, language) =
+            Dsl.Header.acceptLanguage language builder.Context |> HttpBuilder
 
         /// Append query params
         [<CustomOperation("Query")>]
-        member this.Query(context, queryParams) = Dsl.Header.query queryParams context
+        member this.Query(builder: HttpBuilder<_>, queryParams) =
+            Dsl.Header.query queryParams builder.Context |> HttpBuilder
         
         /// Authentication credentials for HTTP authentication
         [<CustomOperation("Authorization")>]
-        member this.Authorization(context, credentials) = Dsl.Header.authorization credentials context
+        member this.Authorization(builder: HttpBuilder<_>, credentials) =
+            Dsl.Header.authorization credentials builder.Context |> HttpBuilder
 
         /// Authentication header using Bearer Auth token
         [<CustomOperation("BearerAuth")>]
-        member this.BearerAuth(context, token) = Dsl.Header.bearerAuth token context
+        member this.BearerAuth(builder: HttpBuilder<_>, token) =
+            Dsl.Header.bearerAuth token builder.Context |> HttpBuilder
 
         /// Authentication header using Basic Auth encoding
         [<CustomOperation("BasicAuth")>]
-        member this.BasicAuth(context, username, password) = Dsl.Header.basicAuth username password context
+        member this.BasicAuth(builder: HttpBuilder<_>, username, password) =
+            Dsl.Header.basicAuth username password builder.Context |> HttpBuilder
 
         /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
         [<CustomOperation("CacheControl")>]
-        member this.CacheControl(context, control) = Dsl.Header.cacheControl control context
+        member this.CacheControl(builder: HttpBuilder<_>, control) =
+            Dsl.Header.cacheControl control builder.Context |> HttpBuilder
 
         /// What type of connection the user-agent would prefer
         [<CustomOperation("Connection")>]
-        member this.Connection(context, connection) = Dsl.Header.connection connection context
+        member this.Connection(builder: HttpBuilder<_>, connection) =
+            Dsl.Header.connection connection builder.Context |> HttpBuilder
 
         /// An HTTP cookie previously sent by the server with 'Set-Cookie'.
         [<CustomOperation("Cookie")>]
-        member this.SetCookie(context, name, value) = Dsl.Header.cookie name value context
+        member this.SetCookie(builder: HttpBuilder<_>, name, value) =
+            Dsl.Header.cookie name value builder.Context |> HttpBuilder
 
         /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
         /// the subset of URIs on the origin server to which this Cookie applies.
         [<CustomOperation("CookieForPath")>]
-        member this.SetCookieForPath(context, name, value, path) = Dsl.Header.cookieForPath name value path context
+        member this.SetCookieForPath(builder: HttpBuilder<_>, name, value, path) =
+            Dsl.Header.cookieForPath name value path builder.Context |> HttpBuilder
 
         /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
         /// the subset of URIs on the origin server to which this Cookie applies
         /// and the internet domain for which this Cookie is valid.
         [<CustomOperation("CookieForDomain")>]
-        member this.SetCookieForDomain(context, name, value, path, domain) =
-            Dsl.Header.cookieForDomain name value path domain context
+        member this.SetCookieForDomain(builder: HttpBuilder<_>, name, value, path, domain) =
+            Dsl.Header.cookieForDomain name value path domain builder.Context |> HttpBuilder
 
         /// The date and time that the message was sent
         [<CustomOperation("Date")>]
-        member this.Date(context, date) = Dsl.Header.date date context
+        member this.Date(builder: HttpBuilder<_>, date) =
+            Dsl.Header.date date builder.Context |> HttpBuilder
 
         /// Indicates that particular server behaviors are required by the client
         [<CustomOperation("Expect")>]
-        member this.Expect(context, behaviors) = Dsl.Header.expect behaviors context
+        member this.Expect(builder: HttpBuilder<_>, behaviors) =
+            Dsl.Header.expect behaviors builder.Context |> HttpBuilder
 
         /// Gives the date/time after which the response is considered stale
         [<CustomOperation("Expires")>]
-        member this.Expires(context, dateTime) = Dsl.Header.expires dateTime context
+        member this.Expires(builder: HttpBuilder<_>, dateTime) =
+            Dsl.Header.expires dateTime builder.Context |> HttpBuilder
 
         /// The email address of the user making the request
         [<CustomOperation("From")>]
-        member this.From(context, email) = Dsl.Header.from email context
+        member this.From(builder: HttpBuilder<_>, email) =
+            Dsl.Header.from email builder.Context |> HttpBuilder
 
         /// Custom header
         [<CustomOperation("Header")>]
-        member this.Header(context, key, value) = Dsl.Header.header key value context
+        member this.Header(builder: HttpBuilder<_>, key, value) =
+            Dsl.Header.header key value builder.Context |> HttpBuilder
 
         /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
         /// The port number may be omitted if the port is the standard port for the service requested.
         [<CustomOperation("Host")>]
-        member this.Host(context, host) = Dsl.Header.host host context
+        member this.Host(builder: HttpBuilder<_>, host) =
+            Dsl.Header.host host builder.Context |> HttpBuilder
 
         /// Only perform the action if the client supplied entity matches the same entity on the server.
         /// This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: "737060cd8c284d8af7ad3082f209582d" Permanent
         [<CustomOperation("IfMatch")>]
-        member this.IfMatch(context, entity) = Dsl.Header.ifMatch entity context
+        member this.IfMatch(builder: HttpBuilder<_>, entity) =
+            Dsl.Header.ifMatch entity builder.Context |> HttpBuilder
 
         /// Allows a 304 Not Modified to be returned if content is unchanged
         [<CustomOperation("IfModifiedSince")>]
-        member this.IfModifiedSince(context, dateTime) = Dsl.Header.ifModifiedSince dateTime context
+        member this.IfModifiedSince(builder: HttpBuilder<_>, dateTime) =
+            Dsl.Header.ifModifiedSince dateTime builder.Context |> HttpBuilder
 
         /// Allows a 304 Not Modified to be returned if content is unchanged
         [<CustomOperation("IfNoneMatch")>]
-        member this.IfNoneMatch(context, etag) = Dsl.Header.ifNoneMatch etag context
+        member this.IfNoneMatch(builder: HttpBuilder<_>, etag) =
+            Dsl.Header.ifNoneMatch etag builder.Context |> HttpBuilder
 
         /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
         [<CustomOperation("IfRange")>]
-        member this.IfRange(context, range) = Dsl.Header.ifRange range context
+        member this.IfRange(builder: HttpBuilder<_>, range) =
+            Dsl.Header.ifRange range builder.Context |> HttpBuilder
 
         /// Only send the response if the entity has not been modified since a specific time
         [<CustomOperation("IfUnmodifiedSince")>]
-        member this.IfUnmodifiedSince(context, dateTime) = Dsl.Header.ifUnmodifiedSince dateTime context
+        member this.IfUnmodifiedSince(builder: HttpBuilder<_>, dateTime) =
+            Dsl.Header.ifUnmodifiedSince dateTime builder.Context |> HttpBuilder
 
         /// Specifies a parameter used into order to maintain a persistent connection
         [<CustomOperation("KeepAlive")>]
-        member this.KeepAlive(context, keepAlive) = Dsl.Header.keepAlive keepAlive context
+        member this.KeepAlive(builder: HttpBuilder<_>, keepAlive) =
+            Dsl.Header.keepAlive keepAlive builder.Context |> HttpBuilder
 
         /// Specifies the date and time at which the accompanying body data was last modified
         [<CustomOperation("LastModified")>]
-        member this.LastModified(context, dateTime) = Dsl.Header.lastModified dateTime context
+        member this.LastModified(builder: HttpBuilder<_>, dateTime) =
+            Dsl.Header.lastModified dateTime builder.Context |> HttpBuilder
 
         /// Limit the number of times the message can be forwarded through proxies or gateways
         [<CustomOperation("MaxForwards")>]
-        member this.MaxForwards(context, count) = Dsl.Header.maxForwards count context
+        member this.MaxForwards(builder: HttpBuilder<_>, count) =
+            Dsl.Header.maxForwards count builder.Context |> HttpBuilder
 
         /// Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response header)
         [<CustomOperation("Origin")>]
-        member this.Origin(context, origin) = Dsl.Header.origin origin context
+        member this.Origin(builder: HttpBuilder<_>, origin) =
+            Dsl.Header.origin origin builder.Context |> HttpBuilder
 
         /// Implementation-specific headers that may have various effects anywhere along the request-response chain.
         [<CustomOperation("Pragma")>]
-        member this.Pragma(context, pragma) = Dsl.Header.pragma pragma context
+        member this.Pragma(builder: HttpBuilder<_>, pragma) =
+            Dsl.Header.pragma pragma builder.Context |> HttpBuilder
 
         /// Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
         [<CustomOperation("Prefer")>]
-        member this.Prefer(context, prefer) = Dsl.Header.prefer prefer context
+        member this.Prefer(builder: HttpBuilder<_>, prefer) =
+            Dsl.Header.prefer prefer builder.Context |> HttpBuilder
 
         /// Authorization credentials for connecting to a proxy.
         [<CustomOperation("ProxyAuthorization")>]
-        member this.ProxyAuthorization(context, credentials) = Dsl.Header.proxyAuthorization credentials context
+        member this.ProxyAuthorization(builder: HttpBuilder<_>, credentials) =
+            Dsl.Header.proxyAuthorization credentials builder.Context |> HttpBuilder
 
         /// Request only part of an entity. Bytes are numbered from 0
         [<CustomOperation("Range")>]
-        member this.Range(context, start, finish) = Dsl.Header.range start finish context
+        member this.Range(builder: HttpBuilder<_>, start, finish) =
+            Dsl.Header.range start finish builder.Context |> HttpBuilder
 
         /// This is the address of the previous web page from which a link to the currently requested page was followed.
         /// (The word "referrer" is misspelled in the RFC as well as in most implementations.)
         [<CustomOperation("Referer")>]
-        member this.Referer(context, referer) = Dsl.Header.referer referer context
+        member this.Referer(builder: HttpBuilder<_>, referer) =
+            Dsl.Header.referer referer builder.Context |> HttpBuilder
 
         /// The transfer encodings the user agent is willing to accept: the same values as for the response header
         /// Transfer-Encoding can be used, plus the "trailers" value (related to the "chunked" transfer method) to
         /// notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
         [<CustomOperation("TE")>]
-        member this.TE(context, te) = Dsl.Header.te te context
+        member this.TE(builder: HttpBuilder<_>, te) =
+            Dsl.Header.te te builder.Context |> HttpBuilder
 
         /// The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
         [<CustomOperation("Trailer")>]
-        member this.Trailer(context, trailer) = Dsl.Header.trailer trailer context
+        member this.Trailer(builder: HttpBuilder<_>, trailer) =
+            Dsl.Header.trailer trailer builder.Context |> HttpBuilder
 
         /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.
         /// The valid directives are one of: chunked, compress, deflate, gzip, orentity.
         [<CustomOperation("TransferEncoding")>]
-        member this.TransferEncoding(context, directive) = Dsl.Header.transferEncoding directive context
+        member this.TransferEncoding(builder: HttpBuilder<_>, directive) =
+            Dsl.Header.transferEncoding directive builder.Context |> HttpBuilder
 
         /// Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
         [<CustomOperation("Translate")>]
-        member this.Translate(context, translate) = Dsl.Header.translate translate context
+        member this.Translate(builder: HttpBuilder<_>, translate) =
+            Dsl.Header.translate translate builder.Context |> HttpBuilder
 
         /// Specifies additional communications protocols that the client supports.
         [<CustomOperation("Upgrade")>]
-        member this.Upgrade(context, upgrade) = Dsl.Header.upgrade upgrade context
+        member this.Upgrade(builder: HttpBuilder<_>, upgrade) =
+            Dsl.Header.upgrade upgrade builder.Context |> HttpBuilder
 
         /// The user agent string of the user agent
         [<CustomOperation("UserAgent")>]
-        member this.UserAgent(context, userAgent) = Dsl.Header.userAgent userAgent context
+        member this.UserAgent(builder: HttpBuilder<_>, userAgent) =
+            Dsl.Header.userAgent userAgent builder.Context |> HttpBuilder
 
         /// Informs the server of proxies through which the request was sent
         [<CustomOperation("Via")>]
-        member this.Via(context, server) = Dsl.Header.via server context
+        member this.Via(builder: HttpBuilder<_>, server) =
+            Dsl.Header.via server builder.Context |> HttpBuilder
 
         /// A general warning about possible problems with the entity body
         [<CustomOperation("Warning")>]
-        member this.Warning(context, message) = Dsl.Header.warning message context
+        member this.Warning(builder: HttpBuilder<_>, message) =
+            Dsl.Header.warning message builder.Context |> HttpBuilder
 
         /// Override HTTP method.
         [<CustomOperation("XHTTPMethodOverride")>]
-        member this.XHTTPMethodOverride(context, httpMethod) = Dsl.Header.xhttpMethodOverride httpMethod context
+        member this.XHTTPMethodOverride(builder: HttpBuilder<_>, httpMethod) =
+            Dsl.Header.xhttpMethodOverride httpMethod builder.Context |> HttpBuilder
 
 
 [<AutoOpen>]
 module Body =
-    type HttpBuilderBase with
+    type HttpBuilder<'context> with
 
         [<CustomOperation("body")>]
-        member this.Body(context) = Dsl.Body.body context
+        member this.Body(builder: HttpBuilder<_>) =
+            Dsl.Body.body builder.Context |> HttpBuilder
 
         [<CustomOperation("binary")>]
-        member this.Binary(context, data) = Dsl.Body.binary data context
+        member this.Binary(builder: HttpBuilder<_>, data) =
+            Dsl.Body.binary data builder.Context |> HttpBuilder
 
         [<CustomOperation("stream")>]
-        member this.Stream(context, stream) = Dsl.Body.stream stream context
+        member this.Stream(builder: HttpBuilder<_>, stream) =
+            Dsl.Body.stream stream builder.Context |> HttpBuilder
 
         [<CustomOperation("text")>]
-        member this.Text(context, text) = Dsl.Body.text text context
+        member this.Text(builder: HttpBuilder<_>, text) =
+            Dsl.Body.text text builder.Context |> HttpBuilder
 
         [<CustomOperation("json")>]
-        member this.Json(context, json) = Dsl.Body.json json context
+        member this.Json(builder: HttpBuilder<_>, json) =
+            Dsl.Body.json json builder.Context |> HttpBuilder
 
         [<CustomOperation("formUrlEncoded")>]
-        member this.FormUrlEncoded(context, data) = Dsl.Body.formUrlEncoded data context
+        member this.FormUrlEncoded(builder: HttpBuilder<_>, data) =
+            Dsl.Body.formUrlEncoded data builder.Context |> HttpBuilder
 
         [<CustomOperation("file")>]
-        member this.File(context, path) = Dsl.Body.file path context
+        member this.File(builder: HttpBuilder<_>, path) =
+            Dsl.Body.file path builder.Context |> HttpBuilder
 
         /// The type of encoding used on the data
         [<CustomOperation("ContentEncoding")>]
-        member this.ContentEncoding(context, encoding) = Dsl.Body.contentEncoding encoding context
+        member this.ContentEncoding(builder: HttpBuilder<_>, encoding) =
+            Dsl.Body.contentEncoding encoding builder.Context |> HttpBuilder
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
         [<CustomOperation("ContentType")>]
-        member this.ContentType(context, contentType) = Dsl.Body.contentType contentType context
+        member this.ContentType(builder: HttpBuilder<_>, contentType) =
+            Dsl.Body.contentType contentType builder.Context |> HttpBuilder
 
         /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
         [<CustomOperation("ContentTypeWithEncoding")>]
-        member this.ContentTypeWithEncoding(context, contentType, charset) =
-            Dsl.Body.contentTypeWithEncoding contentType charset context
+        member this.ContentTypeWithEncoding(builder: HttpBuilder<_>, contentType, charset) =
+            Dsl.Body.contentTypeWithEncoding contentType charset builder.Context |> HttpBuilder
 
 
 [<AutoOpen>]
 module Multipart =
-    type HttpBuilderBase with
+    type HttpBuilder<'context> with
 
         [<CustomOperation("multipart")>]
-        member this.Multipart(context) = Dsl.Multipart.multipart context
+        member this.Multipart(builder: HttpBuilder<_>) =
+            Dsl.Multipart.multipart builder.Context |> HttpBuilder
 
         [<CustomOperation("part")>]
-        member this.Part(context, content, defaultContentType, name) =
-            Dsl.Multipart.part content defaultContentType name context
+        member this.Part(builder: HttpBuilder<_>, content, defaultContentType, name) =
+            Dsl.Multipart.part content defaultContentType name builder.Context |> HttpBuilder
 
         [<CustomOperation("valuePart")>]
-        member this.ValuePart(context, name, value) = Dsl.Multipart.valuePart name value context
+        member this.ValuePart(builder: HttpBuilder<_>, name, value) =
+            Dsl.Multipart.valuePart name value builder.Context |> HttpBuilder
 
         [<CustomOperation("filePart")>]
-        member this.FilePart(context, path) = Dsl.Multipart.filePart path context
+        member this.FilePart(builder: HttpBuilder<_>, path) =
+            Dsl.Multipart.filePart path builder.Context |> HttpBuilder
 
         [<CustomOperation("filePartWithName")>]
-        member this.FilePartWithName(context, name, path) = Dsl.Multipart.filePartWithName name path context
+        member this.FilePartWithName(builder: HttpBuilder<_>, name, path) =
+            Dsl.Multipart.filePartWithName name path builder.Context |> HttpBuilder
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
         [<CustomOperation("ContentTypePart")>]
-        member this.ContentTypePart(context, contentType) = Dsl.Multipart.contentType contentType context
+        member this.ContentTypePart(builder: HttpBuilder<_>, contentType) =
+            Dsl.Multipart.contentType contentType builder.Context |> HttpBuilder
 
 
 [<AutoOpen>]
@@ -304,109 +373,129 @@ module Config =
     
     open System.Net.Http
     
-    type HttpBuilderBase with
+    type HttpBuilder<'context> with
 
         [<CustomOperation("timeout")>]
-        member this.Timeout(context, value) = Dsl.Config.timeout value context
+        member this.Timeout(builder: HttpBuilder<_>, value) =
+            Dsl.Config.timeout value builder.Context |> HttpBuilder
 
         [<CustomOperation("timeoutInSeconds")>]
-        member this.TimeoutInSeconds(context, value) = Dsl.Config.timeoutInSeconds value context
+        member this.TimeoutInSeconds(builder: HttpBuilder<_>, value) =
+            Dsl.Config.timeoutInSeconds value builder.Context |> HttpBuilder
 
         [<CustomOperation("transformHttpRequestMessage")>]
-        member this.TransformHttpRequestMessage(context, map) = Dsl.Config.transformHttpRequestMessage map context
+        member this.TransformHttpRequestMessage(builder: HttpBuilder<_>, map) =
+            Dsl.Config.transformHttpRequestMessage map builder.Context |> HttpBuilder
 
         [<CustomOperation("transformHttpClient")>]
-        member this.TransformHttpClient(context, map) = Dsl.Config.transformHttpClient map context
+        member this.TransformHttpClient(builder: HttpBuilder<_>, map) =
+            Dsl.Config.transformHttpClient map builder.Context |> HttpBuilder
 
         [<CustomOperation("transformHttpClientHandler")>]
-        member this.TransformHttpClientHandler(context, map) = Dsl.Config.transformHttpClientHandler map context
+        member this.TransformHttpClientHandler(builder: HttpBuilder<_>, map) =
+            Dsl.Config.transformHttpClientHandler map builder.Context |> HttpBuilder
 
         [<CustomOperation("proxy")>]
-        member this.Proxy(context, url) = Dsl.Config.proxy url context
+        member this.Proxy(builder: HttpBuilder<_>, url) =
+            Dsl.Config.proxy url builder.Context |> HttpBuilder
 
         [<CustomOperation("proxyWithCredentials")>]
-        member this.ProxyWithCredentials(context, url, credentials) =
-            Dsl.Config.proxyWithCredentials url credentials context
+        member this.ProxyWithCredentials(builder: HttpBuilder<_>, url, credentials) =
+            Dsl.Config.proxyWithCredentials url credentials builder.Context |> HttpBuilder
 
         /// Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
         [<CustomOperation("useHttpClient")>]
-        member this.UseHttpClient(context, client: HttpClient) =
-            Dsl.Config.useHttpClient client context
+        member this.UseHttpClient(builder: HttpBuilder<_>, client: HttpClient) =
+            Dsl.Config.useHttpClient client builder.Context |> HttpBuilder
 
 [<AutoOpen>]
 module Builder =
 
-    type HttpBuilderBase with
-        member this.Bind(m, f) = f m
-        member this.Return(x) = x
-        member this.For(m, f) = this.Bind m f
+    /// supports the ```http { .. }``` syntax
+    type ExplicitHttpBuilder() =
+        inherit HttpBuilder<StartingContext>(StartingContext)
 
-    type HttpRequestBuilder<'a>(context: 'a) =
-        inherit HttpBuilderBase()
-        member this.Yield(x) = context
+        [<CustomOperation("Request")>]
+        member this.Request(_: HttpBuilder<StartingContext>, method, url) = request method url
 
-    let httpRequest context = HttpRequestBuilder context
+        // RFC 2626 specifies 8 methods
+        [<CustomOperation("GET")>]
+        member this.Get(_: HttpBuilder<StartingContext>, url) = get url
 
-    // TODO: this can be a better way of chaining requests
-    // (as a replacement / enhancement for HttpRequestBuilder):
-    //type HttpChainableBuilder<'a>(context: 'a) =
-    //    inherit HttpBuilderBase()
-    //    member this.Yield(x) = context
-    //    member this.Delay(f: unit -> 'a) = HttpChainableBuilder<'a>(f())
-    //let httpChain context = HttpContextBuilder context
+        [<CustomOperation("PUT")>]
+        member this.Put(_: HttpBuilder<StartingContext>, url) = put url
 
-    type HttpStartingBuilder() =
-        inherit HttpRequestBuilder<StartingContext>(StartingContext)
+        [<CustomOperation("POST")>]
+        member this.Post(_: HttpBuilder<StartingContext>, url) = post url
 
-    type HttpBuilderSync() =
-        inherit HttpStartingBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() |> Request.send
+        [<CustomOperation("DELETE")>]
+        member this.Delete(_: HttpBuilder<StartingContext>, url) = delete url
 
-    let http = HttpBuilderSync()
+        [<CustomOperation("OPTIONS")>]
+        member this.Options(_: HttpBuilder<StartingContext>, url) = options url
 
-    type HttpBuilderAsync() =
-        inherit HttpStartingBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() |> Request.sendAsync
+        [<CustomOperation("HEAD")>]
+        member this.Head(_: HttpBuilder<StartingContext>, url) = head url
 
-    let httpAsync = HttpBuilderAsync()
+        [<CustomOperation("TRACE")>]
+        member this.Trace(_: HttpBuilder<StartingContext>, url) = trace url
 
-    type HttpBuilderLazy() =
-        inherit HttpStartingBuilder()
+        [<CustomOperation("CONNECT")>]
+        member this.Connect(_: HttpBuilder<StartingContext>, url) = connect url
 
-    let httpLazy = HttpBuilderLazy()
+        [<CustomOperation("PATCH")>]
+        member this.Patch(_: HttpBuilder<StartingContext>, url) = patch url
 
-    type HttpMessageBuilder() =
-        inherit HttpStartingBuilder()
-        member inline this.Delay(f: unit -> IContext) =
-            f()
-            |> fun context -> context.ToRequest()
-            |> Request.toMessage
+    let http = ExplicitHttpBuilder()
 
-    let httpMsg = HttpMessageBuilder()
+//    type HttpBuilderBase with
+//        member this.Bind(m, f) = f m
+//        member this.Return(x) = x
+//        member this.For(m, f) = this.Bind m f
 
+//    type HttpRequestBuilder<'a>(context: 'a) =
+//        inherit HttpBuilderBase()
+//        member this.Yield(x) = context
 
-[<AutoOpen>]
-module Shortcuts =
+//    let httpRequest context = HttpRequestBuilder context
 
-    type httpShortcutBuilder(context) =
-        inherit HttpRequestBuilder<HeaderContext>(context)
-        member inline this.Delay(f: unit -> 'a) = f() |> Request.send
+//    // TODO: this can be a better way of chaining requests
+//    // (as a replacement / enhancement for HttpRequestBuilder):
+//    //type HttpChainableBuilder<'a>(context: 'a) =
+//    //    inherit HttpBuilderBase()
+//    //    member this.Yield(x) = context
+//    //    member this.Delay(f: unit -> 'a) = HttpChainableBuilder<'a>(f())
+//    //let httpChain context = HttpContextBuilder context
 
-        [<CustomOperation("id")>]
-        member this.Id(context) = context
+//    type HttpStartingBuilder() =
+//        inherit HttpRequestBuilder<StartingContext>(StartingContext)
 
-    let private req = httpRequest (StartingContext)
+//    type HttpBuilderSync() =
+//        inherit HttpStartingBuilder()
+//        member inline this.Delay(f: unit -> 'a) = f() |> Request.send
 
-    let request method url = req.Request(StartingContext, method, url) |> httpShortcutBuilder
-    let get url = req.Get(StartingContext, url) |> httpShortcutBuilder
-    let put url = req.Put(StartingContext, url) |> httpShortcutBuilder
-    let post url = req.Post(StartingContext, url) |> httpShortcutBuilder
-    let delete url = req.Delete(StartingContext, url) |> httpShortcutBuilder
-    let options url = req.Options(StartingContext, url) |> httpShortcutBuilder
-    let head url = req.Head(StartingContext, url) |> httpShortcutBuilder
-    let trace url = req.Trace(StartingContext, url) |> httpShortcutBuilder
-    let connect url = req.Connect(StartingContext, url) |> httpShortcutBuilder
-    let patch url = req.Patch(StartingContext, url) |> httpShortcutBuilder
+//    let http = HttpBuilderSync()
+
+//    type HttpBuilderAsync() =
+//        inherit HttpStartingBuilder()
+//        member inline this.Delay(f: unit -> 'a) = f() |> Request.sendAsync
+
+//    let httpAsync = HttpBuilderAsync()
+
+//    type HttpBuilderLazy() =
+//        inherit HttpStartingBuilder()
+
+//    let httpLazy = HttpBuilderLazy()
+
+//    type HttpMessageBuilder() =
+//        inherit HttpStartingBuilder()
+//        member inline this.Delay(f: unit -> IContext) =
+//            f()
+//            |> fun context -> context.ToRequest()
+//            |> Request.toMessage
+
+//    let httpMsg = HttpMessageBuilder()
+
 
 [<AutoOpen>]
 module Fsi =
@@ -426,7 +515,7 @@ module Fsi =
         let transformPrintHint (config: Config) = { config with printHint = f config.printHint }
         (^t: (member Configure: (Config -> Config) -> ^t) (context, transformPrintHint))
 
-    type HttpBuilderBase with
+    type HttpBuilder<'context> with
 
         [<CustomOperation("raw")>]
         member inline this.Raw(context: ^t) = modifyPrintHint rawPrinterTransformer context

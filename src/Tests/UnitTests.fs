@@ -19,16 +19,17 @@ open NUnit.Framework
 open Server
 open System
 
+// TODO: remove this file
 
-// [<TestCase>]
-let ``httpLazy and invocation signatures are correct``() =
-    let request = httpLazy {
-        GET "http://www.google.de"
-    }
+//// [<TestCase>]
+//let ``httpLazy and invocation signatures are correct``() =
+//    let request = httpLazy {
+//        GET "http://www.google.de"
+//    }
 
-    let (response:Response) = request |> Request.send
-    let (asyncResponse:Async<Response>) = request |> Request.sendAsync
+//    let (response:Response) = request |> Request.send
+//    let (asyncResponse:Async<Response>) = request |> Request.sendAsync
 
-    ()
+//    ()
     
-// Sync / Async operator signatures test in DSL and CompExp style
+//// Sync / Async operator signatures test in DSL and CompExp style

@@ -12,7 +12,7 @@ open System.Threading
 open Domain
 
 [<Literal>]
-let TimeoutPropertyName = "RequestTimeout"
+let private TimeoutPropertyName = "RequestTimeout"
 
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toMessage (request: Request): HttpRequestMessage =
