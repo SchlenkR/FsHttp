@@ -76,7 +76,7 @@ let toMessage (request: Request): HttpRequestMessage =
 
     requestMessage
 
-let getHttpClient =
+let private getHttpClient =
     let timeoutHandler innerHandler =
         { new DelegatingHandler(InnerHandler = innerHandler) with
             member _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
