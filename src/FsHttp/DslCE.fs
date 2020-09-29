@@ -404,6 +404,14 @@ module Config =
 
         // TODO: Provide a "config" custom op that provides config transformer
         // TODO: Provide certStrategy configs
+        (*
+                [<CustomOperation("ignoreCertIssues")>]
+                member inline this.IgnoreCertIssues(builder: LazyHttpBuilder<_>) =
+                    Dsl.Config.config
+                        (fun config -> { config with certErrorStrategy = CertErrorStrategy.AlwaysAccept })
+                        builder.Context
+                    |> LazyHttpBuilder
+        *)
 
         [<CustomOperation("timeout")>]
         member inline this.Timeout(builder: LazyHttpBuilder<_>, value) =
