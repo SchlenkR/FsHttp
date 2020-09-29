@@ -11,6 +11,10 @@ Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fshar
 
 FsHttp comes in 2 'flavours' that can be used to describe HTTP requests. Although it is a good thing to have 1 solution for a problem instead of 2, it's up to you which style you prefer.
 
+## Building
+
+You need to have dotnet SDK 3.1.202 installed (as specified in global.json).
+
 ## Sources and Demos
 
 Have a look at these files for more use cases:
