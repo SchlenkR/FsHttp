@@ -402,6 +402,9 @@ module Config =
     // TODO: (see comment in Dsl, module Config): Config should work on any context, not just header context
     type LazyHttpBuilder<'context when 'context :> IContext> with
 
+        // TODO: Provide a "config" custom op that provides config transformer
+        // TODO: Provide certStrategy configs
+
         [<CustomOperation("timeout")>]
         member inline this.Timeout(builder: LazyHttpBuilder<_>, value) =
             Dsl.Config.timeout value builder.Context|> LazyHttpBuilder
