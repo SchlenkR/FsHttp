@@ -3,10 +3,32 @@
 module FsHttp.Domain
 
 open System
-open System.Net.Http
 
 
-type PrintHint = 
+// TODO: Get rid of all the boolean switches and use options instead.
+type Config =
+    { timeout: TimeSpan
+      printHint: PrintHint
+      httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage) option
+#if NETSTANDARD_2
+      httpClientHandlerTransformer: (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
+#else
+      httpClientHandlerTransformer: (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
+#endif
+      httpClientTransformer: (System.Net.Http.HttpClient -> System.Net.Http.HttpClient) option
+      proxy: Proxy option
+      certErrorStrategy: CertErrorStrategy
+      httpClient: System.Net.Http.HttpClient option }
+
+and Proxy =
+    { url: string
+      credentials: System.Net.ICredentials option }
+
+and CertErrorStrategy =
+    | Default
+    | AlwaysAccept
+
+and PrintHint = 
     { isEnabled: bool
       requestPrintHint: RequestPrintHint
       responsePrintHint: ResponsePrintHint }
@@ -24,46 +46,63 @@ and ContentPrintHint =
       format: bool
       maxLength: int }
 
-type Proxy =
-    { url: string
-      credentials: System.Net.ICredentials option }
+type ConfigTransformer = Config -> Config
 
-type CertErrorStrategy =
-    | Default
-    | AlwaysAccept
 
-type Config =
-    { timeout: TimeSpan
-      printHint: PrintHint
-      httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
-#if NETSTANDARD_2
-      httpClientHandlerTransformer: (HttpClientHandler -> HttpClientHandler) option
-#else
-      httpClientHandlerTransformer: (SocketsHttpHandler -> SocketsHttpHandler) option
-#endif
-      httpClientTransformer: (HttpClient -> HttpClient) option
-      proxy: Proxy option
-      certErrorStrategy: CertErrorStrategy
-      httpClient: HttpClient option }
 
 type Header =
     { url: string
-      method: HttpMethod
+      method: System.Net.Http.HttpMethod
       headers: (string * string) list
       // We use a .Net type here, which we never do in other places.
       // Since Cookie is record style, I see no problem here.
       cookies: System.Net.Cookie list }
 
-
-and ContentData =
+type ContentData =
     | StringContent of string
     | ByteArrayContent of byte array
     | StreamContent of System.IO.Stream
     | FormUrlEncodedContent of (string * string) list
     | FileContent of string
 
+type BodyContent =
+    { contentData: ContentData
+      contentType: string option }
+
+type MultipartContent =
+    { contentData:
+        {| name: string
+           contentType: string option
+           content: ContentData |} list
+      contentType: string }
+
+type Request =
+    { header: Header
+      content: RequestContent
+      config: Config }
+
+and RequestContent =
+| Empty
+| Single of BodyContent
+| Multi of MultipartContent
+        
+
+type IContext =
+    abstract member ToRequest : unit -> Request
+    
+    // We cannot use an OOP interface for Configure because no HKTs here
+    // abstract member Configure : (Config -> Config) -> ? 
+
+
 type StartingContext =
     | StartingContext
+    
+    interface IContext with
+        member this.ToRequest () =
+            failwith "Loophole! Even though a StartingContext implements IContext, it somehow doesn't."
+
+    member this.Configure (transformConfig: ConfigTransformer) : StartingContext =
+        failwith "Loophole! Even though a StartingContext implements Configure, it somehow doesn't."
 
 
 type HeaderContext =
@@ -76,13 +115,9 @@ type HeaderContext =
               content = Empty
               config = this.config }
 
-    member this.Configure transformConfig =
+    member this.Configure (transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
 
-and BodyContent =
-    { contentData: ContentData
-      contentType: string option }
-        
 and BodyContext =
     { header: Header
       content: BodyContent
@@ -94,9 +129,8 @@ and BodyContext =
               content = Single this.content
               config = this.config }
 
-    member this.Configure transformConfig =
+    member this.Configure (transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
-
         
 and MultipartContext =
     { header: Header
@@ -110,42 +144,15 @@ and MultipartContext =
               content = Multi this.content
               config = this.config }
 
-    member this.Configure transformConfig =
+    member this.Configure (transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
 
-and MultipartContent =
-    { contentData:
-        {| name: string
-           contentType: string option
-           content: ContentData |} list
-      contentType: string }
 
-
-
-and Request =
-    { header: Header
-      content: RequestContent
-      config: Config }
-
-and RequestContent =
-| Empty
-| Single of BodyContent
-| Multi of MultipartContent
-
-
-and IContext =
-    abstract member ToRequest : unit -> Request
-    
-    // We cannot use an OOP interface for Configure because no HKTs here
-    // abstract member Configure : (Config -> Config) -> ? 
-
-
-// TODO: Get rid of all the boolean switches and use options instead.
 type Response = 
     { requestContext: Request
-      requestMessage: HttpRequestMessage
-      content: HttpContent
-      headers: Headers.HttpResponseHeaders
+      requestMessage: System.Net.Http.HttpRequestMessage
+      content: System.Net.Http.HttpContent
+      headers: System.Net.Http.Headers.HttpResponseHeaders
       reasonPhrase: string
       statusCode: System.Net.HttpStatusCode
       version: Version

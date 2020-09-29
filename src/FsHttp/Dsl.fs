@@ -9,6 +9,7 @@ open System.Globalization
 open Domain
 open Config
 
+
 [<AutoOpen>]
 module Method =
 
@@ -44,25 +45,18 @@ module Method =
     // RFC 2626 specifies 8 methods + PATCH
 
     let get (url: string) = request "GET" url
-
     let put (url: string) = request "PUT" url
-
     let post (url: string) = request "POST" url
-
     let delete (url: string) = request "DELETE" url
-
     let options (url: string) = request "OPTIONS" url
-
     let head (url: string) = request "HEAD" url
-
     let trace (url: string) = request "TRACE" url
-
     let connect (url: string) = request "CONNECT" url
-
     let patch (url: string) = request "PATCH" url
 
-// RFC 4918 (WebDAV) adds 7 methods
-// TODO
+    // RFC 4918 (WebDAV) adds 7 methods
+    // TODO
+
 
 [<AutoOpen>]
 module Header =
@@ -257,6 +251,7 @@ module Header =
     let xhttpMethodOverride (httpMethod: string) (context: HeaderContext) =
         header "X-HTTP-Method-Override" httpMethod context
 
+
 [<AutoOpen>]
 module Body =
 
@@ -333,6 +328,7 @@ module Body =
     let file (path: string) (context: BodyContext) =
         content MimeTypes.octetStream (FileContent path) context
 
+
 [<AutoOpen>]
 module Multipart =
 
@@ -381,37 +377,38 @@ module Multipart =
     let contentType (contentType: string) (context: MultipartContext) =
         { context with currentPartContentType = Some contentType }
 
-// TODO: Config should work on any context, not just header context
+
 [<AutoOpen>]
 module Config =
 
-    let config (f: Config -> Config) (context: HeaderContext) =
-        { context with config = f context.config }
+    let inline config (f: ConfigTransformer) (context: ^t) =
+        (^t: (member Configure: (ConfigTransformer) -> ^t) (context, f))
 
-    let timeout value (context: HeaderContext) =
+    let inline timeout value (context: ^t) =
         config (fun config -> { config with timeout = value }) context
 
-    let timeoutInSeconds value (context: HeaderContext) =
+    let inline timeoutInSeconds value (context: ^t) =
         config (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
 
-    let transformHttpRequestMessage map (context: HeaderContext) =
+    let inline transformHttpRequestMessage map (context: ^t) =
         config (fun config -> { config with httpMessageTransformer = Some map }) context
 
-    let transformHttpClientHandler map (context: HeaderContext) =
+    let inline transformHttpClientHandler map (context: ^t) =
         config (fun config -> { config with httpClientHandlerTransformer = Some map }) context
 
-    let transformHttpClient map (context: HeaderContext) =
+    let inline transformHttpClient map (context: ^t) =
         config (fun config -> { config with httpClientTransformer = Some map }) context
 
-    let proxy url (context: HeaderContext) =
+    let inline proxy url (context: ^t) =
         config (fun config -> { config with proxy = Some { url = url; credentials = None } }) context
 
-    let proxyWithCredentials url credentials (context: HeaderContext) =
+    let inline proxyWithCredentials url credentials (context: ^t) =
         config (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) context 
 
     /// Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
-    let useHttpClient (client: HttpClient) (context: HeaderContext) =
+    let inline useHttpClient (client: HttpClient) (context: ^t) =
         config (fun config -> { config with httpClient = Some client }) context
+
 
 [<AutoOpen>]
 module Fsi =
