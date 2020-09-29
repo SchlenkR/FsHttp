@@ -38,4 +38,7 @@ module Helper =
     // TODO: Test
     let urlCombine (url1:string) (url2:string) =
         (url1.TrimEnd [|'/'|]) + "/" + (url2.TrimStart [|'/'|])
+
+[<AutoOpen>]
+module TopLevelOperators =
     let (</>) = urlCombine
