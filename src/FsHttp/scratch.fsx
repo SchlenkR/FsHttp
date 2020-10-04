@@ -4,6 +4,17 @@
 open FsHttp
 open FsHttp.DslCE
 
+post "https://reqres.in/api/users" {
+    CacheControl "no-cache"
+    body
+    json """
+    {
+        "name": "morpheus",
+        "job": "leader"
+    }
+    """
+}
+|> Request.send
 
 
 http {

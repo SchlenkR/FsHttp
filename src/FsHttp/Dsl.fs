@@ -90,7 +90,7 @@ module Header =
     ////    headerField "Allow" methods context 
 
     let query (queryParams: (string * string) list) (context: HeaderContext) =
-        { context with header = { context.header with url = context.header.url |> Helper.appendQueryToUrl queryParams } }
+        { context with header = { context.header with url = context.header.url |> Uri.appendQueryToUrl queryParams } }
     
     /// Authentication credentials for HTTP authentication
     let authorization (credentials: string) (context: HeaderContext) =

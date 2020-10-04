@@ -5,6 +5,13 @@ open System.Xml.Linq
 open FSharp.Data
 open Domain
 
+let maxContentLengthOnParseFail = 1000
+let private tryParse text parserName parser =
+    try parser text with
+    | ex ->
+        Exception("Could not parse " + parserName + ": " + (String.substring text maxContentLengthOnParseFail), ex)
+        |> raise
+    
 let toStreamAsync (r:Response) = r.content.ReadAsStreamAsync() |> Async.AwaitTask
 let toStream (r:Response) = toStreamAsync r |> Async.RunSynchronously
 
@@ -26,7 +33,7 @@ let toString maxLength response = toStringAsync maxLength response |> Async.RunS
 let toTextAsync (r:Response) = toStringAsync Int32.MaxValue r
 let toText (r:Response) = toTextAsync r |> Async.RunSynchronously
 
-let private  parseJson = JsonValue.Parse
+let private parseJson text = tryParse text "JSON" JsonValue.Parse
 
 let toJsonAsync (r:Response) = async {
     let! s = toTextAsync r 
@@ -40,7 +47,7 @@ let toJsonArrayAsync (r:Response) = async {
 }
 let toJsonArray (r:Response) = toJsonArrayAsync r |> Async.RunSynchronously
 
-let private parseXml = XDocument.Parse
+let private parseXml text = tryParse text "XML" XDocument.Parse
 
 let toXmlAsync (r:Response) = async {
     let! s = toTextAsync r 
