@@ -70,6 +70,11 @@ let toFormattedTextAsync (r:Response) =
     }
 let toFormattedText (r:Response) = toFormattedTextAsync r |> Async.RunSynchronously
 
+let toResult (response: FsHttp.Domain.Response) =
+    match int response.statusCode with
+    | code when code >= 200 && code < 300 -> Ok response
+    | _ -> Error response
+
 // TODO:
 // Multipart
 // mime types
