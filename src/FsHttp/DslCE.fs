@@ -10,9 +10,6 @@ module Builder =
         // need to implement this so that Request.send (etc.) are working.
         interface IContext with
             member this.ToRequest() = context.ToRequest()
-        //member inline this.Configure (transformConfig: ConfigTransformer) =
-        //    //let x = (^t: (member Configure: (ConfigTransformer) -> ^t) (context, f))
-        //    //{ this with config = transformConfig this.config }
         
         member this.Context = context
         member this.Bind(m, f) = f m
@@ -37,6 +34,14 @@ module Builder =
         member inline this.Delay(f: unit -> 'a) = f() |> Request.sendAsync
     let httpAsync = EagerAsyncHttpBuilder()
 
+    type HttpMessageBuilder() =
+        inherit LazyHttpBuilder<StartingContext>(StartingContext)
+        member inline this.Delay(f: unit -> IContext) =
+            f()
+            |> fun context -> context.ToRequest()
+            |> Request.toMessage
+    let httpMsg = HttpMessageBuilder()
+    
 
 [<AutoOpen>]
 module Method =
@@ -398,20 +403,17 @@ module Multipart =
 
 [<AutoOpen>]
 module Config =
-   
-    // TODO: (see comment in Dsl, module Config): Config should work on any context, not just header context
+
     type LazyHttpBuilder<'context when 'context :> IContext> with
 
-        // TODO: Provide a "config" custom op that provides config transformer
+        [<CustomOperation("configure")>]
+        member inline this.Configure(builder: LazyHttpBuilder<_>, configTransformer) =
+            Dsl.Config.configure configTransformer builder.Context |> LazyHttpBuilder
+
         // TODO: Provide certStrategy configs
-        (*
-                [<CustomOperation("ignoreCertIssues")>]
-                member inline this.IgnoreCertIssues(builder: LazyHttpBuilder<_>) =
-                    Dsl.Config.config
-                        (fun config -> { config with certErrorStrategy = CertErrorStrategy.AlwaysAccept })
-                        builder.Context
-                    |> LazyHttpBuilder
-        *)
+        [<CustomOperation("ignoreCertIssues")>]
+        member inline this.IgnoreCertIssues(builder: LazyHttpBuilder<_>) =
+            Dsl.Config.ignoreCertIssues builder.Context |> LazyHttpBuilder
 
         [<CustomOperation("timeout")>]
         member inline this.Timeout(builder: LazyHttpBuilder<_>, value) =
@@ -499,14 +501,6 @@ module Execution =
 
 //    let httpLazy = HttpBuilderLazy()
 
-//    type HttpMessageBuilder() =
-//        inherit HttpStartingBuilder()
-//        member inline this.Delay(f: unit -> IContext) =
-//            f()
-//            |> fun context -> context.ToRequest()
-//            |> Request.toMessage
-
-//    let httpMsg = HttpMessageBuilder()
 
 
 [<AutoOpen>]
@@ -519,64 +513,47 @@ module Fsi =
     let show maxLength = showPrinterTransformer maxLength |> modifyPrinter
     let preview = previewPrinterTransformer |> modifyPrinter
     let prv = preview
-    let go = preview
     let expand = expandPrinterTransformer |> modifyPrinter
     let exp = expand
 
-    let inline private modifyPrintHintAndSend f (context: ^t when ^t :> IContext) =
+    let inline private modifyPrintHint f (context: ^t when ^t :> IContext) =
         let transformPrintHint (config: Config) = { config with printHint = f config.printHint }
         let res = (^t: (member Configure: (Config -> Config) -> ^t) (context, transformPrintHint))
-        res |> Request.send
+        res |> LazyHttpBuilder<_>
+
+    let inline private modifyPrintHintAndSend f (context: ^t when ^t :> IContext) =
+        modifyPrintHint f context |> Request.send
 
     type LazyHttpBuilder<'context when 'context :> IContext> with
 
         [<CustomOperation("raw")>]
         member inline this.Raw(builder: LazyHttpBuilder<_>) =
-            modifyPrintHintAndSend rawPrinterTransformer builder.Context
+            modifyPrintHint rawPrinterTransformer builder.Context
 
         [<CustomOperation("headerOnly")>]
         member inline this.HeaderOnly(builder: LazyHttpBuilder<_>) =
-            modifyPrintHintAndSend headerOnlyPrinterTransformer builder.Context
+            modifyPrintHint headerOnlyPrinterTransformer builder.Context
 
         [<CustomOperation("show")>]
         member inline this.Show(builder: LazyHttpBuilder<_>, maxLength) =
-            modifyPrintHintAndSend (showPrinterTransformer maxLength) builder.Context
+            modifyPrintHint (showPrinterTransformer maxLength) builder.Context
 
         [<CustomOperation("preview")>]
         member inline this.Preview(builder: LazyHttpBuilder<_>) =
-            modifyPrintHintAndSend previewPrinterTransformer builder.Context
+            modifyPrintHint previewPrinterTransformer builder.Context
 
         [<CustomOperation("prv")>]
         member inline this.Prv(builder: LazyHttpBuilder<_>) =
-            modifyPrintHintAndSend previewPrinterTransformer builder.Context
+            modifyPrintHint previewPrinterTransformer builder.Context
 
         [<CustomOperation("go")>]
         member inline this.Go(builder: LazyHttpBuilder<_>) =
-            modifyPrintHintAndSend previewPrinterTransformer builder.Context
+            modifyPrintHint previewPrinterTransformer builder.Context
 
         [<CustomOperation("expand")>]
         member inline this.Expand(builder: LazyHttpBuilder<_>) =
-            modifyPrintHintAndSend expandPrinterTransformer builder.Context
+            modifyPrintHint expandPrinterTransformer builder.Context
 
         [<CustomOperation("exp")>]
         member inline this.Exp(builder: LazyHttpBuilder<_>) =
-            modifyPrintHintAndSend expandPrinterTransformer builder.Context
-
-
-let getUsers1 : LazyHttpBuilder<HeaderContext> = get "https://reqres.in/api/users"
-let getUsers2 : LazyHttpBuilder<HeaderContext> = httpLazy { GET "https://reqres.in/api/users" }
-let _ : Response = getUsers1 { send }
-let _ : Response = get "https://reqres.in/api/users" { send }
-let _ : Response = getUsers1 |> Request.send
-let _ : Response = http { GET "https://reqres.in/api/users" }
-let _ : Async<Response> = httpAsync { GET "https://reqres.in/api/users" }
-let _ : Response =
-    httpLazy {
-        GET "https://reqres.in/api/users"
-        send
-    }
-let _ : Async<Response> =
-    httpLazy {
-        GET "https://reqres.in/api/users"
-        sendAsync
-    }
+            modifyPrintHint expandPrinterTransformer builder.Context

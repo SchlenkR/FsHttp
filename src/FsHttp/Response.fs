@@ -36,6 +36,12 @@ let toJsonAsync (r:Response) = async {
 }
 let toJson (r:Response) = toJsonAsync r |> Async.RunSynchronously
 
+let toJsonArrayAsync (r:Response) = async {
+    let! res = toJsonAsync r
+    return res |> fun json -> json.AsArray()
+}
+let toJsonArray (r:Response) = toJsonArrayAsync r |> Async.RunSynchronously
+
 let private parseXml = XDocument.Parse
 
 let toXmlAsync (r:Response) = async {
@@ -70,4 +76,3 @@ let toFormattedText (r:Response) = toFormattedTextAsync r |> Async.RunSynchronou
 // Multipart
 // mime types
 // content types
-// body: text, binary, json, etc.

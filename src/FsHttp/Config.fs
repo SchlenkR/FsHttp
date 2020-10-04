@@ -6,7 +6,8 @@ open Domain
 
 let private defaultPreviewLength = 10000
 
-let internal initialPrintHint =
+// this is similar to "expand"
+let internal initialPrintHint : PrintHint =
     { isEnabled = true
       requestPrintHint =
           { printHeader = true
@@ -14,7 +15,7 @@ let internal initialPrintHint =
       responsePrintHint =
           { printHeader = true
             printContent =
-                { isEnabled = false
+                { isEnabled = true
                   format = true
                   maxLength = defaultPreviewLength } } }
 

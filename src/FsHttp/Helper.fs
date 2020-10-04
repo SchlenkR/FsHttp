@@ -41,4 +41,4 @@ module Helper =
 
 [<AutoOpen>]
 module TopLevelOperators =
-    let (</>) = urlCombine
+    let (</>) = Helper.urlCombine

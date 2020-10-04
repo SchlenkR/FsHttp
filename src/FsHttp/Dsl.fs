@@ -54,8 +54,7 @@ module Method =
     let connect (url: string) = request "CONNECT" url
     let patch (url: string) = request "PATCH" url
 
-    // RFC 4918 (WebDAV) adds 7 methods
-    // TODO
+    // TODO: RFC 4918 (WebDAV) adds 7 methods
 
 
 [<AutoOpen>]
@@ -381,33 +380,36 @@ module Multipart =
 [<AutoOpen>]
 module Config =
 
-    let inline config (f: ConfigTransformer) (context: ^t) =
+    let inline configure (f: ConfigTransformer) (context: ^t) =
         (^t: (member Configure: (ConfigTransformer) -> ^t) (context, f))
 
+    let inline ignoreCertIssues (context: ^t) =
+        configure (fun config -> { config with certErrorStrategy = AlwaysAccept }) context
+
     let inline timeout value (context: ^t) =
-        config (fun config -> { config with timeout = value }) context
+        configure (fun config -> { config with timeout = value }) context
 
     let inline timeoutInSeconds value (context: ^t) =
-        config (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
+        configure (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
 
     let inline transformHttpRequestMessage map (context: ^t) =
-        config (fun config -> { config with httpMessageTransformer = Some map }) context
+        configure (fun config -> { config with httpMessageTransformer = Some map }) context
 
     let inline transformHttpClientHandler map (context: ^t) =
-        config (fun config -> { config with httpClientHandlerTransformer = Some map }) context
+        configure (fun config -> { config with httpClientHandlerTransformer = Some map }) context
 
     let inline transformHttpClient map (context: ^t) =
-        config (fun config -> { config with httpClientTransformer = Some map }) context
+        configure (fun config -> { config with httpClientTransformer = Some map }) context
 
     let inline proxy url (context: ^t) =
-        config (fun config -> { config with proxy = Some { url = url; credentials = None } }) context
+        configure (fun config -> { config with proxy = Some { url = url; credentials = None } }) context
 
     let inline proxyWithCredentials url credentials (context: ^t) =
-        config (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) context 
+        configure (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) context 
 
     /// Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
     let inline useHttpClient (client: HttpClient) (context: ^t) =
-        config (fun config -> { config with httpClient = Some client }) context
+        configure (fun config -> { config with httpClient = Some client }) context
 
 
 [<AutoOpen>]
@@ -415,16 +417,11 @@ module Fsi =
 
     open FsHttp.Fsi
 
-    ////// run is not needed anymore. disadvantage: no easy custom-printmodifiers
-    ////let inline run context (printMod: Response -> 'a) =
-    ////    send context |> printMod
-
     // overrides for print modifier in DSL
     let inline raw context = Request.send context |> modifyPrinter rawPrinterTransformer
     let inline headerOnly context = Request.send context |> modifyPrinter headerOnlyPrinterTransformer
     let inline show maxLength context = Request.send context |> modifyPrinter (showPrinterTransformer maxLength)
     let inline preview context = Request.send context |> modifyPrinter previewPrinterTransformer
     let inline prv context = preview context
-    let inline go context = preview context
     let inline expand context = Request.send context |> modifyPrinter expandPrinterTransformer
     let inline exp context = expand context

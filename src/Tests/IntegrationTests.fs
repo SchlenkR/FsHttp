@@ -396,7 +396,7 @@ let ``Custom Headers``() =
 let ``Shortcut for GET works``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
     
-    get (url @"?test=Hallo") {go}
+    get (url @"?test=Hallo") { send }
     |> Response.toText
     |> should equal "test=Hallo"
 

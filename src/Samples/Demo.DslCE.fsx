@@ -45,7 +45,6 @@ open FsHttp.DslCE
 
 
 
-
 (**
 
 ## Getting Started: Build up a GET request
@@ -133,8 +132,8 @@ Line breaks and trailing or leading spaces will be removed:
 get "https://reqres.in/api/users
             ?page=2
             //&skip=5
-            &delay=3"
-            { go }
+            &delay=3" {
+    go }
 
 
 (**
@@ -157,7 +156,7 @@ http {
     }
     """
 }
-|> toJson
+|> Response.toJson
 
 (**
 Works of course also like this:
@@ -171,12 +170,13 @@ post "https://reqres.in/api/users" {
         "job": "leader"
     }
     """
+    send
 }
-|> toJson
+|> Response.toJson
 
 
 (**
-Use FSharp.Data.JsonExtensions to do JSON stuff:
+Use FSharp.Data.JsonExtensions to do JSON processing:
 *)
 open FSharp.Data
 open FSharp.Data.JsonExtensions
@@ -184,7 +184,7 @@ open FSharp.Data.JsonExtensions
 http {
     GET @"https://reqres.in/api/users?page=2&delay=3"
 }
-|> toJson
+|> Response.toJson
 |> fun json -> json?page.AsInteger()
 
 
@@ -249,7 +249,7 @@ let postOnly =
 Add some HTTP headers to the context:
 *)
 let postWithCacheControlBut =
-    httpRequest postOnly {
+    postOnly {
         CacheControl "no-cache"
     }
 
@@ -257,7 +257,7 @@ let postWithCacheControlBut =
 Transform the HeaderContext to a BodyContext and add JSON content:
 *)
 let finalPostWithBody =
-    httpRequest postWithCacheControlBut {
+    postWithCacheControlBut {
         body
         json """
         {
@@ -270,8 +270,8 @@ let finalPostWithBody =
 (**
 Finally, send the request (sync or async):
 *)
-let finalPostResponse = finalPostWithBody |> send
-let finalPostResponseAsync = finalPostWithBody |> sendAsync
+let finalPostResponse = finalPostWithBody |> Request.send
+let finalPostResponseAsync = finalPostWithBody |> Request.sendAsync
 
 
 
@@ -288,8 +288,45 @@ let pageAsync =
             }
         let page =
             response
-            |> toJson
+            |> Response.toJson
             |> fun json -> json?page.AsInteger()
         return page
     }
 
+(**
+
+TODO: Document this
+*)
+
+let getUsers1 : LazyHttpBuilder<HeaderContext> = get "https://reqres.in/api/users"
+let getUsers2 : LazyHttpBuilder<HeaderContext> = httpLazy { GET "https://reqres.in/api/users" }
+let _ : Response = getUsers1 { send }
+let _ : Response = get "https://reqres.in/api/users" { send }
+let _ : Response = getUsers1 |> Request.send
+let _ : Response = http { GET "https://reqres.in/api/users" }
+let _ : Async<Response> = httpAsync { GET "https://reqres.in/api/users" }
+let _ : Response =
+    httpLazy {
+        GET "https://reqres.in/api/users"
+        send
+    }
+let _ : Async<Response> =
+    httpLazy {
+        GET "https://reqres.in/api/users"
+        sendAsync
+    }
+
+// FSI
+let _ : Response =
+    http {
+        GET "https://reqres.in/api/users"
+        CacheControl "no-cache"
+        exp
+    }
+
+let _ : Response =
+    get "https://reqres.in/api/users" {
+        CacheControl "no-cache"
+        exp
+        send
+    }
