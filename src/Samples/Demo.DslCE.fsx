@@ -112,7 +112,7 @@ have to write at lease something, like 'id', 'go', 'exp', etc.
 Have a look at: ```./src/FsHttp/DslCE.fs, module Shortcuts```
 *)
 
-get "https://reqres.in/api/users" { exp }
+get "https://reqres.in/api/users" { send }
 
 (**
 Inside the ```{ }```, you can place headers as usual...
@@ -133,7 +133,7 @@ get "https://reqres.in/api/users
             ?page=2
             //&skip=5
             &delay=3" {
-    go }
+    send }
 
 
 (**
@@ -293,7 +293,59 @@ let pageAsync =
         return page
     }
 
+
+// TODO Document naming conventions according to: https://github.com/ronaldschlenker/FsHttp/issues/48
+
 (**
+## Naming Conventions
+
+*Names for naming conventions according to: https://en.wikipedia.org/wiki/Naming_convention_(programming)#Lisp*
+
+* Naming of **HTTP methods inside of a builder** are **upper flat case** (following https://tools.ietf.org/html/rfc7231#section-4).
+    
+    *Example:*
+    ```fsharp
+    http {
+        GET "http://www.whatever.com"
+    }
+    ```
+
+* Naming of **HTTP methods used outside of a builder** follow the F# naming convention and are **flat case**.
+
+    *Example:*
+    ```fsharp
+    let request = get "http://www.whatever.com"
+    ```
+
+* Naming of **HTTP headers inside of a builder** are **PascalCase**. Even though they should be named **train case** (according to https://tools.ietf.org/html/rfc7231#section-5), it would require a double backtic using it in F#, which might be uncomfortable.
+
+    *Example:*
+    ```fsharp
+    http {
+        // ...
+        CacheControl "no-cache"
+    }
+    ```
+
+* Naming of **all other constructs** are **lower camel case**. This applies to:
+    * config methods
+    * type transformer (like "body")
+    * content annotations (like "json" or "text")
+    * FSI print modifiers like "expand" or "preview"
+    * invocations like "send"
+
+    *Example:*
+    ```fsharp
+    http {
+        // ...
+        timeoutInSeconds 10.0
+        body
+        json """ { ... } """
+        expand
+    }
+    ```
+
+## Appendix
 
 TODO: Document this
 *)
@@ -330,3 +382,4 @@ let _ : Response =
         exp
         send
     }
+

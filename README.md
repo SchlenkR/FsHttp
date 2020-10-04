@@ -108,7 +108,7 @@ Have a look at: ```./src/FsHttp/DslCE.fs, module Shortcuts```
 
 ```fsharp
 
-get "https://reqres.in/api/users" { exp }
+get "https://reqres.in/api/users" { send }
 ```
 Inside the ```{ }```, you can place headers as usual...
 
@@ -127,8 +127,8 @@ Line breaks and trailing or leading spaces will be removed:
 get "https://reqres.in/api/users
             ?page=2
             //&skip=5
-            &delay=3"
-            { go }
+            &delay=3" {
+    send }
 ```
 ## Response Content Transformations
 
@@ -150,7 +150,7 @@ http {
     }
     """
 }
-|> toJson
+|> Response.toJson
 ```
 Works of course also like this:
 
@@ -164,10 +164,11 @@ post "https://reqres.in/api/users" {
         "job": "leader"
     }
     """
+    send
 }
-|> toJson
+|> Response.toJson
 ```
-Use FSharp.Data.JsonExtensions to do JSON stuff:
+Use FSharp.Data.JsonExtensions to do JSON processing:
 
 ```fsharp
 open FSharp.Data
@@ -176,7 +177,7 @@ open FSharp.Data.JsonExtensions
 http {
     GET @"https://reqres.in/api/users?page=2&delay=3"
 }
-|> toJson
+|> Response.toJson
 |> fun json -> json?page.AsInteger()
 ```
 ## Configuration: Timeouts, etc.
@@ -239,7 +240,7 @@ Add some HTTP headers to the context:
 
 ```fsharp
 let postWithCacheControlBut =
-    httpRequest postOnly {
+    postOnly {
         CacheControl "no-cache"
     }
 ```
@@ -247,7 +248,7 @@ Transform the HeaderContext to a BodyContext and add JSON content:
 
 ```fsharp
 let finalPostWithBody =
-    httpRequest postWithCacheControlBut {
+    postWithCacheControlBut {
         body
         json """
         {
@@ -260,8 +261,8 @@ let finalPostWithBody =
 Finally, send the request (sync or async):
 
 ```fsharp
-let finalPostResponse = finalPostWithBody |> send
-let finalPostResponseAsync = finalPostWithBody |> sendAsync
+let finalPostResponse = finalPostWithBody |> Request.send
+let finalPostResponseAsync = finalPostWithBody |> Request.sendAsync
 ```
 ### Async Builder
 
@@ -276,7 +277,98 @@ let pageAsync =
             }
         let page =
             response
-            |> toJson
+            |> Response.toJson
             |> fun json -> json?page.AsInteger()
         return page
+    }
+
+
+// TODO Document naming conventions according to: https://github.com/ronaldschlenker/FsHttp/issues/48
+```
+## Naming Conventions
+
+*Names for naming conventions according to: https://en.wikipedia.org/wiki/Naming_convention_(programming)#Lisp*
+
+* Naming of **HTTP methods inside of a builder** are **upper flat case** (following https://tools.ietf.org/html/rfc7231#section-4).
+    
+    *Example:*
+    ```fsharp
+    http {
+        GET "http://www.whatever.com"
+    }
+    ```
+
+* Naming of **HTTP methods used outside of a builder** follow the F# naming convention and are **flat case**.
+
+    *Example:*
+    ```fsharp
+    let request = get "http://www.whatever.com"
+    ```
+
+* Naming of **HTTP headers inside of a builder** are **PascalCase**. Even though they should be named **train case** (according to https://tools.ietf.org/html/rfc7231#section-5), it would require a double backtic using it in F#, which might be uncomfortable.
+
+    *Example:*
+    ```fsharp
+    http {
+        // ...
+        CacheControl "no-cache"
+    }
+    ```
+
+* Naming of **all other constructs** are **lower camel case**. This applies to:
+    * config methods
+    * type transformer (like "body")
+    * content annotations (like "json" or "text")
+    * FSI print modifiers like "expand" or "preview"
+    * invocations like "send"
+
+    *Example:*
+    ```fsharp
+    http {
+        // ...
+        timeoutInSeconds 10.0
+        body
+        json """ { ... } """
+        expand
+    }
+    ```
+
+```fsharp
+```
+
+TODO: Document this
+
+```fsharp
+
+let getUsers1 : LazyHttpBuilder<HeaderContext> = get "https://reqres.in/api/users"
+let getUsers2 : LazyHttpBuilder<HeaderContext> = httpLazy { GET "https://reqres.in/api/users" }
+let _ : Response = getUsers1 { send }
+let _ : Response = get "https://reqres.in/api/users" { send }
+let _ : Response = getUsers1 |> Request.send
+let _ : Response = http { GET "https://reqres.in/api/users" }
+let _ : Async<Response> = httpAsync { GET "https://reqres.in/api/users" }
+let _ : Response =
+    httpLazy {
+        GET "https://reqres.in/api/users"
+        send
+    }
+let _ : Async<Response> =
+    httpLazy {
+        GET "https://reqres.in/api/users"
+        sendAsync
+    }
+
+// FSI
+let _ : Response =
+    http {
+        GET "https://reqres.in/api/users"
+        CacheControl "no-cache"
+        exp
+    }
+
+let _ : Response =
+    get "https://reqres.in/api/users" {
+        CacheControl "no-cache"
+        exp
+        send
     }
