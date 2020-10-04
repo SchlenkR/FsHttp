@@ -1,5 +1,3 @@
-
-[<RequireQualifiedAccess>]
 module FsHttp.Request
 
 open System

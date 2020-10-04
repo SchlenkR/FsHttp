@@ -1,6 +1,5 @@
 namespace FsHttp
 
-[<RequireQualifiedAccess>]
 module String =
 
     open System
@@ -19,8 +18,7 @@ module String =
     let substring (s:string) maxLength = string(s.Substring(0, Math.Min(maxLength, s.Length)))
 
 
-[<RequireQualifiedAccess>]
-module Helper =
+module Uri =
 
     open System
 
@@ -41,4 +39,4 @@ module Helper =
 
 [<AutoOpen>]
 module TopLevelOperators =
-    let (</>) = Helper.urlCombine
+    let (</>) = Uri.urlCombine
