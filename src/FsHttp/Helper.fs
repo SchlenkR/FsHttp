@@ -7,13 +7,17 @@ module String =
 
     let urlEncode (s: string) = System.Web.HttpUtility.UrlEncode(s)
 
+    let private base64Encoding = Encoding.GetEncoding("ISO-8859-1")
+
     let toBase64 (s: string) =
-        let utf8Bytes = Encoding.UTF8.GetBytes(s)
-        Convert.ToBase64String(utf8Bytes)
+        s
+        |> base64Encoding.GetBytes
+        |> Convert.ToBase64String
 
     let fromBase64 (s: string) =
-        let base64Bytes = Convert.FromBase64String(s)
-        Encoding.UTF8.GetString(base64Bytes)
+        s
+        |> Convert.FromBase64String
+        |> base64Encoding.GetString
 
     let substring (s:string) maxLength = string(s.Substring(0, Math.Min(maxLength, s.Length)))
 

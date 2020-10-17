@@ -13,6 +13,7 @@
 - *Breaking Change* Require qualified module names for "Request" and "Response"
 - *Breaking Change* Renamed FinalContext to Request
 - *Breaking Change* Renamed Dsl and DslCE submodule names
+- *Breaking Change* Renamed bearerAuth and basicAuth
 - Add "query" operation (thanks to @Mefgalm)
 - Add Http ClientHandler Transformer
     </PackageReleaseNotes>

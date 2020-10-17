@@ -128,20 +128,20 @@ module Header =
         member this.Query(builder: LazyHttpBuilder<_>, queryParams) =
             Dsl.Header.query queryParams builder.Context|> LazyHttpBuilder
         
-        /// Authentication credentials for HTTP authentication
+        /// Authorization credentials for HTTP authorization
         [<CustomOperation("Authorization")>]
         member this.Authorization(builder: LazyHttpBuilder<_>, credentials) =
             Dsl.Header.authorization credentials builder.Context|> LazyHttpBuilder
 
-        /// Authentication header using Bearer Auth token
-        [<CustomOperation("BearerAuth")>]
-        member this.BearerAuth(builder: LazyHttpBuilder<_>, token) =
-            Dsl.Header.bearerAuth token builder.Context|> LazyHttpBuilder
+        /// Authorization header using Bearer authorization token
+        [<CustomOperation("AuthorizationBearer")>]
+        member this.AuthorizationBearer(builder: LazyHttpBuilder<_>, token) =
+            Dsl.Header.authorizationBearer token builder.Context|> LazyHttpBuilder
 
-        /// Authentication header using Basic Auth encoding
-        [<CustomOperation("BasicAuth")>]
-        member this.BasicAuth(builder: LazyHttpBuilder<_>, username, password) =
-            Dsl.Header.basicAuth username password builder.Context|> LazyHttpBuilder
+        /// Authorization header using Basic (User/Password) authorization
+        [<CustomOperation("AuthorizationUserPw")>]
+        member this.AuthorizationUserPw(builder: LazyHttpBuilder<_>, username, password) =
+            Dsl.Header.authorizationUserPw username password builder.Context|> LazyHttpBuilder
 
         /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
         [<CustomOperation("CacheControl")>]

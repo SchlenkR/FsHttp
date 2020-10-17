@@ -92,23 +92,23 @@ module Header =
     let query (queryParams: (string * string) list) (context: HeaderContext) =
         { context with header = { context.header with url = context.header.url |> Uri.appendQueryToUrl queryParams } }
     
-    /// Authentication credentials for HTTP authentication
+    /// Authorization credentials for HTTP authorization
     let authorization (credentials: string) (context: HeaderContext) =
         header "Authorization" credentials context
 
-    /// Authentication header using Bearer Auth token
-    let bearerAuth (token: string) (context: HeaderContext) =
+    /// Authorization header using Bearer authorization token
+    let authorizationBearer (token: string) (context: HeaderContext) =
         let s = token |> sprintf "Bearer %s"
         authorization s context
 
-    /// Authentication header using Basic Auth encoding
-    let basicAuth (username: string) (password: string) (context: HeaderContext) =
+    /// Authorization header using Basic (User/Password) authorization
+    let authorizationUserPw (username: string) (password: string) (context: HeaderContext) =
         let s =
             sprintf "%s:%s" username password
             |> String.toBase64
             |> sprintf "Basic %s"
         authorization s context
-
+    
     /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
     let cacheControl (control: string) (context: HeaderContext) =
         header "Cache-Control" control context
