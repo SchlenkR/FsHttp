@@ -546,10 +546,6 @@ module Fsi =
         member inline this.Prv(builder: LazyHttpBuilder<_>) =
             modifyPrintHint previewPrinterTransformer builder.Context
 
-        [<CustomOperation("go")>]
-        member inline this.Go(builder: LazyHttpBuilder<_>) =
-            modifyPrintHint previewPrinterTransformer builder.Context
-
         [<CustomOperation("expand")>]
         member inline this.Expand(builder: LazyHttpBuilder<_>) =
             modifyPrintHint expandPrinterTransformer builder.Context
