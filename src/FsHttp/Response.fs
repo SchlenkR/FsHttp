@@ -83,6 +83,9 @@ let toResult (response: FsHttp.Domain.Response) =
     | _ -> Error response
 
 // TODO:
+// Request.saveFile
+
+// TODO:
 // Multipart
 // mime types
 // content types

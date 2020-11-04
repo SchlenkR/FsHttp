@@ -1,4 +1,3 @@
-[<AutoOpen>]
 module FsHttp.Config
 
 open System
@@ -6,7 +5,7 @@ open Domain
 
 let private defaultPreviewLength = 10000
 
-// this is similar to "expand"
+// this is used here, but overwritten later in Fsi.fs
 let internal initialPrintHint : PrintHint =
     { isEnabled = true
       requestPrintHint =
@@ -15,16 +14,21 @@ let internal initialPrintHint : PrintHint =
       responsePrintHint =
           { printHeader = true
             printContent =
-                { isEnabled = true
+                { isEnabled = false
                   format = true
                   maxLength = defaultPreviewLength } } }
 
-let mutable internal defaultPrintHint = initialPrintHint
-let getPrintHint () = defaultPrintHint
-let setPrintHint (printHint: PrintHint) = defaultPrintHint <- printHint
+let mutable internal defaultConfig =
+    { timeout = TimeSpan.FromSeconds 10.0
+      printDebugMessages = false
+      printHint = initialPrintHint
+      httpMessageTransformer = None
+      httpClientHandlerTransformer = None
+      httpClientTransformer = None
+      httpClientFactory = None
+      httpCompletionOption  = System.Net.Http.HttpCompletionOption.ResponseHeadersRead
+      proxy = None
+      certErrorStrategy = Default }
 
-let mutable internal defaultTimeout = TimeSpan.FromSeconds 10.0
-
-let setTimeout (timeout: TimeSpan) =
-    if timeout.TotalMilliseconds <= 0.0 then failwith "Negative timeout given."
-    defaultTimeout <- timeout
+let setDefaultConfig (setter: Config -> Config) =
+    defaultConfig <- setter defaultConfig

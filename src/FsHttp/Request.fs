@@ -75,7 +75,7 @@ let toMessage (request: Request): HttpRequestMessage =
     requestMessage
 
 let private getHttpClient =
-    let timeoutHandler innerHandler =
+    let timeoutHandler innerHandler printDebugMessages =
         { new DelegatingHandler(InnerHandler = innerHandler) with
             member _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
                 let cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
@@ -84,8 +84,8 @@ let private getHttpClient =
                 base.SendAsync(request, cts.Token) }
 
     fun (config: Config) ->
-        match config.httpClient with
-        | Some client -> client
+        match config.httpClientFactory with
+        | Some clientFactory -> clientFactory()
         | None ->
             let transformHandler = Option.defaultValue id config.httpClientHandlerTransformer
             let handler =
@@ -120,7 +120,7 @@ let private getHttpClient =
                 handler.Proxy <- webProxy
             | None -> ()
 
-            new HttpClient(timeoutHandler handler, Timeout = Timeout.InfiniteTimeSpan)
+            new HttpClient(timeoutHandler handler config.printDebugMessages, Timeout = Timeout.InfiniteTimeSpan)
 
 /// Sends a context asynchronously.
 let sendAsync (context: IContext) =
@@ -143,7 +143,7 @@ let sendAsync (context: IContext) =
 
         let finalClient = client |> Option.defaultValue id request.config.httpClientTransformer
 
-        finalClient.SendAsync(finalRequestMessage, ctok)
+        finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
 
     async {
         let! ctok = Async.CancellationToken

@@ -32,15 +32,7 @@ module Method =
               method = HttpMethod(method)
               headers = []
               cookies = [] }
-          config =
-            { timeout = defaultTimeout
-              printHint = defaultPrintHint
-              httpMessageTransformer = None
-              httpClientHandlerTransformer = None
-              httpClientTransformer = None
-              proxy = None
-              certErrorStrategy = Default
-              httpClient = None } }
+          config = Config.defaultConfig }
 
     // RFC 2626 specifies 8 methods + PATCH
 
@@ -409,7 +401,7 @@ module Config =
 
     /// Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
     let inline useHttpClient (client: HttpClient) (context: ^t) =
-        configure (fun config -> { config with httpClient = Some client }) context
+        configure (fun config -> { config with httpClientFactory = Some (fun () -> client) }) context
 
 
 [<AutoOpen>]

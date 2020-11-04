@@ -2,6 +2,14 @@
 (**
 # FsHttp
 
+
+
+TODO: Config (new defaultConfig)
+TODO: Debug
+TODO: Streaming
+
+
+
 FsHttp is a convenient library for consuming HTTP/REST endpoints via F#. It is based on System.Net.Http.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
@@ -202,7 +210,8 @@ http {
 (**
 You can also set config values globally (inherited when requests are created):
 *)
-FsHttp.Config.setTimeout (System.TimeSpan.FromSeconds 15.0)
+FsHttp.Config.setDefaultConfig (fun config ->
+    { config with timeout = System.TimeSpan.FromSeconds 15.0 })
 
 
 (**

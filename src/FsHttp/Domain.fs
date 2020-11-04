@@ -9,6 +9,7 @@ open System
 type Config =
     { timeout: TimeSpan
       printHint: PrintHint
+      printDebugMessages: bool
       httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage) option
 #if NETSTANDARD_2
       httpClientHandlerTransformer: (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
@@ -16,9 +17,10 @@ type Config =
       httpClientHandlerTransformer: (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
 #endif
       httpClientTransformer: (System.Net.Http.HttpClient -> System.Net.Http.HttpClient) option
+      httpCompletionOption: System.Net.Http.HttpCompletionOption
       proxy: Proxy option
       certErrorStrategy: CertErrorStrategy
-      httpClient: System.Net.Http.HttpClient option }
+      httpClientFactory: (unit -> System.Net.Http.HttpClient) option }
 
 and Proxy =
     { url: string

@@ -15,7 +15,8 @@
 - *Breaking Change* Renamed Dsl and DslCE submodule names
 - *Breaking Change* Renamed bearerAuth and basicAuth
 - Add "query" operation (thanks to @Mefgalm)
-- Add Http ClientHandler Transformer
+- Add HttpClientHandlerTransformer
+- Add HttpCompletionOption to support streaming scenarios
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
