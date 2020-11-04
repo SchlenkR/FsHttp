@@ -2,23 +2,17 @@
 (**
 # FsHttp
 
-
-
-TODO: Config (new defaultConfig)
-TODO: Debug
-TODO: Streaming
-
-
-
 FsHttp is a convenient library for consuming HTTP/REST endpoints via F#. It is based on System.Net.Http.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
 
-The goal of FsHttp is to provide ways for describing HTTP requests in a convenient way, and it is inspired by the RestClient VSCode extension. It can be used in production code, in tests, and in F# interactive.
+The goal of FsHttp is to provide ways for describing HTTP requests in a convenient way, and it is inspired by the
+RestClient VSCode extension. It can be used in production code, in tests, and in F# interactive.
 
 Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fsharp.github.io/FSharp.Data/library/Http.html).
 
-FsHttp comes in 2 'flavours' that can be used to describe HTTP requests. Although it is a good thing to have 1 solution for a problem instead of 2, it's up to you which style you prefer.
+FsHttp comes in 2 'flavours' that can be used to describe HTTP requests. Although it is a good thing to have 1 solution
+for a problem instead of 2, it's up to you which style you prefer.
 
 ## Building
 
@@ -32,7 +26,7 @@ Have a look at these files for more use cases:
   This file demonstrates the use of the CE (computation expression) syntax.
 
 * [Demo script for op-less Dsl](src/Samples/Demo.Dsl.fsx)
-  This file demonstrates the use of the op-less (operator-less) syntax.
+  This file demonstrates the use of pipe-style syntax.
 
 * [Integration Tests](src/Tests/IntegrationTests.fs)
   The tests show various use cases.
@@ -57,7 +51,7 @@ open FsHttp.DslCE
 
 ## Getting Started: Build up a GET request
 
-*Hint:* The request will be sent immediately and synchronous.
+*Hint:* The request built in this way will be sent immediately and synchronous.
 
 *)
 
@@ -98,7 +92,7 @@ Some predefined printers are defined in ```./src/FsHttp/DslCE.fs, module Fsi```
 
 2 most common printers are:
 
- - 'go' (alias: 'preview'): This will render a small part of the response content.
+ - 'prv' (alias: 'preview'): This will render a small part of the response content.
  - 'exp' (alias: 'expand'): This will render the whole response content.
 
 *)
@@ -354,9 +348,8 @@ let pageAsync =
     }
     ```
 
-## Appendix
+## Examples for building, chaining and sending requests
 
-TODO: Document this
 *)
 
 let getUsers1 : LazyHttpBuilder<HeaderContext> = get "https://reqres.in/api/users"

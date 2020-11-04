@@ -26,31 +26,31 @@ post "https://reqres.in/api/users"
         "job": "leader"
     }
     """
-    |> go
+|> Request.send
 
 
 post "https://reqres.in/api/users"
-    |> H.cacheControl "no-cache"
-    |> body
-    |> B.json """ { } """
-    |> go
+|> Header.cacheControl "no-cache"
+|> body
+|> Body.json """ { } """
+|> Request.send
 
 
 get "https://reqres.in/api/users
         ?page=2
         //&skip=5
         &delay=3"
-    |> go
+|> Request.send
 
 
 let users =
     get "https://reqres.in/api/users?page=2"
-    |> send
-    |> toJson
+    |> Request.send
+    |> Response.toJson
 
 
 // Default print options (don't print request; print response headers, a formatted preview of the content)
-get @"https://reqres.in/api/users?page=2&delay=3" |> go
+get @"https://reqres.in/api/users?page=2&delay=3" |> Request.send
 
 // Default print options (see above) + max. content length of 100
 get @"https://reqres.in/api/users?page=2&delay=3" |> (show 100)
@@ -60,16 +60,15 @@ get @"https://reqres.in/api/users?page=2&delay=3" |> expand
 
 
 post "https://reqres.in/api/users"
-    |> cacheControl "no-cache"
-    |> bearerAuth "lskdjfjseriuwu8u854"
-    |> acceptLanguage "de"
-    |> body
-    |> json
+|> cacheControl "no-cache"
+|> authorizationBearer "lskdjfjseriuwu8u854"
+|> acceptLanguage "de"
+|> body
+|> json
     """
     {
         "name": "morpheus",
         "job": "leader"
     }
     """
-    |> exp
-
+|> exp

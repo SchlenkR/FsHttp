@@ -521,8 +521,8 @@ module Fsi =
         let res = (^t: (member Configure: (Config -> Config) -> ^t) (context, transformPrintHint))
         res |> LazyHttpBuilder<_>
 
-    let inline private modifyPrintHintAndSend f (context: ^t when ^t :> IContext) =
-        modifyPrintHint f context |> Request.send
+    //let inline private modifyPrintHintAndSend f (context: ^t when ^t :> IContext) =
+    //    modifyPrintHint f context |> Request.send
 
     type LazyHttpBuilder<'context when 'context :> IContext> with
 
@@ -553,3 +553,14 @@ module Fsi =
         [<CustomOperation("exp")>]
         member inline this.Exp(builder: LazyHttpBuilder<_>) =
             modifyPrintHint expandPrinterTransformer builder.Context
+
+
+module Operators =
+
+    open System.Threading.Tasks
+
+    type Kickoff = Kickoff with
+        static member inline ($) (Kickoff, x: Task<_>) = x.Result
+        static member inline ($) (Kickoff, x: LazyHttpBuilder<'context>) = x |> Request.send
+    let inline kickoff x = (($) Kickoff) x
+    let inline (~%) x = kickoff x
