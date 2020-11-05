@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>4.0.0</Version>
+    <Version>4.0.1</Version>
     <Company />
     <Copyright>Copyright 2020 Ronald Schlenker</Copyright>
     <PackageIconUrl></PackageIconUrl>
@@ -17,6 +17,7 @@
 - Add "query" operation (thanks to @Mefgalm)
 - Add HttpClientHandlerTransformer
 - Add HttpCompletionOption to support streaming scenarios
+- Fix: Default printing is enabled again
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
