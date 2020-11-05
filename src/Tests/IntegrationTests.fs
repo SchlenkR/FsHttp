@@ -130,7 +130,7 @@ let ``Empty query params``() =
 
     http {
         GET (url "")
-        Query []
+        query []
     }
     |> Response.toText
     |> should equal ""
@@ -144,7 +144,7 @@ let ``Merge query params with url params``() =
 
     http {
         GET (url "?q1=Query1")
-        Query ["q2", "Query2"]
+        query ["q2", "Query2"]
     }
     |> Response.toText
     |> should equal "Query1_Query2"    
@@ -158,7 +158,7 @@ let ``Query params``() =
 
     http {
         GET (url "")
-        Query ["q1", "Query1"
+        query ["q1", "Query1"
                "q2", "Query2"]
     }
     |> Response.toText
