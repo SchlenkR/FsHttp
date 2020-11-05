@@ -43,8 +43,9 @@ module Builder =
         inherit LazyHttpBuilder<StartingContext>(StartingContext)
         member inline this.Delay(f: unit -> 'a) = f
         member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
-            let x : LazyHttpBuilder<_> = f()
-            x.Context.ToRequest() |> Request.toMessage
+            f()
+            |> fun builder -> builder.Context.ToRequest()
+            |> Request.toMessage
     let httpMsg = HttpMessageBuilder()
 
 
