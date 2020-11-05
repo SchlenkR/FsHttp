@@ -12,6 +12,7 @@ module Builder =
             member this.ToRequest() = context.ToRequest()
         
         member this.Context = context
+
         member this.Bind(m, f) = f m
         member this.Return(x) = x
         member this.Yield(_) = LazyHttpBuilder context
@@ -25,23 +26,27 @@ module Builder =
     /// Builder that executes blocking (synchronous) immediately.
     type EagerSyncHttpBuilder() =
         inherit EagerHttpBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() |> Request.send
+        member inline this.Delay(f: unit -> 'a) = f
+        member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+            f() |> Request.send
     let http = EagerSyncHttpBuilder()
 
     /// Builder that executes non-blocking (asynchronous) and immediately.
     type EagerAsyncHttpBuilder() =
         inherit EagerHttpBuilder()
-        member inline this.Delay(f: unit -> 'a) = f() |> Request.sendAsync
+        member inline this.Delay(f: unit -> 'a) = f
+        member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+            f() |> Request.sendAsync
     let httpAsync = EagerAsyncHttpBuilder()
 
     type HttpMessageBuilder() =
         inherit LazyHttpBuilder<StartingContext>(StartingContext)
-        member inline this.Delay(f: unit -> IContext) =
-            f()
-            |> fun context -> context.ToRequest()
-            |> Request.toMessage
+        member inline this.Delay(f: unit -> 'a) = f
+        member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+            let x : LazyHttpBuilder<_> = f()
+            x.Context.ToRequest() |> Request.toMessage
     let httpMsg = HttpMessageBuilder()
-    
+
 
 [<AutoOpen>]
 module Method =
@@ -461,46 +466,6 @@ module Execution =
         [<CustomOperation("sendAsync")>]
         member this.SendAsync(builder: LazyHttpBuilder<_>) =
             builder.Context |> Request.sendAsync
-
-//    type HttpBuilderBase with
-//        member this.Bind(m, f) = f m
-//        member this.Return(x) = x
-//        member this.For(m, f) = this.Bind m f
-
-//    type HttpRequestBuilder<'a>(context: 'a) =
-//        inherit HttpBuilderBase()
-//        member this.Yield(x) = context
-
-//    let httpRequest context = HttpRequestBuilder context
-
-//    // TODO: this can be a better way of chaining requests
-//    // (as a replacement / enhancement for HttpRequestBuilder):
-//    //type HttpChainableBuilder<'a>(context: 'a) =
-//    //    inherit HttpBuilderBase()
-//    //    member this.Yield(x) = context
-//    //    member this.Delay(f: unit -> 'a) = HttpChainableBuilder<'a>(f())
-//    //let httpChain context = HttpContextBuilder context
-
-//    type HttpStartingBuilder() =
-//        inherit HttpRequestBuilder<StartingContext>(StartingContext)
-
-//    type HttpBuilderSync() =
-//        inherit HttpStartingBuilder()
-//        member inline this.Delay(f: unit -> 'a) = f() |> Request.send
-
-//    let http = HttpBuilderSync()
-
-//    type HttpBuilderAsync() =
-//        inherit HttpStartingBuilder()
-//        member inline this.Delay(f: unit -> 'a) = f() |> Request.sendAsync
-
-//    let httpAsync = HttpBuilderAsync()
-
-//    type HttpBuilderLazy() =
-//        inherit HttpStartingBuilder()
-
-//    let httpLazy = HttpBuilderLazy()
-
 
 
 [<AutoOpen>]
