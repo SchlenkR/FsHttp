@@ -65,10 +65,6 @@ let showPrinterTransformer maxLength = (withResponseContentMaxLength maxLength >
 let previewPrinterTransformer = withResponseContent
 let expandPrinterTransformer = (withResponseContentMaxLength Int32.MaxValue >> withResponseContent)
 
-// this here overrides the unused default print hint in Config.fs
-Config.setDefaultConfig (fun config ->
-    { config with printHint = previewPrinterTransformer config.printHint })
-
 // TODO: Printer for Request
 
 let print (r: Response) =

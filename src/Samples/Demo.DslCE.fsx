@@ -2,6 +2,8 @@
 (**
 # FsHttp
 
+TODO: Document % operator
+
 FsHttp is a convenient library for consuming HTTP/REST endpoints via F#. It is based on System.Net.Http.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)

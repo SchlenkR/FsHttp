@@ -3,9 +3,8 @@ module FsHttp.Config
 open System
 open Domain
 
-let private defaultPreviewLength = 10000
+let private defaultPreviewLength = 7000
 
-// this is used here, but overwritten later in Fsi.fs
 let internal initialPrintHint : PrintHint =
     { isEnabled = true
       requestPrintHint =
@@ -14,7 +13,7 @@ let internal initialPrintHint : PrintHint =
       responsePrintHint =
           { printHeader = true
             printContent =
-                { isEnabled = false
+                { isEnabled = true
                   format = true
                   maxLength = defaultPreviewLength } } }
 

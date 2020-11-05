@@ -60,8 +60,19 @@ http {
 }
 
 // shortcuts
+open FsHttp.DslCE.Operators
 
-get "https://reqres.in/api/users" {go}
+% get "https://reqres.in/api/users"
+
+Config.setDefaultConfig (fun config ->
+    printfn "%A" config
+    config)
+
+open FsHttp.Fsi
+
+Config.setDefaultConfig (fun config ->
+    { config with printHint = Fsi.previewPrinterTransformer config.printHint })
+
 
 
 
