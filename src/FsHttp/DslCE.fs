@@ -93,6 +93,11 @@ module Method =
         [<CustomOperation("PATCH")>]
         member this.Patch(_: LazyHttpBuilder<StartingContext>, url) = patch url
 
+        /// Append query params
+        [<CustomOperation("query")>]
+        member this.Query(builder: LazyHttpBuilder<_>, queryParams) =
+            Dsl.Header.query queryParams builder.Context|> LazyHttpBuilder
+
 
 [<AutoOpen>]
 module Header =
@@ -122,11 +127,6 @@ module Header =
         [<CustomOperation("AcceptLanguage")>]
         member this.AcceptLanguage(builder: LazyHttpBuilder<_>, language) =
             Dsl.Header.acceptLanguage language builder.Context|> LazyHttpBuilder
-
-        /// Append query params
-        [<CustomOperation("Query")>]
-        member this.Query(builder: LazyHttpBuilder<_>, queryParams) =
-            Dsl.Header.query queryParams builder.Context|> LazyHttpBuilder
         
         /// Authorization credentials for HTTP authorization
         [<CustomOperation("Authorization")>]
