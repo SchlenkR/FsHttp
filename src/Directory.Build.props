@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>4.0.2</Version>
+    <Version>4.0.3</Version>
     <Company />
     <Copyright>Copyright 2020 Ronald Schlenker</Copyright>
     <PackageIconUrl></PackageIconUrl>
