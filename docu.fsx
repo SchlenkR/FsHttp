@@ -6,14 +6,14 @@
 
 //let source = __SOURCE_DIRECTORY__
 
-//let script = Path.Combine(source, "./src/Samples/Demo.DslCE.fsx")
+//let script = Path.Combine(source, "./src/Docu/Demo.DslCE.fsx")
 //let md = Literate.ParseScriptFile(script).MarkdownDocument
 
 open System
 open System.IO
 
 let source = __SOURCE_DIRECTORY__
-let script = Path.Combine(source, "./src/Samples/Demo.DslCE.fsx")
+let script = Path.Combine(source, "./src/Docu/Demo.DslCE.fsx")
 
 type Mode 
     = Markdown

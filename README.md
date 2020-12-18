@@ -37,9 +37,6 @@ Have a look at these files for more use cases:
 
 
 ```fsharp
-
-// Inside F# Interactive, load the FsHttp script instead of referencing the dll.
-// This will register pretty output printers for HTTP requests and responses.
 #r @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.dll"
 
 open FsHttp
