@@ -159,17 +159,11 @@ let buildAsync (context: IContext) =
     }
 
 /// Sends a context asynchronously.
-let sendTask (context: IContext) =
+let sendAsync (context: IContext) =
     context
     |> buildAsync
-    |> Async.StartAsTask
-
-/// Sends a context asynchronously.
-let sendAsync (context: IContext) =
-    // TODO: is that intended F# use?
-    context
-    |> sendTask
-    |> Async.AwaitTask
+    |> Async.StartChild
+    |> Async.RunSynchronously
 
 /// Sends a context synchronously.
 let inline send context =

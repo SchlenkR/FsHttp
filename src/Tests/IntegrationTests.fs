@@ -43,12 +43,37 @@ module Helper =
 
 
 [<TestCase>]
-let ``Synchronous GET call is invoked immediately``() =
+let ``Synchronous calls are invoked immediately``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
     http { GET (url @"?test=Hallo") }
     |> Response.toText
     |> should equal "test=Hallo"
+
+[<TestCase>]
+let ``Asynchronous calls are sent immediately``() =
+
+    let mutable time = DateTime.MaxValue
+
+    use server =
+        GET
+        >=> request (fun r ->
+            time <- DateTime.Now
+            r.rawQuery |> OK)
+        |> serve
+
+    let req =
+        get (url "?test=Hallo")
+        |> Request.sendAsync
+    
+    Thread.Sleep 3000
+
+    req
+    |> Async.RunSynchronously
+    |> Response.toText
+    |> should equal "test=Hallo"
+
+    (DateTime.Now - time > TimeSpan.FromSeconds 2.0) |> should equal true
 
 [<TestCase>]
 let ``Split URL are interpreted correctly``() =

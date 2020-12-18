@@ -15,7 +15,7 @@ post "https://reqres.in/api/users" {
     }
     """
 }
-|> Request.send
+|> Request.sendAsync
 
 
 get "http://localhost:5000/test/lines" {
