@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>SchlenkR.FsHttp</PackageId>
     <Description>A lightweight HTTP/REST library for F#.</Description>
@@ -19,11 +19,6 @@
     <Compile Include="Fsi.fs" />
     <Compile Include="Dsl.fs" />
     <Compile Include="DslCE.fs" />
-    <None Include="FsHttp.fsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
-      <PackagePath>lib/netcoreapp3.1;lib/netstandard2.0</PackagePath>
-    </None>
     <None Include="scratch.fsx" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

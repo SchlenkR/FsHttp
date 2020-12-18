@@ -1,6 +1,8 @@
 
 # FsHttp
 
+TODO: Document % operator
+
 FsHttp is a convenient library for consuming HTTP/REST endpoints via F#. It is based on System.Net.Http.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
@@ -38,7 +40,7 @@ Have a look at these files for more use cases:
 
 // Inside F# Interactive, load the FsHttp script instead of referencing the dll.
 // This will register pretty output printers for HTTP requests and responses.
-#load @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.fsx"
+#r @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.dll"
 
 open FsHttp
 

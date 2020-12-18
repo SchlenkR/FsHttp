@@ -1,9 +1,8 @@
 
-#load "./bin/Debug/netstandard2.0/FsHttp.fsx"
+#r "./bin/Debug/netstandard2.0/FsHttp.dll"
 
 open FsHttp
 open FsHttp.DslCE
-
 
 
 post "https://reqres.in/api/users" {
@@ -103,3 +102,40 @@ while sr.Peek() > 0 do
 
 
 printfn "DONE"
+
+
+open System
+open System.Reflection
+
+let isInteractive =
+    let asm = Assembly.GetExecutingAssembly()
+    asm.IsDynamic && asm.GetName().Name.StartsWith("FSI-ASSEMBLY")
+
+AppDomain.CurrentDomain.GetAssemblies()
+|> Array.tryFind (fun x -> x.GetName().Name = "FSharp.Compiler.Interactive.Settings")
+|> Option.map (fun asm ->
+    asm.ExportedTypes
+    |> Seq.tryFind (fun t -> t.FullName = "FSharp.Compiler.Interactive.Settings")
+    |> Option.map (fun settings ->
+        settings.GetProperty("fsi")
+        |> Option.ofObj
+        |> Option.map (fun x -> x.GetValue(null)))
+)
+|> Option.flatten
+|> Option.flatten
+|> Option.iter (fun fsiInstance ->
+    let t = fsiInstance.GetType()
+    let addPrintTransformer = t.GetMethod("AddPrintTransformer").MakeGenericMethod([| typeof<string> |])
+    let addPrinter = t.GetMethod("AddPrinter").MakeGenericMethod([| typeof<string> |])
+
+    let printer (x: string) = "sdfsdfsd " + x
+
+    addPrinter.Invoke(fsiInstance, [| printer |]) |> ignore
+)
+
+
+"sdfsdf"
+
+fsi.GetType()
+
+FSharp.Compiler.Interactive.Settings.fsi.add

@@ -7,8 +7,8 @@ open System.Text
 open System.Globalization
 
 open Domain
-open Config
 
+FsHttp.Fsi.Init.init()
 
 [<AutoOpen>]
 module Method =
