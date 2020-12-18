@@ -10,6 +10,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
 - *Breaking Change* No more FsHttp.fsx: Printers are now registered from inside the assembly
+- *Breaking Change* #55: Semantic of Request.sendAsync has changed
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>

@@ -122,8 +122,8 @@ let private getHttpClient =
 
             new HttpClient(timeoutHandler handler config.printDebugMessages, Timeout = Timeout.InfiniteTimeSpan)
 
-/// Sends a context asynchronously.
-let sendAsync (context: IContext) =
+/// Builds an asynchronous request, without sending it.
+let buildAsync (context: IContext) =
 
     let request = context.ToRequest()
 
@@ -158,8 +158,21 @@ let sendAsync (context: IContext) =
                  printHint = request.config.printHint }
     }
 
+/// Sends a context asynchronously.
+let sendTask (context: IContext) =
+    context
+    |> buildAsync
+    |> Async.StartAsTask
+
+/// Sends a context asynchronously.
+let sendAsync (context: IContext) =
+    // TODO: is that intended F# use?
+    context
+    |> sendTask
+    |> Async.AwaitTask
+
 /// Sends a context synchronously.
 let inline send context =
     context
-    |> sendAsync
+    |> buildAsync
     |> Async.RunSynchronously
