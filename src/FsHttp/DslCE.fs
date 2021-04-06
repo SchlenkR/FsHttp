@@ -19,7 +19,7 @@ module Builder =
         member this.For(m, f) = this.Bind m f
     let httpLazy = LazyHttpBuilder(StartingContext)
 
-    /// Provides support for ```http { METHOD ... }``` syntax
+    /// Provides base support for ```http { METHOD ... }``` syntax
     type EagerHttpBuilder() =
         inherit LazyHttpBuilder<StartingContext>(StartingContext)
 
@@ -39,6 +39,15 @@ module Builder =
             f() |> Request.sendAsync
     let httpAsync = EagerAsyncHttpBuilder()
 
+    /// Builder that executes non-blocking (asynchronous) and lazy.
+    type LazyAsyncHttpBuilder() =
+        inherit EagerHttpBuilder()
+        member inline this.Delay(f: unit -> 'a) = f
+        member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+            f() |> Request.buildAsync
+    let httpLazyAsync = LazyAsyncHttpBuilder()
+
+    /// Builder that creates a System.Net.Http.HttpRequestMessage object.
     type HttpMessageBuilder() =
         inherit LazyHttpBuilder<StartingContext>(StartingContext)
         member inline this.Delay(f: unit -> 'a) = f
