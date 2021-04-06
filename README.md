@@ -17,7 +17,20 @@ for a problem instead of 2, it's up to you which style you prefer.
 
 ## Building
 
-You need to have dotnet SDK 3.1.202 installed (as specified in global.json).
+### IDE:
+
+* Use Visual Studio 2019 (>= 16.9), VS Code or Rider to build
+
+### Command Line
+
+* Install the latest .Net 5 SDK
+* dotnet fsi build.fsx [switch]
+* build switches: see [build.fsx](build.fsx)
+    * docu
+    * build
+    * test
+    * pack
+    * publish
 
 ## Sources and Demos
 

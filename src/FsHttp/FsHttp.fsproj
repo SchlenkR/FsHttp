@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;net5.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>SchlenkR.FsHttp</PackageId>
     <Description>A lightweight HTTP/REST library for F#.</Description>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
     <DefineConstants>NETSTANDARD_2</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
@@ -21,5 +21,7 @@
     <Compile Include="DslCE.fs" />
     <None Include="scratch.fsx" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="4.0.1" />
+  </ItemGroup>
 </Project>

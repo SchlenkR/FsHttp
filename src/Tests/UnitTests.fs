@@ -1,11 +1,11 @@
 ﻿
 #if INTERACTIVE
 #r @"../../packages/fsharp.data/lib/net45/FSharp.Data.dll"
-#r @"../../packages/NUnit/lib/netstandard2.0/nunit.framework.dll"
-#r @"../../packages/fsunit/lib/netstandard2.0/FsUnit.NUnit.dll"
-#r @"../../packages/Suave/lib/netstandard2.0\Suave.dll"
-#r @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.dll"
-#r @"../FsHttp.NUnit/bin/Debug/netstandard2.0/FsHttp.NUnit.dll"
+#r @"../../packages/NUnit/lib/netstandard2.1/nunit.framework.dll"
+#r @"../../packages/fsunit/lib/netstandard2.1/FsUnit.NUnit.dll"
+#r @"../../packages/Suave/lib/netstandard2.1\Suave.dll"
+#r @"../FsHttp/bin/Debug/netstandard2.1/FsHttp.dll"
+#r @"../FsHttp.NUnit/bin/Debug/netstandard2.1/FsHttp.NUnit.dll"
 #load @"./Server.fs"
 #else
 module ``Unit tests for FsHttp``

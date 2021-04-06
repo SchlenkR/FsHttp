@@ -1,25 +1,11 @@
-
-//#load "./packages/docu/FSharp.Formatting/FSharp.Formatting.fsx"
-
-//open FSharp.Literate
-//open System.IO
-
-//let source = __SOURCE_DIRECTORY__
-
-//let script = Path.Combine(source, "./src/Docu/Demo.DslCE.fsx")
-//let md = Literate.ParseScriptFile(script).MarkdownDocument
-
 open System
 open System.IO
-
-let source = __SOURCE_DIRECTORY__
-let script = Path.Combine(source, "./src/Docu/Demo.DslCE.fsx")
 
 type Mode 
     = Markdown
     | Code
 
-let taggedLines =
+let taggedLines script =
     [
         let mutable currentMode = Markdown
 
@@ -43,11 +29,11 @@ let taggedLines =
                 yield currentMode, line
     ]
 
-let linesWhereTrailingEmptyCodeLinesRemoved =
+let linesWhereTrailingEmptyCodeLinesRemoved script =
     [
         let mutable lastMode = Markdown
 
-        for mode,line in taggedLines |> List.rev do
+        for mode,line in taggedLines script |> List.rev do
             match mode, lastMode, line.Trim() with
             | Code, Code, _ ->
                 yield line
@@ -58,7 +44,9 @@ let linesWhereTrailingEmptyCodeLinesRemoved =
                 yield line
     ]
     |> List.rev
-//let linesWhereTrailingEmptyCodeLinesRemoved = taggedLines |> List.map (fun (_,x) -> x)
 
-let readme = Path.Combine(source, "./Readme.md")
-File.WriteAllLines(readme, linesWhereTrailingEmptyCodeLinesRemoved)
+let generate () =
+    let source = __SOURCE_DIRECTORY__
+    let script = Path.Combine(source, "./src/Docu/Demo.DslCE.fsx")
+    let readme = Path.Combine(source, "./Readme.md")
+    File.WriteAllLines(readme, linesWhereTrailingEmptyCodeLinesRemoved script)

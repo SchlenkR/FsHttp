@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;net5.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
     <DefineConstants>NETSTANDARD_2</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
@@ -26,8 +26,14 @@
     <Compile Include="IntegrationTests.fs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FsUnit" Version="4.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="NUnit" Version="3.13.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="Suave" Version="2.6.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\FsHttp.Testing\FsHttp.Testing.fsproj" />
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

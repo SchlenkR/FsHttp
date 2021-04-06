@@ -1,5 +1,5 @@
 
-#r "./bin/Debug/netstandard2.0/FsHttp.dll"
+#r "./bin/Debug/netstandard2.1/FsHttp.dll"
 
 open FsHttp
 open FsHttp.DslCE

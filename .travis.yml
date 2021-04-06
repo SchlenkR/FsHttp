@@ -1,14 +1,10 @@
 language: csharp
 mono: none
-#dotnet: 2.1.500
-dotnet: 3.1
-#dotnet: 2.1.502
+dotnet: 5.0
 sudo: false
 #dist: trusty
 dist: xenial
 env:
   - PATH=$PATH:/home/travis/.dotnet/tools
 script:
-  - dotnet tool install fake-cli -g
-  - dotnet tool install paket -g
-  - fake run build.fsx target Build
+  - dotnet fsi build.fsx build

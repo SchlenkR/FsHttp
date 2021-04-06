@@ -1,103 +1,90 @@
 
-#r "paket:
-nuget Fake.DotNet.Cli
-nuget Fake.DotNet.NuGet
-nuget Fake.IO.FileSystem
-nuget Fake.Core.Target //"
-
-#load ".fake/build.fsx/intellisense.fsx"
-
-open Fake.Core
-open Fake.DotNet
-open Fake.DotNet.NuGet
-
-open Fake.IO
-open Fake.IO.FileSystemOperators
-open Fake.IO.Globbing.Operators
-open Fake.Core.TargetOperators
+System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
 #load "./Properties.fsx"
+#load "./Docu.fsx"
 
-let assertSuccess i = if i <> 0 then failwith "Shell execute was not successful." else ()
+#r "nuget: Fake.Core.Process"
+#r "nuget: Fake.IO.FileSystem"
 
-let args = Target.getArguments() |> Option.defaultValue [||]
+open System
 
-let test = args |> Array.contains "--test"
-let publish = args |> Array.contains "--publish"
-let pack = args |> Array.contains "--pack"
+open Fake.Core
+open Fake.IO
+open Fake.IO.Globbing.Operators
 
-Target.create "Clean" (fun _ ->
+Trace.trace $"Starting script..."
+
+[<AutoOpen>]
+module Helper =
+
+    let private runTarget (x: string * _, cond) =
+        let name,f = x
+        if cond then
+            Trace.trace $"Running task: {name}"
+            f ()
+    
+    let run targets =
+        for t in targets do
+            runTarget t
+    
+    let hasArg arg = fsi.CommandLineArgs.[1..].[0]  = arg
+    
+    let always = true
+
+    type Shell with
+        static member ExecSuccess (cmd: string, ?args: string, ?dir: string) =
+            let res = Shell.Exec(cmd, ?args = args, ?dir = dir)
+            if res <> 0 then failwith $"Shell execute was not successful: {res}" else ()
+
+let shallDocu = hasArg "docu"
+let shallBuild = hasArg "build"
+let shallTest = hasArg "test"
+let shallPublish = hasArg "publish"
+let shallPack = hasArg "pack"
+
+let clean = "clean", fun () ->
     !! "src/**/bin"
     ++ "src/**/obj"
     ++ ".pack"
     |> Shell.cleanDirs 
-)
 
-Target.create "Docu" (fun _ ->
-    //Trace.trace "Generating README.md"
-    //let docu =
-    //    !! "doc/*.md"
-    //    |> Seq.map (File.readAsString >> (+) "\n")
-    //    |> Seq.reduce (+)
-    //File.writeString false (!! "README.md" |> Seq.head) docu
-    ()
-)
+let docu = "docu", fun () ->
+    Docu.generate()
 
-Target.create "Build" (fun _ ->
-    !! "src/**/*.*proj"
-    |> Seq.iter (
-        DotNet.build (fun opt ->
-            { opt with
-                Configuration =
-                    if publish
-                    then DotNet.BuildConfiguration.Release
-                    else DotNet.BuildConfiguration.Debug }
-    ))
-)
+let slnPath = "./src/FsHttp.sln"
 
-// TODO: use  --no-build again (currently broken)
-Target.create "Test" (fun _ ->
-    !! "src/**/*Tests.fsproj"
-    |> Seq.iter (fun p ->
-        Shell.Exec ("dotnet", sprintf "test %s" p) |> assertSuccess)
-)
+let build = "build", fun () ->
+    let config = if shallPublish then "Release" else "Debug  "
+    Shell.ExecSuccess ("dotnet", $"build {slnPath} -c {config}")
 
-// TODO: use  --no-build again (currently broken)
-Target.create "Pack" (fun _ ->
+let test = "test", fun () ->
+    Shell.ExecSuccess ("dotnet", $"test {slnPath}")
+
+let pack = "pack", fun () ->
     !! "src/**/FsHttp*.fsproj"
     |> Seq.iter (fun p ->
         // let packageVersion = { version with (*Patch = 4711u;*) Original = None; PreRelease = PreRelease.TryParse "alpha" }.AsString
-
         Trace.trace (sprintf "SourceDir is: %s" __SOURCE_DIRECTORY__)
-        Shell.Exec ("dotnet", sprintf "pack %s -o %s -c Release" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
-        |> assertSuccess
+        Shell.ExecSuccess ("dotnet", sprintf "pack %s -o %s -c Release" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
     )
-)
 
-Target.create "Publish" (fun _ ->
+// TODO: git tag + release
+let publish = "publish", fun () ->
     let nugetApiKey = Environment.environVar Properties.nugetPushEnvVarName
     !! ".pack/*.nupkg"
     |> Seq.iter (fun p ->
         Trace.tracefn "------ pushing: %s" p
-        Shell.Exec ("dotnet", sprintf "nuget push %s -k %s -s %s" p nugetApiKey Properties.nugetServer)
-        |> assertSuccess
+        Shell.ExecSuccess ("dotnet", sprintf "nuget push %s -k %s -s %s" p nugetApiKey Properties.nugetServer)
     )
 
-    // TODO: git tag + release
+run [
+    clean, not shallDocu
+    docu, shallDocu
+    build, shallBuild
+    test, shallPublish || shallTest
+    pack, shallPublish || shallPack
+    publish, shallPublish
+]
 
-    // setPackageVersion { packageVersion with (*Patch = 4711u;*) Original = None; PreRelease = PreRelease.TryParse "alpha" }.AsString
-    // setPackageVersion { packageVersion with Minor = packageVersion.Minor + 1u; Original = None }.AsString
-)
-
-Target.create "Final" ignore
-
-"Clean"
-    ==> "Docu"
-    ==> "Build"
-    =?> ("Test", publish || test)
-    =?> ("Pack", publish || pack)
-    =?> ("Publish", publish)
-    ==> "Final"
-
-Target.runOrDefaultWithArguments "Final"
-
+Trace.trace $"Finished script..."
