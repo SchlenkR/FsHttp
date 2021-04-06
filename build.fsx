@@ -1,8 +1,8 @@
 
 System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
-#load "./Properties.fsx"
-#load "./Docu.fsx"
+#load "./properties.fsx"
+#load "./docu.fsx"
 
 #r "nuget: Fake.Core.Process"
 #r "nuget: Fake.IO.FileSystem"
@@ -18,11 +18,10 @@ Trace.trace $"Starting script..."
 [<AutoOpen>]
 module Helper =
 
-    let private runTarget (x: string * _, cond) =
+    let private runTarget (x: string * _) =
         let name,f = x
-        if cond then
-            Trace.trace $"Running task: {name}"
-            f ()
+        Trace.trace $"Running task: {name}"
+        f ()
     
     let run targets =
         for t in targets do
@@ -79,12 +78,21 @@ let publish = "publish", fun () ->
     )
 
 run [
-    clean, not shallDocu
-    docu, shallDocu
-    build, shallBuild
-    test, shallPublish || shallTest
-    pack, shallPublish || shallPack
-    publish, shallPublish
+    if shallDocu then
+        docu
+    else
+        clean
+        if shallBuild then
+            build
+        if shallTest then
+            test
+        if shallPack then
+            docu
+            pack
+        if shallPublish then
+            docu
+            pack
+            publish
 ]
 
 Trace.trace $"Finished script..."
