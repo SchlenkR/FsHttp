@@ -37,7 +37,7 @@ Have a look at these files for more use cases:
 
 
 ```fsharp
-#r @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.dll"
+#r @"../FsHttp/bin/Debug/netstandard2.1/FsHttp.dll"
 
 open FsHttp
 

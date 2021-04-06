@@ -10,7 +10,7 @@
 
 
 
-#r @"../FsHttp/bin/Debug/netstandard2.0/FsHttp.dll"
+#r @"../FsHttp/bin/Debug/netstandard2.1/FsHttp.dll"
 
 open FsHttp
 open FsHttp.Dsl
