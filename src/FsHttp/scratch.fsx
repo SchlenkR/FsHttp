@@ -5,6 +5,22 @@ open FsHttp
 open FsHttp.DslCE
 
 
+// retry
+let rec retry work resultOk retries = async {
+    printfn "calling..."
+    let! res = work
+    if (resultOk res) || (retries = 0) then return res
+    else return! retry work resultOk (retries - 1) }
+let work = 
+    httpLazyAsync {
+        GET "http://httpbin.org/status/500:10,200:1"
+    }
+let retryRes =
+    retry work (fun r -> int r.statusCode = 200) 5
+    |> Async.RunSynchronously
+
+
+
 post "https://reqres.in/api/users" {
     CacheControl "no-cache"
     body
@@ -16,6 +32,7 @@ post "https://reqres.in/api/users" {
     """
 }
 |> Request.sendAsync
+
 
 
 get "http://localhost:5000/test/lines" {
@@ -132,10 +149,3 @@ AppDomain.CurrentDomain.GetAssemblies()
 
     addPrinter.Invoke(fsiInstance, [| printer |]) |> ignore
 )
-
-
-"sdfsdf"
-
-fsi.GetType()
-
-FSharp.Compiler.Interactive.Settings.fsi.add

@@ -124,28 +124,19 @@ let private getHttpClient =
 
 /// Builds an asynchronous request, without sending it.
 let buildAsync (context: IContext) =
-
-    let request = context.ToRequest()
-
-    let requestMessage = toMessage request
-
-    let finalRequestMessage = requestMessage |> Option.defaultValue id request.config.httpMessageTransformer
-
-    let invoke (ctok: CancellationToken) =
-        let client = getHttpClient request.config
-
-        let cookies =
-            request.header.cookies
-            |> List.map string
-            |> String.concat "; "
-
-        finalRequestMessage.Headers.Add("Cookie", cookies)
-
-        let finalClient = client |> Option.defaultValue id request.config.httpClientTransformer
-
-        finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
-
     async {
+        let request = context.ToRequest()
+        let requestMessage = toMessage request
+        let finalRequestMessage = requestMessage |> Option.defaultValue id request.config.httpMessageTransformer
+        let invoke (ctok: CancellationToken) =
+            let client = getHttpClient request.config
+            let cookies =
+                request.header.cookies
+                |> List.map string
+                |> String.concat "; "
+            finalRequestMessage.Headers.Add("Cookie", cookies)
+            let finalClient = client |> Option.defaultValue id request.config.httpClientTransformer
+            finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
         let! ctok = Async.CancellationToken
         let! response = invoke ctok |> Async.AwaitTask
         return { requestContext = request
