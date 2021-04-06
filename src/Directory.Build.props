@@ -9,6 +9,9 @@
     <PackageIconUrl></PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
+* Fixed FSI printer initialization
+* Added http lazy async builder (related to 'Retries with async #58')
+* Allow for multiple requests in async lazy mode.
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
