@@ -1,12 +1,12 @@
 ﻿
 #if INTERACTIVE
-#r @"../../packages/fsharp.data/lib/net45/FSharp.Data.dll"
-#r @"../../packages/NUnit/lib/netstandard2.1/nunit.framework.dll"
-#r @"../../packages/fsunit/lib/netstandard2.1/FsUnit.NUnit.dll"
-#r @"../../packages/Suave/lib/netstandard2.1\Suave.dll"
-#r @"../FsHttp/bin/Debug/netstandard2.1/FsHttp.dll"
-#r @"../FsHttp.NUnit/bin/Debug/netstandard2.1/FsHttp.NUnit.dll"
-#load @"./Server.fs"
+#r "nuget: FSharp.Data"
+#r "nuget: nunit.framework"
+#r "nuget: FsUnit.NUnit"
+#r "nuget: Suave"
+#r "../FsHttp/bin/Debug/netstandard2.1/FsHttp"
+#r "../FsHttp.NUnit/bin/Debug/netstandard2.1/FsHttp.NUnit.dll"
+#load "./Server.fs"
 #else
 module ``Integration tests for FsHttp``
 #endif
@@ -34,7 +34,6 @@ open Suave.Writers
 
 [<AutoOpen>]
 module Helper =
-
     let keyNotFoundString = "KEY_NOT_FOUND"
     let query key (r: HttpRequest) = defaultArg (Option.ofChoice (r.query ^^ key)) keyNotFoundString
     let header key (r: HttpRequest) = defaultArg (Option.ofChoice (r.header key)) keyNotFoundString
