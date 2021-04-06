@@ -8,10 +8,11 @@ open System.Globalization
 
 open Domain
 
-FsHttp.Fsi.Init.init()
-
 [<AutoOpen>]
 module Method =
+
+    // init hack
+    FsHttp.Fsi.Init.init()
 
     let request (method: string) (url: string) =
 

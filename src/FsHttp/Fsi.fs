@@ -190,10 +190,13 @@ let print (r: Response) =
 module Init =
 
     type PrintableResponse = | PrintableResponse of Response
+
+    let mutable private isInitialized = false
     
     // This seems like a HACK, but there shouldn't be the requirement of referencing FCS in FSI.
     let init() =
-        
+        if isInitialized then () else
+
         let fsiAssemblyName = "FSI-ASSEMBLY"
 
         let isInteractive =
@@ -238,3 +241,5 @@ module Init =
                     addPrintTransformer.Invoke(fsiInstance, [| printTransformer |]) |> ignore
                     
                     printfn "--- FsHttp: Printer successfully registered."
+            
+        isInitialized <- true
