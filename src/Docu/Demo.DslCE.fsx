@@ -24,10 +24,10 @@ You need to have dotnet SDK 3.1.202 installed (as specified in global.json).
 
 Have a look at these files for more use cases:
 
-* [Demo script for CE Dsl](src/Samples/Demo.DslCE.fsx)
+* [Demo script for CE Dsl](src/Docu/Demo.DslCE.fsx)
   This file demonstrates the use of the CE (computation expression) syntax.
 
-* [Demo script for op-less Dsl](src/Samples/Demo.Dsl.fsx)
+* [Demo script for op-less Dsl](src/Docu/Demo.Dsl.fsx)
   This file demonstrates the use of pipe-style syntax.
 
 * [Integration Tests](src/Tests/IntegrationTests.fs)

@@ -48,5 +48,5 @@ let linesWhereTrailingEmptyCodeLinesRemoved script =
 let generate () =
     let source = __SOURCE_DIRECTORY__
     let script = Path.Combine(source, "./src/Docu/Demo.DslCE.fsx")
-    let readme = Path.Combine(source, "./Readme.md")
+    let readme = Path.Combine(source, "./README.md")
     File.WriteAllLines(readme, linesWhereTrailingEmptyCodeLinesRemoved script)
