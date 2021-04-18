@@ -20,6 +20,20 @@ for a problem instead of 2, it's up to you which style you prefer.
 
 You need to have dotnet SDK 3.1.202 installed (as specified in global.json).
 
+There is a F# script that can be used to perform several build tasks from command line. It can be executed in this way:
+
+    `dotnet fsi .\build.fsx [task]`
+
+Common tasks are:
+
+* test
+* docu
+* publish
+
+### Building Readme.md
+
+The content of Readme.md is auto-generated from the file `.\src\Docu\Demo.DslCE.fsx`. In order to build the Readme.md, run the command `dotnet fsi .\build.fsx docu`.
+
 ## Sources and Demos
 
 Have a look at these files for more use cases:
