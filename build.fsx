@@ -27,20 +27,34 @@ module Helper =
         for t in targets do
             runTarget t
     
-    let hasArg arg = fsi.CommandLineArgs.[1..].[0]  = arg
-    
-    let always = true
-
     type Shell with
         static member ExecSuccess (cmd: string, ?args: string, ?dir: string) =
             let res = Shell.Exec(cmd, ?args = args, ?dir = dir)
             if res <> 0 then failwith $"Shell execute was not successful: {res}" else ()
 
-let shallDocu = hasArg "docu"
-let shallBuild = hasArg "build"
-let shallTest = hasArg "test"
-let shallPublish = hasArg "publish"
-let shallPack = hasArg "pack"
+    type Args() =
+        let singleArg = fsi.CommandLineArgs.[1..] |> Array.tryExactlyOne
+        let mutable switches : string list = []
+        member this.hasArg arg =
+            switches <- arg :: switches
+            singleArg |> Option.map (fun a -> a = arg) |> Option.defaultValue false
+        member this.assertArgs() =
+            match singleArg with
+            | None ->
+                let switches = switches |> String.concat "|"
+                let msg = $"USAGE: dotnet fsi build.fsx [{switches}]"
+                printfn "%s" msg
+                Environment.Exit -1
+            | _ -> ()
+
+let args = Args()
+let shallDocu = args.hasArg "docu"
+let shallBuild = args.hasArg "build"
+let shallTest = args.hasArg "test"
+let shallPublish = args.hasArg "publish"
+let shallPack = args.hasArg "pack"
+
+do args.assertArgs()
 
 let clean = "clean", fun () ->
     !! "src/**/bin"
