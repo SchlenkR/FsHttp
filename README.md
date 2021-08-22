@@ -6,10 +6,14 @@ FsHttp is a convenient HTTP client library written in F#. It aims for describing
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
 
+
 Documentation
 -------------
 
-[FsHttp Documentation](https://ronaldschlenker.github.io/FsHttp)
+Please visit the [FsHttp Documentation](https://ronaldschlenker.github.io/FsHttp) site.
+
+You can also have a the [Integration Tests](src/Tests/IntegrationTests.fs) that show various use cases.
+
 
 A Simple Example
 ----------------
@@ -27,6 +31,7 @@ http {
     """
 }
 ```
+
 
 Building
 --------
