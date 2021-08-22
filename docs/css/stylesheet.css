@@ -76,6 +76,7 @@ h1 {
 }
 
 h2 {
+  margin-top: 25px;
   padding-bottom: 10px;
   font-size: 32px;
   background: url('../images/bg_hr.png') repeat-x bottom;
