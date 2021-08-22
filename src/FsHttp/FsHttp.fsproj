@@ -5,6 +5,7 @@
     <PackageId>SchlenkR.FsHttp</PackageId>
     <Description>A lightweight HTTP/REST library for F#.</Description>
     <Configurations>Debug;Release</Configurations>
+    <DocumentationFile>FsHttp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
     <DefineConstants>NETSTANDARD_2</DefineConstants>
@@ -19,7 +20,6 @@
     <Compile Include="Fsi.fs" />
     <Compile Include="Dsl.fs" />
     <Compile Include="DslCE.fs" />
-    <None Include="scratch.fsx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="4.0.1" />

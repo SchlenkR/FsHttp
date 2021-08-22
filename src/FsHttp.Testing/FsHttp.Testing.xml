@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>FsHttp.Testing</name></assembly>
+<members>
+<member name="M:FsHttp.Testing.op_PipeRight2``2(``0,Microsoft.FSharp.Core.FSharpFunc{``0,``1})">
+<summary>
+ tee operator: useful for chaining expectations
+</summary>
+</member>
+</members>
+</doc>

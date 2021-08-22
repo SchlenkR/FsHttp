@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>FsHttp</name></assembly>
+<members>
+<member name="M:FsHttp.Request.send(FsHttp.Domain.IContext)">
+<summary>
+ Sends a context synchronously.
+</summary>
+</member>
+<member name="M:FsHttp.Request.sendAsync(FsHttp.Domain.IContext)">
+<summary>
+ Sends a context asynchronously.
+</summary>
+</member>
+<member name="M:FsHttp.Request.buildAsync(FsHttp.Domain.IContext)">
+<summary>
+ Builds an asynchronous request, without sending it.
+</summary>
+</member>
+<member name="M:FsHttp.Request.toMessage(FsHttp.Domain.Request)">
+<summary>
+ Transforms a Request into a System.Net.Http.HttpRequestMessage.
+</summary>
+</member>
+<member name="M:FsHttp.Response.toFormattedTextAsync(FsHttp.Domain.Response)">
+<summary>
+ Tries to convert the response content according to it&apos;s type to a formatted string.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Config.useHttpClient``1(Microsoft.FSharp.Core.FSharpFunc{``0,Microsoft.FSharp.Core.FSharpFunc{Microsoft.FSharp.Core.FSharpFunc{FsHttp.Domain.Config,FsHttp.Domain.Config},``0}},System.Net.Http.HttpClient,``0)">
+<summary>
+ Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Multipart.contentType(System.String,FsHttp.Domain.MultipartContext)">
+<summary>
+ The MIME type of the body of the request (used with POST and PUT requests)
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Body.contentTypeWithEncoding(System.String,System.Text.Encoding,FsHttp.Domain.BodyContext)">
+<summary>
+ The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Body.contentType(System.String,FsHttp.Domain.BodyContext)">
+<summary>
+ The MIME type of the body of the request (used with POST and PUT requests)
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Body.contentEncoding(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ The type of encoding used on the data
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.xhttpMethodOverride(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Override HTTP method.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.warning(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ A general warning about possible problems with the entity body
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.via(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Informs the server of proxies through which the request was sent
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.userAgent(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ The user agent string of the user agent
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.upgrade(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Specifies additional communications protocols that the client supports.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.translate(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.transferEncoding(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.  The valid directives are one of: chunked, compress, deflate, gzip, or identity.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.trailer(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.te(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ The transfer encodings the user agent is willing to accept: the same values as for the response header
+ Transfer-Encoding can be used, plus the &quot;trailers&quot; value (related to the &quot;chunked&quot; transfer method) to
+ notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.referer(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ This is the address of the previous web page from which a link to the currently requested page was followed. (The word &quot;referrer&quot; is misspelled in the RFC as well as in most implementations.)
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.range(System.Int64,System.Int64,FsHttp.Domain.HeaderContext)">
+<summary>
+ Request only part of an entity. Bytes are numbered from 0
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.proxyAuthorization(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Authorization credentials for connecting to a proxy.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.prefer(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.pragma(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Implementation-specific headers that may have various effects anywhere along the request-response chain.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.origin(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Initiates a request for cross-origin resource sharing (asks server for an &apos;Access-Control-Allow-Origin&apos; response header)
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.maxForwards(System.Int32,FsHttp.Domain.HeaderContext)">
+<summary>
+ Limit the number of times the message can be forwarded through proxies or gateways
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.lastModified(System.DateTime,FsHttp.Domain.HeaderContext)">
+<summary>
+ Specifies the date and time at which the accompanying body data was last modified
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.keepAlive(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Specifies a parameter used into order to maintain a persistent connection
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.ifUnmodifiedSince(System.DateTime,FsHttp.Domain.HeaderContext)">
+<summary>
+ Only send the response if the entity has not been modified since a specific time
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.ifRange(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.ifNoneMatch(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Allows a 304 Not Modified to be returned if content is unchanged
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.ifModifiedSince(System.DateTime,FsHttp.Domain.HeaderContext)">
+<summary>
+ Allows a 304 Not Modified to be returned if content is unchanged
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.ifMatch(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Only perform the action if the client supplied entity matches the same entity on the server.
+ This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: &quot;737060cd8c284d8af7ad3082f209582d&quot; Permanent
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.host(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
+ The port number may be omitted if the port is the standard port for the service requested.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.from(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ The email address of the user making the request
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.expires(System.DateTime,FsHttp.Domain.HeaderContext)">
+<summary>
+ Gives the date/time after which the response is considered stale
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.expect(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Indicates that particular server behaviors are required by the client
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.date(System.DateTime,FsHttp.Domain.HeaderContext)">
+<summary>
+ The date and time that the message was sent
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.cookieForDomain(System.String,System.String,System.String,System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ An HTTP cookie previously sent by the server with &apos;Set-Cookie&apos; with
+ the subset of URIs on the origin server to which this Cookie applies
+ and the internet domain for which this Cookie is valid.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.cookieForPath(System.String,System.String,System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ An HTTP cookie previously sent by the server with &apos;Set-Cookie&apos; with
+ the subset of URIs on the origin server to which this Cookie applies.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.cookie(System.String,System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ An HTTP cookie previously sent by the server with &apos;Set-Cookie&apos;.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.connection(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ What type of connection the user-agent would prefer
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.cacheControl(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.authorizationUserPw(System.String,System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Authorization header using Basic (User/Password) authorization
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.authorizationBearer(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Authorization header using Bearer authorization token
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.authorization(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Authorization credentials for HTTP authorization
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.acceptLanguage(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ List of acceptable human languages for response
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.acceptEncoding(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ List of acceptable encodings. See HTTP compression.
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.acceptDatetime(System.DateTime,FsHttp.Domain.HeaderContext)">
+<summary>
+ Acceptable version in time
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.acceptCharset(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Character sets that are acceptable
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.accept(System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Content-Types that are acceptable for the response
+</summary>
+</member>
+<member name="M:FsHttp.Dsl.Header.header(System.String,System.String,FsHttp.Domain.HeaderContext)">
+<summary>
+ Adds a custom header
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Config.LazyHttpBuilder`1.UseHttpClient``2(Microsoft.FSharp.Core.FSharpFunc{``1,Microsoft.FSharp.Core.FSharpFunc{Microsoft.FSharp.Core.FSharpFunc{FsHttp.Domain.Config,FsHttp.Domain.Config},``1}},FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{``1},System.Net.Http.HttpClient)">
+<summary>
+ Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Multipart.LazyHttpBuilder`1.ContentTypePart``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.MultipartContext},System.String)">
+<summary>
+ The MIME type of the body of the request (used with POST and PUT requests)
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Body.LazyHttpBuilder`1.ContentTypeWithEncoding``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.BodyContext},System.String,System.Text.Encoding)">
+<summary>
+ The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Body.LazyHttpBuilder`1.ContentType``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.BodyContext},System.String)">
+<summary>
+ The MIME type of the body of the request (used with POST and PUT requests)
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Body.LazyHttpBuilder`1.ContentEncoding``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ The type of encoding used on the data
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.XHTTPMethodOverride``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Override HTTP method.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Warning``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ A general warning about possible problems with the entity body
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Via``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Informs the server of proxies through which the request was sent
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.UserAgent``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ The user agent string of the user agent
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Upgrade``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Specifies additional communications protocols that the client supports.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Translate``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.TransferEncoding``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.
+ The valid directives are one of: chunked, compress, deflate, gzip, orentity.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Trailer``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.TE``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ The transfer encodings the user agent is willing to accept: the same values as for the response header
+ Transfer-Encoding can be used, plus the &quot;trailers&quot; value (related to the &quot;chunked&quot; transfer method) to
+ notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Referer``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ This is the address of the previous web page from which a link to the currently requested page was followed.
+ (The word &quot;referrer&quot; is misspelled in the RFC as well as in most implementations.)
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Range``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.Int64,System.Int64)">
+<summary>
+ Request only part of an entity. Bytes are numbered from 0
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.ProxyAuthorization``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Authorization credentials for connecting to a proxy.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Prefer``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Pragma``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Implementation-specific headers that may have various effects anywhere along the request-response chain.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Origin``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Initiates a request for cross-origin resource sharing (asks server for an &apos;Access-Control-Allow-Origin&apos; response header)
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.MaxForwards``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.Int32)">
+<summary>
+ Limit the number of times the message can be forwarded through proxies or gateways
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.LastModified``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.DateTime)">
+<summary>
+ Specifies the date and time at which the accompanying body data was last modified
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.KeepAlive``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Specifies a parameter used into order to maintain a persistent connection
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.IfUnmodifiedSince``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.DateTime)">
+<summary>
+ Only send the response if the entity has not been modified since a specific time
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.IfRange``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.IfNoneMatch``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Allows a 304 Not Modified to be returned if content is unchanged
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.IfModifiedSince``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.DateTime)">
+<summary>
+ Allows a 304 Not Modified to be returned if content is unchanged
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.IfMatch``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Only perform the action if the client supplied entity matches the same entity on the server.
+ This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: &quot;737060cd8c284d8af7ad3082f209582d&quot; Permanent
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Host``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
+ The port number may be omitted if the port is the standard port for the service requested.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Header``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String,System.String)">
+<summary>
+ Custom header
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.From``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ The email address of the user making the request
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Expires``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.DateTime)">
+<summary>
+ Gives the date/time after which the response is considered stale
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Expect``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Indicates that particular server behaviors are required by the client
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Date``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.DateTime)">
+<summary>
+ The date and time that the message was sent
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.SetCookieForDomain``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String,System.String,System.String,System.String)">
+<summary>
+ An HTTP cookie previously sent by the server with &apos;Set-Cookie&apos; with
+ the subset of URIs on the origin server to which this Cookie applies
+ and the internet domain for which this Cookie is valid.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.SetCookieForPath``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String,System.String,System.String)">
+<summary>
+ An HTTP cookie previously sent by the server with &apos;Set-Cookie&apos; with
+ the subset of URIs on the origin server to which this Cookie applies.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.SetCookie``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String,System.String)">
+<summary>
+ An HTTP cookie previously sent by the server with &apos;Set-Cookie&apos;.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Connection``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ What type of connection the user-agent would prefer
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.CacheControl``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.AuthorizationUserPw``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String,System.String)">
+<summary>
+ Authorization header using Basic (User/Password) authorization
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.AuthorizationBearer``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Authorization header using Bearer authorization token
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Authorization``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Authorization credentials for HTTP authorization
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.AcceptLanguage``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ List of acceptable human languages for response
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.AcceptEncoding``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ List of acceptable encodings. See HTTP compression.
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.AcceptDatetime``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.DateTime)">
+<summary>
+ Acceptable version in time
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.AcceptCharset``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Character sets that are acceptable
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Header.LazyHttpBuilder`1.Accept``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},System.String)">
+<summary>
+ Content-Types that are acceptable for the response
+</summary>
+</member>
+<member name="M:FsHttp.DslCE.Method.LazyHttpBuilder`1.Query``1(FsHttp.DslCE.Builder.LazyHttpBuilder{``0},FsHttp.DslCE.Builder.LazyHttpBuilder{FsHttp.Domain.HeaderContext},Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}})">
+<summary>
+ Append query params
+</summary>
+</member>
+<member name="T:FsHttp.DslCE.Builder.HttpMessageBuilder">
+<summary>
+ Builder that creates a System.Net.Http.HttpRequestMessage object.
+</summary>
+</member>
+<member name="T:FsHttp.DslCE.Builder.LazyAsyncHttpBuilder">
+<summary>
+ Builder that executes non-blocking (asynchronous) and lazy.
+</summary>
+</member>
+<member name="T:FsHttp.DslCE.Builder.EagerAsyncHttpBuilder">
+<summary>
+ Builder that executes non-blocking (asynchronous) and immediately.
+</summary>
+</member>
+<member name="T:FsHttp.DslCE.Builder.EagerSyncHttpBuilder">
+<summary>
+ Builder that executes blocking (synchronous) immediately.
+</summary>
+</member>
+<member name="T:FsHttp.DslCE.Builder.EagerHttpBuilder">
+<summary>
+ Provides base support for ```http { METHOD ... }``` syntax
+</summary>
+</member>
+</members>
+</doc>

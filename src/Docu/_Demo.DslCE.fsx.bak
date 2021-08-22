@@ -1,70 +1,11 @@
-﻿
-(**
-# FsHttp
-
-TODO: Document % operator
-
-FsHttp is a convenient library for consuming HTTP/REST endpoints via F#. It is based on System.Net.Http.
-
-[![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
-
-The goal of FsHttp is to provide ways for describing HTTP requests in a convenient way, and it is inspired by the
-RestClient VSCode extension. It can be used in production code, in tests, and in F# interactive.
-
-Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fsharp.github.io/FSharp.Data/library/Http.html).
-
-FsHttp comes in 2 'flavours' that can be used to describe HTTP requests. Although it is a good thing to have 1 solution
-for a problem instead of 2, it's up to you which style you prefer.
-
-## Building
-
-You need to have dotnet SDK 3.1.202 installed (as specified in global.json).
-
-There is a F# script that can be used to perform several build tasks from command line. It can be executed in this way:
-
-    `dotnet fsi .\build.fsx [task]`
-
-Common tasks are:
-
-* test
-* docu
-* publish
-
-### Building Readme.md
-
-The content of Readme.md is auto-generated from the file `.\src\Docu\Demo.DslCE.fsx`. In order to build the Readme.md, run the command `dotnet fsi .\build.fsx docu`.
-
-## Sources and Demos
-
-Have a look at these files for more use cases:
-
-* [Demo script for CE Dsl](src/Docu/Demo.DslCE.fsx)
-  This file demonstrates the use of the CE (computation expression) syntax.
-
-* [Demo script for op-less Dsl](src/Docu/Demo.Dsl.fsx)
-  This file demonstrates the use of pipe-style syntax.
-
-* [Integration Tests](src/Tests/IntegrationTests.fs)
-  The tests show various use cases.
-
-
-## Setup (including FSI)
-
-*)
-#r @"../FsHttp/bin/Debug/netstandard2.1/FsHttp.dll"
+﻿(** hide **)
+#r "../FsHttp/bin/Debug/net5.0/FsHttp.dll"
 
 open FsHttp
-
-// Choose your style (here: Computation Expression)
 open FsHttp.DslCE
-
-
-
+(** unhide **)
 (**
-
-## Getting Started: Build up a GET request
-
-*Hint:* The request built in this way will be sent immediately and synchronous.
+## Quick Start: Build up a GET request
 
 *)
 
@@ -85,7 +26,9 @@ Here is an example of a POST with JSON as body:
 *)
 http {
     POST "https://reqres.in/api/users"
+    // after the HTTP verb, specify header properties
     CacheControl "no-cache"
+    // use "body" keyword to start specifying body properties
     body
     json """
     {
@@ -95,26 +38,7 @@ http {
     """
 }
 
-
-(**
-## FSI Request/Response Formatting
-
-When you work in FSI, you can control the output formatting with special keywords.
-
-Some predefined printers are defined in ```./src/FsHttp/DslCE.fs, module Fsi```
-
-2 most common printers are:
-
- - 'prv' (alias: 'preview'): This will render a small part of the response content.
- - 'exp' (alias: 'expand'): This will render the whole response content.
-
-*)
-
-http {
-    GET "https://reqres.in/api/users"
-    CacheControl "no-cache"
-    exp
-}
+// TODO: Link to API Doc
 
 
 (**

@@ -69,7 +69,7 @@ let slnPath = "./src/FsHttp.sln"
 
 let build = "build", fun () ->
     let config = if shallPublish then "Release" else "Debug  "
-    Shell.ExecSuccess ("dotnet", $"build {slnPath} -c {config}")
+    Shell.ExecSuccess ("dotnet", $"publish {slnPath} -c {config} -f net5.0")
 
 let test = "test", fun () ->
     Shell.ExecSuccess ("dotnet", $"test {slnPath}")
@@ -77,7 +77,6 @@ let test = "test", fun () ->
 let pack = "pack", fun () ->
     !! "src/**/FsHttp*.fsproj"
     |> Seq.iter (fun p ->
-        // let packageVersion = { version with (*Patch = 4711u;*) Original = None; PreRelease = PreRelease.TryParse "alpha" }.AsString
         Trace.trace (sprintf "SourceDir is: %s" __SOURCE_DIRECTORY__)
         Shell.ExecSuccess ("dotnet", sprintf "pack %s -o %s -c Release" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
     )

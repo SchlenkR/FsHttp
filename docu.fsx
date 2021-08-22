@@ -1,52 +1,96 @@
-open System
+module FsxProcessor =
+    open System.IO
+
+    type Mode = Markdown | Code
+
+    type Directive =
+        MarkdownStart
+        | MarkdownEnd
+        | HideStart
+        | HideEnd
+
+    let openCodeTag = "{% highlight fsharp %}"
+    let closeCodeTag = "{% endhighlight %}"
+
+    let private taggedLines script =
+
+        [
+            let mutable currentMode = Markdown
+            let mutable isHidden = false
+
+            for line in File.ReadAllLines script do
+                let trimmedLine = line.Trim()
+
+                let directive = 
+                    match trimmedLine with
+                    | "(**" -> Some MarkdownStart
+                    | "*)" -> Some MarkdownEnd
+                    | _ -> None
+
+                let wasHidden = isHidden
+                isHidden <-
+                    match trimmedLine with
+                    | "(** hide **)" -> true
+                    | "(** unhide **)" -> false
+                    | _ -> isHidden
+                let isCurrentlyHidden = wasHidden || isHidden
+
+                match currentMode, directive with
+                | Markdown, Some MarkdownEnd ->
+                    yield currentMode, isCurrentlyHidden, false, ""
+                    yield currentMode, isCurrentlyHidden, false, openCodeTag
+                    currentMode <- Code
+                | Code, Some MarkdownStart ->
+                    currentMode <- Markdown
+                    yield  currentMode, isCurrentlyHidden, false, closeCodeTag
+                    yield  currentMode, isCurrentlyHidden, false, ""
+                | _, Some _ ->
+                    ()
+                | _ ->
+                    yield currentMode, isCurrentlyHidden, false, line
+            
+            // last line
+            yield currentMode, isHidden, true, ""
+        ]
+
+    let processScriptFile script =
+        [
+            let mutable lastMode = Markdown
+
+            for mode,isHidden,isLast,line in taggedLines script |> List.rev do
+                match isLast,isHidden,mode,lastMode,line.Trim() with
+                | true, _, Code, _, _ -> 
+                    yield closeCodeTag
+                | _, true, _, _, _ ->
+                    ()
+                | _, _, Code, Code, _ ->
+                    yield line
+                | _, _, Code, _, ""->
+                    ()
+                | _ ->
+                    lastMode <- mode
+                    yield line
+        ]
+        |> List.rev
+
 open System.IO
 
-type Mode 
-    = Markdown
-    | Code
-
-let taggedLines script =
-    [
-        let mutable currentMode = Markdown
-
-        for line in File.ReadAllLines script do
-            let trimmedLine = line.Trim()
-            let isMarkdownStart = trimmedLine = "(**"
-            let isMarkdownEnd = trimmedLine = "*)"
-
-            match currentMode, isMarkdownStart, isMarkdownEnd with
-            | Markdown, _, true ->
-                yield currentMode, ""
-                yield currentMode, "```fsharp"
-                currentMode <- Code
-            | Code, true, _ ->
-                currentMode <- Markdown
-                yield  currentMode, "```"
-            | _, true,_
-            | _, _, true ->
-                ()
-            | _ ->
-                yield currentMode, line
-    ]
-
-let linesWhereTrailingEmptyCodeLinesRemoved script =
-    [
-        let mutable lastMode = Markdown
-
-        for mode,line in taggedLines script |> List.rev do
-            match mode, lastMode, line.Trim() with
-            | Code, Code, _ ->
-                yield line
-            | Code, _, ""->
-                ()
-            | _ ->
-                lastMode <- mode
-                yield line
-    ]
-    |> List.rev
-
 let generate () =
+
     let source = __SOURCE_DIRECTORY__
-    let script = Path.Combine(source, "./src/Docu/Demo.DslCE.fsx")
-    let readme = Path.Combine(source, "./README.md")
-    File.WriteAllLines(readme, linesWhereTrailingEmptyCodeLinesRemoved script)
+    let input = Path.Combine(source, "./src/Docu")
+    let output = Path.Combine(source, "./docs")
+
+    do // remove all .md files from docs
+        Directory.EnumerateFiles(output, "*.md") |> Seq.iter File.Delete
+
+    do // copy all .md files to docs
+        Directory.EnumerateFiles(input, "*.md")
+        |> Seq.iter (fun f -> File.Copy(f, Path.Combine(output, Path.GetFileName(f))))
+    
+    do // process all fsx script (-> .md) files and copy them to docs
+        Directory.EnumerateFiles(input, "*.fsx")
+        |> Seq.iter (fun script ->
+            let readme = Path.Combine(output, Path.GetFileNameWithoutExtension(script) + ".md")
+            File.WriteAllLines(readme, FsxProcessor.processScriptFile script)
+        )

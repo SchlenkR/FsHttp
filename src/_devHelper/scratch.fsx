@@ -1,5 +1,5 @@
 
-#r "./bin/Debug/netstandard2.1/FsHttp.dll"
+#r "../FsHttp/bin/Debug/net5.0/FsHttp.dll"
 
 open FsHttp
 open FsHttp.DslCE
@@ -30,8 +30,19 @@ post "https://reqres.in/api/users" {
     }
     """
 }
-|> Request.sendAsync
+|> Request.send
 
+http {
+    POST "https://reqres.in/api/users"
+    CacheControl "no-cache"
+    body
+    json """
+    {
+        "name": "morpheus",
+        "job": "leader"
+    }
+    """
+}
 
 
 get "http://localhost:5000/test/lines" {

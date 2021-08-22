@@ -11,10 +11,10 @@ open Domain
 [<AutoOpen>]
 module Method =
 
-    // init hack
-    FsHttp.Fsi.Init.init()
-
     let request (method: string) (url: string) =
+
+        // init hack
+        FsHttp.Fsi.Init.init()
 
         let formattedUrl =
             url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
