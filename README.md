@@ -1,11 +1,18 @@
 
-# FsHttp
+FsHttp
+======
 
 FsHttp is a convenient HTTP client library written in F#. It aims for describing and executing HTTP requests in idiomatic and convenient ways that can be used for production, tests and FSI (F# Interactive).
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
 
-**Example:**
+Documentation
+-------------
+
+[FsHttp Documentation](https://ronaldschlenker.github.io/FsHttp)
+
+A Simple Example
+----------------
 
 ```fsharp
 http {
@@ -21,15 +28,8 @@ http {
 }
 ```
 
-## Credits
-
-Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fsharp.github.io/FSharp.Data/library/Http.html).
-
-## Documentation
-
-[FsHttp Documentation](https://ronaldschlenker.github.io/FsHttp)
-
-## Building
+Building
+--------
 
 You need to have the latest .Net 5 SDK installed.
 
@@ -48,3 +48,8 @@ Common tasks are:
 
 The `Readme.md` and the content in `./docs` is auto-generated from the files in `./src/Docu`. In order to build them, run the command `dotnet fsi .\build.fsx docu`.
 
+
+Credits
+-------
+
+Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fsharp.github.io/FSharp.Data/library/Http.html).
