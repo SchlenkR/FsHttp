@@ -31,3 +31,4 @@ http {
     CacheControl "no-cache"
     exp
 }
+{% endhighlight %}
