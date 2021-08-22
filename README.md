@@ -27,13 +27,7 @@ Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fshar
 
 ## Documentation
 
-FsHttp comes in 2 'flavours' - "Computation Expression" and "Pipe", which are both idiomatic in F#. Both flavours are equally powerful, and it depends on your taste which one you prefer.
-
-* API Docu and Reference
-  * Alternative 1: [Computation Expression Flavour](Docu/ComputationExpressionFlavour.md)
-  * Alternative 2: [Pipe Flavour](Docu/PipeFlavour.fsx)
-* [F# Interactive Usage](Docu/Fsi.fsx)
-* [Integration Tests](src/Tests/IntegrationTests.fs) The tests show various use cases.
+[FsHttp Documentation](https://ronaldschlenker.github.io/FsHttp)
 
 ## Building
 
