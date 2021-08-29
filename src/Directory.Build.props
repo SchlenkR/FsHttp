@@ -13,8 +13,10 @@
 * Added http lazy async builder (related to 'Retries with async #58')
 * Allow for multiple requests in async lazy mode.
     </PackageReleaseNotes>
-    <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
+    <FsDocsLicenseLink>https://github.com/ronaldschlenker/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink>https://www.nuget.org/packages/SchlenkR.FsHttp</FsDocsReleaseNotesLink>
   </PropertyGroup>
  
 </Project>

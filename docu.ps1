@@ -1,2 +1,10 @@
+
 dotnet tool restore
-fsdocs watch --clean --sourcefolder ./src --input ./docs --output c:/temp/FsHttpDocs --sourcerepo https://github.com/ronaldschlenker/FsHttp/blob/master/src
+
+if ($args[0] -eq $null) {
+	$mode = "build"
+} else {
+	$mode = "watch"
+}
+
+fsdocs $mode --clean --sourcefolder ./src --input ./docs --output c:/temp/FsHttpDocs --properties Configuration=Release --sourcerepo https://github.com/ronaldschlenker/FsHttp/blob/master/src

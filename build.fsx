@@ -64,7 +64,7 @@ let clean = "clean", fun () ->
 
 let docu = "docu", fun () ->
     Trace.trace (sprintf "SourceDir is: %s" __SOURCE_DIRECTORY__)
-    Shell.ExecSuccess ("fsdocs", $"build --clean --sourcefolder ./src --input ./docs --output c:/temp/FsHttpDocs --sourcerepo https://github.com/ronaldschlenker/FsHttp/blob/master/src")
+    Shell.ExecSuccess ("powershell", "./docu.ps1")
 
 let slnPath = "./src/FsHttp.sln"
 
