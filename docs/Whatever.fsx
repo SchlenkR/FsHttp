@@ -1,17 +1,31 @@
+(**
+---
+title: WHATEVER
+_category: Some Category
+_categoryindex: 2
+index: 4
+---
+*)
+
+(*** condition: prepare ***)
+#nowarn "211"
+#r "../src/FsHttp/bin/Release/netstandard2.1/FsHttp.dll"
+open FsHttp
+open FsHttp.DslCE
 
 
-## Setup (including FSI)
+(**
+## FSI Setup
+*)
 
-
-{% highlight fsharp %}
-#r @"../FsHttp/bin/Debug/net5.0/FsHttp.dll"
-
+#r @"nuget: FsHttp"
 open FsHttp
 
 // Choose your style (here: Computation Expression)
 open FsHttp.DslCE
-{% endhighlight %}
 
+
+(**
 ## FSI Request/Response Formatting
 
 When you work in FSI, you can control the output formatting with special keywords.
@@ -22,13 +36,14 @@ Some predefined printers are defined in ```./src/FsHttp/DslCE.fs, module Fsi```
 
  - 'prv' (alias: 'preview'): This will render a small part of the response content.
  - 'exp' (alias: 'expand'): This will render the whole response content.
-
-
-{% highlight fsharp %}
+*)
 
 http {
     GET "https://reqres.in/api/users"
     CacheControl "no-cache"
     exp
 }
-{% endhighlight %}
+
+
+// TODO: Top Level Ops
+// TODO: Alternative STyle + Example

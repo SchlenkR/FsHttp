@@ -1,5 +1,8 @@
 ﻿---
-layout: default
+title: FsHttp Overview
+_category: Some Category
+_categoryindex: 2
+index: 1
 ---
 
 # FsHttp
@@ -16,15 +19,15 @@ NuGet
 
 Install FsHttp via NuGet command line:
 
-{% highlight dosbatch %}
+```
 PM> Install-Package SchlenkR.FsHttp
-{% endhighlight %}
+```
 
 or via F# Interactive:
 
-{% highlight fsharp %}
+```fsharp
 #r "nuget: SchlenkR.FsHttp"
-{% endhighlight %}
+```
 
 
 [Nuget SchlenkR.FsHttp](https://www.nuget.org/packages/SchlenkR.FsHttp)
@@ -32,7 +35,7 @@ or via F# Interactive:
 A simple request
 ----------------
 
-{% highlight fsharp %}
+```fsharp
 http {
     POST "https://reqres.in/api/users"
     CacheControl "no-cache"
@@ -44,5 +47,4 @@ http {
     }
     """
 }
-{% endhighlight %}
-
+```

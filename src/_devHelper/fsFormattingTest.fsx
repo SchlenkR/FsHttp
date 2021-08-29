@@ -32,6 +32,12 @@ module Literate =
     let root = __SOURCE_DIRECTORY__
     let file = Path.Combine(root, "readme.fsx")
 
+    let res =
+        Literate.ParseScriptString
+            ( File.ReadAllText file
+            )
+
     Literate.ConvertScriptFile
         ( input = file,
-           outputKind = OutputKind.Md )
+          outputKind = OutputKind.Md
+          )

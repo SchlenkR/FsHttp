@@ -1,11 +1,24 @@
+(**
+---
+title: F# Interactive Usage
+_category: Some Category
+_categoryindex: 2
+index: 3
+---
+*)
+
+(*** condition: prepare ***)
+#nowarn "211"
+#r "../src/FsHttp/bin/Release/netstandard2.1/FsHttp.dll"
+open FsHttp
+open FsHttp.DslCE
+
 
 (**
-
-## Setup (including FSI)
-
+## FSI Setup
 *)
-#r @"../FsHttp/bin/Debug/net5.0/FsHttp.dll"
 
+#r @"nuget: FsHttp"
 open FsHttp
 
 // Choose your style (here: Computation Expression)
@@ -23,7 +36,6 @@ Some predefined printers are defined in ```./src/FsHttp/DslCE.fs, module Fsi```
 
  - 'prv' (alias: 'preview'): This will render a small part of the response content.
  - 'exp' (alias: 'expand'): This will render the whole response content.
-
 *)
 
 http {
@@ -31,3 +43,7 @@ http {
     CacheControl "no-cache"
     exp
 }
+
+
+// TODO: Top Level Ops
+// TODO: Alternative STyle + Example

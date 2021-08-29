@@ -2,7 +2,7 @@
 System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
 #load "./properties.fsx"
-#load "./docu.fsx"
+//#load "./docu.fsx"
 
 #r "nuget: Fake.Core.Process"
 #r "nuget: Fake.IO.FileSystem"
@@ -63,13 +63,13 @@ let clean = "clean", fun () ->
     |> Shell.cleanDirs 
 
 let docu = "docu", fun () ->
-    Docu.generate()
+    Trace.trace (sprintf "SourceDir is: %s" __SOURCE_DIRECTORY__)
+    Shell.ExecSuccess ("fsdocs", $"build --clean --sourcefolder ./src --input ./docs --output c:/temp/FsHttpDocs --sourcerepo https://github.com/ronaldschlenker/FsHttp/blob/master/src")
 
 let slnPath = "./src/FsHttp.sln"
 
 let build = "build", fun () ->
-    let config = if shallPublish then "Release" else "Debug  "
-    Shell.ExecSuccess ("dotnet", $"publish {slnPath} -c {config} -f net5.0")
+    Shell.ExecSuccess ("dotnet", $"publish {slnPath} -c Release -f netstandard2.1")
 
 let test = "test", fun () ->
     Shell.ExecSuccess ("dotnet", $"test {slnPath}")
@@ -91,21 +91,23 @@ let publish = "publish", fun () ->
     )
 
 run [
+    clean
+
+    if shallBuild then
+        build
     if shallDocu then
+        build
         docu
-    else
-        clean
-        if shallBuild then
-            build
-        if shallTest then
-            test
-        if shallPack then
-            docu
-            pack
-        if shallPublish then
-            docu
-            pack
-            publish
+    if shallTest then
+        test
+    if shallPack then
+        docu
+        pack
+    if shallPublish then
+        build
+        docu
+        pack
+        publish
 ]
 
 Trace.trace $"Finished script..."
