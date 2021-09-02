@@ -48,7 +48,6 @@ module Helper =
             | _ -> ()
 
 let args = Args()
-let shallDocu = args.hasArg "docu"
 let shallBuild = args.hasArg "build"
 let shallTest = args.hasArg "test"
 let shallPublish = args.hasArg "publish"
@@ -61,10 +60,6 @@ let clean = "clean", fun () ->
     ++ "src/**/obj"
     ++ ".pack"
     |> Shell.cleanDirs 
-
-let docu = "docu", fun () ->
-    Trace.trace (sprintf "SourceDir is: %s" __SOURCE_DIRECTORY__)
-    Shell.ExecSuccess ("powershell", "./docu.ps1")
 
 let slnPath = "./src/FsHttp.sln"
 
@@ -95,17 +90,12 @@ run [
 
     if shallBuild then
         build
-    if shallDocu then
-        build
-        docu
     if shallTest then
         test
     if shallPack then
-        docu
         pack
     if shallPublish then
         build
-        docu
         pack
         publish
 ]

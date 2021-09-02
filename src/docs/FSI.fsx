@@ -9,7 +9,8 @@ index: 3
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../src/FsHttp/bin/Release/netstandard2.1/FsHttp.dll"
+#r "../FsHttp/bin/Release/netstandard2.1/publish/FSharp.Data.dll"
+#r "../FsHttp/bin/Release/netstandard2.1/FsHttp.dll"
 open FsHttp
 open FsHttp.DslCE
 

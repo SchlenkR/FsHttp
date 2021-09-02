@@ -9,7 +9,8 @@ index: 2
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../src/FsHttp/bin/Release/netstandard2.1/FsHttp.dll"
+#r "../FsHttp/bin/Release/netstandard2.1/publish/FSharp.Data.dll"
+#r "../FsHttp/bin/Release/netstandard2.1/publish/FsHttp.dll"
 open FsHttp
 open FsHttp.DslCE
 
@@ -47,8 +48,6 @@ http {
     """
 }
 
-// TODO: Link to API Doc
-
 
 (**
 ## Verb-First Requests (Syntax)
@@ -67,7 +66,7 @@ Inside the ```{ }```, you can place headers as usual...
 *)
 get "https://reqres.in/api/users" {
     CacheControl "no-cache"
-    exp
+    send
 }
 
 
