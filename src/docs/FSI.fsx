@@ -3,7 +3,7 @@
 title: F# Interactive Usage
 _category: Some Category
 _categoryindex: 2
-index: 3
+index: 7
 ---
 *)
 
