@@ -15,4 +15,5 @@ dotnet fsdocs `
 	--input ./src/docs `
 	--output ./docs `
 	--properties Configuration=Release `
-	--sourcerepo https://github.com/ronaldschlenker/FsHttp/blob/master/src
+	--sourcerepo https://github.com/ronaldschlenker/FsHttp/blob/master/src `
+	--parameters root /
