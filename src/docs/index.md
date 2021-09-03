@@ -1,7 +1,7 @@
 ﻿---
 title: FsHttp Overview
 _category: Some Category
-_categoryindex: 2
+_categoryindex: 1
 index: 1
 ---
 
@@ -29,8 +29,6 @@ or via F# Interactive:
 #r "nuget: SchlenkR.FsHttp"
 ```
 
-
-[Nuget SchlenkR.FsHttp](https://www.nuget.org/packages/SchlenkR.FsHttp)
 
 A simple request
 ----------------
