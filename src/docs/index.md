@@ -1,7 +1,5 @@
 ﻿---
 title: FsHttp Overview
-_category: Some Category
-_categoryindex: 1
 index: 1
 ---
 

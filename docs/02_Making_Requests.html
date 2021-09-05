@@ -58,33 +58,33 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="./Builders_and_Evaluation.html">
-    Builders and Evaluation
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./Configuration.html">
-    Configuration
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./FSI.html">
-    F# Interactive Usage
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./HttpClient_Http_Message.html">
-    HttpClient And HttpMessage
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./Making_Requests.html">
+  <a class="nav-link" href="./02_Making_Requests.html">
     Making Requests
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="./Response_Handling.html">
+  <a class="nav-link" href="./03_Response_Handling.html">
     Response Handling
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./04_Configuration.html">
+    Configuration
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./05_HttpClient_Http_Message.html">
+    HttpClient And HttpMessage
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./06_Builders_and_Evaluation.html">
+    Builders and Evaluation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./07_FSI.html">
+    F# Interactive Usage
   </a>
 </li>
                 <li class="nav-header">
@@ -100,17 +100,18 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="./">ronaldschlenker.FsHttp</a></h3>
+            <h3 class="muted"><a href="./">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
             
-<h2><a name="Quick-Start-Build-up-a-GET-request" class="anchor" href="#Quick-Start-Build-up-a-GET-request">Quick Start: Build up a GET request</a></h2>
+<h2><a name="Basics" class="anchor" href="#Basics">Basics</a></h2>
+<p>Build up a GET request:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs3', 4)" onmouseover="showTip(event, 'fs3', 4)" class="k">http</span> <span class="pn">{</span>
     <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="k">GET</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span>
 <span class="pn">}</span>
 </code></pre>
-<p>add a header...</p>
+<p>Add headers:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="k">http</span> <span class="pn">{</span>
     <span onmouseout="hideTip(event, 'fs4', 7)" onmouseover="showTip(event, 'fs4', 7)" class="k">GET</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span>
     <span onmouseout="hideTip(event, 'fs5', 8)" onmouseover="showTip(event, 'fs5', 8)" class="k">CacheControl</span> <span class="s">&quot;no-cache&quot;</span>
@@ -119,8 +120,8 @@
 <p>Here is an example of a POST with JSON as body:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs3', 9)" onmouseover="showTip(event, 'fs3', 9)" class="k">http</span> <span class="pn">{</span>
     <span onmouseout="hideTip(event, 'fs6', 10)" onmouseover="showTip(event, 'fs6', 10)" class="k">POST</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span>
-    <span class="c">// after the HTTP verb, specify header properties</span>
     <span onmouseout="hideTip(event, 'fs5', 11)" onmouseover="showTip(event, 'fs5', 11)" class="k">CacheControl</span> <span class="s">&quot;no-cache&quot;</span>
+
     <span class="c">// use &quot;body&quot; keyword to start specifying body properties</span>
     <span onmouseout="hideTip(event, 'fs7', 12)" onmouseover="showTip(event, 'fs7', 12)" class="k">body</span>
     <span onmouseout="hideTip(event, 'fs8', 13)" onmouseover="showTip(event, 'fs8', 13)" class="k">json</span> <span class="s">&quot;&quot;&quot;</span>
@@ -134,12 +135,10 @@
 <h2><a name="Verb-First-Requests-Syntax" class="anchor" href="#Verb-First-Requests-Syntax">Verb-First Requests (Syntax)</a></h2>
 <p>Alternatively, you can write the verb first.
 Note that computation expressions must not be empty, so you
-have to write at lease something, like 'id', 'go', 'exp', etc.</p>
-<p>Have a look at: <code>./src/FsHttp/DslCE.fs, module Shortcuts</code></p>
+have to write at least 'send'.</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs9', 14)" onmouseover="showTip(event, 'fs9', 14)" class="fn">get</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span> <span class="pn">{</span> <span onmouseout="hideTip(event, 'fs10', 15)" onmouseover="showTip(event, 'fs10', 15)" class="k">send</span> <span class="pn">}</span>
-</code></pre>
-<p>Inside the <code>{ }</code>, you can place headers as usual...</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs9', 16)" onmouseover="showTip(event, 'fs9', 16)" class="fn">get</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span> <span class="pn">{</span>
+
+<span onmouseout="hideTip(event, 'fs9', 16)" onmouseover="showTip(event, 'fs9', 16)" class="fn">get</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span> <span class="pn">{</span>
     <span onmouseout="hideTip(event, 'fs5', 17)" onmouseover="showTip(event, 'fs5', 17)" class="k">CacheControl</span> <span class="s">&quot;no-cache&quot;</span>
     <span onmouseout="hideTip(event, 'fs10', 18)" onmouseover="showTip(event, 'fs10', 18)" class="k">send</span>
 <span class="pn">}</span>
@@ -154,32 +153,32 @@ Line breaks and trailing or leading spaces will be removed:</p>
     <span onmouseout="hideTip(event, 'fs10', 20)" onmouseover="showTip(event, 'fs10', 20)" class="k">send</span> <span class="pn">}</span>
 </code></pre>
 
-            <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
-<div class="fsdocs-tip" id="fs2">module DslCE
+            <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
+<div class="fsdocs-tip" id="fs2">Modul DslCE
 
-from FsHttp</div>
+aus FsHttp</div>
 <div class="fsdocs-tip" id="fs3">val http : EagerSyncHttpBuilder</div>
-<div class="fsdocs-tip" id="fs4">custom operation: GET (string)
+<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: GET (string)
 
-Calls LazyHttpBuilder.Get</div>
-<div class="fsdocs-tip" id="fs5">custom operation: CacheControl (string)
+Aufrufe LazyHttpBuilder.Get</div>
+<div class="fsdocs-tip" id="fs5">Benutzerdefinierter Vorgang: CacheControl (string)
 
-Calls LazyHttpBuilder.CacheControl<br /><em>&lt;summary&gt;
+Aufrufe LazyHttpBuilder.CacheControl<br /><em>&lt;summary&gt;
  Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs6">custom operation: POST (string)
+<div class="fsdocs-tip" id="fs6">Benutzerdefinierter Vorgang: POST (string)
 
-Calls LazyHttpBuilder.Post</div>
-<div class="fsdocs-tip" id="fs7">custom operation: body
+Aufrufe LazyHttpBuilder.Post</div>
+<div class="fsdocs-tip" id="fs7">Benutzerdefinierter Vorgang: body
 
-Calls LazyHttpBuilder.Body</div>
-<div class="fsdocs-tip" id="fs8">custom operation: json (string)
+Aufrufe LazyHttpBuilder.Body</div>
+<div class="fsdocs-tip" id="fs8">Benutzerdefinierter Vorgang: json (string)
 
-Calls LazyHttpBuilder.Json</div>
+Aufrufe LazyHttpBuilder.Json</div>
 <div class="fsdocs-tip" id="fs9">val get : url:string -&gt; LazyHttpBuilder&lt;HeaderContext&gt;</div>
-<div class="fsdocs-tip" id="fs10">custom operation: send
+<div class="fsdocs-tip" id="fs10">Benutzerdefinierter Vorgang: send
 
-Calls LazyHttpBuilder.Send</div>
+Aufrufe LazyHttpBuilder.Send</div>
 
         </div>
 

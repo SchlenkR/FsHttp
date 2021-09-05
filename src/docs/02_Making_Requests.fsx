@@ -1,8 +1,6 @@
 ﻿(**
 ---
 title: Making Requests
-_category: Some Category
-_categoryindex: 2
 index: 2
 ---
 *)
@@ -14,9 +12,12 @@ index: 2
 open FsHttp
 open FsHttp.DslCE
 
+(**
+## Basics
+*)
 
 (**
-## Quick Start: Build up a GET request
+Build up a GET request:
 *)
 
 http {
@@ -24,7 +25,7 @@ http {
 }
 
 (**
-add a header...
+Add headers:
 *)
 http {
     GET "https://reqres.in/api/users"
@@ -36,8 +37,8 @@ Here is an example of a POST with JSON as body:
 *)
 http {
     POST "https://reqres.in/api/users"
-    // after the HTTP verb, specify header properties
     CacheControl "no-cache"
+
     // use "body" keyword to start specifying body properties
     body
     json """
@@ -54,16 +55,12 @@ http {
 
 Alternatively, you can write the verb first.
 Note that computation expressions must not be empty, so you
-have to write at lease something, like 'id', 'go', 'exp', etc.
+have to write at least 'send'.
 
-Have a look at: ```./src/FsHttp/DslCE.fs, module Shortcuts```
 *)
 
 get "https://reqres.in/api/users" { send }
 
-(**
-Inside the ```{ }```, you can place headers as usual...
-*)
 get "https://reqres.in/api/users" {
     CacheControl "no-cache"
     send

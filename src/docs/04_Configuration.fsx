@@ -1,8 +1,6 @@
 (**
 ---
 title: Configuration
-_category: Some Category
-_categoryindex: 2
 index: 4
 ---
 *)

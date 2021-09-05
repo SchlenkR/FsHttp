@@ -1,8 +1,6 @@
 (**
 ---
 title: HttpClient And HttpMessage
-_category: Some Category
-_categoryindex: 2
 index: 5
 ---
 *)

@@ -58,33 +58,33 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="./Builders_and_Evaluation.html">
-    Builders and Evaluation
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./Configuration.html">
-    Configuration
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./FSI.html">
-    F# Interactive Usage
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./HttpClient_Http_Message.html">
-    HttpClient And HttpMessage
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./Making_Requests.html">
+  <a class="nav-link" href="./02_Making_Requests.html">
     Making Requests
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="./Response_Handling.html">
+  <a class="nav-link" href="./03_Response_Handling.html">
     Response Handling
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./04_Configuration.html">
+    Configuration
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./05_HttpClient_Http_Message.html">
+    HttpClient And HttpMessage
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./06_Builders_and_Evaluation.html">
+    Builders and Evaluation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./07_FSI.html">
+    F# Interactive Usage
   </a>
 </li>
                 <li class="nav-header">
@@ -100,7 +100,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="./">ronaldschlenker.FsHttp</a></h3>
+            <h3 class="muted"><a href="./">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -108,7 +108,7 @@
 <h2><a name="Response-Content-Transformations" class="anchor" href="#Response-Content-Transformations">Response Content Transformations</a></h2>
 <p>There are several ways transforming the content of the returned response to
 something like text or JSON:</p>
-<p>See also: <code>./src/FsHttp/ResponseHandling.fs</code></p>
+<p>See also: <a href="reference/fshttp-response.html">Response</a></p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs3', 4)" onmouseover="showTip(event, 'fs3', 4)" class="k">http</span> <span class="pn">{</span>
     <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="k">POST</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span>
     <span onmouseout="hideTip(event, 'fs5', 6)" onmouseover="showTip(event, 'fs5', 6)" class="k">CacheControl</span> <span class="s">&quot;no-cache&quot;</span>
@@ -147,28 +147,28 @@ something like text or JSON:</p>
 <span class="o">|&gt;</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs17', 27)" onmouseover="showTip(event, 'fs17', 27)" class="fn">json</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs17', 28)" onmouseover="showTip(event, 'fs17', 28)" class="fn">json</span><span class="o">?</span><span class="id">page</span><span class="pn">.</span><span class="id">AsInteger</span><span class="pn">(</span><span class="pn">)</span>
 </code></pre>
 
-            <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
-<div class="fsdocs-tip" id="fs2">module DslCE
+            <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
+<div class="fsdocs-tip" id="fs2">Modul DslCE
 
-from FsHttp</div>
+aus FsHttp</div>
 <div class="fsdocs-tip" id="fs3">val http : EagerSyncHttpBuilder</div>
-<div class="fsdocs-tip" id="fs4">custom operation: POST (string)
+<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: POST (string)
 
-Calls LazyHttpBuilder.Post</div>
-<div class="fsdocs-tip" id="fs5">custom operation: CacheControl (string)
+Aufrufe LazyHttpBuilder.Post</div>
+<div class="fsdocs-tip" id="fs5">Benutzerdefinierter Vorgang: CacheControl (string)
 
-Calls LazyHttpBuilder.CacheControl<br /><em>&lt;summary&gt;
+Aufrufe LazyHttpBuilder.CacheControl<br /><em>&lt;summary&gt;
  Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs6">custom operation: body
+<div class="fsdocs-tip" id="fs6">Benutzerdefinierter Vorgang: body
 
-Calls LazyHttpBuilder.Body</div>
-<div class="fsdocs-tip" id="fs7">custom operation: json (string)
+Aufrufe LazyHttpBuilder.Body</div>
+<div class="fsdocs-tip" id="fs7">Benutzerdefinierter Vorgang: json (string)
 
-Calls LazyHttpBuilder.Json</div>
-<div class="fsdocs-tip" id="fs8">Multiple items<br />module Response
+Aufrufe LazyHttpBuilder.Json</div>
+<div class="fsdocs-tip" id="fs8">Multiple items<br />Modul Response
 
-from FsHttp<br /><br />--------------------<br />type Response =
+aus FsHttp<br /><br />--------------------<br />type Response =
   { requestContext: Request
     requestMessage: HttpRequestMessage
     content: HttpContent
@@ -179,14 +179,14 @@ from FsHttp<br /><br />--------------------<br />type Response =
     printHint: PrintHint }</div>
 <div class="fsdocs-tip" id="fs9">val toJson : r:Response -&gt; FSharp.Data.JsonValue</div>
 <div class="fsdocs-tip" id="fs10">val post : url:string -&gt; LazyHttpBuilder&lt;HeaderContext&gt;</div>
-<div class="fsdocs-tip" id="fs11">custom operation: send
+<div class="fsdocs-tip" id="fs11">Benutzerdefinierter Vorgang: send
 
-Calls LazyHttpBuilder.Send</div>
-<div class="fsdocs-tip" id="fs12">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs13">Multiple items<br />namespace FSharp.Data<br /><br />--------------------<br />namespace Microsoft.FSharp.Data</div>
-<div class="fsdocs-tip" id="fs14">Multiple items<br />module JsonExtensions
+Aufrufe LazyHttpBuilder.Send</div>
+<div class="fsdocs-tip" id="fs12">Multiple items<br />Namespace FSharp<br /><br />--------------------<br />Namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs13">Multiple items<br />Namespace FSharp.Data<br /><br />--------------------<br />Namespace Microsoft.FSharp.Data</div>
+<div class="fsdocs-tip" id="fs14">Multiple items<br />Modul JsonExtensions
 
-from FSharp.Data<br /><br />--------------------<br />type JsonExtensions =
+aus FSharp.Data<br /><br />--------------------<br />type JsonExtensions =
   static member AsArray : x:JsonValue -&gt; JsonValue []
   static member AsBoolean : x:JsonValue -&gt; bool
   static member AsDateTime : x:JsonValue * ?cultureInfo:CultureInfo -&gt; DateTime
@@ -198,9 +198,9 @@ from FSharp.Data<br /><br />--------------------<br />type JsonExtensions =
   static member AsInteger64 : x:JsonValue * ?cultureInfo:CultureInfo -&gt; int64
   static member AsString : x:JsonValue * ?cultureInfo:CultureInfo -&gt; string
   ...</div>
-<div class="fsdocs-tip" id="fs15">custom operation: GET (string)
+<div class="fsdocs-tip" id="fs15">Benutzerdefinierter Vorgang: GET (string)
 
-Calls LazyHttpBuilder.Get</div>
+Aufrufe LazyHttpBuilder.Get</div>
 <div class="fsdocs-tip" id="fs16">val toJson : r:Response -&gt; JsonValue</div>
 <div class="fsdocs-tip" id="fs17">val json : JsonValue</div>
 

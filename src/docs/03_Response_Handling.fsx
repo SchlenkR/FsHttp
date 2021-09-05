@@ -1,8 +1,6 @@
 (**
 ---
 title: Response Handling
-_category: Some Category
-_categoryindex: 2
 index: 3
 ---
 *)
@@ -21,7 +19,7 @@ open FsHttp.DslCE
 There are several ways transforming the content of the returned response to
 something like text or JSON:
 
-See also: ```./src/FsHttp/ResponseHandling.fs```
+See also: [Response](reference/fshttp-response.html)
 *)
 
 http {

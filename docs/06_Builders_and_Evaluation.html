@@ -58,33 +58,33 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="./Builders_and_Evaluation.html">
-    Builders and Evaluation
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./Configuration.html">
-    Configuration
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./FSI.html">
-    F# Interactive Usage
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./HttpClient_Http_Message.html">
-    HttpClient And HttpMessage
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="./Making_Requests.html">
+  <a class="nav-link" href="./02_Making_Requests.html">
     Making Requests
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="./Response_Handling.html">
+  <a class="nav-link" href="./03_Response_Handling.html">
     Response Handling
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./04_Configuration.html">
+    Configuration
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./05_HttpClient_Http_Message.html">
+    HttpClient And HttpMessage
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./06_Builders_and_Evaluation.html">
+    Builders and Evaluation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="./07_FSI.html">
+    F# Interactive Usage
   </a>
 </li>
                 <li class="nav-header">
@@ -100,7 +100,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="./">ronaldschlenker.FsHttp</a></h3>
+            <h3 class="muted"><a href="./">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -239,32 +239,32 @@ simply build a request, pass it around and send it later or to warp it in async.
     <span class="pn">}</span>
 </code></pre>
 
-            <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
-<div class="fsdocs-tip" id="fs2">module DslCE
+            <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
+<div class="fsdocs-tip" id="fs2">Modul DslCE
 
-from FsHttp</div>
+aus FsHttp</div>
 <div class="fsdocs-tip" id="fs3">val postOnly : LazyHttpBuilder&lt;HeaderContext&gt;</div>
 <div class="fsdocs-tip" id="fs4">val httpLazy : LazyHttpBuilder&lt;StartingContext&gt;</div>
-<div class="fsdocs-tip" id="fs5">custom operation: POST (string)
+<div class="fsdocs-tip" id="fs5">Benutzerdefinierter Vorgang: POST (string)
 
-Calls LazyHttpBuilder.Post</div>
+Aufrufe LazyHttpBuilder.Post</div>
 <div class="fsdocs-tip" id="fs6">val postWithCacheControlBut : LazyHttpBuilder&lt;HeaderContext&gt;</div>
-<div class="fsdocs-tip" id="fs7">custom operation: CacheControl (string)
+<div class="fsdocs-tip" id="fs7">Benutzerdefinierter Vorgang: CacheControl (string)
 
-Calls LazyHttpBuilder.CacheControl<br /><em>&lt;summary&gt;
+Aufrufe LazyHttpBuilder.CacheControl<br /><em>&lt;summary&gt;
  Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
 &lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs8">val finalPostWithBody : LazyHttpBuilder&lt;BodyContext&gt;</div>
-<div class="fsdocs-tip" id="fs9">custom operation: body
+<div class="fsdocs-tip" id="fs9">Benutzerdefinierter Vorgang: body
 
-Calls LazyHttpBuilder.Body</div>
-<div class="fsdocs-tip" id="fs10">custom operation: json (string)
+Aufrufe LazyHttpBuilder.Body</div>
+<div class="fsdocs-tip" id="fs10">Benutzerdefinierter Vorgang: json (string)
 
-Calls LazyHttpBuilder.Json</div>
+Aufrufe LazyHttpBuilder.Json</div>
 <div class="fsdocs-tip" id="fs11">val finalPostResponse : Response</div>
-<div class="fsdocs-tip" id="fs12">Multiple items<br />module Request
+<div class="fsdocs-tip" id="fs12">Multiple items<br />Modul Request
 
-from FsHttp<br /><br />--------------------<br />type Request =
+aus FsHttp<br /><br />--------------------<br />type Request =
   { header: Header
     content: RequestContent
     config: Config }</div>
@@ -279,13 +279,13 @@ from FsHttp<br /><br />--------------------<br />type Request =
 <div class="fsdocs-tip" id="fs17">val async : AsyncBuilder<br /><em>&lt;summary&gt;Builds an asynchronous workflow using computation expression syntax.&lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs18">val response : Response</div>
 <div class="fsdocs-tip" id="fs19">val httpAsync : EagerAsyncHttpBuilder</div>
-<div class="fsdocs-tip" id="fs20">custom operation: GET (string)
+<div class="fsdocs-tip" id="fs20">Benutzerdefinierter Vorgang: GET (string)
 
-Calls LazyHttpBuilder.Get</div>
+Aufrufe LazyHttpBuilder.Get</div>
 <div class="fsdocs-tip" id="fs21">val page : obj</div>
-<div class="fsdocs-tip" id="fs22">Multiple items<br />module Response
+<div class="fsdocs-tip" id="fs22">Multiple items<br />Modul Response
 
-from FsHttp<br /><br />--------------------<br />type Response =
+aus FsHttp<br /><br />--------------------<br />type Response =
   { requestContext: Request
     requestMessage: HttpRequestMessage
     content: HttpContent
@@ -313,14 +313,14 @@ from FsHttp<br /><br />--------------------<br />type Response =
     member Configure : transformConfig:ConfigTransformer -&gt; HeaderContext</div>
 <div class="fsdocs-tip" id="fs29">val get : url:string -&gt; LazyHttpBuilder&lt;HeaderContext&gt;</div>
 <div class="fsdocs-tip" id="fs30">val getUsers2 : LazyHttpBuilder&lt;HeaderContext&gt;</div>
-<div class="fsdocs-tip" id="fs31">custom operation: send
+<div class="fsdocs-tip" id="fs31">Benutzerdefinierter Vorgang: send
 
-Calls LazyHttpBuilder.Send</div>
-<div class="fsdocs-tip" id="fs32">Multiple items<br />custom operation: Request (string) (string)
+Aufrufe LazyHttpBuilder.Send</div>
+<div class="fsdocs-tip" id="fs32">Multiple items<br />Benutzerdefinierter Vorgang: Request (string) (string)
 
-Calls LazyHttpBuilder.Request<br /><br />--------------------<br />module Request
+Aufrufe LazyHttpBuilder.Request<br /><br />--------------------<br />Modul Request
 
-from FsHttp<br /><br />--------------------<br />type Request =
+aus FsHttp<br /><br />--------------------<br />type Request =
   { header: Header
     content: RequestContent
     config: Config }</div>
@@ -329,12 +329,12 @@ from FsHttp<br /><br />--------------------<br />type Request =
   static member AsBeginEnd : computation:(&#39;Arg -&gt; Async&lt;&#39;T&gt;) -&gt; (&#39;Arg * AsyncCallback * obj -&gt; IAsyncResult) * (IAsyncResult -&gt; &#39;T) * (IAsyncResult -&gt; unit)
   static member AwaitEvent : event:IEvent&lt;&#39;Del,&#39;T&gt; * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt; (requires delegate and &#39;Del :&gt; Delegate)
   static member AwaitIAsyncResult : iar:IAsyncResult * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;
-  static member AwaitTask : task:Task&lt;&#39;T&gt; -&gt; Async&lt;&#39;T&gt; + 1 overload
+  static member AwaitTask : task:Task&lt;&#39;T&gt; -&gt; Async&lt;&#39;T&gt; + 1 &#220;berladung
   static member AwaitWaitHandle : waitHandle:WaitHandle * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;
   static member CancelDefaultToken : unit -&gt; unit
   static member Catch : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;Choice&lt;&#39;T,exn&gt;&gt;
   static member Choice : computations:seq&lt;Async&lt;&#39;T option&gt;&gt; -&gt; Async&lt;&#39;T option&gt;
-  static member FromBeginEnd : beginAction:(AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt; + 3 overloads
+  static member FromBeginEnd : beginAction:(AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt; + 3 &#220;berladungen
   static member FromContinuations : callback:((&#39;T -&gt; unit) * (exn -&gt; unit) * (OperationCanceledException -&gt; unit) -&gt; unit) -&gt; Async&lt;&#39;T&gt;
   ...<br /><em>&lt;summary&gt;Holds static members for creating and manipulating asynchronous computations.&lt;/summary&gt;<br />&lt;remarks&gt;
   See also &lt;a href=&quot;https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/asynchronous-workflows&quot;&gt;F# Language Guide - Async Workflows&lt;/a&gt;.
@@ -352,12 +352,12 @@ from FsHttp<br /><br />--------------------<br />type Request =
    &lt;a href=&quot;https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/lazy-expressions&quot;&gt;Lazy Expressions&lt;/a&gt; in the
    F# Language Guide.
  &lt;/summary&gt;&lt;/namespacedoc&gt;<br />&lt;category index=&quot;1&quot;&gt;Async Programming&lt;/category&gt;</em></div>
-<div class="fsdocs-tip" id="fs35">custom operation: sendAsync
+<div class="fsdocs-tip" id="fs35">Benutzerdefinierter Vorgang: sendAsync
 
-Calls LazyHttpBuilder.SendAsync</div>
-<div class="fsdocs-tip" id="fs36">custom operation: exp
+Aufrufe LazyHttpBuilder.SendAsync</div>
+<div class="fsdocs-tip" id="fs36">Benutzerdefinierter Vorgang: exp
 
-Calls LazyHttpBuilder.Exp</div>
+Aufrufe LazyHttpBuilder.Exp</div>
 
         </div>
 
