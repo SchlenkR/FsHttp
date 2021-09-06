@@ -7,7 +7,7 @@ index: 5
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../FsHttp/bin/Release/netstandard2.1/publish/FSharp.Data.dll"
+#r "nuget: FSharp.Data"
 #r "../FsHttp/bin/Release/netstandard2.1/publish/FsHttp.dll"
 open FsHttp
 open FsHttp.DslCE
