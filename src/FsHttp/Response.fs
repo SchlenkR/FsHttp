@@ -3,7 +3,10 @@ module FsHttp.Response
 open System
 open System.Xml.Linq
 open FSharp.Data
-open Domain
+
+open FsHttp.Helper
+open FsHttp.Domain
+
 
 let maxContentLengthOnParseFail = 1000
 let private tryParse text parserName parser =

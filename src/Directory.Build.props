@@ -3,15 +3,12 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>5.1.0</Version>
+    <Version>6.0.0-prerelease1</Version>
     <Company />
     <Copyright>Copyright 2021 Ronald Schlenker</Copyright>
-    <PackageIconUrl></PackageIconUrl>
+    <PackageIconUrl>https://github.com/ronaldschlenker/FsHttp/blob/master/src/docs/img/logo.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
-* Fixed FSI printer initialization
-* Added http lazy async builder (related to 'Retries with async #58')
-* Allow for multiple requests in async lazy mode.
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>

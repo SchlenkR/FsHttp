@@ -1,7 +1,8 @@
 module FsHttp.Config
 
 open System
-open Domain
+
+open FsHttp.Domain
 
 let private defaultPreviewLength = 7000
 

@@ -1,4 +1,5 @@
-namespace FsHttp
+namespace FsHttp.Helper
+
 
 module String =
 

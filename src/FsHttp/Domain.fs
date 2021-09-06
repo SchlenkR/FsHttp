@@ -1,4 +1,3 @@
-
 [<AutoOpen>]
 module FsHttp.Domain
 

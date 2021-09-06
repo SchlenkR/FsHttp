@@ -1,4 +1,3 @@
-
 module FsHttp.Fsi
 
 open System
@@ -6,7 +5,7 @@ open System.Collections.Generic
 open System.Net.Http
 open System.Text
 
-open Domain
+open FsHttp.Domain
 
 
 let noCustomPrinting (printHint: PrintHint) = 

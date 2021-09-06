@@ -6,7 +6,8 @@ open System.Net.Http
 open System.Text
 open System.Globalization
 
-open Domain
+open FsHttp.Helper
+open FsHttp.Domain
 
 [<AutoOpen>]
 module Method =

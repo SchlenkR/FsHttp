@@ -1,61 +1,59 @@
 module FsHttp.DslCE
 
-open Domain
+open FsHttp.Domain
 
-[<AutoOpen>]
-module Builder =
        
-    type LazyHttpBuilder<'context when 'context :> IContext>(context: 'context) =
+type LazyHttpBuilder<'context when 'context :> IContext>(context: 'context) =
         
-        // need to implement this so that Request.send (etc.) are working.
-        interface IContext with
-            member this.ToRequest() = context.ToRequest()
+    // need to implement this so that Request.send (etc.) are working.
+    interface IContext with
+        member this.ToRequest() = context.ToRequest()
         
-        member this.Context = context
+    member this.Context = context
 
-        member this.Bind(m, f) = f m
-        member this.Return(x) = x
-        member this.Yield(_) = LazyHttpBuilder context
-        member this.For(m, f) = this.Bind m f
-    let httpLazy = LazyHttpBuilder(StartingContext)
+    member this.Bind(m, f) = f m
+    member this.Return(x) = x
+    member this.Yield(_) = LazyHttpBuilder context
+    member this.For(m, f) = this.Bind m f
+let httpLazy = LazyHttpBuilder(StartingContext)
 
-    /// Provides base support for ```http { METHOD ... }``` syntax
-    type EagerHttpBuilder() =
-        inherit LazyHttpBuilder<StartingContext>(StartingContext)
+/// Provides base support for ```http { METHOD ... }``` syntax
+type EagerHttpBuilder() =
+    inherit LazyHttpBuilder<StartingContext>(StartingContext)
 
-    /// Builder that executes blocking (synchronous) immediately.
-    type EagerSyncHttpBuilder() =
-        inherit EagerHttpBuilder()
-        member inline this.Delay(f: unit -> 'a) = f
-        member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
-            f() |> Request.send
-    let http = EagerSyncHttpBuilder()
+/// Builder that executes blocking (synchronous) immediately.
+type EagerSyncHttpBuilder() =
+    inherit EagerHttpBuilder()
+    member inline this.Delay(f: unit -> 'a) = f
+    member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+        f() |> Request.send
+let http = EagerSyncHttpBuilder()
 
-    /// Builder that executes non-blocking (asynchronous) and immediately.
-    type EagerAsyncHttpBuilder() =
-        inherit EagerHttpBuilder()
-        member inline this.Delay(f: unit -> 'a) = f
-        member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
-            f() |> Request.sendAsync
-    let httpAsync = EagerAsyncHttpBuilder()
+/// Builder that executes non-blocking (asynchronous) and immediately.
+type EagerAsyncHttpBuilder() =
+    inherit EagerHttpBuilder()
+    member inline this.Delay(f: unit -> 'a) = f
+    member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+        f() |> Request.sendAsync
+let httpAsync = EagerAsyncHttpBuilder()
 
-    /// Builder that executes non-blocking (asynchronous) and lazy.
-    type LazyAsyncHttpBuilder() =
-        inherit EagerHttpBuilder()
-        member inline this.Delay(f: unit -> 'a) = f
-        member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
-            f() |> Request.buildAsync
-    let httpLazyAsync = LazyAsyncHttpBuilder()
+/// Builder that executes non-blocking (asynchronous) and lazy.
+type LazyAsyncHttpBuilder() =
+    inherit EagerHttpBuilder()
+    member inline this.Delay(f: unit -> 'a) = f
+    member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+        f() |> Request.buildAsync
+let httpLazyAsync = LazyAsyncHttpBuilder()
 
-    /// Builder that creates a System.Net.Http.HttpRequestMessage object.
-    type HttpMessageBuilder() =
-        inherit LazyHttpBuilder<StartingContext>(StartingContext)
-        member inline this.Delay(f: unit -> 'a) = f
-        member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
-            f()
-            |> fun builder -> builder.Context.ToRequest()
-            |> Request.toMessage
-    let httpMsg = HttpMessageBuilder()
+/// Builder that creates a System.Net.Http.HttpRequestMessage object.
+type HttpMessageBuilder() =
+    inherit LazyHttpBuilder<StartingContext>(StartingContext)
+    member inline this.Delay(f: unit -> 'a) = f
+    member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+        f()
+        |> fun builder -> builder.Context.ToRequest()
+        |> Request.toMessage
+let httpMsg = HttpMessageBuilder()
 
 
 [<AutoOpen>]
