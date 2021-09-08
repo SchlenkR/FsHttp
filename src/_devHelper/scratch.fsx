@@ -19,6 +19,21 @@ let retryRes =
     |> Async.RunSynchronously
 
 
+httpMsg {
+    GET "http://www.wikipedia.de"
+    query [ "q1", "<>" ]
+}
+
+
+open System
+
+Uri("http://www.google.de?x=a&z=b").ToString()
+Uri("http://www.google.de?x=a&z=b").Query
+
+UriBuilder("http://www.google.de")
+UriBuilder("http://www.google.de?x=<>").ToString()
+
+
 
 post "https://reqres.in/api/users" {
     CacheControl "no-cache"

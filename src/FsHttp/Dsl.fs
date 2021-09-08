@@ -21,18 +21,14 @@ module Method =
             url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
             |> Seq.map (fun x -> x.Trim())
             |> Seq.filter (fun x -> not (x.StartsWith("//")))
-            // TODO
-            //|> Seq.map (fun x ->
-            //    if x.StartsWith("?") || x.StartsWith("&")
-            //    then x.Substring(1)
-            //    else x
-            //)
             |> Seq.reduce (+)
 
         { header =
-            { url = formattedUrl
+            { url =
+                { address = formattedUrl
+                  additionalQueryParams = Map.empty }
               method = HttpMethod(method)
-              headers = []
+              headers = Map.empty
               cookies = [] }
           config = Config.defaultConfig }
 
@@ -56,7 +52,17 @@ module Header =
 
     /// Adds a custom header
     let header name value (context: HeaderContext) =
-        { context with header = { context.header with headers = context.header.headers @ [ name, value ] } }
+        { context with 
+            header = { context.header with 
+                         headers = Map.union context.header.headers [ name, value ] } }
+
+    /// Adds a set of query parameters to the URL    
+    let query (queryParams: (string * string) list) (context: HeaderContext) =
+        { context with
+            header = { context.header with
+                         url = { context.header.url with 
+                                   additionalQueryParams = queryParams |> Map.ofList } } }
+                         
 
     /// Content-Types that are acceptable for the response
     let accept (contentType: string) (context: HeaderContext) =
@@ -82,9 +88,6 @@ module Header =
     /////// The Allow header, which specifies the set of HTTP methods supported.
     ////let allow (methods: string) (context:HeaderContext) =
     ////    headerField "Allow" methods context 
-
-    let query (queryParams: (string * string) list) (context: HeaderContext) =
-        { context with header = { context.header with url = context.header.url |> Uri.appendQueryToUrl queryParams } }
     
     /// Authorization credentials for HTTP authorization
     let authorization (credentials: string) (context: HeaderContext) =
@@ -316,7 +319,7 @@ module Body =
         content MimeTypes.applicationJson (StringContent json) context
 
     let formUrlEncoded (data: (string * string) list) (context: BodyContext) =
-        content "application/x-www-form-urlencoded" (FormUrlEncodedContent data) context
+        content "application/x-www-form-urlencoded" (FormUrlEncodedContent (Map.ofList data)) context
 
     let file (path: string) (context: BodyContext) =
         content MimeTypes.octetStream (FileContent path) context

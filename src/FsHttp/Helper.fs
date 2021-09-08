@@ -22,26 +22,23 @@ module String =
 
     let substring (s:string) maxLength = string(s.Substring(0, Math.Min(maxLength, s.Length)))
 
+module Map =
+    let union (m1: Map<'k, 'v>) (s: seq<'k * 'v>) =
+        seq {
+            yield! m1 |> Seq.map (fun kvp -> kvp.Key, kvp.Value)
+            yield! s
+        }
+        |> Map.ofSeq
 
-module Uri =
 
+module Url =
     open System
 
-    let encodeUrlParam (param: string) =
-        (Uri.EscapeUriString param).Replace("&", "%26").Replace("#", "%23")
-            
-    let appendQueryToUrl queryParams (url: string) =
-        match queryParams with
-        | [] -> url
-        | query ->
-            url
-            + if url.Contains "?" then "&" else "?"
-            + String.concat "&" (query |> List.map (fun (k, v) -> encodeUrlParam k + "=" + encodeUrlParam v))
-
-    // TODO: Test
-    let urlCombine (url1:string) (url2:string) =
+    let internal urlCombine (url1:string) (url2:string) =
         (url1.TrimEnd [|'/'|]) + "/" + (url2.TrimStart [|'/'|])
 
+
+// TODO: Maybe move this and merge with other top level ops
 [<AutoOpen>]
 module TopLevelOperators =
-    let (</>) = Uri.urlCombine
+    let (</>) = Url.urlCombine

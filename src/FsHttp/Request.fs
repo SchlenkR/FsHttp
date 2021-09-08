@@ -17,7 +17,8 @@ let toMessage (request: Request): HttpRequestMessage =
 
     let header = request.header
 
-    let requestMessage = new HttpRequestMessage(header.method, header.url)
+    let url = FsHttpUrl.toUriString header.url
+    let requestMessage = new HttpRequestMessage(header.method, url)
 
     do requestMessage.Properties.[TimeoutPropertyName] <- request.config.timeout
 
@@ -30,25 +31,19 @@ let toMessage (request: Request): HttpRequestMessage =
             | ByteArrayContent data -> new ByteArrayContent(data) :> HttpContent
             | StreamContent s -> new StreamContent(s) :> HttpContent
             | FormUrlEncodedContent data ->
-                let kvps =
-                    data |> List.map (fun (k, v) -> KeyValuePair<string, string>(k, v))
-
-                new FormUrlEncodedContent(kvps) :> HttpContent
+                new FormUrlEncodedContent(data) :> HttpContent
             | FileContent path ->
                 let content =
                     let fs = System.IO.File.OpenRead path
                     new StreamContent(fs)
-
                 let contentDispoHeaderValue =
                     ContentDispositionHeaderValue("form-data")
-
                 match name with
                 | Some v -> contentDispoHeaderValue.Name <- v
                 | None -> ()
-
-                contentDispoHeaderValue.FileName <- path
-                content.Headers.ContentDisposition <- contentDispoHeaderValue
-
+                do
+                    contentDispoHeaderValue.FileName <- path
+                    content.Headers.ContentDisposition <- contentDispoHeaderValue
                 content :> HttpContent
 
         if contentType.IsSome then dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentType.Value
@@ -68,9 +63,9 @@ let toMessage (request: Request): HttpRequestMessage =
                    |> List.map (fun x -> x.name, buildDotnetContent x.content x.contentType (Some x.name))
                    |> List.iter (fun (name, dotnetContent) -> multipartContent.Add(dotnetContent, name))
                 multipartContent :> HttpContent
-
-    for name, value in header.headers do
-        requestMessage.Headers.TryAddWithoutValidation(name, value) |> ignore
+    
+    for kvp in header.headers do
+        requestMessage.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value) |> ignore
 
     requestMessage
 

@@ -1,15 +1,10 @@
-﻿
-#if INTERACTIVE
-#r "nuget: FSharp.Data"
-#r "nuget: nunit.framework"
-#r "nuget: FsUnit.NUnit"
-#r "nuget: Suave"
-#r "../FsHttp/bin/Debug/netstandard2.1/FsHttp"
-#r "../FsHttp.NUnit/bin/Debug/netstandard2.1/FsHttp.NUnit.dll"
-#load "./Server.fs"
-#else
-module ``Integration tests for FsHttp``
-#endif
+﻿module ``Integration tests for FsHttp``
+
+open System
+open System.IO
+open System.Net
+open System.Net.Http
+open System.Threading
 
 open FsUnit
 open FsHttp
@@ -17,11 +12,7 @@ open FsHttp.DslCE
 open FsHttp.Testing
 open NUnit.Framework
 open Server
-open System
-open System.IO
-open System.Net
-open System.Net.Http
-open System.Threading
+
 open Suave
 open Suave.Cookie
 open Suave.ServerErrors
@@ -45,7 +36,8 @@ module Helper =
 let ``Synchronous calls are invoked immediately``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
-    http { GET (url @"?test=Hallo") }
+    get (url @"?test=Hallo")
+    |> Request.send
     |> Response.toText
     |> should equal "test=Hallo"
 
@@ -144,7 +136,6 @@ let ``Comments in urls are discarded``() =
     |> Response.toText
     |> should equal ("Query1_" + keyNotFoundString + "_Query3")
 
-
 [<TestCase>]
 let ``Empty query params``() =
     use server = 
@@ -182,11 +173,25 @@ let ``Query params``() =
 
     http {
         GET (url "")
-        query ["q1", "Query1"
-               "q2", "Query2"]
+        query [ "q1", "Query1"
+                "q2", "Query2" ]
     }
     |> Response.toText
     |> should equal "Query1_Query2"
+    
+[<TestCase>]
+let ``Query params encoding``() =
+    use server = 
+        GET
+        >=> request (fun r -> query "q1" r |> OK)
+        |> serve
+
+    http {
+        GET (url "")
+        query [ "q1", "[]" ]
+    }
+    |> Response.toText
+    |> should equal "[]"
 
 [<TestCase>]
 let ``POST string data``() =

@@ -2,6 +2,7 @@
 module FsHttp.Domain
 
 open System
+open System.Net.Http
 
 
 // TODO: Get rid of all the boolean switches and use options instead.
@@ -9,17 +10,17 @@ type Config =
     { timeout: TimeSpan
       printHint: PrintHint
       printDebugMessages: bool
-      httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage) option
+      httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
 #if NETSTANDARD_2
-      httpClientHandlerTransformer: (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
+      httpClientHandlerTransformer: (HttpClientHandler -> HttpClientHandler) option
 #else
-      httpClientHandlerTransformer: (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
+      httpClientHandlerTransformer: (SocketsHttpHandler -> SocketsHttpHandler) option
 #endif
-      httpClientTransformer: (System.Net.Http.HttpClient -> System.Net.Http.HttpClient) option
-      httpCompletionOption: System.Net.Http.HttpCompletionOption
+      httpClientTransformer: (HttpClient -> HttpClient) option
+      httpCompletionOption: HttpCompletionOption
       proxy: Proxy option
       certErrorStrategy: CertErrorStrategy
-      httpClientFactory: (unit -> System.Net.Http.HttpClient) option }
+      httpClientFactory: (unit -> HttpClient) option }
 
 and Proxy =
     { url: string
@@ -50,11 +51,14 @@ and ContentPrintHint =
 type ConfigTransformer = Config -> Config
 
 
+type FsHttpUrl =
+    { address: string
+      additionalQueryParams: Map<string, string> }
 
 type Header =
-    { url: string
-      method: System.Net.Http.HttpMethod
-      headers: (string * string) list
+    { url: FsHttpUrl
+      method: HttpMethod
+      headers: Map<string, string>
       // We use a .Net type here, which we never do in other places.
       // Since Cookie is record style, I see no problem here.
       cookies: System.Net.Cookie list }
@@ -63,7 +67,7 @@ type ContentData =
     | StringContent of string
     | ByteArrayContent of byte array
     | StreamContent of System.IO.Stream
-    | FormUrlEncodedContent of (string * string) list
+    | FormUrlEncodedContent of Map<string, string>
     | FileContent of string
 
 type BodyContent =
@@ -158,3 +162,19 @@ type Response =
       statusCode: System.Net.HttpStatusCode
       version: Version
       printHint: PrintHint }
+
+
+module FsHttpUrl =
+    let toUriString (url: FsHttpUrl) =
+        let uri = UriBuilder(url.address)
+        let queryParamsString = 
+            url.additionalQueryParams 
+            |> Seq.map (fun kvp -> $"{kvp.Key}={kvp.Value}") 
+            |> String.concat "&"
+        uri.Query <-
+            match uri.Query, queryParamsString with
+            | "", "" -> ""
+            | s, "" -> s
+            | "", q -> $"?{q}"
+            | s, q -> $"{s}&{q}"
+        uri.ToString()

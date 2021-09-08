@@ -94,7 +94,7 @@ let print (r: Response) =
         
         appendSection "REQUEST"
         
-        sprintf "%s %s HTTP/%s" (r.requestContext.header.method.ToString()) r.requestContext.header.url (r.version.ToString())
+        sprintf "%s %s HTTP/%s" (r.requestContext.header.method.ToString()) (FsHttpUrl.toUriString r.requestContext.header.url) (r.version.ToString())
         |> appendLine
 
         if requestPrintHint.printHeader then
@@ -132,8 +132,8 @@ let print (r: Response) =
                 | FormUrlEncodedContent formDataList ->
                     [
                         yield "::FormUrlEncoded"
-                        for key,value in formDataList do
-                            yield sprintf "    %s = %s" key value
+                        for kvp in formDataList do
+                            yield sprintf "    %s = %s" kvp.Key kvp.Value
                     ]
                     |> String.concat "\n"
                 | FileContent fileName ->

@@ -80,3 +80,4 @@ get "https://reqres.in/api/users
     send }
 
 
+// TODO: Document 'query' operation
