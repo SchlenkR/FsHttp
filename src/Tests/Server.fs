@@ -19,6 +19,14 @@ let serve (app: WebPart) =
 
     Async.Start(server, cts.Token)
 
+    do
+        listening
+        |> Async.RunSynchronously
+        |> Array.choose id
+        |> Array.map (fun x -> x.binding |> string)
+        |> String.concat "; "
+        |> printfn "Server ready and listening on: %s"
+
     let dispose() =
         cts.Cancel()
         cts.Dispose()
