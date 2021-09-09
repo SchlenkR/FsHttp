@@ -16,4 +16,7 @@
   <ItemGroup>
     <Compile Include="FsHttp.Testing.fs" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="4.0.1" />
+  </ItemGroup>
 </Project>

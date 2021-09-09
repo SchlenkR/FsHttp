@@ -1,4 +1,4 @@
-﻿module Server
+﻿module FsHttp.Tests.Server
 
 open System.Threading
 open Suave
@@ -8,7 +8,7 @@ type Route =
       route: string
       handler: HttpRequest -> WebPart }
 
-let url s = sprintf "http://127.0.0.1:8080%s" s
+let url (s: string) = $"http://127.0.0.1:8080{s}"
 
 let serve (app: WebPart) =
     let cts = new CancellationTokenSource()

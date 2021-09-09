@@ -8,22 +8,23 @@
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="uploadFile2.txt">
+    <Compile Include="Helper\TestHelper.fs" />
+    <Compile Include="Helper\Server.fs" />
+    <None Include="Resources\uploadFile2.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="uploadFile.txt">
+    <None Include="Resources\uploadFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="Server.fs" />
-    <Compile Include="JsonTests.fs" />
-    <Compile Include="UnitTests.fs" />
-    <Compile Include="IntegrationTests.fs" />
+    <Compile Include="FsHttp.Testing.Tests.fs" />
+    <Compile Include="FsHttp.Tests.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FsUnit" Version="4.0.4" />
+    <PackageReference Include="FSharp.Data" Version="4.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
