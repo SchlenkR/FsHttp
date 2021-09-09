@@ -64,7 +64,7 @@ let clean = "clean", fun () ->
 let slnPath = "./src/FsHttp.sln"
 
 let build = "build", fun () ->
-    Shell.ExecSuccess ("dotnet", $"publish {slnPath} -c Release -f netstandard2.1")
+    Shell.ExecSuccess ("dotnet", $"build {slnPath}")
 
 let test = "test", fun () ->
     Shell.ExecSuccess ("dotnet", $"test {slnPath}")
@@ -72,7 +72,7 @@ let test = "test", fun () ->
 let pack = "pack", fun () ->
     !! "src/**/FsHttp*.fsproj"
     |> Seq.iter (fun p ->
-        Trace.trace (sprintf "SourceDir is: %s" __SOURCE_DIRECTORY__)
+        Trace.trace $"SourceDir is: {__SOURCE_DIRECTORY__}"
         Shell.ExecSuccess ("dotnet", sprintf "pack %s -o %s -c Release" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
     )
 
@@ -84,8 +84,7 @@ let publish = "publish", fun () ->
     let nugetApiKey = Environment.environVar Properties.nugetPushEnvVarName
     !! ".pack/*.nupkg"
     |> Seq.iter (fun p ->
-        Trace.tracefn "------ pushing: %s" p
-        Shell.ExecSuccess ("dotnet", sprintf "nuget push %s -k %s -s %s" p nugetApiKey Properties.nugetServer)
+        Shell.ExecSuccess ("dotnet", $"nuget push {p} -k {nugetApiKey} -s {Properties.nugetServer}")
     )
 
 run [
