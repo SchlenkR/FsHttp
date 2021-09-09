@@ -56,7 +56,7 @@ let ``Asynchronous calls are sent immediately``() =
     let req =
         get (url "?test=Hallo")
         |> Request.sendAsync
-    
+
     Thread.Sleep 3000
 
     req
@@ -82,7 +82,7 @@ let ``Smoke test for a header``() =
     use server = GET >=> request (header "accept-language" >> OK) |> serve
 
     let lang = "zh-Hans"
-    
+
     http {
         GET (url @"")
         AcceptLanguage lang
@@ -107,7 +107,7 @@ let ``ContentType override``() =
 
 [<TestCase>]
 let ``Multiline urls``() =
-    use server = 
+    use server =
         GET
         >=> request (fun r -> (query "q1" r) + "_" + (query "q2" r) |> OK)
         |> serve
@@ -123,7 +123,7 @@ let ``Multiline urls``() =
 [<TestCase>]
 let ``Comments in urls are discarded``() =
     use server =
-        GET 
+        GET
         >=> request (fun r -> (query "q1" r) + "_" + (query "q2" r) + "_" + (query "q3" r) |> OK)
         |> serve
 
@@ -138,7 +138,7 @@ let ``Comments in urls are discarded``() =
 
 [<TestCase>]
 let ``Empty query params``() =
-    use server = 
+    use server =
         GET
         >=> request (fun _ -> "" |> OK)
         |> serve
@@ -149,10 +149,10 @@ let ``Empty query params``() =
     }
     |> Response.toText
     |> should equal ""
-    
+
 [<TestCase>]
 let ``Merge query params with url params``() =
-    use server = 
+    use server =
         GET
         >=> request (fun r -> (query "q1" r) + "_" + (query "q2" r) |> OK)
         |> serve
@@ -162,11 +162,11 @@ let ``Merge query params with url params``() =
         query ["q2", "Query2"]
     }
     |> Response.toText
-    |> should equal "Query1_Query2"    
-    
+    |> should equal "Query1_Query2"
+
 [<TestCase>]
 let ``Query params``() =
-    use server = 
+    use server =
         GET
         >=> request (fun r -> (query "q1" r) + "_" + (query "q2" r) |> OK)
         |> serve
@@ -178,10 +178,10 @@ let ``Query params``() =
     }
     |> Response.toText
     |> should equal "Query1_Query2"
-    
+
 [<TestCase>]
 let ``Query params encoding``() =
-    use server = 
+    use server =
         GET
         >=> request (fun r -> query "q1" r |> OK)
         |> serve
@@ -194,9 +194,23 @@ let ``Query params encoding``() =
     |> should equal "[]"
 
 [<TestCase>]
+let ``Query params encoding keys``() =
+    use server =
+        GET
+        >=> request (fun r -> query "fields%5bmember%5d" r |> OK)
+        |> serve
+
+    http {
+        GET (url "")
+        query [ System.Web.HttpUtility.UrlEncode "fields[member]", "[]" ]
+    }
+    |> Response.toText
+    |> should equal "[]"
+
+[<TestCase>]
 let ``POST string data``() =
     use server =
-        POST 
+        POST
         >=> request (text >> OK)
         |> serve
 
@@ -213,7 +227,7 @@ let ``POST string data``() =
 [<TestCase>]
 let ``POST binary data``() =
     use server =
-        POST 
+        POST
         >=> request (fun r -> r.rawForm |> Suave.Successful.ok)
         |> serve
 
@@ -230,8 +244,8 @@ let ``POST binary data``() =
 [<TestCase>]
 let ``POST Form url encoded data``() =
     use server =
-        POST 
-        >=> request (fun r -> (form "q1" r) + "_" + (form "q2" r) |> OK) 
+        POST
+        >=> request (fun r -> (form "q1" r) + "_" + (form "q2" r) |> OK)
         |> serve
 
     http {
@@ -247,11 +261,11 @@ let ``POST Form url encoded data``() =
 
 [<TestCase>]
 let ``POST Multipart form data``() =
-    
+
     let joinLines =  String.concat "\n"
-    
+
     use server =
-        POST 
+        POST
         >=> request (fun r ->
             let fileContents =
                 r.files
@@ -307,7 +321,7 @@ let ``Specify content type explicitly``() =
     use server = POST >=> request (header "content-type" >> OK) |> serve
 
     let contentType = "application/whatever"
-    
+
     http {
         POST (url @"")
         body
@@ -345,12 +359,12 @@ let ``Explicitly specified content type is dominant``() =
 
 [<TestCase>]
 let ``Explicitly specified content type part is dominant``() =
-    
+
     let explicitContentType1 = "application/whatever1"
     let explicitContentType2 = "application/whatever2"
 
     use server =
-        POST 
+        POST
         >=> request (fun r ->
             r.files
             |> List.map (fun f -> f.mimeType)
@@ -364,7 +378,7 @@ let ``Explicitly specified content type part is dominant``() =
 
         ContentTypePart explicitContentType1
         filePart "uploadFile.txt"
-        
+
         ContentTypePart explicitContentType2
         filePart "uploadFile2.txt"
     }
@@ -420,11 +434,11 @@ let ``Custom Headers``() =
     }
     |> Response.toText
     |> should equal "hello world"
-    
+
 [<TestCase>]
 let ``Shortcut for GET works``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
-    
+
     get (url @"?test=Hallo") { send }
     |> Response.toText
     |> should equal "test=Hallo"
@@ -445,7 +459,7 @@ let ``Proxy usage with credentials works`` () =
     use server =
         GET >=> request (fun r ->
             printfn "Headers: %A" r.headers
-            
+
             match r.header "Proxy-Authorization" with
             | Choice1Of2 cred -> cred |> OK
             | _ ->
@@ -466,7 +480,7 @@ let ``Inject custom HttpClient`` () =
     use server = GET >=> OK "" |> serve
 
     let mutable intercepted = false
-    
+
     let interceptor =
         { new DelegatingHandler(InnerHandler = new HttpClientHandler()) with
             member _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
@@ -481,15 +495,15 @@ let ``Inject custom HttpClient`` () =
         useHttpClient httpClient
     }
     |> ignore
-    
+
     intercepted |> should equal true
-   
-// TODO: 
+
+// TODO:
 
 // [<TestCase>]
 // let ``Http reauest message can be modified``() =
 //     use server = GET >=> request (header "accept-language" >> OK) |> serve
-    
+
 //     let lang = "fr"
 //     http {
 //         GET (url @"")
