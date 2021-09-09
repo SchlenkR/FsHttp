@@ -460,7 +460,7 @@ module ``Builders and Signatures`` =
     let [<TestCase>] ``httpLazy and invocation signatures are correct``() =
         let request : LazyHttpBuilder<HeaderContext> =
             httpLazy {
-                GET "http://www.google.de"
+                GET "https://www.wikipedia.de"
             }
     
         let (response: Response) = request |> Request.send
@@ -471,7 +471,7 @@ module ``Builders and Signatures`` =
     let [<TestCase>] ``httpMsg and invocation signatures are correct``() =
         let request : System.Net.Http.HttpRequestMessage = 
             httpMsg {
-                GET "http://www.google.de"
+                GET "https://www.wikipedia.de"
             }
     
         ()
