@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Uri (FsHttp)</title>
+    <title>FsHttpUrl (FsHttp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -106,7 +106,7 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h2>
-    Uri Module
+    FsHttpUrl Module
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
@@ -117,6 +117,12 @@
     </dt>
     <dt>
       Assembly: FsHttp.dll
+    </dt>
+    <dt>
+      Parent Module: 
+      <a href="./reference/fshttp-domain.html">
+        Domain
+      </a>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
@@ -145,37 +151,29 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '250', 250)" onmouseover="showTip(event, '250', 250)">
+              <code onmouseout="hideTip(event, '2', 2)" onmouseover="showTip(event, '2', 2)">
                 <p>
-                  <a id="appendQueryToUrl">
-                    <a href="#appendQueryToUrl">
-                      <code><span>appendQueryToUrl&#32;<span>queryParams&#32;url</span></span></code>
+                  <a id="toUriString">
+                    <a href="#toUriString">
+                      <code><span>toUriString&#32;<span>url</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="250">
+              <div class="fsdocs-tip" id="2">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>appendQueryToUrl&#32;<span>queryParams&#32;url</span></span></code>
+                  <code><span>toUriString&#32;<span>url</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
-                    <span>
-                      <b>
-                        queryParams
-                      </b>
-                      :
-                      <code><span><span>(<span>string&#32;*&#32;string</span>)</span>&#32;list</span></code>
-                    </span>
-                    <br/>
                     <span>
                       <b>
                         url
                       </b>
                       :
-                      <code>string</code>
+                      <code><a href="./reference/fshttp-domain-fshttpurl.html">FsHttpUrl</a></code>
                     </span>
                     <br/>
                   </ul>
@@ -191,15 +189,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Uri.appendQueryToUrl`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Domain.FsHttpUrlModule.toUriString`')">
                 <img src="./content/img/copy-md.png" class="normal"/>
                 <img src="./content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Uri.appendQueryToUrl\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Domain.FsHttpUrlModule.toUriString\'/>')">
                 <img src="./content/img/copy-xml.png" class="normal"/>
                 <img src="./content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/Helper.fs#L32-32" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/Domain.fs#L168-168" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="./content/img/github.png" class="normal"/>
                 <img src="./content/img/github-hover.png" class="hover"/>
               </a>
@@ -208,192 +206,12 @@
               </p>
             </div>
             <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  queryParams
-                </span>
-                :
-                <code><span><span>(<span>string&#32;*&#32;string</span>)</span>&#32;list</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   url
                 </span>
                 :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '251', 251)" onmouseover="showTip(event, '251', 251)">
-                <p>
-                  <a id="encodeUrlParam">
-                    <a href="#encodeUrlParam">
-                      <code><span>encodeUrlParam&#32;<span>param</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="251">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>encodeUrlParam&#32;<span>param</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        param
-                      </b>
-                      :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>string</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Uri.encodeUrlParam`')">
-                <img src="./content/img/copy-md.png" class="normal"/>
-                <img src="./content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Uri.encodeUrlParam\'/>')">
-                <img src="./content/img/copy-xml.png" class="normal"/>
-                <img src="./content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/Helper.fs#L29-29" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="./content/img/github.png" class="normal"/>
-                <img src="./content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  param
-                </span>
-                :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '252', 252)" onmouseover="showTip(event, '252', 252)">
-                <p>
-                  <a id="urlCombine">
-                    <a href="#urlCombine">
-                      <code><span>urlCombine&#32;<span>url1&#32;url2</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="252">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>urlCombine&#32;<span>url1&#32;url2</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        url1
-                      </b>
-                      :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        url2
-                      </b>
-                      :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>string</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Uri.urlCombine`')">
-                <img src="./content/img/copy-md.png" class="normal"/>
-                <img src="./content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Uri.urlCombine\'/>')">
-                <img src="./content/img/copy-xml.png" class="normal"/>
-                <img src="./content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/Helper.fs#L41-41" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="./content/img/github.png" class="normal"/>
-                <img src="./content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  url1
-                </span>
-                :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  url2
-                </span>
-                :
-                <code>string</code>
+                <code><a href="./reference/fshttp-domain-fshttpurl.html">FsHttpUrl</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>

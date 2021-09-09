@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>EagerAsyncHttpBuilder (FsHttp)</title>
+    <title>HttpMessageBuilder (FsHttp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -106,7 +106,7 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h2>
-    EagerAsyncHttpBuilder Type
+    HttpMessageBuilder Type
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
@@ -120,13 +120,13 @@
     </dt>
     <dt>
       Parent Module: 
-      <a href="./reference/fshttp-dslce-builder.html">
-        Builder
+      <a href="./reference/fshttp-dslce.html">
+        DslCE
       </a>
     </dt>
     <dt>
       Base Type: 
-      <code><a href="./reference/fshttp-dslce-builder-eagerhttpbuilder.html">EagerHttpBuilder</a></code>
+      <code><span><a href="./reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="./reference/fshttp-domain-startingcontext.html">StartingContext</a>&gt;</span></code>
     </dt>
     <dt>
       All Interfaces: 
@@ -137,7 +137,7 @@
     <div>
       <p class="fsdocs-summary">
         
- Builder that executes non-blocking (asynchronous) and immediately.
+ Builder that creates a System.Net.Http.HttpRequestMessage object.
 
       </p>
     </div>
@@ -167,24 +167,24 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '324', 324)" onmouseover="showTip(event, '324', 324)">
+              <code onmouseout="hideTip(event, '332', 332)" onmouseover="showTip(event, '332', 332)">
                 <p>
                   <a id="( .ctor )">
                     <a href="#( .ctor )">
-                      <code><span>EagerAsyncHttpBuilder<span>()</span></span></code>
+                      <code><span>HttpMessageBuilder<span>()</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="324">
+              <div class="fsdocs-tip" id="332">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>EagerAsyncHttpBuilder<span>()</span></span></code>
+                  <code><span>HttpMessageBuilder<span>()</span></span></code>
                   <br/>
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="./reference/fshttp-dslce-builder-eagerasynchttpbuilder.html">EagerAsyncHttpBuilder</a></code>
+                    <code><a href="./reference/fshttp-dslce-httpmessagebuilder.html">HttpMessageBuilder</a></code>
                   </span>
                   <br/>
                 </div>
@@ -193,15 +193,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Builder.EagerAsyncHttpBuilder.#ctor`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.HttpMessageBuilder.#ctor`')">
                 <img src="./content/img/copy-md.png" class="normal"/>
                 <img src="./content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Builder.EagerAsyncHttpBuilder.#ctor\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.HttpMessageBuilder.#ctor\'/>')">
                 <img src="./content/img/copy-xml.png" class="normal"/>
                 <img src="./content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/DslCE.fs#L35-35" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/DslCE.fs#L49-49" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="./content/img/github.png" class="normal"/>
                 <img src="./content/img/github-hover.png" class="hover"/>
               </a>
@@ -214,7 +214,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="./reference/fshttp-dslce-builder-eagerasynchttpbuilder.html">EagerAsyncHttpBuilder</a></code>
+                <code><a href="./reference/fshttp-dslce-httpmessagebuilder.html">HttpMessageBuilder</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -242,7 +242,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '325', 325)" onmouseover="showTip(event, '325', 325)">
+              <code onmouseout="hideTip(event, '333', 333)" onmouseover="showTip(event, '333', 333)">
                 <p>
                   <a id="Delay">
                     <a href="#Delay">
@@ -251,7 +251,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="325">
+              <div class="fsdocs-tip" id="333">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>this.Delay<span><span>(<span>f</span>)</span></span></span></code>
@@ -280,15 +280,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.DslCE.Builder.EagerAsyncHttpBuilder.Delay``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.DslCE.HttpMessageBuilder.Delay``1```')">
                 <img src="./content/img/copy-md.png" class="normal"/>
                 <img src="./content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Builder.EagerAsyncHttpBuilder.Delay``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.HttpMessageBuilder.Delay``1\'/>')">
                 <img src="./content/img/copy-xml.png" class="normal"/>
                 <img src="./content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/DslCE.fs#L37-37" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/DslCE.fs#L51-51" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="./content/img/github.png" class="normal"/>
                 <img src="./content/img/github-hover.png" class="hover"/>
               </a>
@@ -320,7 +320,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '326', 326)" onmouseover="showTip(event, '326', 326)">
+              <code onmouseout="hideTip(event, '334', 334)" onmouseover="showTip(event, '334', 334)">
                 <p>
                   <a id="Run">
                     <a href="#Run">
@@ -329,7 +329,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="326">
+              <div class="fsdocs-tip" id="334">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>this.Run<span><span>(<span>f</span>)</span></span></span></code>
@@ -342,14 +342,14 @@
                         f
                       </b>
                       :
-                      <code><span>unit&#32;->&#32;<span><a href="./reference/fshttp-dslce-builder-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;'a&gt;</span></span></code>
+                      <code><span>unit&#32;->&#32;<span><a href="./reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;'a&gt;</span></span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;<a href="./reference/fshttp-domain-response.html">Response</a>&gt;</span></code>
+                    <code><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a></code>
                   </span>
                   <br/>
                 </div>
@@ -358,15 +358,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.DslCE.Builder.EagerAsyncHttpBuilder.Run``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.DslCE.HttpMessageBuilder.Run``1```')">
                 <img src="./content/img/copy-md.png" class="normal"/>
                 <img src="./content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Builder.EagerAsyncHttpBuilder.Run``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.HttpMessageBuilder.Run``1\'/>')">
                 <img src="./content/img/copy-xml.png" class="normal"/>
                 <img src="./content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/DslCE.fs#L38-38" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/ronaldschlenker/FsHttp/blob/master/src/FsHttp/DslCE.fs#L52-52" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="./content/img/github.png" class="normal"/>
                 <img src="./content/img/github-hover.png" class="hover"/>
               </a>
@@ -380,7 +380,7 @@
                   f
                 </span>
                 :
-                <code><span>unit&#32;->&#32;<span><a href="./reference/fshttp-dslce-builder-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;'a&gt;</span></span></code>
+                <code><span>unit&#32;->&#32;<span><a href="./reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;'a&gt;</span></span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -389,7 +389,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;<a href="./reference/fshttp-domain-response.html">Response</a>&gt;</span></code>
+                <code><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
