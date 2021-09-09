@@ -1,0 +1,5 @@
+# Ignore Fable files
+.fable/
+
+# Ignore script files
+*.fsx

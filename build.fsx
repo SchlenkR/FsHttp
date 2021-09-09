@@ -2,7 +2,6 @@
 System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
 #load "./properties.fsx"
-//#load "./docu.fsx"
 
 #r "nuget: Fake.Core.Process"
 #r "nuget: Fake.IO.FileSystem"
@@ -52,6 +51,7 @@ let shallBuild = args.hasArg "build"
 let shallTest = args.hasArg "test"
 let shallPublish = args.hasArg "publish"
 let shallPack = args.hasArg "pack"
+let shallFormat = args.hasArg "format"
 
 do args.assertArgs()
 
@@ -76,6 +76,9 @@ let pack = "pack", fun () ->
         Shell.ExecSuccess ("dotnet", sprintf "pack %s -o %s -c Release" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
     )
 
+let format = "format", fun () ->
+    Shell.ExecSuccess ("dotnet", $"fantomas .\src\FsHttp\ .\src\FsHttp.Testing\ .\src\Tests\ --recurse")
+
 // TODO: git tag + release
 let publish = "publish", fun () ->
     let nugetApiKey = Environment.environVar Properties.nugetPushEnvVarName
@@ -98,6 +101,8 @@ run [
         build
         pack
         publish
+    if shallFormat then
+        format
 ]
 
 Trace.trace $"Finished script..."
