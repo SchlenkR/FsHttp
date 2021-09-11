@@ -1,6 +1,6 @@
 namespace FsHttp.Helper
 
-
+[<RequireQualifiedAccess>]
 module String =
 
     open System
@@ -22,6 +22,7 @@ module String =
 
     let substring (s:string) maxLength = string(s.Substring(0, Math.Min(maxLength, s.Length)))
 
+[<RequireQualifiedAccess>]
 module Map =
     let union (m1: Map<'k, 'v>) (s: seq<'k * 'v>) =
         seq {
@@ -31,14 +32,7 @@ module Map =
         |> Map.ofSeq
 
 
+[<RequireQualifiedAccess>]
 module Url =
-    open System
-
-    let internal urlCombine (url1:string) (url2:string) =
+    let internal combine (url1:string) (url2:string) =
         (url1.TrimEnd [|'/'|]) + "/" + (url2.TrimStart [|'/'|])
-
-
-// TODO: Maybe move this and merge with other top level ops
-[<AutoOpen>]
-module TopLevelOperators =
-    let (</>) = Url.urlCombine

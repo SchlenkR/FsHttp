@@ -2,7 +2,6 @@ module FsHttp.DslCE
 
 open FsHttp.Domain
 
-       
 type LazyHttpBuilder<'context when 'context :> IContext>(context: 'context) =
         
     // need to implement this so that Request.send (etc.) are working.
@@ -526,14 +525,3 @@ module Fsi =
         [<CustomOperation("exp")>]
         member inline this.Exp(builder: LazyHttpBuilder<_>) =
             modifyPrintHint expandPrinterTransformer builder.Context
-
-
-module Operators =
-
-    open System.Threading.Tasks
-
-    type Kickoff = Kickoff with
-        static member inline ($) (Kickoff, x: Task<_>) = x.Result
-        static member inline ($) (Kickoff, x: LazyHttpBuilder<'context>) = x |> Request.send
-    let inline kickoff x = (($) Kickoff) x
-    let inline (~%) x = kickoff x
