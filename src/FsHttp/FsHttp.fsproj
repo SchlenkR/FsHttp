@@ -5,7 +5,7 @@
     <PackageId>SchlenkR.FsHttp</PackageId>
     <Description>A lightweight HTTP/REST library for F#.</Description>
     <Configurations>Debug;Release</Configurations>
-    <DocumentationFile>FsHttp.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FsHttp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
     <DefineConstants>NETSTANDARD_2</DefineConstants>
