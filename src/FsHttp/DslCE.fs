@@ -2,10 +2,10 @@ module FsHttp.DslCE
 
 open FsHttp.Domain
 
-type LazyHttpBuilder<'context when 'context :> IContext>(context: 'context) =
+type LazyHttpBuilder<'context when 'context :> IRequestBuilderContext>(context: 'context) =
         
     // need to implement this so that Request.send (etc.) are working.
-    interface IContext with
+    interface IRequestBuilderContext with
         member this.ToRequest() = context.ToRequest()
         
     member this.Context = context
@@ -24,7 +24,7 @@ type EagerHttpBuilder() =
 type EagerSyncHttpBuilder() =
     inherit EagerHttpBuilder()
     member inline this.Delay(f: unit -> 'a) = f
-    member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+    member inline this.Run(f: unit -> LazyHttpBuilder<#IRequestBuilderContext>) =
         f() |> Request.send
 let http = EagerSyncHttpBuilder()
 
@@ -32,7 +32,7 @@ let http = EagerSyncHttpBuilder()
 type EagerAsyncHttpBuilder() =
     inherit EagerHttpBuilder()
     member inline this.Delay(f: unit -> 'a) = f
-    member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+    member inline this.Run(f: unit -> LazyHttpBuilder<#IRequestBuilderContext>) =
         f() |> Request.sendAsync
 let httpAsync = EagerAsyncHttpBuilder()
 
@@ -40,7 +40,7 @@ let httpAsync = EagerAsyncHttpBuilder()
 type LazyAsyncHttpBuilder() =
     inherit EagerHttpBuilder()
     member inline this.Delay(f: unit -> 'a) = f
-    member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+    member inline this.Run(f: unit -> LazyHttpBuilder<#IRequestBuilderContext>) =
         f() |> Request.buildAsync
 let httpLazyAsync = LazyAsyncHttpBuilder()
 
@@ -48,7 +48,7 @@ let httpLazyAsync = LazyAsyncHttpBuilder()
 type HttpMessageBuilder() =
     inherit LazyHttpBuilder<StartingContext>(StartingContext)
     member inline this.Delay(f: unit -> 'a) = f
-    member inline this.Run(f: unit -> LazyHttpBuilder<#IContext>) =
+    member inline this.Run(f: unit -> LazyHttpBuilder<#IRequestBuilderContext>) =
         f()
         |> fun builder -> builder.Context.ToRequest()
         |> Request.toMessage
@@ -72,7 +72,7 @@ module Method =
 
     // TODO: RFC 4918 (WebDAV) adds 7 methods
 
-    type LazyHttpBuilder<'context when 'context :> IContext> with
+    type LazyHttpBuilder<'context when 'context :> IRequestBuilderContext> with
 
         [<CustomOperation("Request")>]
         member this.Request(_: LazyHttpBuilder<StartingContext>, method, url) = request method url
@@ -113,7 +113,7 @@ module Method =
 
 [<AutoOpen>]
 module Header =
-    type LazyHttpBuilder<'context when 'context :> IContext> with
+    type LazyHttpBuilder<'context when 'context :> IRequestBuilderContext> with
 
         /// Content-Types that are acceptable for the response
         [<CustomOperation("Accept")>]
@@ -337,7 +337,7 @@ module Header =
 
 [<AutoOpen>]
 module Body =
-    type LazyHttpBuilder<'context when 'context :> IContext> with
+    type LazyHttpBuilder<'context when 'context :> IRequestBuilderContext> with
 
         [<CustomOperation("body")>]
         member this.Body(builder: LazyHttpBuilder<_>) =
@@ -385,7 +385,7 @@ module Body =
 
 [<AutoOpen>]
 module Multipart =
-    type LazyHttpBuilder<'context when 'context :> IContext> with
+    type LazyHttpBuilder<'context when 'context :> IRequestBuilderContext> with
 
         [<CustomOperation("multipart")>]
         member this.Multipart(builder: LazyHttpBuilder<_>) =
@@ -416,7 +416,7 @@ module Multipart =
 [<AutoOpen>]
 module Config =
 
-    type LazyHttpBuilder<'context when 'context :> IContext> with
+    type LazyHttpBuilder<'context when 'context :> IRequestBuilderContext> with
 
         [<CustomOperation("configure")>]
         member inline this.Configure(builder: LazyHttpBuilder<_>, configTransformer) =
@@ -464,7 +464,7 @@ module Config =
 [<AutoOpen>]
 module Execution =
 
-    type LazyHttpBuilder<'context when 'context :> IContext> with
+    type LazyHttpBuilder<'context when 'context :> IRequestBuilderContext> with
     
         [<CustomOperation("send")>]
         member this.Send(builder: LazyHttpBuilder<_>) =
@@ -488,7 +488,7 @@ module Fsi =
     let expand = expandPrinterTransformer |> modifyPrinter
     let exp = expand
 
-    let inline private modifyPrintHint f (context: ^t when ^t :> IContext) =
+    let inline private modifyPrintHint f (context: ^t when ^t :> IRequestBuilderContext) =
         let transformPrintHint (config: Config) = { config with printHint = f config.printHint }
         let res = (^t: (member Configure: (Config -> Config) -> ^t) (context, transformPrintHint))
         res |> LazyHttpBuilder<_>
@@ -496,7 +496,7 @@ module Fsi =
     //let inline private modifyPrintHintAndSend f (context: ^t when ^t :> IContext) =
     //    modifyPrintHint f context |> Request.send
 
-    type LazyHttpBuilder<'context when 'context :> IContext> with
+    type LazyHttpBuilder<'context when 'context :> IRequestBuilderContext> with
 
         [<CustomOperation("raw")>]
         member inline this.Raw(builder: LazyHttpBuilder<_>) =

@@ -4,6 +4,31 @@ module FsHttp.Domain
 open System
 open System.Net.Http
 
+type ContentPrintHint =
+    { isEnabled: bool
+      format: bool
+      maxLength: int }
+
+type RequestPrintHint = 
+    { printHeader: bool
+      printBody: bool }
+
+type ResponsePrintHint =
+    { printHeader: bool
+      printContent: ContentPrintHint }
+
+type PrintHint = 
+    { isEnabled: bool
+      requestPrintHint: RequestPrintHint
+      responsePrintHint: ResponsePrintHint }
+
+type CertErrorStrategy =
+    | Default
+    | AlwaysAccept
+
+type Proxy =
+    { url: string
+      credentials: System.Net.ICredentials option }
 
 // TODO: Get rid of all the boolean switches and use options instead.
 type Config =
@@ -21,32 +46,6 @@ type Config =
       proxy: Proxy option
       certErrorStrategy: CertErrorStrategy
       httpClientFactory: (unit -> HttpClient) option }
-
-and Proxy =
-    { url: string
-      credentials: System.Net.ICredentials option }
-
-and CertErrorStrategy =
-    | Default
-    | AlwaysAccept
-
-and PrintHint = 
-    { isEnabled: bool
-      requestPrintHint: RequestPrintHint
-      responsePrintHint: ResponsePrintHint }
-
-and RequestPrintHint = 
-    { printHeader: bool
-      printBody: bool }
-
-and ResponsePrintHint =
-    { printHeader: bool
-      printContent: ContentPrintHint }
-
-and ContentPrintHint =
-    { isEnabled: bool
-      format: bool
-      maxLength: int }
 
 type ConfigTransformer = Config -> Config
 
@@ -92,7 +91,7 @@ and RequestContent =
 | Multi of MultipartContent
         
 
-type IContext =
+type IRequestBuilderContext =
     abstract member ToRequest : unit -> Request
     
     // We cannot use an OOP interface for Configure because no HKTs here
@@ -102,10 +101,11 @@ type IContext =
 type StartingContext =
     | StartingContext
     
-    interface IContext with
+    interface IRequestBuilderContext with
         member this.ToRequest () =
             failwith "Loophole! Even though a StartingContext implements IContext, it somehow doesn't."
-
+    
+    // TODO: There seems to be something wrong here.
     member this.Configure (transformConfig: ConfigTransformer) : StartingContext =
         failwith "Loophole! Even though a StartingContext implements Configure, it somehow doesn't."
 
@@ -114,7 +114,7 @@ type HeaderContext =
     { header: Header
       config: Config } with
 
-    interface IContext with
+    interface IRequestBuilderContext with
         member this.ToRequest () =
             { Request.header = this.header
               content = Empty
@@ -128,7 +128,7 @@ and BodyContext =
       content: BodyContent
       config: Config } with
 
-    interface IContext with
+    interface IRequestBuilderContext with
         member this.ToRequest () =
             { Request.header = this.header
               content = Single this.content
@@ -143,7 +143,7 @@ and MultipartContext =
       currentPartContentType : string option
       config: Config } with
     
-    interface IContext with
+    interface IRequestBuilderContext with
         member this.ToRequest() =
             { Request.header = this.header
               content = Multi this.content
@@ -161,7 +161,9 @@ type Response =
       reasonPhrase: string
       statusCode: System.Net.HttpStatusCode
       version: Version
-      printHint: PrintHint }
+      printHint: PrintHint
+      originalHttpRequestMessage: System.Net.Http.HttpRequestMessage
+      originalHttpResponseMessage: System.Net.Http.HttpResponseMessage }
 
 
 module FsHttpUrl =

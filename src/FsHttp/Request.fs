@@ -118,7 +118,7 @@ let private getHttpClient =
             new HttpClient(timeoutHandler handler config.printDebugMessages, Timeout = Timeout.InfiniteTimeSpan)
 
 /// Builds an asynchronous request, without sending it.
-let buildAsync (context: IContext) =
+let buildAsync (context: IRequestBuilderContext) =
     async {
         let request = context.ToRequest()
         let requestMessage = toMessage request
@@ -141,11 +141,13 @@ let buildAsync (context: IContext) =
                  statusCode = response.StatusCode
                  requestMessage = response.RequestMessage
                  version = response.Version
-                 printHint = request.config.printHint }
+                 printHint = request.config.printHint
+                 originalHttpRequestMessage = requestMessage
+                 originalHttpResponseMessage = response }
     }
 
 /// Sends a context asynchronously.
-let sendAsync (context: IContext) =
+let sendAsync (context: IRequestBuilderContext) =
     context
     |> buildAsync
     |> Async.StartChild
