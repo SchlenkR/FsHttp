@@ -1,20 +1,23 @@
 <Project>
- 
+
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>6.0.0-preview2</Version>
+    <Version>6.0.0-preview3</Version>
     <Company />
     <Copyright>Copyright 2021 Ronald Schlenker</Copyright>
     <PackageIconUrl>https://github.com/ronaldschlenker/FsHttp/blob/master/src/docs/img/logo.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
-      -Moved namespaces and operators
+- Breaking changes:
+  - Type names
+  - Operators
+- Expose HttpRequestMessage and HttpResponseMessage (#70)
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
     <FsDocsLicenseLink>https://github.com/ronaldschlenker/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/SchlenkR.FsHttp</FsDocsReleaseNotesLink>
   </PropertyGroup>
- 
+
 </Project>
