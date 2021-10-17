@@ -243,43 +243,46 @@ module Header =
 module Body =
 
     /// Adds a header
-    let header name value (context: BodyContext) =
+    let header name value (context: IToBodyContext) =
+        let context = context.ToBodyContext()
         { context with 
             content = { context.content with
                           headers = Map.union context.header.headers [ name, value ] } }
 
     /// The type of encoding used on the data
-    let contentEncoding (encoding: string) (context: BodyContext) =
+    let contentEncoding (encoding: string) (context: IToBodyContext) =
         header "Content-Encoding" encoding context
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType (contentType: string) (context: BodyContext) =
+    let contentType (contentType: string) (context: IToBodyContext) =
+        let context = context.ToBodyContext()
         { context with content = { context.content with contentType = Some contentType } }
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
-    let contentTypeWithEncoding (contentTypeString) (charset: Encoding) (context: BodyContext) =
+    let contentTypeWithEncoding (contentTypeString) (charset: Encoding) (context: IToBodyContext) =
         contentType (sprintf "%s; charset=%s" contentTypeString (charset.WebName)) context
 
     // a) MD5 is obsolete. See https://tools.ietf.org/html/rfc7231#appendix-B
     // b) the others are response fields
 
     /// The language the content is in
-    let contentLanguage (language: string) (context: BodyContext)  =
+    let contentLanguage (language: string) (context: IToBodyContext)  =
         header "Content-Language" language context 
 
     /// An alternate location for the returned data
-    let contentLocation (location: string) (context: BodyContext)  =
+    let contentLocation (location: string) (context: IToBodyContext)  =
         header "Content-Location" location context 
 
     /// A Base64-encoded binary MD5 sum of the content of the request body
-    let contentMD5 (md5sum: string) (context: BodyContext)  =
+    let contentMD5 (md5sum: string) (context: IToBodyContext)  =
         header "Content-MD5" md5sum context 
 
     /// Where in a full body message this partial message belongs
-    let contentRange (range: string) (context: BodyContext) =
+    let contentRange (range: string) (context: IToBodyContext) =
         header "Content-Range" range context 
 
-    let private content defaultContentType (data: ContentData) (context: BodyContext) =
+    let private content defaultContentType (data: ContentData) (context: IToBodyContext) =
+        let context = context.ToBodyContext()
         let content = context.content
         let contentType = content.contentType |> Option.defaultValue defaultContentType
         { context with
@@ -287,25 +290,25 @@ module Body =
                             contentData = data
                             contentType = Some contentType } }
 
-    let binary (data: byte array) (context: BodyContext) =
+    let binary (data: byte array) (context: IToBodyContext) =
         content MimeTypes.octetStream (ByteArrayContent data) context
 
-    let stream (stream: System.IO.Stream) (context: BodyContext) =
+    let stream (stream: System.IO.Stream) (context: IToBodyContext) =
         content MimeTypes.octetStream (StreamContent stream) context
 
-    let text (text: string) (context: BodyContext) =
+    let text (text: string) (context: IToBodyContext) =
         content MimeTypes.textPlain (StringContent text) context
 
-    let base64 (base64: byte []) (context: BodyContext) =
+    let base64 (base64: byte []) (context: IToBodyContext) =
         content MimeTypes.octetStream (StringContent (Convert.ToBase64String base64)) context
 
-    let json (json: string) (context: BodyContext) =
+    let json (json: string) (context: IToBodyContext) =
         content MimeTypes.applicationJson (StringContent json) context
 
-    let formUrlEncoded (data: (string * string) list) (context: BodyContext) =
+    let formUrlEncoded (data: (string * string) list) (context: IToBodyContext) =
         content "application/x-www-form-urlencoded" (FormUrlEncodedContent (Map.ofList data)) context
 
-    let file (path: string) (context: BodyContext) =
+    let file (path: string) (context: IToBodyContext) =
         content MimeTypes.octetStream (FileContent path) context
 
 
@@ -313,39 +316,38 @@ module Body =
 module Multipart =
     
     let part
-        (content: ContentData)
-        (defaultContentType: string option)
-        (name: string)
-        (context: MultipartContext)
+            (content: ContentData)
+            (defaultContentType: string option)
+            (name: string)
+            (context: IToMultipartContext)
         =
-
+        let context = context.ToMultipartContext()
         let contentType =
             match context.currentPartContentType with
             | None -> defaultContentType
             | Some v -> Some v
-
         let newContentData =
             {| name = name
                contentType = contentType
                content = content |}
-
         { context with
             content = { context.content with 
                           contentData = context.content.contentData @ [ newContentData ] } }
        
 
-    let valuePart name (value: string) (context: MultipartContext) =
+    let valuePart name (value: string) (context: IToMultipartContext) =
         part (StringContent value) None name context
 
-    let filePartWithName name (path: string) (context: MultipartContext) =
+    let filePartWithName name (path: string) (context: IToMultipartContext) =
         let contentType = MimeTypes.guessMineTypeFromPath path MimeTypes.defaultMimeType
         part (FileContent path) (Some contentType) name context
 
-    let filePart (path: string) (context: MultipartContext) =
+    let filePart (path: string) (context: IToMultipartContext) =
         filePartWithName (System.IO.Path.GetFileNameWithoutExtension path) path context
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType (contentType: string) (context: MultipartContext) =
+    let contentType (contentType: string) (context: IToMultipartContext) =
+        let context = context.ToMultipartContext()
         { context with currentPartContentType = Some contentType }
 
 

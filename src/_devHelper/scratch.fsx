@@ -1,6 +1,15 @@
 
 #r "../FsHttp/bin/Debug/net5.0/FsHttp.dll"
 
+module Dsl =
+    open FsHttp
+    open FsHttp.Dsl
+    
+    Http.get "https://www.wikipedia.de"
+    |> Header.accept "text"
+    |> Body.json "sdfsdfsd"
+
+
 open FsHttp
 open FsHttp.DslCE
 open FsHttp.Operators
