@@ -1,4 +1,4 @@
-﻿module FsHttp.Tests.``Content Type``
+﻿module FsHttp.Tests.``Content Headers``
 
 open FsUnit
 open FsHttp

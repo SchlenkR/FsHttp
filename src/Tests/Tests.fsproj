@@ -30,8 +30,9 @@
     </None>
     <Compile Include="FsHttp\Basic.fs" />
     <Compile Include="FsHttp\UrlsAndQuery.fs" />
-    <Compile Include="FsHttp\Post.fs" />
-    <Compile Include="FsHttp\ContentType.fs" />
+    <Compile Include="FsHttp\Body.fs" />
+    <Compile Include="FsHttp\Multipart.fs" />
+    <Compile Include="FsHttp\ContentHeaders.fs" />
     <Compile Include="FsHttp\Cookies.fs" />
     <Compile Include="FsHttp\Proxies.fs" />
     <Compile Include="FsHttp\DotNetHttp.fs" />

@@ -1,4 +1,4 @@
-﻿module FsHttp.Tests.Post
+﻿module FsHttp.Tests.Body
 
 open System.IO
 
@@ -65,44 +65,6 @@ let [<TestCase>] ``POST Form url encoded data``() =
     |> Response.toText
     |> should equal ("Query1_Query2")
 
-let [<TestCase>] ``POST Multipart form data``() =
-    
-    let joinLines =  String.concat "\n"
-    
-    use server =
-        POST 
-        >=> request (fun r ->
-            let fileContents =
-                r.files
-                |> List.map (fun f -> File.ReadAllText f.tempFilePath)
-                |> joinLines
-            let multipartContents =
-                r.multiPartFields
-                |> List.map (fun (k,v) -> k + "=" + v)
-                |> joinLines
-            [ fileContents; multipartContents ] |> joinLines |> OK)
-        |> serve
-
-    http {
-        POST (url @"")
-        multipart
-        filePart "Resources/uploadFile.txt"
-        filePart "Resources/uploadFile2.txt"
-        stringPart "hurz1" "das"
-        stringPart "hurz2" "Lamm"
-        stringPart "hurz3" "schrie"
-    }
-    |> Response.toText
-    |> should equal (joinLines [
-        "I'm a chicken and I can fly!"
-        "Lemonade was a popular drink, and it still is."
-        "hurz1=das"
-        "hurz2=Lamm"
-        "hurz3=schrie"
-    ])
-
 // TODO: Post single file
-
 // TODO: POST stream
-// TODO: POST multipart
 
