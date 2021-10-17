@@ -71,6 +71,8 @@ type ContentData =
 
 type BodyContent =
     { contentData: ContentData
+      headers: Map<string, string>
+      // TODO: remove this
       contentType: string option }
 
 type MultipartContent =
@@ -91,27 +93,40 @@ and RequestContent =
 | Multi of MultipartContent
         
 
-type IRequestBuilderContext =
-    abstract member ToRequest : unit -> Request
-    
-    // We cannot use an OOP interface for Configure because no HKTs here
-    // abstract member Configure : (Config -> Config) -> ? 
-
 
 type StartingContext =
     | StartingContext
-    interface IRequestBuilderContext with
-        member this.ToRequest() =
-            failwith "Loophole! Even though a StartingContext implements IContext, it somehow doesn't."
+    // TODO: Get rid of this
+    interface IToRequest with
+        member _.ToRequest() = failwith "StartingContext can't be transformed."
+    interface IToBodyContext with
+        member _.ToBodyContext() = failwith "StartingContext can't be transformed."
+    interface IToMultipartContext with
+        member _.ToMultipartContext() = failwith "StartingContext can't be transformed."
 
-
-type HeaderContext =
+and HeaderContext =
     { header: Header
       config: Config } with
-    interface IRequestBuilderContext with
+    interface IToRequest with
         member this.ToRequest() =
             { Request.header = this.header
               content = Empty
+              config = this.config }
+    interface IToBodyContext with
+        member this.ToBodyContext() =
+            { header = this.header
+              content =
+                { BodyContent.contentData = ByteArrayContent [| |]
+                  headers = Map.empty
+                  contentType = None }
+              config = this.config }
+    interface IToMultipartContext with
+        member this.ToMultipartContext() =
+            { MultipartContext.header = this.header
+              content =
+                { MultipartContent.contentData = []
+                  contentType = sprintf "multipart/form-data; boundary=%s" (Guid.NewGuid().ToString("N")) }
+              currentPartContentType = None
               config = this.config }
     member this.Configure(transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
@@ -120,11 +135,15 @@ and BodyContext =
     { header: Header
       content: BodyContent
       config: Config } with
-    interface IRequestBuilderContext with
+    interface IToRequest with
         member this.ToRequest() =
             { Request.header = this.header
               content = Single this.content
               config = this.config }
+    interface IToBodyContext with
+        member this.ToBodyContext() = this
+    interface IToMultipartContext with
+        member _.ToMultipartContext() = failwith "BodyContext can't be transformed."
     member this.Configure(transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
         
@@ -133,15 +152,26 @@ and MultipartContext =
       content: MultipartContent
       currentPartContentType : string option
       config: Config } with
-    
-    interface IRequestBuilderContext with
+    interface IToRequest with
         member this.ToRequest() =
             { Request.header = this.header
               content = Multi this.content
               config = this.config }
-
+    interface IToBodyContext with
+        member _.ToBodyContext() = failwith "MultipartContext can't be transformed."
+    interface IToMultipartContext with
+        member this.ToMultipartContext() = this
     member this.Configure(transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
+
+and IToRequest =
+    abstract member ToRequest : unit -> Request
+
+and IToBodyContext =
+    abstract member ToBodyContext : unit -> BodyContext
+
+and IToMultipartContext =
+    abstract member ToMultipartContext : unit -> MultipartContext
 
 
 type Response = 

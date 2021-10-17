@@ -9,13 +9,11 @@ open System.Globalization
 open FsHttp.Helper
 open FsHttp.Domain
 
-[<AutoOpen>]
 module Http =
 
     let request (method: string) (url: string) =
-
         // init hack
-        FsHttp.Fsi.Init.init()
+        Fsi.Init.init()
 
         let formattedUrl =
             url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
@@ -47,10 +45,9 @@ module Http =
     // TODO: RFC 4918 (WebDAV) adds 7 methods
 
 
-[<AutoOpen>]
 module Header =
 
-    /// Adds a custom header
+    /// Adds a header
     let header name value (context: HeaderContext) =
         { context with 
             header = { context.header with 
@@ -83,11 +80,6 @@ module Header =
     /// List of acceptable human languages for response
     let acceptLanguage (language: string) (context: HeaderContext) =
         header "Accept-Language" language context
-
-    // response field
-    /////// The Allow header, which specifies the set of HTTP methods supported.
-    ////let allow (methods: string) (context:HeaderContext) =
-    ////    headerField "Allow" methods context 
     
     /// Authorization credentials for HTTP authorization
     let authorization (credentials: string) (context: HeaderContext) =
@@ -248,21 +240,16 @@ module Header =
         header "X-HTTP-Method-Override" httpMethod context
 
 
-[<AutoOpen>]
 module Body =
 
-    let private emptyContentData =
-        { BodyContent.contentData = ContentData.ByteArrayContent [||]
-          contentType = None }
-
-    let body (headerContext: HeaderContext) =
-        { BodyContext.header = headerContext.header
-          content = emptyContentData
-          config = headerContext.config }
-       
+    /// Adds a header
+    let header name value (context: BodyContext) =
+        { context with 
+            content = { context.content with
+                          headers = Map.union context.header.headers [ name, value ] } }
 
     /// The type of encoding used on the data
-    let contentEncoding (encoding: string) (context: HeaderContext) =
+    let contentEncoding (encoding: string) (context: BodyContext) =
         header "Content-Encoding" encoding context
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
@@ -276,32 +263,29 @@ module Body =
     // a) MD5 is obsolete. See https://tools.ietf.org/html/rfc7231#appendix-B
     // b) the others are response fields
 
-    /////// The language the content is in
-    ////let contentLanguage (context:HeaderContext) (language: string) (next:<_,_>) =
-    ////    header "Content-Language" language context 
+    /// The language the content is in
+    let contentLanguage (language: string) (context: BodyContext)  =
+        header "Content-Language" language context 
 
-    /////// An alternate location for the returned data
-    ////let contentLocation (context:HeaderContext) (location: string) (next:<_,_>) =
-    ////    header "Content-Location" location context 
+    /// An alternate location for the returned data
+    let contentLocation (location: string) (context: BodyContext)  =
+        header "Content-Location" location context 
 
-    /////// A Base64-encoded binary MD5 sum of the content of the request body
-    ////let contentMD5 (context:HeaderContext) (md5sum: string) (next:<_,_>) =
-    ////    header "Content-MD5" md5sum context 
+    /// A Base64-encoded binary MD5 sum of the content of the request body
+    let contentMD5 (md5sum: string) (context: BodyContext)  =
+        header "Content-MD5" md5sum context 
 
-    /////// Where in a full body message this partial message belongs
-    ////let contentRange (context:HeaderContext) (range: string) (next:<_,_>) =
-    ////    header "Content-Range" range context 
+    /// Where in a full body message this partial message belongs
+    let contentRange (range: string) (context: BodyContext) =
+        header "Content-Range" range context 
 
     let private content defaultContentType (data: ContentData) (context: BodyContext) =
         let content = context.content
         let contentType = content.contentType |> Option.defaultValue defaultContentType
-
         { context with
-              content =
-                  { content with
-                        contentData = data
-                        contentType = Some contentType } }
-       
+              content = { content with
+                            contentData = data
+                            contentType = Some contentType } }
 
     let binary (data: byte array) (context: BodyContext) =
         content MimeTypes.octetStream (ByteArrayContent data) context
@@ -327,18 +311,7 @@ module Body =
 
 [<AutoOpen>]
 module Multipart =
-
-    let private emptyContentData =
-        { MultipartContent.contentData = []
-          contentType = sprintf "multipart/form-data; boundary=%s" (Guid.NewGuid().ToString("N")) }
-
-    let multipart (headerContext: HeaderContext) =
-        { MultipartContext.header = headerContext.header
-          content = emptyContentData
-          currentPartContentType = None
-          config = headerContext.config }
-       
-
+    
     let part
         (content: ContentData)
         (defaultContentType: string option)
@@ -356,15 +329,17 @@ module Multipart =
                contentType = contentType
                content = content |}
 
-        { context with content = { context.content with contentData = context.content.contentData @ [ newContentData ] } }
+        { context with
+            content = { context.content with 
+                          contentData = context.content.contentData @ [ newContentData ] } }
        
 
     let valuePart name (value: string) (context: MultipartContext) =
-        part (ContentData.StringContent value) None name context
+        part (StringContent value) None name context
 
     let filePartWithName name (path: string) (context: MultipartContext) =
         let contentType = MimeTypes.guessMineTypeFromPath path MimeTypes.defaultMimeType
-        part (ContentData.FileContent path) (Some contentType) name context
+        part (FileContent path) (Some contentType) name context
 
     let filePart (path: string) (context: MultipartContext) =
         filePartWithName (System.IO.Path.GetFileNameWithoutExtension path) path context
