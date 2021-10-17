@@ -94,7 +94,7 @@ let print (r: Response) =
         
         appendSection "REQUEST"
         
-        sprintf "%s %s HTTP/%s" (r.requestContext.header.method.ToString()) (FsHttpUrl.toUriString r.requestContext.header.url) (r.version.ToString())
+        sprintf "%s %s HTTP/%s" (r.request.header.method.ToString()) (FsHttpUrl.toUriString r.request.header.url) (r.version.ToString())
         |> appendLine
 
         if requestPrintHint.printHeader then
@@ -141,7 +141,7 @@ let print (r: Response) =
 
             appendLine contentIndicator
             appendLine <|
-                match r.requestContext.content with
+                match r.request.content with
                 | Empty -> ""
                 | Single bodyContent -> formatContentData bodyContent.contentData
                 | Multi multipartContent ->

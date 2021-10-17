@@ -178,7 +178,7 @@ and IToMultipartContext =
 
 
 type Response = 
-    { requestContext: Request
+    { request: Request
       requestMessage: System.Net.Http.HttpRequestMessage
       content: System.Net.Http.HttpContent
       headers: System.Net.Http.Headers.HttpResponseHeaders

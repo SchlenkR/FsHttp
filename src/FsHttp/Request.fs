@@ -142,7 +142,7 @@ let buildAsync (context: IToRequest) =
             finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
         let! ctok = Async.CancellationToken
         let! response = invoke ctok |> Async.AwaitTask
-        return { requestContext = request
+        return { request = request
                  content = response.Content
                  headers = response.Headers
                  reasonPhrase = response.ReasonPhrase
