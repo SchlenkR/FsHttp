@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net5.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>SchlenkR.FsHttp.Testing</PackageId>
     <Description>An addition for the FsHttp library, providing convenience for testing.</Description>
     <Configurations>Debug;Release</Configurations>
     <DocumentationFile>FsHttp.Testing.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <DefineConstants>NETSTANDARD_2</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
