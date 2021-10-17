@@ -28,6 +28,7 @@ let [<TestCase>] ``Multiline urls``() =
     |> Response.toText
     |> should equal "Query1_Query2"
 
+
 let [<TestCase>] ``Comments in urls are discarded``() =
     use server =
         GET 
@@ -43,6 +44,7 @@ let [<TestCase>] ``Comments in urls are discarded``() =
     |> Response.toText
     |> should equal ("Query1_" + keyNotFoundString + "_Query3")
 
+
 let [<TestCase>] ``Empty query params``() =
     use server = 
         GET
@@ -56,6 +58,7 @@ let [<TestCase>] ``Empty query params``() =
     |> Response.toText
     |> should equal ""
     
+
 let [<TestCase>] ``Merge query params with url params``() =
     use server = 
         GET
@@ -69,6 +72,7 @@ let [<TestCase>] ``Merge query params with url params``() =
     |> Response.toText
     |> should equal "Query1_Query2"    
     
+
 let [<TestCase>] ``Query params``() =
     use server = 
         GET
@@ -83,6 +87,7 @@ let [<TestCase>] ``Query params``() =
     |> Response.toText
     |> should equal "Query1_Query2"
     
+
 let [<TestCase>] ``Query params encoding``() =
     use server = 
         GET

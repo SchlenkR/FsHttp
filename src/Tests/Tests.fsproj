@@ -29,11 +29,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="FsHttp\Basic.fs" />
+    <Compile Include="FsHttp\AlternativeSyntaxes.fs" />
     <Compile Include="FsHttp\UrlsAndQuery.fs" />
     <Compile Include="FsHttp\Body.fs" />
     <Compile Include="FsHttp\Multipart.fs" />
-    <Compile Include="FsHttp\ContentHeaders.fs" />
-    <Compile Include="FsHttp\Cookies.fs" />
+    <Compile Include="FsHttp\Others.fs" />
     <Compile Include="FsHttp\Proxies.fs" />
     <Compile Include="FsHttp\DotNetHttp.fs" />
     <Compile Include="FsHttp\BuildersAndSignatures.fs" />

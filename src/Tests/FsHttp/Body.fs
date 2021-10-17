@@ -1,7 +1,5 @@
 ﻿module FsHttp.Tests.Body
 
-open System.IO
-
 open FsUnit
 open FsHttp
 open FsHttp.DslCE
@@ -32,6 +30,7 @@ let [<TestCase>] ``POST string data``() =
     |> Response.toText
     |> should equal data
 
+
 let [<TestCase>] ``POST binary data``() =
     use server =
         POST 
@@ -47,6 +46,7 @@ let [<TestCase>] ``POST binary data``() =
     }
     |> Response.toBytes
     |> should equal data
+
 
 let [<TestCase>] ``POST Form url encoded data``() =
     use server =
@@ -64,6 +64,48 @@ let [<TestCase>] ``POST Form url encoded data``() =
     }
     |> Response.toText
     |> should equal ("Query1_Query2")
+
+
+let [<TestCase>] ``Specify content type explicitly``() =
+    use server = POST >=> request (header "content-type" >> OK) |> serve
+
+    let contentType = "application/whatever"
+    
+    http {
+        POST (url @"")
+        body
+        ContentType contentType
+    }
+    |> Response.toText
+    |> should equal contentType
+
+
+let [<TestCase>] ``Default content type for JSON is specified correctly``() =
+    use server = POST >=> request (header "content-type" >> OK) |> serve
+
+    http {
+        POST (url @"")
+        body
+        json " [] "
+    }
+    |> Response.toText
+    |> should equal MimeTypes.applicationJson
+
+
+let [<TestCase>] ``Explicitly specified content type is dominant``() =
+    use server = POST >=> request (header "content-type" >> OK) |> serve
+
+    let explicitContentType = "application/whatever"
+
+    http {
+        POST (url @"")
+        body
+        ContentType explicitContentType
+        json " [] "
+    }
+    |> Response.toText
+    |> should equal explicitContentType
+
 
 // TODO: Post single file
 // TODO: POST stream

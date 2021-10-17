@@ -25,6 +25,7 @@ let [<TestCase>] ``Synchronous calls are invoked immediately``() =
     |> Response.toText
     |> should equal "test=Hallo"
 
+
 let [<TestCase>] ``Asynchronous calls are sent immediately``() =
 
     let mutable time = DateTime.MaxValue
@@ -49,6 +50,7 @@ let [<TestCase>] ``Asynchronous calls are sent immediately``() =
 
     (DateTime.Now - time > TimeSpan.FromSeconds 2.0) |> should equal true
 
+
 let [<TestCase>] ``Split URL are interpreted correctly``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
@@ -58,6 +60,7 @@ let [<TestCase>] ``Split URL are interpreted correctly``() =
     }
     |> Response.toText
     |> should equal "test=Hallo&test2=Welt"
+
 
 let [<TestCase>] ``Smoke test for a header``() =
     use server = GET >=> request (header "accept-language" >> OK) |> serve
@@ -70,6 +73,7 @@ let [<TestCase>] ``Smoke test for a header``() =
     }
     |> Response.toText
     |> should equal lang
+
 
 let [<TestCase>] ``ContentType override``() =
     use server = POST >=> request (header "content-type" >> OK) |> serve

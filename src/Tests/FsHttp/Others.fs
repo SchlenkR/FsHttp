@@ -31,6 +31,7 @@ let [<TestCase>] ``Cookies can be sent``() =
     |> Response.toText
     |> should equal "hello world"
 
+
 let [<TestCase>] ``Custom HTTP method``() =
     use server =
         ``method`` (HttpMethod.parse "FLY")
@@ -42,6 +43,7 @@ let [<TestCase>] ``Custom HTTP method``() =
     }
     |> Response.toText
     |> should equal "flying"
+
 
 let [<TestCase>] ``Custom Headers``() =
     let customHeaderKey = "X-Custom-Value"
@@ -61,9 +63,3 @@ let [<TestCase>] ``Custom Headers``() =
     |> Response.toText
     |> should equal "hello world"
     
-let [<TestCase>] ``Shortcut for GET works``() =
-    use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
-    
-    get (url @"?test=Hallo") { send }
-    |> Response.toText
-    |> should equal "test=Hallo"
