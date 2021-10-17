@@ -149,7 +149,6 @@ let buildAsync (context: IToRequest) =
                  statusCode = response.StatusCode
                  requestMessage = response.RequestMessage
                  version = response.Version
-                 printHint = request.config.printHint
                  originalHttpRequestMessage = requestMessage
                  originalHttpResponseMessage = response }
     }

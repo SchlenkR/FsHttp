@@ -49,14 +49,17 @@ let noResponseContentFormatting (printHint: PrintHint) =
 
 let withResponseContentMaxLength maxLength (printHint: PrintHint) =
     { printHint with
-        responsePrintHint =
-            { printHint.responsePrintHint with
-                printContent =
-                    { printHint.responsePrintHint.printContent with maxLength = maxLength } } } 
+        responsePrintHint = { printHint.responsePrintHint with
+                                printContent = { printHint.responsePrintHint.printContent with 
+                                                   maxLength = maxLength } } } 
     |> withResponseContent
 
 // Printing (Response -> Response)
-let modifyPrinter f r = { r with Response.printHint = f r.printHint }
+let modifyPrinter f (r: Response) = 
+    { r with 
+        request = { r.request with 
+                      config = { r.request.config with 
+                                   printHint = f r.request.config.printHint } } }
 
 let rawPrinterTransformer = noCustomPrinting
 let headerOnlyPrinterTransformer = noResponseContentPrinting
@@ -90,7 +93,7 @@ let print (r: Response) =
             appendLine (sprintf "%-*s: %s" (maxHeaderKeyLength + 3) h.Key values)
 
     let printRequest() =
-        let requestPrintHint = r.printHint.requestPrintHint
+        let requestPrintHint = r.request.config.printHint.requestPrintHint
         
         appendSection "REQUEST"
         
@@ -160,18 +163,18 @@ let print (r: Response) =
         appendSection "RESPONSE"
         appendLine (sprintf "HTTP/%s %d %s" (r.version.ToString()) (int r.statusCode) (string r.statusCode))
 
-        if r.printHint.responsePrintHint.printHeader then
+        if r.request.config.printHint.responsePrintHint.printHeader then
             printHeaderCollection ((r.headers |> Seq.toList) @ (r.content.Headers |> Seq.toList))
 
-        if r.printHint.responsePrintHint.printContent.isEnabled then
+        if r.request.config.printHint.responsePrintHint.printContent.isEnabled then
             let trimmedContentText =
                 try
                     let contentText =
-                        if r.printHint.responsePrintHint.printContent.format then
+                        if r.request.config.printHint.responsePrintHint.printContent.format then
                             Response.toFormattedText r
                         else
                             Response.toText r
-                    let maxLength = r.printHint.responsePrintHint.printContent.maxLength
+                    let maxLength = r.request.config.printHint.responsePrintHint.printContent.maxLength
                     if contentText.Length > maxLength then
                         (contentText.Substring (0,maxLength)) + "\n..."
                     else
@@ -204,7 +207,7 @@ module Init =
 
         if isInteractive then
             let printTransformer (r:Response) =
-                match r.printHint.isEnabled with
+                match r.request.config.printHint.isEnabled with
                 | true -> (PrintableResponse r) :> obj
                 | false -> null
 

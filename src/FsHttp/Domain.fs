@@ -185,7 +185,6 @@ type Response =
       reasonPhrase: string
       statusCode: System.Net.HttpStatusCode
       version: Version
-      printHint: PrintHint
       originalHttpRequestMessage: System.Net.Http.HttpRequestMessage
       originalHttpResponseMessage: System.Net.Http.HttpResponseMessage }
 
