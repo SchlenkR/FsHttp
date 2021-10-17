@@ -8,6 +8,18 @@
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="C:\Users\ronal\.nuget\packages\microsoft.testplatform.testhost\16.9.4\build\netcoreapp2.1\x64\Microsoft.TestPlatform.PlatformAbstractions.dll" />
+    <Content Remove="C:\Users\ronal\.nuget\packages\microsoft.testplatform.testhost\16.9.4\build\netcoreapp2.1\x64\testhost.dll" />
+    <Content Remove="C:\Users\ronal\.nuget\packages\microsoft.testplatform.testhost\16.9.4\build\netcoreapp2.1\x64\testhost.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="C:\Users\ronal\.nuget\packages\nunit3testadapter\3.17.0\build\netcoreapp2.1\nunit.engine.api.dll" />
+    <None Remove="C:\Users\ronal\.nuget\packages\nunit3testadapter\3.17.0\build\netcoreapp2.1\nunit.engine.core.dll" />
+    <None Remove="C:\Users\ronal\.nuget\packages\nunit3testadapter\3.17.0\build\netcoreapp2.1\nunit.engine.dll" />
+    <None Remove="C:\Users\ronal\.nuget\packages\nunit3testadapter\3.17.0\build\netcoreapp2.1\NUnit3.TestAdapter.dll" />
+    <None Remove="C:\Users\ronal\.nuget\packages\nunit3testadapter\3.17.0\build\netcoreapp2.1\NUnit3.TestAdapter.pdb" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Helper\TestHelper.fs" />
     <Compile Include="Helper\Server.fs" />
     <None Include="Resources\uploadFile2.txt">
@@ -16,11 +28,19 @@
     <None Include="Resources\uploadFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="FsHttp\Basic.fs" />
+    <Compile Include="FsHttp\UrlsAndQuery.fs" />
+    <Compile Include="FsHttp\Post.fs" />
+    <Compile Include="FsHttp\ContentType.fs" />
+    <Compile Include="FsHttp\Cookies.fs" />
+    <Compile Include="FsHttp\Proxies.fs" />
+    <Compile Include="FsHttp\DotNetHttp.fs" />
+    <Compile Include="FsHttp\BuildersAndSignatures.fs" />
+    <Compile Include="FsHttp.Testing\JsonComparison.fs" />
+    <Compile Include="FsHttp.Testing\Expectations.fs" />
     <None Include="app.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="FsHttp.Testing.Tests.fs" />
-    <Compile Include="FsHttp.Tests.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FsUnit" Version="4.0.4" />
