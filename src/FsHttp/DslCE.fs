@@ -404,8 +404,8 @@ module Multipart =
                             and 'context :> IToMultipartContext> with
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
-        [<CustomOperation("ContentType")>]
-        member this.ContentType(builder: LazyHttpBuilder<_>, contentType) =
+        [<CustomOperation("ContentTypeForPart")>]
+        member this.ContentTypeForPart(builder: LazyHttpBuilder<_>, contentType) =
             Dsl.Multipart.contentType contentType builder.Context |> LazyHttpBuilder
 
         // -----

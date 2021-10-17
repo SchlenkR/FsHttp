@@ -330,10 +330,10 @@ module ``Content Type`` =
             POST (url @"")
             multipart
 
-            ContentTypePart explicitContentType1
+            ContentTypeForPart explicitContentType1
             filePart "Resources/uploadFile.txt"
         
-            ContentTypePart explicitContentType2
+            ContentTypeForPart explicitContentType2
             filePart "Resources/uploadFile2.txt"
         }
         |> Response.toText
