@@ -351,6 +351,7 @@ module Body =
                             and 'context :> IToBodyContext 
                             and 'context :> IToMultipartContext> with
 
+        // we keep this in for better intellisense support (eventhough it's redundant)
         [<CustomOperation("body")>]
         member this.Body(builder: LazyHttpBuilder<_>) =
             builder.Context.ToBodyContext() |> LazyHttpBuilder
@@ -402,6 +403,16 @@ module Multipart =
                             and 'context :> IToBodyContext 
                             and 'context :> IToMultipartContext> with
 
+        /// The MIME type of the body of the request (used with POST and PUT requests)
+        [<CustomOperation("ContentType")>]
+        member this.ContentType(builder: LazyHttpBuilder<_>, contentType) =
+            Dsl.Multipart.contentType contentType builder.Context |> LazyHttpBuilder
+
+        // -----
+        // PARTS
+        // -----
+
+        // we keep this in for better intellisense support (eventhough it's redundant)
         [<CustomOperation("multipart")>]
         member this.Multipart(builder: LazyHttpBuilder<_>) =
             builder.Context.ToMultipartContext() |> LazyHttpBuilder
@@ -414,18 +425,21 @@ module Multipart =
         member this.StringPart(builder: LazyHttpBuilder<_>, name, value) =
             Dsl.Multipart.stringPart name value builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("filePart")>]
-        member this.FilePart(builder: LazyHttpBuilder<_>, path) =
-            Dsl.Multipart.filePart path builder.Context |> LazyHttpBuilder
-
         [<CustomOperation("filePartWithName")>]
         member this.FilePartWithName(builder: LazyHttpBuilder<_>, name, path) =
             Dsl.Multipart.filePartWithName name path builder.Context |> LazyHttpBuilder
 
-        /// The MIME type of the body of the request (used with POST and PUT requests)
-        [<CustomOperation("ContentTypePart")>]
-        member this.ContentTypePart(builder: LazyHttpBuilder<_>, contentType) =
-            Dsl.Multipart.contentType contentType builder.Context |> LazyHttpBuilder
+        [<CustomOperation("filePart")>]
+        member this.FilePart(builder: LazyHttpBuilder<_>, path) =
+            Dsl.Multipart.filePart path builder.Context |> LazyHttpBuilder
+
+        [<CustomOperation("byteArrayPart")>]
+        member this.ByteArrayPart(builder: LazyHttpBuilder<_>, name, value) =
+            Dsl.Multipart.byteArrayPart name value builder.Context |> LazyHttpBuilder
+
+        [<CustomOperation("streamPart")>]
+        member this.StreamPart(builder: LazyHttpBuilder<_>, name, value) =
+            Dsl.Multipart.streamPart name value builder.Context |> LazyHttpBuilder
 
 
 [<AutoOpen>]

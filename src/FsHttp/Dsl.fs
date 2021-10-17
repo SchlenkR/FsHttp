@@ -334,6 +334,15 @@ module Multipart =
             content = { context.content with 
                           contentData = context.content.contentData @ [ newContentData ] } }
 
+    /// The MIME type of the body of the request (used with POST and PUT requests)
+    let contentType (contentType: string) (context: IToMultipartContext) =
+        let context = context.ToMultipartContext()
+        { context with currentPartContentType = Some contentType }
+
+    // -----
+    // PARTS
+    // -----
+
     let stringPart name (value: string) (context: IToMultipartContext) =
         part (StringContent value) None name context
 
@@ -349,14 +358,6 @@ module Multipart =
 
     let streamPart name (value: System.IO.Stream) (context: IToMultipartContext) =
         part (StreamContent value) None name context
-
-    let formPart name (value: System.IO.Stream) (context: IToMultipartContext) =
-        part (StreamContent value) None name context
-
-    /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType (contentType: string) (context: IToMultipartContext) =
-        let context = context.ToMultipartContext()
-        { context with currentPartContentType = Some contentType }
 
 
 [<AutoOpen>]
