@@ -5,8 +5,7 @@ open FsHttp
 open FsHttp.DslCE
 open FsHttp.Operators
 
-
-% get "https://www.google.de"
+% get "https://www.wikipedia.de"
 |> Response.httpResponseMessage
 
 

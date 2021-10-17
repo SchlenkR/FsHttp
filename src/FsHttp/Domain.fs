@@ -100,41 +100,32 @@ type IRequestBuilderContext =
 
 type StartingContext =
     | StartingContext
-    
     interface IRequestBuilderContext with
-        member this.ToRequest () =
+        member this.ToRequest() =
             failwith "Loophole! Even though a StartingContext implements IContext, it somehow doesn't."
-    
-    // TODO: There seems to be something wrong here.
-    member this.Configure (transformConfig: ConfigTransformer) : StartingContext =
-        failwith "Loophole! Even though a StartingContext implements Configure, it somehow doesn't."
 
 
 type HeaderContext =
     { header: Header
       config: Config } with
-
     interface IRequestBuilderContext with
-        member this.ToRequest () =
+        member this.ToRequest() =
             { Request.header = this.header
               content = Empty
               config = this.config }
-
-    member this.Configure (transformConfig: ConfigTransformer) =
+    member this.Configure(transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
 
 and BodyContext =
     { header: Header
       content: BodyContent
       config: Config } with
-
     interface IRequestBuilderContext with
-        member this.ToRequest () =
+        member this.ToRequest() =
             { Request.header = this.header
               content = Single this.content
               config = this.config }
-
-    member this.Configure (transformConfig: ConfigTransformer) =
+    member this.Configure(transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
         
 and MultipartContext =
@@ -149,7 +140,7 @@ and MultipartContext =
               content = Multi this.content
               config = this.config }
 
-    member this.Configure (transformConfig: ConfigTransformer) =
+    member this.Configure(transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
 
 

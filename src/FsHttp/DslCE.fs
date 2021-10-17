@@ -56,19 +56,19 @@ let httpMsg = HttpMessageBuilder()
 
 
 [<AutoOpen>]
-module Method =
+module Http =
 
     // RFC 2626 specifies 8 methods + PATCH
-    let request (method: string) (url: string) = Dsl.Method.request method url|> LazyHttpBuilder
-    let get (url: string) = Dsl.Method.get url|> LazyHttpBuilder
-    let put (url: string) = Dsl.Method.put url|> LazyHttpBuilder
-    let post (url: string) = Dsl.Method.post url|> LazyHttpBuilder
-    let delete (url: string) = Dsl.Method.delete url|> LazyHttpBuilder
-    let options (url: string) = Dsl.Method.options url|> LazyHttpBuilder
-    let head (url: string) = Dsl.Method.head url|> LazyHttpBuilder
-    let trace (url: string) = Dsl.Method.trace url|> LazyHttpBuilder
-    let connect (url: string) = Dsl.Method.connect url|> LazyHttpBuilder
-    let patch (url: string) = Dsl.Method.patch url|> LazyHttpBuilder
+    let request (method: string) (url: string) = Dsl.Http.request method url|> LazyHttpBuilder
+    let get (url: string) = Dsl.Http.get url|> LazyHttpBuilder
+    let put (url: string) = Dsl.Http.put url|> LazyHttpBuilder
+    let post (url: string) = Dsl.Http.post url|> LazyHttpBuilder
+    let delete (url: string) = Dsl.Http.delete url|> LazyHttpBuilder
+    let options (url: string) = Dsl.Http.options url|> LazyHttpBuilder
+    let head (url: string) = Dsl.Http.head url|> LazyHttpBuilder
+    let trace (url: string) = Dsl.Http.trace url|> LazyHttpBuilder
+    let connect (url: string) = Dsl.Http.connect url|> LazyHttpBuilder
+    let patch (url: string) = Dsl.Http.patch url|> LazyHttpBuilder
 
     // TODO: RFC 4918 (WebDAV) adds 7 methods
 

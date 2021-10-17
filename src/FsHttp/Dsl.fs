@@ -10,7 +10,7 @@ open FsHttp.Helper
 open FsHttp.Domain
 
 [<AutoOpen>]
-module Method =
+module Http =
 
     let request (method: string) (url: string) =
 
