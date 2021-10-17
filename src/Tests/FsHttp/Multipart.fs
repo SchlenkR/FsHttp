@@ -6,6 +6,7 @@ open FsUnit
 open FsHttp
 open FsHttp.DslCE
 open FsHttp.Tests.Server
+open FsHttp.Tests.TestHelper
 
 open NUnit.Framework
 
@@ -16,9 +17,6 @@ open Suave.Successful
 
 
 let [<TestCase>] ``POST Multipart form data``() =
-    
-    let joinLines =  String.concat "\n"
-    
     use server =
         POST 
         >=> request (fun r ->

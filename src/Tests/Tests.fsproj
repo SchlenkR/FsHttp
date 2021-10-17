@@ -33,10 +33,10 @@
     <Compile Include="FsHttp\UrlsAndQuery.fs" />
     <Compile Include="FsHttp\Body.fs" />
     <Compile Include="FsHttp\Multipart.fs" />
-    <Compile Include="FsHttp\Others.fs" />
     <Compile Include="FsHttp\Proxies.fs" />
     <Compile Include="FsHttp\DotNetHttp.fs" />
     <Compile Include="FsHttp\BuildersAndSignatures.fs" />
+    <Compile Include="FsHttp\Others.fs" />
     <Compile Include="FsHttp.Testing\JsonComparison.fs" />
     <Compile Include="FsHttp.Testing\Expectations.fs" />
     <None Include="app.config">

@@ -68,7 +68,7 @@ let toFormattedTextAsync (r: Response) =
             if mediaType.Contains("application/json") then
                 let json = parseJson s
                 use tw = new System.IO.StringWriter()
-                json.WriteTo (tw, JsonSaveOptions.None)
+                json.WriteTo(tw, JsonSaveOptions.None)
                 return tw.ToString()
             else if mediaType.Contains("application/xml") then
                 return (parseXml s).ToString(SaveOptions.None)

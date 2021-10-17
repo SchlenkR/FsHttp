@@ -63,3 +63,26 @@ let [<TestCase>] ``Custom Headers``() =
     |> Response.toText
     |> should equal "hello world"
     
+
+
+// TODO: 
+
+// let [<TestCase>] ``Http reauest message can be modified``() =
+//     use server = GET >=> request (header "accept-language" >> OK) |> serve
+    
+//     let lang = "fr"
+//     http {
+//         GET (url @"")
+//         transformHttpRequestMessage (fun httpRequestMessage ->
+//             httpRequestMessage
+//         )
+//     }
+//     |> toText
+//     |> should equal lang
+
+// TODO: Timeout
+// TODO: ToFormattedText
+// TODO: transformHttpRequestMessage
+// TODO: transformHttpClient
+// TODO: Cookie tests (test the overloads)
+

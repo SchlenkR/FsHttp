@@ -107,6 +107,18 @@ let [<TestCase>] ``Explicitly specified content type is dominant``() =
     |> should equal explicitContentType
 
 
+let [<TestCase>] ``Content length automatically set``() =
+    use server = POST >=> request (header "content-length" >> OK) |> serve
+
+    let content = " [] "
+    http {
+        POST (url @"")
+        body
+        json content
+    }
+    |> Response.toText
+    |> should equal (content.Length.ToString())
+
 // TODO: Post single file
 // TODO: POST stream
 

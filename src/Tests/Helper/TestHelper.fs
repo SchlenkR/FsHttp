@@ -5,6 +5,7 @@ open System.Text
 open Suave
 open Suave.Utils.Collections
 
+let joinLines lines = String.concat "\n" lines
 let keyNotFoundString = "KEY_NOT_FOUND"
 let query key (r: HttpRequest) = defaultArg (Option.ofChoice (r.query ^^ key)) keyNotFoundString
 let header key (r: HttpRequest) = defaultArg (Option.ofChoice (r.header key)) keyNotFoundString
