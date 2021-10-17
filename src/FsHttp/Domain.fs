@@ -80,6 +80,7 @@ type MultipartContent =
         {| name: string
            contentType: string option
            content: ContentData |} list
+      headers: Map<string, string>
       contentType: string }
 
 type Request =
@@ -122,10 +123,12 @@ and HeaderContext =
               config = this.config }
     interface IToMultipartContext with
         member this.ToMultipartContext() =
+            let boundary = Guid.NewGuid().ToString("N")
             { MultipartContext.header = this.header
               content =
                 { MultipartContent.contentData = []
-                  contentType = sprintf "multipart/form-data; boundary=%s" (Guid.NewGuid().ToString("N")) }
+                  headers = Map.empty
+                  contentType = $"multipart/form-data; boundary={boundary}" }
               currentPartContentType = None
               config = this.config }
     member this.Configure(transformConfig: ConfigTransformer) =

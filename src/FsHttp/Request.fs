@@ -45,28 +45,36 @@ let toMessage (request: Request): HttpRequestMessage =
                     contentDispoHeaderValue.FileName <- path
                     content.Headers.ContentDisposition <- contentDispoHeaderValue
                 content :> HttpContent
-
-        if contentType.IsSome then dotnetContent.Headers.ContentType <- Headers.MediaTypeHeaderValue contentType.Value
-
+        if contentType.IsSome then
+            dotnetContent.Headers.ContentType <- MediaTypeHeaderValue contentType.Value
         dotnetContent
 
-    do requestMessage.Content <-
+    let assignContentHeaders (target: HttpHeaders) (headers: Map<string, string>) =
+        for kvp in headers do
+            target.Add(kvp.Key, kvp.Value)
+
+    let dotnetContent =
         match request.content with
         | Empty -> null
-        | Single bodyContent -> buildDotnetContent bodyContent.contentData bodyContent.contentType None
+        | Single bodyContent -> 
+            let dotnetBodyContent = buildDotnetContent bodyContent.contentData bodyContent.contentType None
+            do assignContentHeaders dotnetBodyContent.Headers bodyContent.headers
+            dotnetBodyContent
         | Multi multipartContent ->
-            match multipartContent.contentData with
-            | [] -> null
-            | multi ->
-                let multipartContent = new MultipartFormDataContent()
-                do multi
-                   |> List.map (fun x -> x.name, buildDotnetContent x.content x.contentType (Some x.name))
-                   |> List.iter (fun (name, dotnetContent) -> multipartContent.Add(dotnetContent, name))
-                multipartContent :> HttpContent
-    
-    for kvp in header.headers do
-        requestMessage.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value) |> ignore
-
+            let dotnetMultipartContent =
+                match multipartContent.contentData with
+                | [] -> null
+                | contentPart ->
+                    let dotnetPart = new MultipartFormDataContent()
+                    for x in contentPart do
+                        let dotnetContent = buildDotnetContent x.content x.contentType (Some x.name)
+                        dotnetPart.Add(dotnetContent, x.name)
+                    dotnetPart :> HttpContent
+            do assignContentHeaders dotnetMultipartContent.Headers multipartContent.headers
+            dotnetMultipartContent
+    do
+        requestMessage.Content <- dotnetContent
+        assignContentHeaders requestMessage.Headers header.headers
     requestMessage
 
 let private getHttpClient =

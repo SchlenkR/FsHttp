@@ -333,9 +333,8 @@ module Multipart =
         { context with
             content = { context.content with 
                           contentData = context.content.contentData @ [ newContentData ] } }
-       
 
-    let valuePart name (value: string) (context: IToMultipartContext) =
+    let stringPart name (value: string) (context: IToMultipartContext) =
         part (StringContent value) None name context
 
     let filePartWithName name (path: string) (context: IToMultipartContext) =
@@ -344,6 +343,15 @@ module Multipart =
 
     let filePart (path: string) (context: IToMultipartContext) =
         filePartWithName (System.IO.Path.GetFileNameWithoutExtension path) path context
+
+    let byteArrayPart name (value: byte[]) (context: IToMultipartContext) =
+        part (ByteArrayContent value) None name context
+
+    let streamPart name (value: System.IO.Stream) (context: IToMultipartContext) =
+        part (StreamContent value) None name context
+
+    let formPart name (value: System.IO.Stream) (context: IToMultipartContext) =
+        part (StreamContent value) None name context
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (contentType: string) (context: IToMultipartContext) =

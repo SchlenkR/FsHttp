@@ -410,9 +410,9 @@ module Multipart =
         member this.Part(builder: LazyHttpBuilder<_>, content, defaultContentType, name) =
             Dsl.Multipart.part content defaultContentType name builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("valuePart")>]
-        member this.ValuePart(builder: LazyHttpBuilder<_>, name, value) =
-            Dsl.Multipart.valuePart name value builder.Context |> LazyHttpBuilder
+        [<CustomOperation("stringPart")>]
+        member this.StringPart(builder: LazyHttpBuilder<_>, name, value) =
+            Dsl.Multipart.stringPart name value builder.Context |> LazyHttpBuilder
 
         [<CustomOperation("filePart")>]
         member this.FilePart(builder: LazyHttpBuilder<_>, path) =

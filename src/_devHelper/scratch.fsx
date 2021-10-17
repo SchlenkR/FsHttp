@@ -9,6 +9,10 @@ module Dsl =
     |> Header.accept "text"
     |> Body.json "sdfsdfsd"
 
+    Http.get "https://www.wikipedia.de"
+    |> Header.accept "text"
+    |> Multipart.part
+
 
 open FsHttp
 open FsHttp.DslCE

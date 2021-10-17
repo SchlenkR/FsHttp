@@ -253,9 +253,9 @@ module ``POST`` =
             multipart
             filePart "Resources/uploadFile.txt"
             filePart "Resources/uploadFile2.txt"
-            valuePart "hurz1" "das"
-            valuePart "hurz2" "Lamm"
-            valuePart "hurz3" "schrie"
+            stringPart "hurz1" "das"
+            stringPart "hurz2" "Lamm"
+            stringPart "hurz3" "schrie"
         }
         |> Response.toText
         |> should equal (joinLines [
