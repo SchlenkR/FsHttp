@@ -23,6 +23,28 @@ open FsHttp.Operators
 
 
 
+open System
+
+let queryParamCharLength qp =
+    qp
+    |> List.map (fun (k,v) -> k + "=" + v)
+    |> String.concat "&" 
+    |> String.length
+    |> string
+
+http {
+    POST "http://echo.jsontest.com"
+    query [ "a", "b" ]
+}
+
+
+http {
+    POST "http://echo.jsontest.com"
+    body
+    formUrlEncoded [ "a", "b" ]
+}
+
+
 
 
 // retry

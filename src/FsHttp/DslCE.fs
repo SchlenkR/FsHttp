@@ -124,6 +124,11 @@ module Header =
                             and 'context :> IToBodyContext 
                             and 'context :> IToMultipartContext> with
 
+        /// Custom header
+        [<CustomOperation("header")>]
+        member this.Header(builder: LazyHttpBuilder<_>, key, value) =
+            Dsl.Header.header key value builder.Context |> LazyHttpBuilder
+
         /// Content-Types that are acceptable for the response
         [<CustomOperation("Accept")>]
         member this.Accept(builder: LazyHttpBuilder<_>, contentType) =
@@ -211,11 +216,6 @@ module Header =
         [<CustomOperation("From")>]
         member this.From(builder: LazyHttpBuilder<_>, email) =
             Dsl.Header.from email builder.Context |> LazyHttpBuilder
-
-        /// Custom header
-        [<CustomOperation("Header")>]
-        member this.Header(builder: LazyHttpBuilder<_>, key, value) =
-            Dsl.Header.header key value builder.Context |> LazyHttpBuilder
 
         /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
         /// The port number may be omitted if the port is the standard port for the service requested.

@@ -58,7 +58,7 @@ let [<TestCase>] ``Custom Headers``() =
 
     http {
         GET (url @"")
-        Header customHeaderKey "hello world"
+        header customHeaderKey "hello world"
     }
     |> Response.toText
     |> should equal "hello world"
