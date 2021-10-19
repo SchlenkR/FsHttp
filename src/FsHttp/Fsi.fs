@@ -55,8 +55,8 @@ let withResponseContentMaxLength maxLength (printHint: PrintHint) =
     |> withResponseContent
 
 // Printing (Response -> Response)
-let modifyPrinter f (r: Response) = 
-    { r with 
+let modifyPrinter f (r: Response) =
+    { r with
         request = { r.request with 
                       config = { r.request.config with 
                                    printHint = f r.request.config.printHint } } }

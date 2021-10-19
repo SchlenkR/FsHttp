@@ -129,19 +129,26 @@ let private getHttpClient =
 let buildAsync (context: IToRequest) =
     async {
         let request = context.ToRequest()
-        let requestMessage = toMessage request
-        let finalRequestMessage = requestMessage |> Option.defaultValue id request.config.httpMessageTransformer
-        let invoke (ctok: CancellationToken) =
-            let client = getHttpClient request.config
-            let cookies =
-                request.header.cookies
-                |> List.map string
-                |> String.concat "; "
-            finalRequestMessage.Headers.Add("Cookie", cookies)
-            let finalClient = client |> Option.defaultValue id request.config.httpClientTransformer
-            finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
+        use requestMessage = toMessage request
+        use finalRequestMessage = 
+            let httpMessageTransformer = Option.defaultValue id request.config.httpMessageTransformer
+            httpMessageTransformer requestMessage
         let! ctok = Async.CancellationToken
-        let! response = invoke ctok |> Async.AwaitTask
+        let client = getHttpClient request.config
+        let cookies =
+            request.header.cookies
+            |> List.map string
+            |> String.concat "; "
+        do finalRequestMessage.Headers.Add("Cookie", cookies)
+        let finalClient = 
+            let httpClientTransformer = Option.defaultValue id request.config.httpClientTransformer
+            httpClientTransformer client
+        let! response =
+            finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
+            |> Async.AwaitTask
+        let dispose () =
+            do finalClient.Dispose()
+            do response.Dispose()
         return { request = request
                  content = response.Content
                  headers = response.Headers
@@ -150,7 +157,8 @@ let buildAsync (context: IToRequest) =
                  requestMessage = response.RequestMessage
                  version = response.Version
                  originalHttpRequestMessage = requestMessage
-                 originalHttpResponseMessage = response }
+                 originalHttpResponseMessage = response
+                 dispose = dispose }
     }
 
 /// Sends a context asynchronously.

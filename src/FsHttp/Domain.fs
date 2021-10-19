@@ -186,7 +186,10 @@ type Response =
       statusCode: System.Net.HttpStatusCode
       version: Version
       originalHttpRequestMessage: System.Net.Http.HttpRequestMessage
-      originalHttpResponseMessage: System.Net.Http.HttpResponseMessage }
+      originalHttpResponseMessage: System.Net.Http.HttpResponseMessage
+      dispose: unit -> unit }
+      interface IDisposable with
+        member this.Dispose() = this.dispose()
 
 
 module FsHttpUrl =
