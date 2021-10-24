@@ -173,9 +173,9 @@ let print (r: Response) =
                 try
                     let contentText =
                         if r.request.config.printHint.responsePrintHint.printContent.format then
-                            Response.toFormattedText r
+                            Response.Content.toFormattedText r
                         else
-                            Response.toText r
+                            Response.Content.toText r
                     let maxLength = r.request.config.printHint.responsePrintHint.printContent.maxLength
                     if contentText.Length > maxLength then
                         (contentText.Substring (0,maxLength)) + "\n..."

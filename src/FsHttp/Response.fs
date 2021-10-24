@@ -1,11 +1,17 @@
 module FsHttp.Response
 
 open System
+open System.Net
+open FsHttp.Helper
+open FsHttp.Domain
 open System.Xml.Linq
 open FSharp.Data
 
-open FsHttp.Helper
-open FsHttp.Domain
+
+/////////////////////////////////
+// Content transformation
+/////////////////////////////////
+
 
 let maxContentLengthOnParseFail = 1000
 let private tryParse text parserName parser =
@@ -84,17 +90,89 @@ let toResult (response: Response) =
     | code when code >= 200 && code < 300 -> Ok response
     | _ -> Error response
 
-let httpRequestMessage (response: Response) =
+let asOriginalHttpRequestMessage (response: Response) =
     response.originalHttpRequestMessage
 
-let httpResponseMessage (response: Response) =
+let asOriginalHttpResponseMessage (response: Response) =
     response.originalHttpResponseMessage
+
+
+/////////////////////////////////
+// Expect
+/////////////////////////////////
+    
+let inline private raisef<'a, 'b, 'c> : Printf.StringFormat<'a, 'b> -> 'a =
+    let otype =
+        [
+            "Xunit.Sdk.XunitException, xunit.assert"
+            "NUnit.Framework.AssertionException, nunit.framework"
+            "Expecto.AssertException, expecto"
+        ]
+        |> List.tryPick(System.Type.GetType >> Option.ofObj)
+    match otype with
+    | None -> failwithf
+    | Some t ->
+        let ctor = t.GetConstructor [| typeof<string> |]
+        let exnCtor msg = ctor.Invoke [| msg |] :?> exn
+        Printf.kprintf (exnCtor >> raise)
+
+let expectHttpStatusCodes (codes: HttpStatusCode list) (r: Response) =
+    let codes = set codes
+    if codes |> Set.contains r.statusCode |> not then
+        raisef $"Status code {HttpStatusCode.show r.statusCode} is not in expected [{codes}]."
+let expectHttpStatusCode (code: HttpStatusCode) = expectHttpStatusCodes [code]
+let expectStatusCodes (codes: int list) =
+    expectHttpStatusCodes (codes |> List.map LanguagePrimitives.EnumOfValue)
+let expectStatusCode (code: int) = expectStatusCodes [code]
+
+let extectOk = expectStatusCodes [200]
+let extectNoContent = expectStatusCodes [204]
+let extectBadRequest = expectStatusCodes [400]
+let extectUnauthorized = expectStatusCodes [401]
+let extectForbidden = expectStatusCodes [403]
+let extectNotFound = expectStatusCodes [404]
+let extect1xx = expectStatusCodes [100..199]
+let extect2xx = expectStatusCodes [200..299]
+let extect3xx = expectStatusCodes [300..399]
+let extect4xx = expectStatusCodes [400..499]
+let extect5xx = expectStatusCodes [500..599]
+let extect9xx = expectStatusCodes [900..999]
+// TODO: Some more explicit expectations
+
+open JsonComparison
+
+let expectJsonByExample
+    (arrayComparison: ArrayComparison)
+    (structuralComparison: StructuralComparison)
+    (expectedJson: string)
+    (json: JsonValue) 
+    =
+    let expectedPaths,resultPaths = compareJson arrayComparison (JsonValue.Parse expectedJson) json
+    let aggregateUnmatchedElements list =
+        match list with
+        | [] -> ""
+        | x::xs -> xs |> List.fold (fun curr next -> curr + "\n" + next) x
+    match structuralComparison with
+    | Subset ->
+        let eMinusR = expectedPaths |> List.except resultPaths
+        match eMinusR with
+        | [] -> json
+        | _ -> raisef "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements)
+    | Exact ->
+        let eMinusR = expectedPaths |> List.except resultPaths
+        let rMinusE = resultPaths |> List.except expectedPaths
+        match eMinusR, rMinusE with
+        | [],[] -> json
+        | _ ->
+            let a1 = (sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements))
+            let a2 = (sprintf "Elements not contained in expectation: \n%s" (rMinusE |> aggregateUnmatchedElements))
+            raisef "%s\n%s" a1 a2
 
 
 // TODO:
 // Request.saveFile
 
 // TODO:
-// Multipart
+// Multipart extraction
 // mime types
 // content types

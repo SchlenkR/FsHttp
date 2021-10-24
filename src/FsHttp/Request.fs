@@ -145,7 +145,7 @@ let buildAsync (context: IToRequest) =
             finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
             |> Async.AwaitTask
         if request.config.printptDebugMessages then
-            printfn $"{int response.StatusCode} ({response.StatusCode}) ({request.header.method} {FsHttpUrl.toUriString request.header.url})"
+            printfn $"{Helper.HttpStatusCode.show response.StatusCode} ({request.header.method} {FsHttpUrl.toUriString request.header.url})"
         let dispose () =
             do finalClient.Dispose()
             do response.Dispose()
