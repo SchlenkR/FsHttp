@@ -25,8 +25,8 @@
     <Compile Include="FsHttp\DotNetHttp.fs" />
     <Compile Include="FsHttp\BuildersAndSignatures.fs" />
     <Compile Include="FsHttp\Others.fs" />
-    <Compile Include="FsHttp.Testing\JsonComparison.fs" />
-    <Compile Include="FsHttp.Testing\Expectations.fs" />
+    <Compile Include="FsHttp\Expectations.fs" />
+    <Compile Include="FsHttp\JsonComparison.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FsUnit" Version="4.0.7" />
@@ -37,7 +37,9 @@
     <PackageReference Include="Suave" Version="2.6.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FsHttp.Testing\FsHttp.Testing.fsproj" />
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FsHttp.Testing\" />
   </ItemGroup>
 </Project>

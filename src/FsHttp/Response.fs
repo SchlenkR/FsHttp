@@ -43,11 +43,11 @@ let toText (r: Response) = toTextAsync r |> Async.RunSynchronously
 
 let private parseJson text = tryParse text "JSON" JsonValue.Parse
 
-let toJsonAsync (r: Response) = async {
+let toJsonAsync (r: Response) : Async<JsonValue> = async {
     let! s = toTextAsync r 
     return parseJson s
 }
-let toJson (r: Response) = toJsonAsync r |> Async.RunSynchronously
+let toJson (r: Response) : JsonValue = toJsonAsync r |> Async.RunSynchronously
 
 let toJsonArrayAsync (r: Response) = async {
     let! res = toJsonAsync r
@@ -101,25 +101,10 @@ let asOriginalHttpResponseMessage (response: Response) =
 // Expect
 /////////////////////////////////
     
-let inline private raisef<'a, 'b, 'c> : Printf.StringFormat<'a, 'b> -> 'a =
-    let otype =
-        [
-            "Xunit.Sdk.XunitException, xunit.assert"
-            "NUnit.Framework.AssertionException, nunit.framework"
-            "Expecto.AssertException, expecto"
-        ]
-        |> List.tryPick(System.Type.GetType >> Option.ofObj)
-    match otype with
-    | None -> failwithf
-    | Some t ->
-        let ctor = t.GetConstructor [| typeof<string> |]
-        let exnCtor msg = ctor.Invoke [| msg |] :?> exn
-        Printf.kprintf (exnCtor >> raise)
-
 let expectHttpStatusCodes (codes: HttpStatusCode list) (r: Response) =
     let codes = set codes
     if codes |> Set.contains r.statusCode |> not then
-        raisef $"Status code {HttpStatusCode.show r.statusCode} is not in expected [{codes}]."
+        Exception.raisef $"Status code {HttpStatusCode.show r.statusCode} is not in expected [{codes}]."
 let expectHttpStatusCode (code: HttpStatusCode) = expectHttpStatusCodes [code]
 let expectStatusCodes (codes: int list) =
     expectHttpStatusCodes (codes |> List.map LanguagePrimitives.EnumOfValue)
@@ -138,36 +123,6 @@ let extect4xx = expectStatusCodes [400..499]
 let extect5xx = expectStatusCodes [500..599]
 let extect9xx = expectStatusCodes [900..999]
 // TODO: Some more explicit expectations
-
-open JsonComparison
-
-let expectJsonByExample
-    (arrayComparison: ArrayComparison)
-    (structuralComparison: StructuralComparison)
-    (expectedJson: string)
-    (json: JsonValue) 
-    =
-    let expectedPaths,resultPaths = compareJson arrayComparison (JsonValue.Parse expectedJson) json
-    let aggregateUnmatchedElements list =
-        match list with
-        | [] -> ""
-        | x::xs -> xs |> List.fold (fun curr next -> curr + "\n" + next) x
-    match structuralComparison with
-    | Subset ->
-        let eMinusR = expectedPaths |> List.except resultPaths
-        match eMinusR with
-        | [] -> json
-        | _ -> raisef "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements)
-    | Exact ->
-        let eMinusR = expectedPaths |> List.except resultPaths
-        let rMinusE = resultPaths |> List.except expectedPaths
-        match eMinusR, rMinusE with
-        | [],[] -> json
-        | _ ->
-            let a1 = (sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements))
-            let a2 = (sprintf "Elements not contained in expectation: \n%s" (rMinusE |> aggregateUnmatchedElements))
-            raisef "%s\n%s" a1 a2
-
 
 // TODO:
 // Request.saveFile

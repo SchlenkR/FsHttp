@@ -1,8 +1,8 @@
-﻿module FsHttp.Testing.Tests.Expectations
+﻿module FsHttp.Tests.Expectations
 
-open FsHttp.Testing
 open NUnit.Framework
 
+open FsHttp
 open FsHttp.DslCE
 open FsHttp.Tests.Server
 
@@ -16,12 +16,12 @@ let [<TestCase>] ``Expect status code``() =
     use server = GET >=> BAD_GATEWAY "" |> serve
 
     http { GET (url @"") }
-    |> statusCodeShouldBe System.Net.HttpStatusCode.BadGateway
+    |> Response.expectHttpStatusCode System.Net.HttpStatusCode.BadGateway
     |> ignore
 
     Assert.Throws<AssertionException>(fun() ->
         http { GET (url @"") }
-        |> statusCodeShouldBe System.Net.HttpStatusCode.Ambiguous
+        |> Response.expectHttpStatusCode System.Net.HttpStatusCode.Ambiguous
         |> ignore
     )
     |> ignore
