@@ -59,7 +59,8 @@ let modifyPrinter f (r: Response) =
     { r with
         request = { r.request with 
                       config = { r.request.config with 
-                                   printHint = f r.request.config.printHint } } }
+                                   printHint = f r.request.config.printHint
+                                   printptDebugMessages = true } } }
 
 let rawPrinterTransformer = noCustomPrinting
 let headerOnlyPrinterTransformer = noResponseContentPrinting
@@ -69,15 +70,16 @@ let expandPrinterTransformer = (withResponseContentMaxLength Int32.MaxValue >> w
 
 // TODO: Printer for Request
 
+type StringBuilder with
+    member sb.append (s:string) = sb.Append s |> ignore
+    member sb.appendLine s = sb.AppendLine s |> ignore
+    member sb.newLine() = sb.appendLine ""
+    member sb.appendSection s =
+        sb.appendLine s
+        String([0..s.Length] |> List.map (fun _ -> '-') |> List.toArray) |> sb.appendLine
+
 let print (r: Response) =
     let sb = StringBuilder()
-
-    let append (s:string) = sb.Append s |> ignore
-    let appendLine s = sb.AppendLine s |> ignore
-    let newLine() = appendLine ""
-    let appendSection s =
-        appendLine s
-        String([0..s.Length] |> List.map (fun _ -> '-') |> List.toArray) |> appendLine
     
     let contentIndicator = "===content==="
 
@@ -90,15 +92,15 @@ let print (r: Response) =
 
         for h in headers do
             let values = String.Join(", ", h.Value)
-            appendLine (sprintf "%-*s: %s" (maxHeaderKeyLength + 3) h.Key values)
+            sb.appendLine (sprintf "%-*s: %s" (maxHeaderKeyLength + 3) h.Key values)
 
     let printRequest() =
         let requestPrintHint = r.request.config.printHint.requestPrintHint
         
-        appendSection "REQUEST"
+        sb.appendSection "REQUEST"
         
         sprintf "%s %s HTTP/%s" (r.request.header.method.ToString()) (FsHttpUrl.toUriString r.request.header.url) (r.version.ToString())
-        |> appendLine
+        |> sb.appendLine
 
         if requestPrintHint.printHeader then
             let contentHeaders,multipartHeaders =
@@ -142,8 +144,8 @@ let print (r: Response) =
                 | FileContent fileName ->
                     sprintf "::File (name = %s)" fileName
 
-            appendLine contentIndicator
-            appendLine <|
+            sb.appendLine contentIndicator
+            sb.appendLine <|
                 match r.request.content with
                 | Empty -> ""
                 | Single bodyContent -> formatContentData bodyContent.contentData
@@ -157,11 +159,11 @@ let print (r: Response) =
                     ]
                     |> String.concat "\n"
         
-        newLine()
+        sb.newLine()
 
     let printResponse() =
-        appendSection "RESPONSE"
-        appendLine (sprintf "HTTP/%s %d %s" (r.version.ToString()) (int r.statusCode) (string r.statusCode))
+        sb.appendSection "RESPONSE"
+        sb.appendLine (sprintf "HTTP/%s %d %s" (r.version.ToString()) (int r.statusCode) (string r.statusCode))
 
         if r.request.config.printHint.responsePrintHint.printHeader then
             printHeaderCollection ((r.headers |> Seq.toList) @ (r.content.Headers |> Seq.toList))
@@ -180,12 +182,12 @@ let print (r: Response) =
                     else
                         contentText
                 with ex -> sprintf "ERROR reading response content: %s" (ex.ToString())
-            appendLine contentIndicator
-            append trimmedContentText
+            sb.appendLine contentIndicator
+            sb.append trimmedContentText
             
-            newLine()
+            sb.newLine()
     
-    (newLine >> printRequest >> printResponse)()
+    (sb.newLine >> printRequest >> printResponse)()
     sb.ToString()
 
 
@@ -216,8 +218,6 @@ module Init =
                 try print inner
                 with ex -> ex.ToString()
 
-            printfn "--- FsHttp: running in FSI - Try registering printer..."
-
             AppDomain.CurrentDomain.GetAssemblies()
             |> Array.tryFind (fun x -> x.GetName().Name = "FSharp.Compiler.Interactive.Settings")
             |> Option.map (fun asm ->
@@ -232,7 +232,7 @@ module Init =
             |> Option.flatten
             |> function
                 | None ->
-                    printfn "--- FsHttp: FSI object not found."
+                    printfn "--- FsHttp: FSI object not found (this is expected when running in a notebook)."
                 | Some fsiInstance ->
                     let t = fsiInstance.GetType()
 

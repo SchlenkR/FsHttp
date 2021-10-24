@@ -14,12 +14,8 @@ let private TimeoutPropertyName = "RequestTimeout"
 
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toMessage (request: Request): HttpRequestMessage =
-
     let header = request.header
-
-    let url = FsHttpUrl.toUriString header.url
-    let requestMessage = new HttpRequestMessage(header.method, url)
-
+    let requestMessage = new HttpRequestMessage(header.method, FsHttpUrl.toUriString header.url)
     do requestMessage.Properties.[TimeoutPropertyName] <- request.config.timeout
 
     let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
@@ -78,13 +74,13 @@ let toMessage (request: Request): HttpRequestMessage =
     requestMessage
 
 let private getHttpClient =
-    let timeoutHandler innerHandler printDebugMessages =
+    let timeoutHandler innerHandler =
         { new DelegatingHandler(InnerHandler = innerHandler) with
             member _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
                 let cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
-
-                cts.CancelAfter(request.Properties.[TimeoutPropertyName] :?> TimeSpan)
-                base.SendAsync(request, cts.Token) }
+                do cts.CancelAfter(request.Properties.[TimeoutPropertyName] :?> TimeSpan)
+                base.SendAsync(request, cts.Token)
+        }
 
     fun (config: Config) ->
         match config.httpClientFactory with
@@ -123,12 +119,14 @@ let private getHttpClient =
                 handler.Proxy <- webProxy
             | None -> ()
 
-            new HttpClient(timeoutHandler handler config.printDebugMessages, Timeout = Timeout.InfiniteTimeSpan)
+            new HttpClient(handler |> timeoutHandler, Timeout = Timeout.InfiniteTimeSpan)
 
 /// Builds an asynchronous request, without sending it.
 let buildAsync (context: IToRequest) =
     async {
         let request = context.ToRequest()
+        if request.config.printptDebugMessages then
+            printfn $"Sending request {request.header.method} {FsHttpUrl.toUriString request.header.url} ..."
         use requestMessage = toMessage request
         use finalRequestMessage = 
             let httpMessageTransformer = Option.defaultValue id request.config.httpMessageTransformer
@@ -146,6 +144,8 @@ let buildAsync (context: IToRequest) =
         let! response =
             finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
             |> Async.AwaitTask
+        if request.config.printptDebugMessages then
+            printfn $"{int response.StatusCode} ({response.StatusCode}) ({request.header.method} {FsHttpUrl.toUriString request.header.url})"
         let dispose () =
             do finalClient.Dispose()
             do response.Dispose()

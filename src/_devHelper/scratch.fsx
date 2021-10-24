@@ -6,12 +6,13 @@ module Dsl =
     open FsHttp.Dsl
     
     Http.get "https://www.wikipedia.de"
-    |> Header.accept "text"
-    |> Body.json "sdfsdfsd"
+    |> Header.accept "application/text"
+    |> Body.json "{}"
+    |> Request.send
+    |> ignore
 
     Http.get "https://www.wikipedia.de"
     |> Header.accept "text"
-    |> Multipart.part
 
 
 open FsHttp

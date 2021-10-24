@@ -12,6 +12,9 @@ open FsHttp.Domain
 module Http =
 
     let request (method: string) (url: string) =
+
+        Config.defaultConfig <- { Config.defaultConfig with printptDebugMessages = true }
+
         // init hack
         Fsi.Init.init()
 
@@ -363,7 +366,7 @@ module Multipart =
 [<AutoOpen>]
 module Config =
 
-    let inline configure (f: ConfigTransformer) (context: ^t) =
+    let inline configure (f: ConfigTransformer) (context: ^t) : 't =
         (^t: (member Configure: (ConfigTransformer) -> ^t) (context, f))
 
     let inline ignoreCertIssues (context: ^t) =

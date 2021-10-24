@@ -20,7 +20,7 @@ let internal initialPrintHint : PrintHint =
 
 let mutable internal defaultConfig =
     { timeout = TimeSpan.FromSeconds 10.0
-      printDebugMessages = false
+      printptDebugMessages = false
       printHint = initialPrintHint
       httpMessageTransformer = None
       httpClientHandlerTransformer = None
