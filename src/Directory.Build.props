@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>6.0.0-preview6</Version>
+    <Version>6.0.0-preview7</Version>
     <Company />
     <Copyright>Copyright 2021 Ronald Schlenker</Copyright>
     <PackageIconUrl>https://github.com/ronaldschlenker/FsHttp/blob/master/src/docs/img/logo.png</PackageIconUrl>
