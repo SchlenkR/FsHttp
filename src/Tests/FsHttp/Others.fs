@@ -52,7 +52,9 @@ let [<TestCase>] ``Custom Headers``() =
         GET
         >=> request (fun r ->
             r.header customHeaderKey
-            |> function | Choice1Of2 v -> v | Choice2Of2 e -> failwithf "Failed %s" e
+            |> function 
+                | Choice1Of2 v -> v 
+                | Choice2Of2 e -> raise (Helper.Testing.raiseExn $"Failed {e}")
             |> OK)
         |> serve
 

@@ -40,8 +40,8 @@ module internal HttpStatusCode =
     let show (this: System.Net.HttpStatusCode) = $"{int this} ({this})"
 
 [<RequireQualifiedAccess>]
-module Exception =
-    let inline raisef<'a, 'b, 'c> : Printf.StringFormat<'a, 'b> -> 'a =
+module Testing =
+    let inline raiseExn (msg: string) =
         let otype =
             [
                 "Xunit.Sdk.XunitException, xunit.assert"
@@ -50,8 +50,69 @@ module Exception =
             ]
             |> List.tryPick(System.Type.GetType >> Option.ofObj)
         match otype with
-        | None -> failwithf
+        | None -> failwith msg
         | Some t ->
             let ctor = t.GetConstructor [| typeof<string> |]
-            let exnCtor msg = ctor.Invoke [| msg |] :?> exn
-            Printf.kprintf (exnCtor >> raise)
+            ctor.Invoke [| msg |] :?> exn |> raise
+
+module Result =
+    let raiseOnError (r: Result<'a, 'b>) =
+        match r with
+        | Ok value -> value
+        | Error value -> Testing.raiseExn $"{value}"
+
+module Stream =
+    open System
+    open System.IO
+    open System.Text
+    
+    let copyToCallbackAsync (target: Stream) callback (source: Stream) = async {
+        let buffer = Array.create 1024 (byte 0)
+        
+        let logTimeSpan = TimeSpan.FromSeconds 1.5
+        let mutable continueLooping = true
+        let mutable overallBytesCount = 0
+        let mutable lastNotificationTime = DateTime.Now
+        while continueLooping do
+            let! readCount = source.ReadAsync(buffer, 0, buffer.Length) |> Async.AwaitTask
+            do target.Write(buffer, 0, readCount)
+
+            overallBytesCount <- overallBytesCount + readCount
+                
+            let now = DateTime.Now
+            if (now - lastNotificationTime) > logTimeSpan then
+                do callback overallBytesCount
+                lastNotificationTime <- now
+                    
+            continueLooping <- readCount > 0
+        callback overallBytesCount
+    }
+        
+    let copyToAsync target source = async {
+        printfn "Download response received - starting download..."
+        do! source |> copyToCallbackAsync target (fun read ->
+            let mbRead = float read / 1024.0 / 1024.0
+            printfn "%f MB" mbRead)
+        printfn "Download finished."
+    }
+
+    let toStringUtf8Async source = async {
+        use ms = new MemoryStream()
+        do! source |> copyToAsync ms
+        do ms.Position <- 0L
+        use sr = new StreamReader(ms, Encoding.UTF8)
+        return sr.ReadToEnd()
+    }
+
+    let toBytesAsync source = async {
+        use ms = new MemoryStream()
+        do! source |> copyToAsync ms
+        return ms.ToArray()
+    }
+
+    let saveFileAsync fileName source = async {
+        printfn "Download response received (file: %s) - starting download..." fileName
+        use fs = File.Open(fileName, FileMode.Create, FileAccess.Write)
+        do! source |> copyToAsync fs
+        printfn "Download finished."
+    }

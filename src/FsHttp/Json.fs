@@ -59,17 +59,17 @@ module Json =
         | Subset ->
             let eMinusR = expectedPaths |> List.except resultPaths
             match eMinusR with
-            | [] -> actualJsonValue
-            | _ -> Exception.raisef "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements)
+            | [] -> Ok actualJsonValue
+            | _ -> Error (sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements))
         | Exact ->
             let eMinusR = expectedPaths |> List.except resultPaths
             let rMinusE = resultPaths |> List.except expectedPaths
             match eMinusR, rMinusE with
-            | [],[] -> actualJsonValue
+            | [],[] -> Ok actualJsonValue
             | _ ->
                 let a1 = (sprintf "Elements not contained in source: \n%s" (eMinusR |> aggregateUnmatchedElements))
                 let a2 = (sprintf "Elements not contained in expectation: \n%s" (rMinusE |> aggregateUnmatchedElements))
-                Exception.raisef "%s\n%s" a1 a2
+                Error (sprintf "%s\n%s" a1 a2)
     
     let expectJsonSubset (expectedJson: string) (actualJsonValue: JsonValue) =
         expectJson IgnoreOrder Subset expectedJson actualJsonValue

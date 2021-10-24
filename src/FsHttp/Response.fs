@@ -20,11 +20,17 @@ let private tryParse text parserName parser =
         Exception("Could not parse " + parserName + ": " + (String.substring text maxContentLengthOnParseFail), ex)
         |> raise
     
-let toStreamAsync (r: Response) = r.content.ReadAsStreamAsync() |> Async.AwaitTask
-let toStream (r: Response) = toStreamAsync r |> Async.RunSynchronously
+let toStreamAsync (r: Response) =
+    r.content.ReadAsStreamAsync() |> Async.AwaitTask
+let toStream (r: Response) =
+    toStreamAsync r |> Async.RunSynchronously
 
-let toBytesAsync (r: Response) = r.content.ReadAsByteArrayAsync() |> Async.AwaitTask
-let toBytes (r: Response) = toBytesAsync r |> Async.RunSynchronously
+let toBytesAsync (r: Response) = async {
+    let! stream = r |> toStreamAsync
+    return! stream |> Stream.toBytesAsync
+}
+let toBytes (r: Response) =
+    toBytesAsync r |> Async.RunSynchronously
 
 // TODO: Don't read the whole response; read only requested chars.
 let toStringAsync maxLength (r: Response) =
@@ -36,24 +42,30 @@ let toStringAsync maxLength (r: Response) =
         let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
         return (String.substring content maxLength) + (getTrimChars content)
     }
-let toString maxLength response = toStringAsync maxLength response |> Async.RunSynchronously
+let toString maxLength response =
+    toStringAsync maxLength response |> Async.RunSynchronously
 
-let toTextAsync (r: Response) = toStringAsync Int32.MaxValue r
-let toText (r: Response) = toTextAsync r |> Async.RunSynchronously
+let toTextAsync (r: Response) =
+    toStringAsync Int32.MaxValue r
+let toText (r: Response) =
+    toTextAsync r |> Async.RunSynchronously
 
-let private parseJson text = tryParse text "JSON" JsonValue.Parse
+let private parseJson text =
+    tryParse text "JSON" JsonValue.Parse
 
 let toJsonAsync (r: Response) : Async<JsonValue> = async {
     let! s = toTextAsync r 
     return parseJson s
 }
-let toJson (r: Response) : JsonValue = toJsonAsync r |> Async.RunSynchronously
+let toJson (r: Response) : JsonValue =
+    toJsonAsync r |> Async.RunSynchronously
 
 let toJsonArrayAsync (r: Response) = async {
     let! res = toJsonAsync r
     return res |> fun json -> json.AsArray()
 }
-let toJsonArray (r: Response) = toJsonArrayAsync r |> Async.RunSynchronously
+let toJsonArray (r: Response) =
+    toJsonArrayAsync r |> Async.RunSynchronously
 
 let private parseXml text = tryParse text "XML" XDocument.Parse
 
@@ -61,7 +73,8 @@ let toXmlAsync (r: Response) = async {
     let! s = toTextAsync r 
     return parseXml s
 }
-let toXml (r: Response) = toXmlAsync r |> Async.RunSynchronously
+let toXml (r: Response) =
+    toXmlAsync r |> Async.RunSynchronously
 
 // TODO: toHtml
 
@@ -83,7 +96,15 @@ let toFormattedTextAsync (r: Response) =
         with _ ->
             return s
     }
-let toFormattedText (r: Response) = toFormattedTextAsync r |> Async.RunSynchronously
+let toFormattedText (r: Response) =
+    toFormattedTextAsync r |> Async.RunSynchronously
+
+let saveFileAsync (fileName: string) (r: Response) = async {
+    let! stream = r |> toStreamAsync 
+    do! stream |> Stream.saveFileAsync fileName
+}
+let saveFile (fileName: string) (r: Response) =
+    saveFileAsync fileName r |> Async.RunSynchronously
 
 let toResult (response: Response) =
     match int response.statusCode with
@@ -103,29 +124,38 @@ let asOriginalHttpResponseMessage (response: Response) =
     
 let expectHttpStatusCodes (codes: HttpStatusCode list) (r: Response) =
     let codes = set codes
-    if codes |> Set.contains r.statusCode |> not then
-        Exception.raisef $"Status code {HttpStatusCode.show r.statusCode} is not in expected [{codes}]."
-let expectHttpStatusCode (code: HttpStatusCode) = expectHttpStatusCodes [code]
+    match codes |> Set.contains r.statusCode with
+    | true -> Ok ()
+    | false -> Error (sprintf $"Status code {HttpStatusCode.show r.statusCode} is not in expected [{codes}].")
+let expectHttpStatusCode (code: HttpStatusCode) = 
+    expectHttpStatusCodes [code]
 let expectStatusCodes (codes: int list) =
     expectHttpStatusCodes (codes |> List.map LanguagePrimitives.EnumOfValue)
 let expectStatusCode (code: int) = expectStatusCodes [code]
 
-let extectOk = expectStatusCodes [200]
-let extectNoContent = expectStatusCodes [204]
-let extectBadRequest = expectStatusCodes [400]
-let extectUnauthorized = expectStatusCodes [401]
-let extectForbidden = expectStatusCodes [403]
-let extectNotFound = expectStatusCodes [404]
-let extect1xx = expectStatusCodes [100..199]
-let extect2xx = expectStatusCodes [200..299]
-let extect3xx = expectStatusCodes [300..399]
-let extect4xx = expectStatusCodes [400..499]
-let extect5xx = expectStatusCodes [500..599]
-let extect9xx = expectStatusCodes [900..999]
+let assertHttpStatusCodes codes r =
+    expectHttpStatusCodes codes r |> Result.raiseOnError
+let assertHttpStatusCode code r = 
+    expectHttpStatusCode code r |> Result.raiseOnError
+let assertStatusCodes codes r =
+    expectStatusCodes codes r  |> Result.raiseOnError
+let assertStatusCode code r =
+    expectStatusCode code r |> Result.raiseOnError
+
+let assertOk = expectStatusCodes [200]
+let assertNoContent = expectStatusCodes [204]
+let assertBadRequest = expectStatusCodes [400]
+let assertUnauthorized = expectStatusCodes [401]
+let assertForbidden = expectStatusCodes [403]
+let assertNotFound = expectStatusCodes [404]
+let assert1xx = expectStatusCodes [100..199]
+let assert2xx = expectStatusCodes [200..299]
+let assert3xx = expectStatusCodes [300..399]
+let assert4xx = expectStatusCodes [400..499]
+let assert5xx = expectStatusCodes [500..599]
+let assert9xx = expectStatusCodes [900..999]
 // TODO: Some more explicit expectations
 
-// TODO:
-// Request.saveFile
 
 // TODO:
 // Multipart extraction
