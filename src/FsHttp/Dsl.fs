@@ -109,17 +109,17 @@ module Header =
     let connection (connection: string) (context: HeaderContext) =
         header "Connection" connection context
 
-    let private addCookie (cookie: Cookie) (context: HeaderContext) =
+    let private cookieDotnet (cookie: Cookie) (context: HeaderContext) =
         { context with header = { context.header with cookies = context.header.cookies @ [ cookie ] } }
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie'.
     let cookie (name: string) (value: string) (context: HeaderContext) =
-        addCookie (Cookie(name, value)) context
+        cookieDotnet (Cookie(name, value)) context
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
     /// the subset of URIs on the origin server to which this Cookie applies.
     let cookieForPath (name: string) (value: string) (path: string) (context: HeaderContext) =
-        addCookie (Cookie(name, value, path)) context
+        cookieDotnet (Cookie(name, value, path)) context
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
     /// the subset of URIs on the origin server to which this Cookie applies
@@ -131,7 +131,7 @@ module Header =
         (domain: string)
         (context: HeaderContext)
         =
-        addCookie (Cookie(name, value, path, domain)) context
+        cookieDotnet (Cookie(name, value, path, domain)) context
 
     /// The date and time that the message was sent
     let date (date: DateTime) (context: HeaderContext) =
@@ -284,7 +284,7 @@ module Body =
     let contentRange (range: string) (context: IToBodyContext) =
         header "Content-Range" range context 
 
-    let private content defaultContentType (data: ContentData) (context: IToBodyContext) =
+    let content defaultContentType (data: ContentData) (context: IToBodyContext) =
         let context = context.ToBodyContext()
         let content = context.content
         let contentType = content.contentType |> Option.defaultValue defaultContentType
@@ -306,7 +306,7 @@ module Body =
         content MimeTypes.octetStream (StringContent (Convert.ToBase64String base64)) context
 
     let json (json: string) (context: IToBodyContext) =
-        content MimeTypes.applicationJson (StringContent json) context
+        content MimeTypes.textJson (StringContent json) context
 
     let formUrlEncoded (data: (string * string) list) (context: IToBodyContext) =
         content "application/x-www-form-urlencoded" (FormUrlEncodedContent (Map.ofList data)) context

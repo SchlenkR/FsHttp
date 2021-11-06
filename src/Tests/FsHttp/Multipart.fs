@@ -52,8 +52,8 @@ let [<TestCase>] ``POST Multipart form data``() =
 
 let [<TestCase>] ``Explicitly specified content type part is dominant``() =
     
-    let explicitContentType1 = "application/whatever1"
-    let explicitContentType2 = "application/whatever2"
+    let explicitContentType1 = "text/whatever1"
+    let explicitContentType2 = "text/whatever2"
 
     use server =
         POST 

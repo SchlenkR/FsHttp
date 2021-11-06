@@ -1,7 +1,6 @@
 module FsHttp.Request
 
 open System
-open System.Collections.Generic
 open System.Net
 open System.Net.Http
 open System.Net.Http.Headers
@@ -9,7 +8,6 @@ open System.Threading
 
 open FsHttp.Domain
 
-[<Literal>]
 let private TimeoutPropertyName = "RequestTimeout"
 
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.

@@ -78,7 +78,7 @@ let [<TestCase>] ``Smoke test for a header``() =
 let [<TestCase>] ``ContentType override``() =
     use server = POST >=> request (header "content-type" >> OK) |> serve
 
-    let contentType = "application/xxx"
+    let contentType = "text/xxx"
 
     http {
         POST (url @"")

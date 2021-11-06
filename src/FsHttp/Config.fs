@@ -4,7 +4,7 @@ open System
 
 open FsHttp.Domain
 
-let private defaultPreviewLength = 7000
+let defaultPreviewLength = 7000
 
 let internal initialPrintHint : PrintHint =
     { isEnabled = true

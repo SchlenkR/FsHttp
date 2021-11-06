@@ -6,7 +6,7 @@ let octetStream = "application/octet-stream"
 let defaultMimeType = octetStream
 
 let textPlain = "text/plain"
-let applicationJson = "application/json"
+let textJson = "text/json"
 
 let extToMimeType =
     [|
@@ -368,7 +368,7 @@ let extToMimeType =
         "jpgv", "video/jpeg"
         "jpm", "video/jpm"
         "js", "application/javascript"
-        "json", applicationJson
+        "json", textJson
         "jsonml", "application/jsonml+json"
         "kar", "audio/midi"
         "karbon", "application/vnd.kde.karbon"

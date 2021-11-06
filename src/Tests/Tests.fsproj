@@ -24,6 +24,7 @@
     <Compile Include="FsHttp\Proxies.fs" />
     <Compile Include="FsHttp\DotNetHttp.fs" />
     <Compile Include="FsHttp\BuildersAndSignatures.fs" />
+    <Compile Include="FsHttp\ExtendingBuilders.fs" />
     <Compile Include="FsHttp\Others.fs" />
     <Compile Include="FsHttp\Expectations.fs" />
     <Compile Include="FsHttp\JsonComparison.fs" />

@@ -345,6 +345,10 @@ module Body =
             =
             builder.Context.ToBodyContext() |> LazyHttpBuilder
 
+        [<CustomOperation("content")>]
+        member this.Content(builder: LazyHttpBuilder<_>, contentType, data) =
+            Dsl.Body.content contentType data builder.Context |> LazyHttpBuilder
+
         [<CustomOperation("binary")>]
         member this.Binary(builder: LazyHttpBuilder<_>, data) =
             Dsl.Body.binary data builder.Context |> LazyHttpBuilder

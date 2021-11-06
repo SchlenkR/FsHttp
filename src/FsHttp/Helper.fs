@@ -1,13 +1,14 @@
-namespace FsHttp.Helper
+module FsHttp.Helper
+
+open System
+open System.Text
+
+let base64Encoding = Encoding.GetEncoding("ISO-8859-1")
 
 [<RequireQualifiedAccess>]
 module String =
-    open System
-    open System.Text
 
     let urlEncode (s: string) = System.Web.HttpUtility.UrlEncode(s)
-
-    let private base64Encoding = Encoding.GetEncoding("ISO-8859-1")
 
     let toBase64 (s: string) =
         s

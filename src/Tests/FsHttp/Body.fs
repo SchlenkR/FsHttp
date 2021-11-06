@@ -16,8 +16,8 @@ open Suave.Successful
 
 let [<TestCase>] ``POST string data``() =
     use server =
-        POST 
-        >=> request (text >> OK)
+        POST
+        >=> request (contentText >> OK)
         |> serve
 
     let data = "hello world"
@@ -67,9 +67,12 @@ let [<TestCase>] ``POST Form url encoded data``() =
 
 
 let [<TestCase>] ``Specify content type explicitly``() =
-    use server = POST >=> request (header "content-type" >> OK) |> serve
+    use server =
+        POST
+        >=> request (header "content-type" >> OK)
+        |> serve
 
-    let contentType = "application/whatever"
+    let contentType = "text/whatever"
     
     http {
         POST (url @"")
@@ -89,13 +92,13 @@ let [<TestCase>] ``Default content type for JSON is specified correctly``() =
         json " [] "
     }
     |> Response.toText
-    |> should equal MimeTypes.applicationJson
+    |> should equal MimeTypes.textJson
 
 
 let [<TestCase>] ``Explicitly specified content type is dominant``() =
     use server = POST >=> request (header "content-type" >> OK) |> serve
 
-    let explicitContentType = "application/whatever"
+    let explicitContentType = "text/whatever"
 
     http {
         POST (url @"")
@@ -110,14 +113,14 @@ let [<TestCase>] ``Explicitly specified content type is dominant``() =
 let [<TestCase>] ``Content length automatically set``() =
     use server = POST >=> request (header "content-length" >> OK) |> serve
 
-    let content = " [] "
+    let contentData = " [] "
     http {
         POST (url @"")
         body
-        json content
+        json contentData
     }
     |> Response.toText
-    |> should equal (content.Length.ToString())
+    |> should equal (contentData.Length.ToString())
 
 // TODO: Post single file
 // TODO: POST stream
