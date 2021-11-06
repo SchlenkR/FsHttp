@@ -16,12 +16,12 @@ let [<TestCase>] ``Expect status code``() =
     use server = GET >=> BAD_GATEWAY "" |> serve
 
     http { GET (url @"") }
-    |> Response.expectHttpStatusCode System.Net.HttpStatusCode.BadGateway
+    |> Response.assertHttpStatusCode System.Net.HttpStatusCode.BadGateway
     |> ignore
 
     Assert.Throws<AssertionException>(fun() ->
         http { GET (url @"") }
-        |> Response.expectHttpStatusCode System.Net.HttpStatusCode.Ambiguous
+        |> Response.assertHttpStatusCode System.Net.HttpStatusCode.Ambiguous
         |> ignore
     )
     |> ignore

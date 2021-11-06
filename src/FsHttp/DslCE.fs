@@ -2,14 +2,11 @@ module FsHttp.DslCE
 
 open FsHttp.Domain
 
-type LazyHttpBuilder<'context when 'context :> IToRequest>(context: 'context)
-    =
+type LazyHttpBuilder<'context when 'context :> IToRequest>(context: 'context) =
+    member this.Context = context
     // need to implement this so that Request.send (etc.) are working.
     interface IToRequest with
         member this.ToRequest() = context.ToRequest()
-        
-    member this.Context = context
-
     member this.Bind(m, f) = f m
     member this.Return(x) = x
     member this.Yield(_) = LazyHttpBuilder context
@@ -390,8 +387,7 @@ module Body =
 
 [<AutoOpen>]
 module Multipart =
-    type LazyHttpBuilder<'context
-                            when 'context :> IToRequest> with
+    type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
         [<CustomOperation("ContentTypeForPart")>]

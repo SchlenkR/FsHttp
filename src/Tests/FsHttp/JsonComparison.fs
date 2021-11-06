@@ -31,15 +31,17 @@ let [<TestCase>] ``Property names are case sensitive``() =
     (fun () -> 
         referenceJson
         |> JsonValue.Parse
-        |> Json.expectJsonSubset expectedJson
-        |> ignore)
+        |> Json.assertJsonSubset expectedJson
+        |> ignore
+    )
     |> shouldFail
 
     (fun () -> 
         referenceJson 
         |> JsonValue.Parse
-        |> Json.expectJsonExact expectedJson
-        |> ignore)
+        |> Json.assertJsonExact expectedJson
+        |> ignore
+    )
     |> shouldFail
 
 let [<TestCase>] ``Property values are case sensitive``() =
@@ -50,15 +52,17 @@ let [<TestCase>] ``Property values are case sensitive``() =
     (fun () -> 
         referenceJson
         |> JsonValue.Parse
-        |> Json.expectJsonSubset expectedJson
-        |> ignore)
+        |> Json.assertJsonSubset expectedJson
+        |> ignore
+    )
     |> shouldFail
 
     (fun () -> 
         referenceJson 
         |> JsonValue.Parse
-        |> Json.expectJsonExact expectedJson
-        |> ignore)
+        |> Json.assertJsonExact expectedJson
+        |> ignore
+    )
     |> shouldFail
     
 let [<TestCase>] ``Arrays``() =
@@ -67,38 +71,40 @@ let [<TestCase>] ``Arrays``() =
     
     referenceJson
     |> JsonValue.Parse
-    |> Json.expectJsonSubset """ [ 2, 3, 1 ] """
+    |> Json.assertJsonSubset """ [ 2, 3, 1 ] """
     |> ignore
     
     (fun () -> 
         referenceJson 
         |> JsonValue.Parse
-        |> Json.expectJson RespectOrder Subset """ [ 2, 3, 1 ] """
+        |> Json.assertJson RespectOrder Subset """ [ 2, 3, 1 ] """
         |> ignore)
     |> shouldFail
     
     referenceJson 
     |> JsonValue.Parse
-    |> Json.expectJson RespectOrder Subset """ [ 1, 2, 3 ] """
+    |> Json.assertJson RespectOrder Subset """ [ 1, 2, 3 ] """
     |> ignore
 
     (fun () -> 
         referenceJson 
         |> JsonValue.Parse
-        |> Json.expectJsonExact """ [ 2, 3, 1 ] """
-        |> ignore)
+        |> Json.assertJsonExact """ [ 2, 3, 1 ] """
+        |> ignore
+    )
     |> shouldFail
     
     (fun () -> 
         referenceJson 
         |> JsonValue.Parse
-        |> Json.expectJson RespectOrder Exact """ [ 2, 3, 1, 5, 4 ] """
-        |> ignore)
+        |> Json.assertJson RespectOrder Exact """ [ 2, 3, 1, 5, 4 ] """
+        |> ignore
+    )
     |> shouldFail
     
     referenceJson 
     |> JsonValue.Parse
-    |> Json.expectJson RespectOrder Exact """ [ 1, 2, 3, 4, 5 ] """
+    |> Json.assertJson RespectOrder Exact """ [ 1, 2, 3, 4, 5 ] """
     |> ignore
     
 
@@ -106,50 +112,53 @@ let [<TestCase>] ``Exact Match Simple``() =
     
     """ { "a": 1, "b": 2 } """
     |> JsonValue.Parse
-    |> Json.expectJsonExact """ { "a": 1, "b": 2 } """
+    |> Json.assertJsonExact """ { "a": 1, "b": 2 } """
     |> ignore
     
     (fun () -> 
         """ { "a": 1, "b": 2, "c": 3 } """
         |> JsonValue.Parse
-        |> Json.expectJsonExact """ { "a": 1, "b": 2 } """
-        |> ignore)
+        |> Json.assertJsonExact """ { "a": 1, "b": 2 } """
+        |> ignore
+    )
     |> shouldFail
     
     (fun () -> 
         """ { "a": 1, "b": 2 } """
         |> JsonValue.Parse
-        |> Json.expectJsonExact """ { "a": 1, "b": 2, "c": 3 } """
+        |> Json.assertJsonExact """ { "a": 1, "b": 2, "c": 3 } """
         |> ignore)
     |> shouldFail
     
     """ { "a": 1, "b": { "ba": 3, "bb": 4} } """
     |> JsonValue.Parse
-    |> Json.expectJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4} } """
+    |> Json.assertJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4} } """
     |> ignore
     
     """ { "a": 1, "b": { "ba": 3, "bb": 4} } """
     |> JsonValue.Parse
-    |> Json.expectJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4} } """
+    |> Json.assertJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4} } """
     |> ignore
 
 let [<TestCase>] ``Exact Match Complex``() =
         
     """ { "a": 1, "b": { "ba": 3, "bb": 4 } } """
     |> JsonValue.Parse
-    |> Json.expectJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4 } } """
+    |> Json.assertJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4 } } """
     |> ignore
     
     (fun () -> 
         """ { "a": 1, "b": { "ba": 3, "bb": 4, "bc": 5 } } """
         |> JsonValue.Parse
-        |> Json.expectJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4 } } """
-        |> ignore)
+        |> Json.assertJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4 } } """
+        |> ignore
+    )
     |> shouldFail
     
     (fun () -> 
         """ { "a": 1, "b": { "ba": 3, "bb": 4 } } """
         |> JsonValue.Parse
-        |> Json.expectJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4, "bc": 5 } } """
-        |> ignore)
+        |> Json.assertJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4, "bc": 5 } } """
+        |> ignore
+    )
     |> shouldFail

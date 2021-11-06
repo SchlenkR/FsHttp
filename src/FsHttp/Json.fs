@@ -75,4 +75,23 @@ module Json =
         expectJson IgnoreOrder Subset expectedJson actualJsonValue
     
     let expectJsonExact (expectedJson: string) (actualJsonValue: JsonValue) =
-        expectJson IgnoreOrder Exact expectedJson actualJsonValue
+        expectJson IgnoreOrder Exact expectedJson actualJsonValue |> Result.raiseOnError
+    
+
+    // -----------
+    // Assert
+    // -----------
+    let assertJson
+        (arrayComparison: ArrayComparison)
+        (structuralComparison: StructuralComparison)
+        (expectedJson: string)
+        (actualJsonValue: JsonValue)
+        =
+        expectJson arrayComparison structuralComparison expectedJson actualJsonValue
+        |> Result.raiseOnError
+
+    let assertJsonSubset (expectedJson: string) (actualJsonValue: JsonValue) =
+        assertJson IgnoreOrder Subset expectedJson actualJsonValue
+    
+    let assertJsonExact (expectedJson: string) (actualJsonValue: JsonValue) =
+        assertJson IgnoreOrder Exact expectedJson actualJsonValue

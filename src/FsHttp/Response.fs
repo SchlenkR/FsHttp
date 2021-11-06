@@ -8,9 +8,9 @@ open System.Xml.Linq
 open FSharp.Data
 
 
-/////////////////////////////////
+// -----------
 // Content transformation
-/////////////////////////////////
+// -----------
 
 
 let maxContentLengthOnParseFail = 1000
@@ -118,9 +118,9 @@ let asOriginalHttpResponseMessage (response: Response) =
     response.originalHttpResponseMessage
 
 
-/////////////////////////////////
+// -----------
 // Expect
-/////////////////////////////////
+// -----------
     
 let expectHttpStatusCodes (codes: HttpStatusCode list) (r: Response) =
     let codes = set codes
@@ -133,27 +133,23 @@ let expectStatusCodes (codes: int list) =
     expectHttpStatusCodes (codes |> List.map LanguagePrimitives.EnumOfValue)
 let expectStatusCode (code: int) = expectStatusCodes [code]
 
-let assertHttpStatusCodes codes r =
-    expectHttpStatusCodes codes r |> Result.raiseOnError
-let assertHttpStatusCode code r = 
-    expectHttpStatusCode code r |> Result.raiseOnError
-let assertStatusCodes codes r =
-    expectStatusCodes codes r  |> Result.raiseOnError
-let assertStatusCode code r =
-    expectStatusCode code r |> Result.raiseOnError
+let assertHttpStatusCodes codes response = expectHttpStatusCodes codes response |> Result.raiseOnError
+let assertHttpStatusCode code response = assertHttpStatusCodes [code] response
+let assertStatusCodes codes response = expectStatusCodes codes response |> Result.raiseOnError
+let assertStatusCode code response = assertStatusCodes [code] response
 
-let assertOk = expectStatusCodes [200]
-let assertNoContent = expectStatusCodes [204]
-let assertBadRequest = expectStatusCodes [400]
-let assertUnauthorized = expectStatusCodes [401]
-let assertForbidden = expectStatusCodes [403]
-let assertNotFound = expectStatusCodes [404]
-let assert1xx = expectStatusCodes [100..199]
-let assert2xx = expectStatusCodes [200..299]
-let assert3xx = expectStatusCodes [300..399]
-let assert4xx = expectStatusCodes [400..499]
-let assert5xx = expectStatusCodes [500..599]
-let assert9xx = expectStatusCodes [900..999]
+let assertOk response = assertStatusCode 200 response
+let assertNoContent response = assertStatusCode 204 response
+let assertBadRequest response = assertStatusCode 400 response
+let assertUnauthorized response = assertStatusCode 401 response
+let assertForbidden response = assertStatusCode 403 response
+let assertNotFound response = assertStatusCode 404 response
+let assert1xx response = assertStatusCodes [100..199] response
+let assert2xx response = assertStatusCodes [200..299] response
+let assert3xx response = assertStatusCodes [300..399] response
+let assert4xx response = assertStatusCodes [400..499] response
+let assert5xx response = assertStatusCodes [500..599] response
+let assert9xx response = assertStatusCodes [900..999] response
 // TODO: Some more explicit expectations
 
 
