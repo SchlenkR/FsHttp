@@ -39,7 +39,4 @@
   <ItemGroup>
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FsHttp.Testing\" />
-  </ItemGroup>
 </Project>

@@ -1,5 +1,14 @@
-
 #r "../FsHttp/bin/Debug/net5.0/FsHttp.dll"
+
+
+open FsHttp
+open FsHttp.DslCE
+
+get "https://www.google.de" {
+    multipart
+    stringPart "" ""
+}
+
 
 module Dsl =
     open FsHttp

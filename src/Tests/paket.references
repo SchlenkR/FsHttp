@@ -1,9 +1,0 @@
-FSharp.Core
-FSharp.Data
-
-group Test
-	FsUnit
-	Microsoft.NET.Test.Sdk
-	NUnit
-	NUnit3TestAdapter
-	Suave
