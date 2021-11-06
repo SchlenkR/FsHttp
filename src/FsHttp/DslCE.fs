@@ -2,10 +2,7 @@ module FsHttp.DslCE
 
 open FsHttp.Domain
 
-type LazyHttpBuilder<'context
-                        when 'context :> IToRequest 
-                        and 'context :> IToBodyContext 
-                        and 'context :> IToMultipartContext>(context: 'context)
+type LazyHttpBuilder<'context when 'context :> IToRequest>(context: 'context)
     =
     // need to implement this so that Request.send (etc.) are working.
     interface IToRequest with
@@ -75,10 +72,7 @@ module Http =
 
     // TODO: RFC 4918 (WebDAV) adds 7 methods
 
-    type LazyHttpBuilder<'context
-                            when 'context :> IToRequest 
-                            and 'context :> IToBodyContext 
-                            and 'context :> IToMultipartContext> with
+    type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
         [<CustomOperation("Request")>]
         member this.Request(_: LazyHttpBuilder<StartingContext>, method, url) = request method url
@@ -119,10 +113,7 @@ module Http =
 
 [<AutoOpen>]
 module Header =
-    type LazyHttpBuilder<'context
-                            when 'context :> IToRequest 
-                            and 'context :> IToBodyContext 
-                            and 'context :> IToMultipartContext> with
+    type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
         /// Custom header
         [<CustomOperation("header")>]
@@ -346,14 +337,15 @@ module Header =
 
 [<AutoOpen>]
 module Body =
-    type LazyHttpBuilder<'context
-                            when 'context :> IToRequest 
-                            and 'context :> IToBodyContext 
-                            and 'context :> IToMultipartContext> with
+    type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
         // we keep this in for better intellisense support (eventhough it's redundant)
         [<CustomOperation("body")>]
-        member this.Body(builder: LazyHttpBuilder<_>) =
+        member this.Body<'toBodyContext
+                when 'toBodyContext :> IToRequest
+                and 'toBodyContext :> IToBodyContext>
+            (builder: LazyHttpBuilder<'toBodyContext>) 
+            =
             builder.Context.ToBodyContext() |> LazyHttpBuilder
 
         [<CustomOperation("binary")>]
@@ -399,9 +391,7 @@ module Body =
 [<AutoOpen>]
 module Multipart =
     type LazyHttpBuilder<'context
-                            when 'context :> IToRequest 
-                            and 'context :> IToBodyContext 
-                            and 'context :> IToMultipartContext> with
+                            when 'context :> IToRequest> with
 
         /// The MIME type of the body of the request (used with POST and PUT requests)
         [<CustomOperation("ContentTypeForPart")>]
@@ -414,7 +404,11 @@ module Multipart =
 
         // we keep this in for better intellisense support (eventhough it's redundant)
         [<CustomOperation("multipart")>]
-        member this.Multipart(builder: LazyHttpBuilder<_>) =
+        member this.Multipart<'toMultipartContext
+                when 'toMultipartContext :> IToRequest
+                and 'toMultipartContext :> IToMultipartContext>
+            (builder: LazyHttpBuilder<'toMultipartContext>)
+            =
             builder.Context.ToMultipartContext() |> LazyHttpBuilder
 
         [<CustomOperation("part")>]
@@ -445,10 +439,7 @@ module Multipart =
 [<AutoOpen>]
 module Config =
 
-    type LazyHttpBuilder<'context
-                            when 'context :> IToRequest 
-                            and 'context :> IToBodyContext 
-                            and 'context :> IToMultipartContext> with
+    type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
         [<CustomOperation("configure")>]
         member inline this.Configure(builder: LazyHttpBuilder<_>, configTransformer) =
@@ -496,10 +487,7 @@ module Config =
 [<AutoOpen>]
 module Execution =
 
-    type LazyHttpBuilder<'context
-                            when 'context :> IToRequest 
-                            and 'context :> IToBodyContext 
-                            and 'context :> IToMultipartContext> with
+    type LazyHttpBuilder<'context when 'context :> IToRequest> with
     
         [<CustomOperation("send")>]
         member this.Send(builder: LazyHttpBuilder<_>) =
@@ -531,10 +519,7 @@ module Fsi =
     //let inline private modifyPrintHintAndSend f (context: ^t when ^t :> IContext) =
     //    modifyPrintHint f context |> Request.send
 
-    type LazyHttpBuilder<'context
-                            when 'context :> IToRequest 
-                            and 'context :> IToBodyContext 
-                            and 'context :> IToMultipartContext> with
+    type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
         [<CustomOperation("raw")>]
         member inline this.Raw(builder: LazyHttpBuilder<_>) =

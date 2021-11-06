@@ -97,13 +97,9 @@ and RequestContent =
 
 type StartingContext =
     | StartingContext
-    // TODO: Get rid of this
+    // TODO: Get rid of IToRequest and failwith
     interface IToRequest with
         member _.ToRequest() = failwith "StartingContext can't be transformed."
-    interface IToBodyContext with
-        member _.ToBodyContext() = failwith "StartingContext can't be transformed."
-    interface IToMultipartContext with
-        member _.ToMultipartContext() = failwith "StartingContext can't be transformed."
 
 and HeaderContext =
     { header: Header
@@ -145,8 +141,6 @@ and BodyContext =
               config = this.config }
     interface IToBodyContext with
         member this.ToBodyContext() = this
-    interface IToMultipartContext with
-        member _.ToMultipartContext() = failwith "BodyContext can't be transformed."
     member this.Configure(transformConfig: ConfigTransformer) =
         { this with config = transformConfig this.config }
         
@@ -160,8 +154,6 @@ and MultipartContext =
             { Request.header = this.header
               content = Multi this.content
               config = this.config }
-    interface IToBodyContext with
-        member _.ToBodyContext() = failwith "MultipartContext can't be transformed."
     interface IToMultipartContext with
         member this.ToMultipartContext() = this
     member this.Configure(transformConfig: ConfigTransformer) =
