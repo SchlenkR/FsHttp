@@ -16,18 +16,18 @@
     <None Include="Resources\uploadFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="FsHttp\Basic.fs" />
-    <Compile Include="FsHttp\AlternativeSyntaxes.fs" />
-    <Compile Include="FsHttp\UrlsAndQuery.fs" />
-    <Compile Include="FsHttp\Body.fs" />
-    <Compile Include="FsHttp\Multipart.fs" />
-    <Compile Include="FsHttp\Proxies.fs" />
-    <Compile Include="FsHttp\DotNetHttp.fs" />
-    <Compile Include="FsHttp\BuildersAndSignatures.fs" />
-    <Compile Include="FsHttp\ExtendingBuilders.fs" />
-    <Compile Include="FsHttp\Others.fs" />
-    <Compile Include="FsHttp\Expectations.fs" />
-    <Compile Include="FsHttp\JsonComparison.fs" />
+    <Compile Include="Basic.fs" />
+    <Compile Include="AlternativeSyntaxes.fs" />
+    <Compile Include="UrlsAndQuery.fs" />
+    <Compile Include="Body.fs" />
+    <Compile Include="Multipart.fs" />
+    <Compile Include="Proxies.fs" />
+    <Compile Include="DotNetHttp.fs" />
+    <Compile Include="BuildersAndSignatures.fs" />
+    <Compile Include="ExtendingBuilders.fs" />
+    <Compile Include="Others.fs" />
+    <Compile Include="Expectations.fs" />
+    <Compile Include="JsonComparison.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FsUnit" Version="4.0.7" />
