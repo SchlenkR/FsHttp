@@ -26,4 +26,7 @@
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="4.0.1" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>

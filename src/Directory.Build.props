@@ -15,6 +15,7 @@
   - others
 - Expose HttpRequestMessage and HttpResponseMessage (#70)
     </PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
     <FsDocsLicenseLink>https://github.com/ronaldschlenker/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
