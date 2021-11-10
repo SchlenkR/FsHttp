@@ -1,11 +1,12 @@
 
-FsHttp
+SchlenkR.FsHttp
 ======
 
 FsHttp is a convenient HTTP client library written in F#. It aims for describing and executing HTTP requests in idiomatic and convenient ways that can be used for production, tests and FSI (F# Interactive).
 
 [![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
 
+**NOTE**: [FsHttp](https://www.nuget.org/packages/FsHttp) is *depricated*. Please use the package [SchlenkR.FsHttp](https://www.nuget.org/packages/SchlenkR.FsHttp) in the future
 
 Documentation
 -------------
@@ -19,6 +20,12 @@ A Simple Example
 ----------------
 
 ```fsharp
+
+#r "nuget: SchlenkR.FsHttp"
+
+open FsHttp
+open FsHttp.DslCE
+
 http {
     POST "https://reqres.in/api/users"
     CacheControl "no-cache"
