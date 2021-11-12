@@ -7,10 +7,7 @@ type LazyHttpBuilder<'context when 'context :> IToRequest>(context: 'context) =
     // need to implement this so that Request.send (etc.) are working.
     interface IToRequest with
         member this.ToRequest() = context.ToRequest()
-    member this.Bind(m, f) = f m
-    member this.Return(x) = x
     member this.Yield(_) = LazyHttpBuilder context
-    member this.For(m, f) = this.Bind m f
 let httpLazy = LazyHttpBuilder(StartingContext)
 
 /// Provides base support for ```http { METHOD ... }``` syntax
