@@ -230,3 +230,45 @@ AppDomain.CurrentDomain.GetAssemblies()
 
     addPrinter.Invoke(fsiInstance, [| printer |]) |> ignore
 )
+
+
+
+
+
+
+//type StartingBuilder() =
+//    do
+//        printfn $"new StartingBuilder"
+//    member this.Yield(_) =
+//        printfn $"StartingBuilder Yield"
+//        Builder 99
+//and Builder(context: int) =
+//    do
+//        printfn $"new Builder: {context}"
+//    member this.Context = context
+//    member this.Yield(_) =
+//        printfn $"StartingBuilder Yield"
+//        Builder 99
+//let httpLazy = StartingBuilder()
+
+//type Builder with
+//    [<CustomOperation("test")>]
+//    member inline this.Test(builder: StartingBuilder) =
+//        Builder (builder.Context + 1)
+
+
+type Builder(context: int option) =
+    do
+        printfn $"new Builder: {context}"
+    member this.Context = context |> Option.defaultValue 10
+    member this.Yield(_) =
+        printfn $"Yield"
+        Builder context
+let b = Builder(None)
+
+type Builder with
+    [<CustomOperation("test")>]
+    member inline this.Test(builder: Builder) =
+        printfn $"test"
+        Builder (builder.Context + 1)
+

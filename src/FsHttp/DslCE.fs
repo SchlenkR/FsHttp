@@ -513,9 +513,6 @@ module Fsi =
         let res = (^t: (member Configure: (Config -> Config) -> ^t) (context, transformPrintHint))
         res |> LazyHttpBuilder<_>
 
-    //let inline private modifyPrintHintAndSend f (context: ^t when ^t :> IContext) =
-    //    modifyPrintHint f context |> Request.send
-
     type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
         [<CustomOperation("raw")>]
