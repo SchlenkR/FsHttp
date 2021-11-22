@@ -47,7 +47,7 @@ You need to have the latest .Net 5 SDK installed.
 
 There is a F# script that can be used to perform several build tasks from command line. It can be executed in this way:
 
-    `dotnet fsi .\build.fsx [task]`
+`dotnet fsi .\build.fsx [task]`
 
 Common tasks are:
 
