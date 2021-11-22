@@ -96,14 +96,16 @@ and RequestContent =
 
 
 type StartingContext =
-    | StartingContext
+    { config: Config }
+    member this.Configure(transformConfig: ConfigTransformer) =
+        { this with config = transformConfig this.config }
     // TODO: Get rid of IToRequest and failwith
     interface IToRequest with
         member _.ToRequest() = failwith "StartingContext can't be transformed."
 
 and HeaderContext =
     { header: Header
-      config: Config } with
+      config: Config }
     interface IToRequest with
         member this.ToRequest() =
             { Request.header = this.header
@@ -133,7 +135,7 @@ and HeaderContext =
 and BodyContext =
     { header: Header
       content: BodyContent
-      config: Config } with
+      config: Config }
     interface IToRequest with
         member this.ToRequest() =
             { Request.header = this.header
@@ -148,7 +150,7 @@ and MultipartContext =
     { header: Header
       content: MultipartContent
       currentPartContentType : string option
-      config: Config } with
+      config: Config }
     interface IToRequest with
         member this.ToRequest() =
             { Request.header = this.header
@@ -180,7 +182,7 @@ type Response =
       originalHttpRequestMessage: System.Net.Http.HttpRequestMessage
       originalHttpResponseMessage: System.Net.Http.HttpResponseMessage
       dispose: unit -> unit }
-      interface IDisposable with
+    interface IDisposable with
         member this.Dispose() = this.dispose()
 
 

@@ -11,11 +11,9 @@ open FsHttp.Domain
 
 module Http =
 
-    let request (method: string) (url: string) =
+    let method (method: string) (url: string) =
 
-        Config.defaultConfig <- { Config.defaultConfig with printptDebugMessages = true }
-
-        // init hack
+        // FSI init HACK
         Fsi.Init.init()
 
         let formattedUrl =
@@ -35,15 +33,15 @@ module Http =
 
     // RFC 2626 specifies 8 methods + PATCH
 
-    let get (url: string) = request "GET" url
-    let put (url: string) = request "PUT" url
-    let post (url: string) = request "POST" url
-    let delete (url: string) = request "DELETE" url
-    let options (url: string) = request "OPTIONS" url
-    let head (url: string) = request "HEAD" url
-    let trace (url: string) = request "TRACE" url
-    let connect (url: string) = request "CONNECT" url
-    let patch (url: string) = request "PATCH" url
+    let get (url: string) = method "GET" url
+    let put (url: string) = method "PUT" url
+    let post (url: string) = method "POST" url
+    let delete (url: string) = method "DELETE" url
+    let options (url: string) = method "OPTIONS" url
+    let head (url: string) = method "HEAD" url
+    let trace (url: string) = method "TRACE" url
+    let connect (url: string) = method "CONNECT" url
+    let patch (url: string) = method "PATCH" url
 
     // TODO: RFC 4918 (WebDAV) adds 7 methods
 
@@ -366,36 +364,41 @@ module Multipart =
 [<AutoOpen>]
 module Config =
 
-    let inline configure (f: ConfigTransformer) (context: ^t) : 't =
+    let inline update (f: ConfigTransformer) (context: ^t) : 't =
         (^t: (member Configure: (ConfigTransformer) -> ^t) (context, f))
 
+    let inline set (config: Config) (context: ^t) : 't =
+        update (fun _ -> config) context
+
     let inline ignoreCertIssues (context: ^t) =
-        configure (fun config -> { config with certErrorStrategy = AlwaysAccept }) context
+        update (fun config -> { config with certErrorStrategy = AlwaysAccept }) context
 
     let inline timeout value (context: ^t) =
-        configure (fun config -> { config with timeout = value }) context
+        update (fun config -> { config with timeout = value }) context
 
     let inline timeoutInSeconds value (context: ^t) =
-        configure (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
+        update (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
 
-    let inline transformHttpRequestMessage map (context: ^t) =
-        configure (fun config -> { config with httpMessageTransformer = Some map }) context
+    let inline setHttpClient (client: HttpClient) (context: ^t) =
+        update (fun config -> { config with httpClientFactory = Some (fun () -> client) }) context
 
-    let inline transformHttpClientHandler map (context: ^t) =
-        configure (fun config -> { config with httpClientHandlerTransformer = Some map }) context
+    let inline setHttpClientFactory (clientFactory: unit -> HttpClient) (context: ^t) =
+        update (fun config -> { config with httpClientFactory = Some clientFactory }) context
 
-    let inline transformHttpClient map (context: ^t) =
-        configure (fun config -> { config with httpClientTransformer = Some map }) context
+    let inline transformHttpClient transformer (context: ^t) =
+        update (fun config -> { config with httpClientTransformer = Some transformer }) context
+
+    let inline transformHttpRequestMessage transformer (context: ^t) =
+        update (fun config -> { config with httpMessageTransformer = Some transformer }) context
+
+    let inline transformHttpClientHandler transformer (context: ^t) =
+        update (fun config -> { config with httpClientHandlerTransformer = Some transformer }) context
 
     let inline proxy url (context: ^t) =
-        configure (fun config -> { config with proxy = Some { url = url; credentials = None } }) context
+        update (fun config -> { config with proxy = Some { url = url; credentials = None } }) context
 
     let inline proxyWithCredentials url credentials (context: ^t) =
-        configure (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) context 
-
-    /// Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
-    let inline useHttpClient (client: HttpClient) (context: ^t) =
-        configure (fun config -> { config with httpClientFactory = Some (fun () -> client) }) context
+        update (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) context 
 
 
 [<AutoOpen>]

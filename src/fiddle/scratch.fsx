@@ -257,18 +257,52 @@ AppDomain.CurrentDomain.GetAssemblies()
 //        Builder (builder.Context + 1)
 
 
+
+type ConfigBuilder(value: int) =
+    member _.Value = value
+    [<CustomOperation("a")>]
+    member inline this.Test(builder: ConfigBuilder) =
+        printfn $"test"
+        ConfigBuilder (value + 1)
+
 type Builder(context: int option) =
     do
         printfn $"new Builder: {context}"
     member this.Context = context |> Option.defaultValue 10
-    member this.Yield(_) =
-        printfn $"Yield"
+    member this.Yield(_: unit) =
+        printfn $"Yield unit"
         Builder context
+    member this.Yield(b: Builder) =
+        printfn $"Yield builder"
+        Builder context
+    member this.Yield(s: string) =
+        printfn $"Yield string"
+        Builder context
+    member this.Delay(f) = f
+    member this.For((args: Builder, delayedArgs: unit -> Builder)) =
+        args.Context + (delayedArgs()).Context |> Some |> Builder
+    member this.Combine((args: Builder, delayedArgs: unit -> Builder)) =
+        args.Context + (delayedArgs()).Context |> Some |> Builder
 let b = Builder(None)
+
+
+type Config = { timeout: int; ignoreCert: bool }
+let config = { timeout = 10; ignoreCert = false }
 
 type Builder with
     [<CustomOperation("test")>]
     member inline this.Test(builder: Builder) =
         printfn $"test"
-        Builder (builder.Context + 1)
+        Builder (Some (builder.Context + 1))
+    [<CustomOperation("configure")>]
+    member inline this.Configure(builder: Builder, config: Config) =
+        printfn $"test"
+        Builder (Some (builder.Context + 1))
 
+b {
+    test
+    test
+    configure { config with ignoreCert = true }
+    yield "Hurz"
+    test
+}

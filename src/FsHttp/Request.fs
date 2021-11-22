@@ -10,11 +10,28 @@ open FsHttp.Domain
 
 let private TimeoutPropertyName = "RequestTimeout"
 
+let private setRequestMessageProp (requestMessage: HttpRequestMessage) (propName: string) (value: 'a) =
+#if NETSTANDARD_2
+    do requestMessage.Properties.[propName] <- value
+#else
+    do requestMessage.Options.Set(HttpRequestOptionsKey propName, value)
+#endif
+
+let private getRequestMessageProp<'a> (requestMessage: HttpRequestMessage) (propName: string) =
+#if NETSTANDARD_2
+    requestMessage.Properties.[propName] :?> 'a
+#else
+    match requestMessage.Options.TryGetValue<'a>(HttpRequestOptionsKey propName) with
+    | true,value -> value
+    | false,_ -> failwith $"HttpRequestOptionsKey '{propName}' not found."
+#endif
+
+
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toMessage (request: Request): HttpRequestMessage =
     let header = request.header
     let requestMessage = new HttpRequestMessage(header.method, FsHttpUrl.toUriString header.url)
-    do requestMessage.Properties.[TimeoutPropertyName] <- request.config.timeout
+    do setRequestMessageProp requestMessage TimeoutPropertyName request.config.timeout
 
     let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
         let dotnetContent =
@@ -76,7 +93,7 @@ let private getHttpClient =
         { new DelegatingHandler(InnerHandler = innerHandler) with
             member _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
                 let cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
-                do cts.CancelAfter(request.Properties.[TimeoutPropertyName] :?> TimeSpan)
+                do cts.CancelAfter(getRequestMessageProp<TimeSpan> request TimeoutPropertyName)
                 base.SendAsync(request, cts.Token)
         }
 

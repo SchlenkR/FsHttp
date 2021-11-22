@@ -2,17 +2,20 @@ module FsHttp.DslCE
 
 open FsHttp.Domain
 
+// Whatch out: Config.defaultConfig is mutable, so access must be delayed.
+let private defaultStartingContext () = { config = Config.defaultConfig }
+
 type LazyHttpBuilder<'context when 'context :> IToRequest>(context: 'context) =
     member this.Context = context
     // need to implement this so that Request.send (etc.) are working.
     interface IToRequest with
         member this.ToRequest() = context.ToRequest()
     member this.Yield(_) = LazyHttpBuilder context
-let httpLazy = LazyHttpBuilder(StartingContext)
+let httpLazy = LazyHttpBuilder(defaultStartingContext())
 
 /// Provides base support for ```http { METHOD ... }``` syntax
 type EagerHttpBuilder() =
-    inherit LazyHttpBuilder<StartingContext>(StartingContext)
+    inherit LazyHttpBuilder<StartingContext>(defaultStartingContext())
 
 /// Builder that executes blocking (synchronous) immediately.
 type EagerSyncHttpBuilder() =
@@ -40,7 +43,7 @@ let httpLazyAsync = LazyAsyncHttpBuilder()
 
 /// Builder that creates a System.Net.Http.HttpRequestMessage object.
 type HttpMessageBuilder() =
-    inherit LazyHttpBuilder<StartingContext>(StartingContext)
+    inherit LazyHttpBuilder<StartingContext>(defaultStartingContext())
     member inline this.Delay(f: unit -> 'a) = f
     member inline this.Run(f: unit -> LazyHttpBuilder<#IToRequest>) =
         f()
@@ -53,61 +56,74 @@ let httpMsg = HttpMessageBuilder()
 module Http =
 
     // RFC 2626 specifies 8 methods + PATCH
-    let request (method: string) (url: string) = Dsl.Http.request method url|> LazyHttpBuilder
-    let get (url: string) = Dsl.Http.get url|> LazyHttpBuilder
-    let put (url: string) = Dsl.Http.put url|> LazyHttpBuilder
-    let post (url: string) = Dsl.Http.post url|> LazyHttpBuilder
-    let delete (url: string) = Dsl.Http.delete url|> LazyHttpBuilder
-    let options (url: string) = Dsl.Http.options url|> LazyHttpBuilder
-    let head (url: string) = Dsl.Http.head url|> LazyHttpBuilder
-    let trace (url: string) = Dsl.Http.trace url|> LazyHttpBuilder
-    let connect (url: string) = Dsl.Http.connect url|> LazyHttpBuilder
-    let patch (url: string) = Dsl.Http.patch url|> LazyHttpBuilder
+    let method (method: string) (url: string) = Dsl.Http.method method url |> LazyHttpBuilder
+    let get (url: string) = Dsl.Http.get url |> LazyHttpBuilder
+    let put (url: string) = Dsl.Http.put url |> LazyHttpBuilder
+    let post (url: string) = Dsl.Http.post url |> LazyHttpBuilder
+    let delete (url: string) = Dsl.Http.delete url |> LazyHttpBuilder
+    let options (url: string) = Dsl.Http.options url |> LazyHttpBuilder
+    let head (url: string) = Dsl.Http.head url |> LazyHttpBuilder
+    let trace (url: string) = Dsl.Http.trace url |> LazyHttpBuilder
+    let connect (url: string) = Dsl.Http.connect url |> LazyHttpBuilder
+    let patch (url: string) = Dsl.Http.patch url |> LazyHttpBuilder
 
     // TODO: RFC 4918 (WebDAV) adds 7 methods
 
+    let private build (builder: LazyHttpBuilder<StartingContext>) method (url: string) =
+        method url |> Dsl.Config.set builder.Context.config |> LazyHttpBuilder<HeaderContext>
+
     type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
-        [<CustomOperation("Request")>]
-        member this.Request(_: LazyHttpBuilder<StartingContext>, method, url) = request method url
+        [<CustomOperation("Method")>]
+        member this.Method(builder: LazyHttpBuilder<StartingContext>, method, url) = 
+            build builder (fun url -> Dsl.Http.method method url) url
 
         // RFC 2626 specifies 8 methods
         [<CustomOperation("GET")>]
-        member this.Get(_: LazyHttpBuilder<StartingContext>, url) = get url
+        member this.Get(builder: LazyHttpBuilder<StartingContext>, url) =
+            build builder Dsl.Http.get url
 
         [<CustomOperation("PUT")>]
-        member this.Put(_: LazyHttpBuilder<StartingContext>, url) = put url
+        member this.Put(builder: LazyHttpBuilder<StartingContext>, url) =
+            build builder Dsl.Http.put url
 
         [<CustomOperation("POST")>]
-        member this.Post(_: LazyHttpBuilder<StartingContext>, url) = post url
+        member this.Post(builder: LazyHttpBuilder<StartingContext>, url) = 
+            build builder Dsl.Http.post url
 
         [<CustomOperation("DELETE")>]
-        member this.Delete(_: LazyHttpBuilder<StartingContext>, url) = delete url
+        member this.Delete(builder: LazyHttpBuilder<StartingContext>, url) = 
+            build builder Dsl.Http.delete url
 
         [<CustomOperation("OPTIONS")>]
-        member this.Options(_: LazyHttpBuilder<StartingContext>, url) = options url
+        member this.Options(builder: LazyHttpBuilder<StartingContext>, url) = 
+            build builder Dsl.Http.options url
 
         [<CustomOperation("HEAD")>]
-        member this.Head(_: LazyHttpBuilder<StartingContext>, url) = head url
+        member this.Head(builder: LazyHttpBuilder<StartingContext>, url) = 
+            build builder Dsl.Http.head url
 
         [<CustomOperation("TRACE")>]
-        member this.Trace(_: LazyHttpBuilder<StartingContext>, url) = trace url
+        member this.Trace(builder: LazyHttpBuilder<StartingContext>, url) = 
+            build builder Dsl.Http.trace url
 
         [<CustomOperation("CONNECT")>]
-        member this.Connect(_: LazyHttpBuilder<StartingContext>, url) = connect url
+        member this.Connect(builder: LazyHttpBuilder<StartingContext>, url) = 
+            build builder Dsl.Http.connect url
 
         [<CustomOperation("PATCH")>]
-        member this.Patch(_: LazyHttpBuilder<StartingContext>, url) = patch url
-
-        /// Append query params
-        [<CustomOperation("query")>]
-        member this.Query(builder: LazyHttpBuilder<_>, queryParams) =
-            Dsl.Header.query queryParams builder.Context |> LazyHttpBuilder
+        member this.Patch(builder: LazyHttpBuilder<StartingContext>, url) = 
+            build builder Dsl.Http.patch url
 
 
 [<AutoOpen>]
 module Header =
     type LazyHttpBuilder<'context when 'context :> IToRequest> with
+
+        /// Append query params
+        [<CustomOperation("query")>]
+        member this.Query(builder: LazyHttpBuilder<_>, queryParams) =
+            Dsl.Header.query queryParams builder.Context |> LazyHttpBuilder
 
         /// Custom header
         [<CustomOperation("header")>]
@@ -438,47 +454,54 @@ module Config =
 
     type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
-        [<CustomOperation("configure")>]
-        member inline this.Configure(builder: LazyHttpBuilder<_>, configTransformer) =
-            Dsl.Config.configure configTransformer builder.Context |> LazyHttpBuilder
+        [<CustomOperation("configure_set")>]
+        member inline this.Set(builder: LazyHttpBuilder<_>, configTransformer) =
+            Dsl.Config.set configTransformer builder.Context |> LazyHttpBuilder
+
+        [<CustomOperation("configure_update")>]
+        member inline this.Update(builder: LazyHttpBuilder<_>, configTransformer) =
+            Dsl.Config.update configTransformer builder.Context |> LazyHttpBuilder
 
         // TODO: Provide certStrategy configs
-        [<CustomOperation("ignoreCertIssues")>]
+        [<CustomOperation("configure_ignoreCertIssues")>]
         member inline this.IgnoreCertIssues(builder: LazyHttpBuilder<_>) =
             Dsl.Config.ignoreCertIssues builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("timeout")>]
+        [<CustomOperation("configure_timeout")>]
         member inline this.Timeout(builder: LazyHttpBuilder<_>, value) =
             Dsl.Config.timeout value builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("timeoutInSeconds")>]
+        [<CustomOperation("configure_timeoutInSeconds")>]
         member inline this.TimeoutInSeconds(builder: LazyHttpBuilder<_>, value) =
             Dsl.Config.timeoutInSeconds value builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("transformHttpRequestMessage")>]
-        member inline this.TransformHttpRequestMessage(builder: LazyHttpBuilder<_>, map) =
-            Dsl.Config.transformHttpRequestMessage map builder.Context |> LazyHttpBuilder
+        [<CustomOperation("configure_setHttpClient")>]
+        member inline this.SetHttpClient(builder: LazyHttpBuilder<_>, httpClient) =
+            Dsl.Config.setHttpClient httpClient builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("transformHttpClient")>]
-        member inline this.TransformHttpClient(builder: LazyHttpBuilder<_>, map) =
-            Dsl.Config.transformHttpClient map builder.Context |> LazyHttpBuilder
+        [<CustomOperation("configure_setHttpClientFactory")>]
+        member inline this.SetHttpClientFactory(builder: LazyHttpBuilder<_>, httpClientFactory) =
+            Dsl.Config.setHttpClientFactory httpClientFactory builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("transformHttpClientHandler")>]
-        member inline this.TransformHttpClientHandler(builder: LazyHttpBuilder<_>, map) =
-            Dsl.Config.transformHttpClientHandler map builder.Context |> LazyHttpBuilder
+        [<CustomOperation("configure_transformHttpClient")>]
+        member inline this.TransformHttpClient(builder: LazyHttpBuilder<_>, transformer) =
+            Dsl.Config.transformHttpClient transformer builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("proxy")>]
+        [<CustomOperation("configure_transformHttpRequestMessage")>]
+        member inline this.TransformHttpRequestMessage(builder: LazyHttpBuilder<_>, transformer) =
+            Dsl.Config.transformHttpRequestMessage transformer builder.Context |> LazyHttpBuilder
+
+        [<CustomOperation("configure_transformHttpClientHandler")>]
+        member inline this.TransformHttpClientHandler(builder: LazyHttpBuilder<_>, transformer) =
+            Dsl.Config.transformHttpClientHandler transformer builder.Context |> LazyHttpBuilder
+
+        [<CustomOperation("configure_proxy")>]
         member inline this.Proxy(builder: LazyHttpBuilder<_>, url) =
             Dsl.Config.proxy url builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("proxyWithCredentials")>]
+        [<CustomOperation("configure_proxyWithCredentials")>]
         member inline this.ProxyWithCredentials(builder: LazyHttpBuilder<_>, url, credentials) =
             Dsl.Config.proxyWithCredentials url credentials builder.Context |> LazyHttpBuilder
-
-        /// Inject a HttpClient that will be used directly (most config parameters specified here will be ignored). 
-        [<CustomOperation("useHttpClient")>]
-        member inline this.UseHttpClient(builder: LazyHttpBuilder<_>, client: System.Net.Http.HttpClient) =
-            Dsl.Config.useHttpClient client builder.Context |> LazyHttpBuilder
 
 
 [<AutoOpen>]
@@ -499,14 +522,6 @@ module Execution =
 module Fsi =
 
     open FsHttp.Fsi
-
-    let raw = rawPrinterTransformer |> modifyPrinter
-    let headerOnly = headerOnlyPrinterTransformer |> modifyPrinter
-    let show maxLength = showPrinterTransformer maxLength |> modifyPrinter
-    let preview = previewPrinterTransformer |> modifyPrinter
-    let prv = preview
-    let expand = expandPrinterTransformer |> modifyPrinter
-    let exp = expand
 
     let inline private modifyPrintHint f (context: ^t when ^t :> IToRequest) =
         let transformPrintHint (config: Config) = { config with printHint = f config.printHint }

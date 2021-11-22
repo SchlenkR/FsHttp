@@ -39,7 +39,7 @@ let [<TestCase>] ``Custom HTTP method``() =
         |> serve
 
     http {
-        Request "FLY" (url @"")
+        Method "FLY" (url @"")
     }
     |> Response.toText
     |> should equal "flying"
