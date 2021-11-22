@@ -454,52 +454,52 @@ module Config =
 
     type LazyHttpBuilder<'context when 'context :> IToRequest> with
 
-        [<CustomOperation("configure_set")>]
+        [<CustomOperation("config_set")>]
         member inline this.Set(builder: LazyHttpBuilder<_>, configTransformer) =
             Dsl.Config.set configTransformer builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_update")>]
+        [<CustomOperation("config_update")>]
         member inline this.Update(builder: LazyHttpBuilder<_>, configTransformer) =
             Dsl.Config.update configTransformer builder.Context |> LazyHttpBuilder
 
         // TODO: Provide certStrategy configs
-        [<CustomOperation("configure_ignoreCertIssues")>]
+        [<CustomOperation("config_ignoreCertIssues")>]
         member inline this.IgnoreCertIssues(builder: LazyHttpBuilder<_>) =
             Dsl.Config.ignoreCertIssues builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_timeout")>]
+        [<CustomOperation("config_timeout")>]
         member inline this.Timeout(builder: LazyHttpBuilder<_>, value) =
             Dsl.Config.timeout value builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_timeoutInSeconds")>]
+        [<CustomOperation("config_timeoutInSeconds")>]
         member inline this.TimeoutInSeconds(builder: LazyHttpBuilder<_>, value) =
             Dsl.Config.timeoutInSeconds value builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_setHttpClient")>]
+        [<CustomOperation("config_setHttpClient")>]
         member inline this.SetHttpClient(builder: LazyHttpBuilder<_>, httpClient) =
             Dsl.Config.setHttpClient httpClient builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_setHttpClientFactory")>]
+        [<CustomOperation("config_setHttpClientFactory")>]
         member inline this.SetHttpClientFactory(builder: LazyHttpBuilder<_>, httpClientFactory) =
             Dsl.Config.setHttpClientFactory httpClientFactory builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_transformHttpClient")>]
+        [<CustomOperation("config_transformHttpClient")>]
         member inline this.TransformHttpClient(builder: LazyHttpBuilder<_>, transformer) =
             Dsl.Config.transformHttpClient transformer builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_transformHttpRequestMessage")>]
+        [<CustomOperation("config_transformHttpRequestMessage")>]
         member inline this.TransformHttpRequestMessage(builder: LazyHttpBuilder<_>, transformer) =
             Dsl.Config.transformHttpRequestMessage transformer builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_transformHttpClientHandler")>]
+        [<CustomOperation("config_transformHttpClientHandler")>]
         member inline this.TransformHttpClientHandler(builder: LazyHttpBuilder<_>, transformer) =
             Dsl.Config.transformHttpClientHandler transformer builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_proxy")>]
+        [<CustomOperation("config_proxy")>]
         member inline this.Proxy(builder: LazyHttpBuilder<_>, url) =
             Dsl.Config.proxy url builder.Context |> LazyHttpBuilder
 
-        [<CustomOperation("configure_proxyWithCredentials")>]
+        [<CustomOperation("config_proxyWithCredentials")>]
         member inline this.ProxyWithCredentials(builder: LazyHttpBuilder<_>, url, credentials) =
             Dsl.Config.proxyWithCredentials url credentials builder.Context |> LazyHttpBuilder
 

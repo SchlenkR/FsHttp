@@ -8,7 +8,7 @@ index: 5
 (*** condition: prepare ***)
 #nowarn "211"
 #r "nuget: FSharp.Data"
-#r "../FsHttp/bin/Release/netstandard2.1/publish/FsHttp.dll"
+#r "../FsHttp/bin/Release/net5.0/publish/FsHttp.dll"
 open FsHttp
 open FsHttp.DslCE
 
@@ -20,7 +20,7 @@ Transform underlying http client and do whatever you feel you gave to do:
 *)
 http {
     GET @"https://reqres.in/api/users?page=2&delay=3"
-    transformHttpClient (fun httpClient ->
+    configure_transformHttpClient (fun httpClient ->
         // this will cause a timeout exception
         httpClient.Timeout <- System.TimeSpan.FromMilliseconds 1.0
         httpClient)

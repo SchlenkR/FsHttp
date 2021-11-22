@@ -29,7 +29,7 @@ let [<TestCase>] ``Inject custom HttpClient`` () =
     intercepted |> should equal false
 
     http {
-        configure_setHttpClient httpClient
+        config_setHttpClient httpClient
         GET "http://google.com"
     }
     |> ignore

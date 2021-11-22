@@ -9,7 +9,7 @@ FsHttp is an F# / .Net HTTP client library. It aims for describing and executing
 requests in idiomatic and convenient ways that can be used for production, tests and 
 FSI (F# Interactive).
 
-[![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
+[![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
 
 
 NuGet
@@ -18,13 +18,13 @@ NuGet
 Install FsHttp via NuGet command line:
 
 ```
-PM> Install-Package SchlenkR.FsHttp
+PM> Install-Package FsHttp
 ```
 
 or via F# Interactive:
 
 ```fsharp
-#r "nuget: SchlenkR.FsHttp"
+#r "nuget: FsHttp"
 ```
 
 

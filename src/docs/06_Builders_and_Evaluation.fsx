@@ -8,7 +8,7 @@ index: 6
 (*** condition: prepare ***)
 #nowarn "211"
 #r "nuget: FSharp.Data"
-#r "../FsHttp/bin/Release/netstandard2.1/publish/FsHttp.dll"
+#r "../FsHttp/bin/Release/net5.0/publish/FsHttp.dll"
 open FsHttp
 open FsHttp.DslCE
 
@@ -79,7 +79,7 @@ let pageAsync =
     }
 
 
-// TODO Document naming conventions according to: https://github.com/ronaldschlenker/FsHttp/issues/48
+// TODO Document naming conventions according to: https://github.com/fsprojects/FsHttp/issues/48
 
 (**
 ## Naming Conventions

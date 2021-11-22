@@ -108,34 +108,18 @@
 <h2><a name="Configuration-Timeouts-etc" class="anchor" href="#Configuration-Timeouts-etc">Configuration: Timeouts, etc.</a></h2>
 <p>You can specify a timeout:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// should throw because it&#39;s very short</span>
-<span onmouseout="hideTip(event, 'fs3', 4)" onmouseover="showTip(event, 'fs3', 4)" class="k">http</span> <span class="pn">{</span>
-    <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="k">GET</span> <span class="s">&quot;http://www.google.de&quot;</span>
-    <span onmouseout="hideTip(event, 'fs5', 6)" onmouseover="showTip(event, 'fs5', 6)" class="k">timeoutInSeconds</span> <span class="n">0.1</span>
+<span class="id">http</span> <span class="pn">{</span>
+    <span class="id">GET</span> <span class="s">&quot;http://www.google.de&quot;</span>
+    <span class="id">timeoutInSeconds</span> <span class="n">0.1</span>
 <span class="pn">}</span>
 </code></pre>
 <p>You can also set config values globally (inherited when requests are created):</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs1', 7)" onmouseover="showTip(event, 'fs1', 7)" class="id">FsHttp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs6', 8)" onmouseover="showTip(event, 'fs6', 8)" class="m">Config</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="id">setDefaultConfig</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs8', 10)" onmouseover="showTip(event, 'fs8', 10)" class="fn">config</span> <span class="k">-&gt;</span>
-    <span class="pn">{</span> <span onmouseout="hideTip(event, 'fs8', 11)" onmouseover="showTip(event, 'fs8', 11)" class="fn">config</span> <span class="k">with</span> <span class="prop">timeout</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 12)" onmouseover="showTip(event, 'fs9', 12)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 13)" onmouseover="showTip(event, 'fs10', 13)" class="vt">TimeSpan</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 14)" onmouseover="showTip(event, 'fs11', 14)" class="id">FromSeconds</span> <span class="n">15.0</span> <span class="pn">}</span><span class="pn">)</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="id">FsHttp</span><span class="pn">.</span><span class="id">Config</span><span class="pn">.</span><span class="id">setDefaultConfig</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">config</span> <span class="k">-&gt;</span>
+    <span class="pn">{</span> <span class="id">config</span> <span class="k">with</span> <span class="id">timeout</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">TimeSpan</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">FromSeconds</span> <span class="n">15.0</span> <span class="pn">}</span><span class="pn">)</span>
 </code></pre>
 
-            <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
-<div class="fsdocs-tip" id="fs2">Modul DslCE
-
-aus FsHttp</div>
-<div class="fsdocs-tip" id="fs3">val http : EagerSyncHttpBuilder</div>
-<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: GET (string)
-
-Aufrufe LazyHttpBuilder.Get</div>
-<div class="fsdocs-tip" id="fs5">Benutzerdefinierter Vorgang: timeoutInSeconds (float)
-
-Aufrufe LazyHttpBuilder.TimeoutInSeconds</div>
-<div class="fsdocs-tip" id="fs6">Modul Config
-
-aus FsHttp</div>
-<div class="fsdocs-tip" id="fs7">val setDefaultConfig : setter:(Config -&gt; Config) -&gt; unit</div>
-<div class="fsdocs-tip" id="fs8">val config : Config</div>
-<div class="fsdocs-tip" id="fs9">Namespace System</div>
-<div class="fsdocs-tip" id="fs10">Multiple items<br />[&lt;Struct&gt;]
+            <div class="fsdocs-tip" id="fs1">Namespace System</div>
+<div class="fsdocs-tip" id="fs2">Multiple items<br />[&lt;Struct&gt;]
 type TimeSpan =
   new : hours: int * minutes: int * seconds: int -&gt; unit + 3 &#220;berladungen
   member Add : ts: TimeSpan -&gt; TimeSpan
@@ -148,7 +132,7 @@ type TimeSpan =
   member Negate : unit -&gt; TimeSpan
   member Subtract : ts: TimeSpan -&gt; TimeSpan
   ...<br /><em>&lt;summary&gt;Represents a time interval.&lt;/summary&gt;</em><br /><br />--------------------<br />System.TimeSpan ()<br />System.TimeSpan(ticks: int64) : System.TimeSpan<br />System.TimeSpan(hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int, milliseconds: int) : System.TimeSpan</div>
-<div class="fsdocs-tip" id="fs11">System.TimeSpan.FromSeconds(value: float) : System.TimeSpan</div>
+<div class="fsdocs-tip" id="fs3">System.TimeSpan.FromSeconds(value: float) : System.TimeSpan</div>
 
         </div>
 

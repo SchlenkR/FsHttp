@@ -2,10 +2,13 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>SchlenkR.FsHttp</PackageId>
+    <PackageId>FsHttp</PackageId>
     <Description>A HTTP client library for F#.</Description>
     <Configurations>Debug;Release</Configurations>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FsHttp.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FsHttp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <DefineConstants>NETSTANDARD_2</DefineConstants>

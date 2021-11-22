@@ -1,17 +1,17 @@
 
-SchlenkR.FsHttp
+FsHttp
 ======
 
-FsHttp is a convenient HTTP client library written in F#. It aims for describing and executing HTTP requests in idiomatic and convenient ways that can be used for production, tests and FSI (F# Interactive).
+FsHttp is HTTP client library written in F#. It aims for describing and executing HTTP requests in a convenient ways that can be used in production and interactive environments.
 
-[![NuGet Badge](http://img.shields.io/nuget/v/SchlenkR.FsHttp.svg?style=flat)](https://www.nuget.org/packages/SchlenkR.FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
+[![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
 
-**NOTE**: [FsHttp](https://www.nuget.org/packages/FsHttp) is *depricated*. Please use the package [SchlenkR.FsHttp](https://www.nuget.org/packages/SchlenkR.FsHttp) in the future
+**NOTE**: The NuGet package [SchlenkR.FsHttp](https://www.nuget.org/packages/SchlenkR.FsHttp) is *depricated*. Please use the package [FsHttp](https://www.nuget.org/packages/FsHttp) for releases >= 6.x
 
 Documentation
 -------------
 
-Please visit the [FsHttp Documentation](https://ronaldschlenker.github.io/FsHttp) site.
+Please visit the [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site.
 
 You can also have a the [Integration Tests](src/Tests/IntegrationTests.fs) that show various use cases.
 
@@ -21,7 +21,7 @@ A Simple Example
 
 ```fsharp
 
-#r "nuget: SchlenkR.FsHttp"
+#r "nuget: FsHttp"
 
 open FsHttp
 open FsHttp.DslCE

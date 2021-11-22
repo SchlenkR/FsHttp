@@ -6,7 +6,7 @@
     <Version>6.0.0-preview8</Version>
     <Company />
     <Copyright>Copyright 2021 Ronald Schlenker</Copyright>
-    <PackageIconUrl>https://github.com/ronaldschlenker/FsHttp/blob/master/src/docs/img/logo.png</PackageIconUrl>
+    <PackageIconUrl>https://github.com/fsprojects/FsHttp/blob/master/src/docs/img/logo.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
 - Breaking changes:
@@ -16,10 +16,10 @@
 - Expose HttpRequestMessage and HttpResponseMessage (#70)
     </PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/ronaldschlenker/FsHttp</RepositoryUrl>
+    <RepositoryUrl>https://github.com/fsprojects/FsHttp</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
-    <FsDocsLicenseLink>https://github.com/ronaldschlenker/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
-    <FsDocsReleaseNotesLink>https://www.nuget.org/packages/SchlenkR.FsHttp</FsDocsReleaseNotesLink>
+    <FsDocsLicenseLink>https://github.com/fsprojects/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp</FsDocsReleaseNotesLink>
   </PropertyGroup>
 
 </Project>
