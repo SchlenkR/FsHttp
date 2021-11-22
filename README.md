@@ -6,7 +6,7 @@ FsHttp is HTTP client library written in F#. It aims for describing and executin
 
 [![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) [![Build Status](https://travis-ci.org/ronaldschlenker/FsHttp.svg?branch=master)](https://travis-ci.org/ronaldschlenker/FsHttp)
 
-**NOTE**: The NuGet package [SchlenkR.FsHttp](https://www.nuget.org/packages/SchlenkR.FsHttp) is *depricated*. Please use the package [FsHttp](https://www.nuget.org/packages/FsHttp) for releases >= 6.x
+**NOTE**: The NuGet package [SchlenkR.FsHttp](https://www.nuget.org/packages/SchlenkR.FsHttp) is **deprecated**. Please use the package [FsHttp](https://www.nuget.org/packages/FsHttp) for releases >= 6.x
 
 Documentation
 -------------
