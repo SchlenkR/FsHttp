@@ -13,7 +13,7 @@ Documentation
 
 Please visit the [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site.
 
-You can also have a the [Integration Tests](src/Tests/IntegrationTests.fs) that show various use cases.
+You can also have a the [Integration Tests](src/Tests) that show various use cases.
 
 
 A Simple Example
