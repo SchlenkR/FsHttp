@@ -11,7 +11,10 @@ get "https://www.google.de" {
     stringPart "" ""
 }
 
-
+http {
+    DELETE $"..."
+    header "Access-Token" "..."
+}
 
 
 module Dsl =
