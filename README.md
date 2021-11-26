@@ -64,4 +64,4 @@ The `Readme.md` and the content in `./docs` is auto-generated from the files in 
 Credits
 -------
 
-Parts of the code is taken from the [HTTP utilities of FSharp.Data](http://fsharp.github.io/FSharp.Data/library/Http.html).
+Parts of the code is taken from the [HTTP utilities of FSharp.Data](https://fsprojects.github.io/FSharp.Data/library/Http.html).
