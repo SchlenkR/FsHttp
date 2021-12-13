@@ -121,16 +121,13 @@ let asOriginalHttpResponseMessage (response: Response) =
 // -----------
 // Expect
 // -----------
-    
+
 let expectHttpStatusCodes (codes: HttpStatusCode list) (r: Response) =
-    let codes = set codes
-    match codes |> Set.contains r.statusCode with
-    | true -> Ok ()
+    match set codes |> Set.contains r.statusCode with
+    | true -> Ok r
     | false -> Error (sprintf $"Status code {HttpStatusCode.show r.statusCode} is not in expected [{codes}].")
-let expectHttpStatusCode (code: HttpStatusCode) = 
-    expectHttpStatusCodes [code]
-let expectStatusCodes (codes: int list) =
-    expectHttpStatusCodes (codes |> List.map LanguagePrimitives.EnumOfValue)
+let expectHttpStatusCode (code: HttpStatusCode) = expectHttpStatusCodes [code]
+let expectStatusCodes (codes: int list) = expectHttpStatusCodes (codes |> List.map LanguagePrimitives.EnumOfValue)
 let expectStatusCode (code: int) = expectStatusCodes [code]
 
 let assertHttpStatusCodes codes response = expectHttpStatusCodes codes response |> Result.raiseOnError
