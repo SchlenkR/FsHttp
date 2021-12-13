@@ -4,7 +4,7 @@ FsHttp
 
 FsHttp is a HTTP client library written in F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
 
-FsHttp is authored by @ronaldschlenker. Feel free to leave a message.
+**FsHttp** is authored by [@ronaldschlenker](https://github.com/ronaldschlenker). Feel free to leave a message.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) ![build status](https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
 
