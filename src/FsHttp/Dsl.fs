@@ -304,7 +304,7 @@ module Body =
         content MimeTypes.octetStream (StringContent (Convert.ToBase64String base64)) context
 
     let json (json: string) (context: IToBodyContext) =
-        content MimeTypes.textJson (StringContent json) context
+        content MimeTypes.applicationJson (StringContent json) context
 
     let formUrlEncoded (data: (string * string) list) (context: IToBodyContext) =
         content "application/x-www-form-urlencoded" (FormUrlEncodedContent (Map.ofList data)) context
