@@ -3,13 +3,14 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Ronald Schlenker</Authors>
-    <Version>6.0.1</Version>
+    <Version>7.0.0</Version>
     <Company />
     <Copyright>Copyright 2021 Ronald Schlenker</Copyright>
     <PackageIconUrl>https://github.com/fsprojects/FsHttp/blob/master/src/docs/img/logo.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
-    </PackageReleaseNotes>
+		* Changed content type 'text/json' to 'application/json' (#93). Thanks @drhumlen
+	</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/fsprojects/FsHttp</RepositoryUrl>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
