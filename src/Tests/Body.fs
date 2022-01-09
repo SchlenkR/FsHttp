@@ -92,7 +92,7 @@ let [<TestCase>] ``Default content type for JSON is specified correctly``() =
         json " [] "
     }
     |> Response.toText
-    |> should equal MimeTypes.textJson
+    |> should equal MimeTypes.applicationJson
 
 
 let [<TestCase>] ``Explicitly specified content type is dominant``() =
