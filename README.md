@@ -47,20 +47,23 @@ Building
 
 You need to have the latest .Net 5 SDK installed.
 
+### Building binaries, publish, and test
+
 There is a F# script that can be used to perform several build tasks from command line. It can be executed in this way:
 
-`dotnet fsi .\build.fsx [task]`
+`PS> dotnet fsi .\build.fsx [task]`
 
 Common tasks are:
 
 * build
 * test
-* docu
 * publish
 
-### Building Readme.md
+### Building the documentation
 
-The `Readme.md` and the content in `./docs` is auto-generated from the files in `./src/Docu`. In order to build them, run the command `dotnet fsi .\build.fsx docu`.
+The documentation in `./docs` is auto-generated from the files in `./src/Docu`. In order to build them, run:
+
+`PS> .\docu.ps1`
 
 
 Credits
