@@ -1,6 +1,10 @@
 
+if ((Test-Path .\.fsdocs) -eq $true) {
+	Remove-Item .\.fsdocs\ -Force -Recurse
+}
+
 dotnet tool restore
-dotnet publish ./src/FsHttp.sln -c Release -f netstandard2.0
+dotnet publish ./src/FsHttp/FsHttp.fsproj -c Release -f netstandard2.0
 
 if ($args[0] -eq $null) {
 	$mode = "build"
