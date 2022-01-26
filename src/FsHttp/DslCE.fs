@@ -1,6 +1,7 @@
 module FsHttp.DslCE
 
 open FsHttp.Domain
+open System
 
 // Whatch out: Config.defaultConfig is mutable, so access must be delayed.
 let private defaultStartingContext () = { config = Config.defaultConfig }
@@ -197,6 +198,15 @@ module Header =
         [<CustomOperation("CookieForDomain")>]
         member this.SetCookieForDomain(builder: LazyHttpBuilder<_>, name, value, path, domain) =
             Dsl.Header.cookieForDomain name value path domain builder.Context |> LazyHttpBuilder
+            
+        /// A collection of HTTP cookies previously sent by the server with 'Set-Cookie' with
+        /// the subset of URIs on the origin server to which these Cookies apply
+        [<CustomOperation("Cookies")>]
+        member this.SetCookieForDomain(builder: LazyHttpBuilder<_>, cookies: string seq) =
+            for cookie in cookies do
+                let cookieValues = cookie.Split(";")
+                let (name, value, path, domain) = cookieValues.[0], cookieValues.[1], cookieValues.[2], cookieValues.[3]
+                Dsl.Header.cookieForDomain name value path domain builder.Context |> LazyHttpBuilder
 
         /// The date and time that the message was sent
         [<CustomOperation("Date")>]
