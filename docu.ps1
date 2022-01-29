@@ -4,7 +4,7 @@ if ((Test-Path .\.fsdocs) -eq $true) {
 }
 
 dotnet tool restore
-dotnet publish ./src/FsHttp/FsHttp.fsproj -c Release -f netstandard2.0
+dotnet build ./src/FsHttp/FsHttp.fsproj -c Debug -f netstandard2.0
 
 if ($args[0] -eq $null) {
 	$mode = "build"

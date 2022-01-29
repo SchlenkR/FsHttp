@@ -9,6 +9,9 @@ open System.Globalization
 open FsHttp.Helper
 open FsHttp.Domain
 
+
+/// Request constructors for RFC 2626 HTTP methods
+[<AutoOpen>]
 module Http =
 
     let method (method: string) (url: string) =
@@ -30,8 +33,6 @@ module Http =
               headers = Map.empty
               cookies = [] }
           config = Config.defaultConfig }
-
-    // RFC 2626 specifies 8 methods + PATCH
 
     let get (url: string) = method "GET" url
     let put (url: string) = method "PUT" url

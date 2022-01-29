@@ -16,6 +16,7 @@
     <None Include="Resources\uploadFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="Helper.fs" />
     <Compile Include="Basic.fs" />
     <Compile Include="AlternativeSyntaxes.fs" />
     <Compile Include="UrlsAndQuery.fs" />

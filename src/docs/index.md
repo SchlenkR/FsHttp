@@ -13,7 +13,7 @@ FsHttp is HTTP client library written in F#. It aims for describing and executin
 
 
 NuGet
------
+---
 
 Install FsHttp via NuGet command line:
 
@@ -21,7 +21,7 @@ Install FsHttp via NuGet command line:
 PM> Install-Package FsHttp
 ```
 
-or via F# Interactive:
+In F# Interactive:
 
 ```fsharp
 #r "nuget: FsHttp"
@@ -29,7 +29,7 @@ or via F# Interactive:
 
 
 A simple request
-----------------
+---
 
 ```fsharp
 http {

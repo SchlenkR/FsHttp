@@ -33,11 +33,17 @@ module Map =
 
 [<RequireQualifiedAccess>]
 module Url =
-    let internal combine (url1: string) (url2: string) =
-        (url1.TrimEnd [|'/'|]) + "/" + (url2.TrimStart [|'/'|])
+    let combine (url1: string) (url2: string) =
+        let del = '/'
+        let sdel = string del
+        let norm (s: string) = s.Trim().Replace(@"\", sdel)
+        let delTrim = [| del |]
+        let a = (norm url1).TrimEnd(delTrim)
+        let b = (norm url2).TrimStart(delTrim).TrimEnd(delTrim)
+        a + sdel + b
 
 [<RequireQualifiedAccess>]
-module internal HttpStatusCode =
+module HttpStatusCode =
     let show (this: System.Net.HttpStatusCode) = $"{int this} ({this})"
 
 [<RequireQualifiedAccess>]
@@ -63,9 +69,7 @@ module Result =
         | Error value -> Testing.raiseExn $"{value}"
 
 module Stream =
-    open System
     open System.IO
-    open System.Text
     
     let copyToCallbackAsync (target: Stream) callback (source: Stream) = async {
         let buffer = Array.create 1024 (byte 0)
