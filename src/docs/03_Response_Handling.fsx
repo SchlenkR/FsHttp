@@ -1,6 +1,8 @@
 (**
 ---
 title: Response Handling
+category: Documentation
+categoryindex: 1
 index: 3
 ---
 *)
@@ -8,7 +10,7 @@ index: 3
 (*** condition: prepare ***)
 #nowarn "211"
 #r "nuget: FSharp.Data"
-#r "../FsHttp/bin/Debug/net5.0/FsHttp.dll"
+#r "../FsHttp/bin/Release/netstandard2.0/FsHttp.dll"
 open FsHttp
 open FsHttp.DslCE
 
