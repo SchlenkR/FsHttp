@@ -1,6 +1,8 @@
 (**
 ---
 title: HttpClient And HttpMessage
+category: Documentation
+categoryindex: 1
 index: 5
 ---
 *)
@@ -8,7 +10,7 @@ index: 5
 (*** condition: prepare ***)
 #nowarn "211"
 #r "nuget: FSharp.Data"
-#r "../FsHttp/bin/Release/net5.0/FsHttp.dll"
+#r "../FsHttp/bin/Release/netstandard2.0/FsHttp.dll"
 open FsHttp
 open FsHttp.DslCE
 
