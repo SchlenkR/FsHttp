@@ -15,7 +15,7 @@ open Suave.Successful
 
 
 let [<TestCase>] ``Cookies can be sent``() =
-    use server =
+    use _ =
         GET
         >=> request (fun r ->
             r.cookies
@@ -33,7 +33,7 @@ let [<TestCase>] ``Cookies can be sent``() =
 
 
 let [<TestCase>] ``Custom HTTP method``() =
-    use server =
+    use _ =
         ``method`` (HttpMethod.parse "FLY")
         >=> request (fun r -> OK "flying")
         |> serve
@@ -48,7 +48,7 @@ let [<TestCase>] ``Custom HTTP method``() =
 let [<TestCase>] ``Custom Headers``() =
     let customHeaderKey = "X-Custom-Value"
 
-    use server =
+    use _ =
         GET
         >=> request (fun r ->
             r.header customHeaderKey
@@ -64,6 +64,18 @@ let [<TestCase>] ``Custom Headers``() =
     }
     |> Response.toText
     |> should equal "hello world"
+    
+
+//let [<TestCase>] ``Auto Redirects``() =
+//    http {
+//        GET (url @"")
+//        config_transformHttpClientHandler (fun handler ->
+//            handler.AllowAutoRedirect <- false
+//            handler
+//        )
+//    }
+//    |> Response.toText
+//    |> should equal "hello world"
     
 
 
