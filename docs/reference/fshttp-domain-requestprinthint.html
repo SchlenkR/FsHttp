@@ -14,10 +14,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="http://localhost:8901/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="/FsHttp/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,22 +26,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
     <!-- END SEARCH BOX: this adds support for the search box -->
     
-<script type="text/javascript">
-    var wsUri = "ws://localhost:8901/websocket";
-    function init()
-    {
-        websocket = new WebSocket(wsUri);
-        websocket.onclose = function(evt) { onClose(evt) };
-    }
-    function onClose(evt)
-    {
-        console.log('closing');
-        websocket.close();
-        document.location.reload();
-    }
-    window.addEventListener("load", init, false);
-</script>
-
 </head>
 
 <body>
@@ -50,7 +34,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="http://localhost:8901/"><img id="fsdocs-logo" src="http://localhost:8901/img/logo.png" /></a>
+            <a href="/FsHttp/"><img id="fsdocs-logo" src="/FsHttp/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -74,32 +58,32 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="http://localhost:8901/02_Making_Requests.html">
+  <a class="nav-link" href="/FsHttp/02_Making_Requests.html">
     Making Requests
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="http://localhost:8901/03_Response_Handling.html">
+  <a class="nav-link" href="/FsHttp/03_Response_Handling.html">
     Response Handling
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="http://localhost:8901/04_Configuration.html">
+  <a class="nav-link" href="/FsHttp/04_Configuration.html">
     Configuration
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="http://localhost:8901/05_HttpClient_Http_Message.html">
+  <a class="nav-link" href="/FsHttp/05_HttpClient_Http_Message.html">
     HttpClient And HttpMessage
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="http://localhost:8901/06_Builders_and_Evaluation.html">
+  <a class="nav-link" href="/FsHttp/06_Builders_and_Evaluation.html">
     Builders and Evaluation
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="http://localhost:8901/07_FSI.html">
+  <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
 </li>
@@ -107,7 +91,7 @@
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="http://localhost:8901/reference/index.html">
+  <a class="nav-link" href="/FsHttp/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -116,7 +100,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="http://localhost:8901/">FsHttp</a></h3>
+            <h3 class="muted"><a href="/FsHttp/">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -127,7 +111,7 @@
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="http://localhost:8901/reference/fshttp.html">
+      <a href="/FsHttp/reference/fshttp.html">
         FsHttp
       </a>
     </dt>
@@ -136,7 +120,7 @@
     </dt>
     <dt>
       Parent Module: 
-      <a href="http://localhost:8901/reference/fshttp-domain.html">
+      <a href="/FsHttp/reference/fshttp-domain.html">
         Domain
       </a>
     </dt>
@@ -146,11 +130,11 @@
     </dt>
     <dt>
       All Interfaces: 
-      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-requestprinthint.html">RequestPrintHint</a>&gt;</span></code>
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-requestprinthint.html">RequestPrintHint</a>&gt;</span></code>
       , 
       <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
       , 
-      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-requestprinthint.html">RequestPrintHint</a>&gt;</span></code>
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-requestprinthint.html">RequestPrintHint</a>&gt;</span></code>
       , 
       <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
       , 
@@ -214,8 +198,8 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L14-14" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
-                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -262,8 +246,8 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L13-13" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
-                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -293,10 +277,10 @@
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = 'http://localhost:8901/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = '/FsHttp/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="http://localhost:8901/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="/FsHttp/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>
