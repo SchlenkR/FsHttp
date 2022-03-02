@@ -14,10 +14,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="/FsHttp/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="http://localhost:8901/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,6 +26,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
     <!-- END SEARCH BOX: this adds support for the search box -->
     
+<script type="text/javascript">
+    var wsUri = "ws://localhost:8901/websocket";
+    function init()
+    {
+        websocket = new WebSocket(wsUri);
+        websocket.onclose = function(evt) { onClose(evt) };
+    }
+    function onClose(evt)
+    {
+        console.log('closing');
+        websocket.close();
+        document.location.reload();
+    }
+    window.addEventListener("load", init, false);
+</script>
+
 </head>
 
 <body>
@@ -34,7 +50,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="/FsHttp/"><img id="fsdocs-logo" src="/FsHttp/img/logo.png" /></a>
+            <a href="http://localhost:8901/"><img id="fsdocs-logo" src="http://localhost:8901/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -58,32 +74,32 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/02_Making_Requests.html">
+  <a class="nav-link" href="http://localhost:8901/02_Making_Requests.html">
     Making Requests
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/03_Response_Handling.html">
+  <a class="nav-link" href="http://localhost:8901/03_Response_Handling.html">
     Response Handling
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/04_Configuration.html">
+  <a class="nav-link" href="http://localhost:8901/04_Configuration.html">
     Configuration
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/05_HttpClient_Http_Message.html">
+  <a class="nav-link" href="http://localhost:8901/05_HttpClient_Http_Message.html">
     HttpClient And HttpMessage
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/06_Builders_and_Evaluation.html">
+  <a class="nav-link" href="http://localhost:8901/06_Builders_and_Evaluation.html">
     Builders and Evaluation
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/07_FSI.html">
+  <a class="nav-link" href="http://localhost:8901/07_FSI.html">
     F# Interactive Usage
   </a>
 </li>
@@ -91,7 +107,7 @@
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
+  <a class="nav-link" href="http://localhost:8901/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -100,7 +116,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="/FsHttp/">FsHttp</a></h3>
+            <h3 class="muted"><a href="http://localhost:8901/">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -138,37 +154,37 @@ something like text or JSON:</p>
 </code></pre>
 <p>Use FSharp.Data.JsonExtensions to do JSON processing:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="id">Data</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs12', 20)" onmouseover="showTip(event, 'fs12', 20)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 21)" onmouseover="showTip(event, 'fs13', 21)" class="id">Data</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 22)" onmouseover="showTip(event, 'fs14', 22)" class="m">JsonExtensions</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs12', 20)" onmouseover="showTip(event, 'fs12', 20)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 21)" onmouseover="showTip(event, 'fs13', 21)" class="id">Data</span><span class="pn">.</span><span class="id">JsonExtensions</span>
 
-<span onmouseout="hideTip(event, 'fs3', 23)" onmouseover="showTip(event, 'fs3', 23)" class="k">http</span> <span class="pn">{</span>
-    <span onmouseout="hideTip(event, 'fs15', 24)" onmouseover="showTip(event, 'fs15', 24)" class="k">GET</span> <span class="s">@&quot;https://reqres.in/api/users?page=2&amp;delay=3&quot;</span>
+<span onmouseout="hideTip(event, 'fs3', 22)" onmouseover="showTip(event, 'fs3', 22)" class="k">http</span> <span class="pn">{</span>
+    <span onmouseout="hideTip(event, 'fs14', 23)" onmouseover="showTip(event, 'fs14', 23)" class="k">GET</span> <span class="s">@&quot;https://reqres.in/api/users?page=2&amp;delay=3&quot;</span>
 <span class="pn">}</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 25)" onmouseover="showTip(event, 'fs8', 25)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 26)" onmouseover="showTip(event, 'fs16', 26)" class="id">toJson</span>
-<span class="o">|&gt;</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs17', 27)" onmouseover="showTip(event, 'fs17', 27)" class="fn">json</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs17', 28)" onmouseover="showTip(event, 'fs17', 28)" class="fn">json</span><span class="o">?</span><span class="id">page</span><span class="pn">.</span><span class="id">AsInteger</span><span class="pn">(</span><span class="pn">)</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 24)" onmouseover="showTip(event, 'fs8', 24)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 25)" onmouseover="showTip(event, 'fs9', 25)" class="id">toJson</span>
+<span class="o">|&gt;</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs15', 26)" onmouseover="showTip(event, 'fs15', 26)" class="fn">json</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs15', 27)" onmouseover="showTip(event, 'fs15', 27)" class="fn">json</span><span class="pn">?</span><span class="id">page</span><span class="pn">.</span><span class="id">AsInteger</span><span class="pn">(</span><span class="pn">)</span>
 </code></pre>
 
-            <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
-<div class="fsdocs-tip" id="fs2">module DslCE
+            <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
+<div class="fsdocs-tip" id="fs2">Modul DslCE
 
-from FsHttp</div>
+aus FsHttp</div>
 <div class="fsdocs-tip" id="fs3">val http : EagerSyncHttpBuilder</div>
-<div class="fsdocs-tip" id="fs4">custom operation: POST (string)
+<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: POST (string)
 
-Calls LazyHttpBuilder.Post</div>
-<div class="fsdocs-tip" id="fs5">custom operation: CacheControl (string)
+Aufrufe LazyHttpBuilder.Post</div>
+<div class="fsdocs-tip" id="fs5">Benutzerdefinierter Vorgang: CacheControl (string)
 
-Calls LazyHttpBuilder.CacheControl<br /><em>&lt;summary&gt;
+Aufrufe LazyHttpBuilder.CacheControl<br /><em>&lt;summary&gt;
  Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs6">custom operation: body
+<div class="fsdocs-tip" id="fs6">Benutzerdefinierter Vorgang: body
 
-Calls LazyHttpBuilder.Body</div>
-<div class="fsdocs-tip" id="fs7">custom operation: json (string)
+Aufrufe LazyHttpBuilder.Body</div>
+<div class="fsdocs-tip" id="fs7">Benutzerdefinierter Vorgang: json (string)
 
-Calls LazyHttpBuilder.Json</div>
-<div class="fsdocs-tip" id="fs8">Multiple items<br />module Response
+Aufrufe LazyHttpBuilder.Json</div>
+<div class="fsdocs-tip" id="fs8">Multiple items<br />Modul Response
 
-from FsHttp<br /><br />--------------------<br />type Response =
+aus FsHttp<br /><br />--------------------<br />type Response =
   { request: Request
     requestMessage: HttpRequestMessage
     content: HttpContent
@@ -180,45 +196,26 @@ from FsHttp<br /><br />--------------------<br />type Response =
     originalHttpResponseMessage: HttpResponseMessage
     dispose: unit -&gt; unit }
     interface IDisposable</div>
-<div class="fsdocs-tip" id="fs9">val toJson : r:Response -&gt; FSharp.Data.JsonValue</div>
+<div class="fsdocs-tip" id="fs9"></div>
 <div class="fsdocs-tip" id="fs10">val post : url:string -&gt; LazyHttpBuilder&lt;HeaderContext&gt;</div>
-<div class="fsdocs-tip" id="fs11">custom operation: send
+<div class="fsdocs-tip" id="fs11">Benutzerdefinierter Vorgang: send
 
-Calls LazyHttpBuilder.Send</div>
-<div class="fsdocs-tip" id="fs12">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs13">Multiple items<br />namespace FSharp.Data<br /><br />--------------------<br />namespace Microsoft.FSharp.Data</div>
-<div class="fsdocs-tip" id="fs14">Multiple items<br />module JsonExtensions
+Aufrufe LazyHttpBuilder.Send</div>
+<div class="fsdocs-tip" id="fs12">Namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs13">Namespace Microsoft.FSharp.Data</div>
+<div class="fsdocs-tip" id="fs14">Benutzerdefinierter Vorgang: GET (string)
 
-from FSharp.Data<br /><em>&lt;summary&gt;
- Provides the dynamic operator for getting a property of a JSON object
-&lt;/summary&gt;</em><br /><br />--------------------<br />type JsonExtensions =
-  static member AsArray : x:JsonValue -&gt; JsonValue []
-  static member AsBoolean : x:JsonValue -&gt; bool
-  static member AsDateTime : x:JsonValue * ?cultureInfo:CultureInfo -&gt; DateTime
-  static member AsDateTimeOffset : x:JsonValue * ?cultureInfo:CultureInfo -&gt; DateTimeOffset
-  static member AsDecimal : x:JsonValue * ?cultureInfo:CultureInfo -&gt; decimal
-  static member AsFloat : x:JsonValue * ?cultureInfo:CultureInfo * ?missingValues:string [] -&gt; float
-  static member AsGuid : x:JsonValue -&gt; Guid
-  static member AsInteger : x:JsonValue * ?cultureInfo:CultureInfo -&gt; int
-  static member AsInteger64 : x:JsonValue * ?cultureInfo:CultureInfo -&gt; int64
-  static member AsString : x:JsonValue * ?cultureInfo:CultureInfo -&gt; string
-  ...<br /><em>&lt;summary&gt;
- Extension methods with operations on JSON values
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs15">custom operation: GET (string)
-
-Calls LazyHttpBuilder.Get</div>
-<div class="fsdocs-tip" id="fs16">val toJson : r:Response -&gt; JsonValue</div>
-<div class="fsdocs-tip" id="fs17">val json : JsonValue</div>
+Aufrufe LazyHttpBuilder.Get</div>
+<div class="fsdocs-tip" id="fs15">val json : obj</div>
 
         </div>
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = '/FsHttp/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'http://localhost:8901/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="/FsHttp/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="http://localhost:8901/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>
