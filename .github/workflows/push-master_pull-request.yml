@@ -26,6 +26,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --verbosity diag
+      run: dotnet test --verbosity normal
     #- name: Build
     #  run: dotnet fsi build.fsx build
