@@ -1,8 +1,6 @@
 
 System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
-#load "./properties.fsx"
-
 #r "nuget: Fake.Core.Process"
 #r "nuget: Fake.IO.FileSystem"
 
@@ -13,6 +11,10 @@ open Fake.IO
 open Fake.IO.Globbing.Operators
 
 Trace.trace $"Starting script..."
+
+module Properties =
+    let nugetServer = "https://api.nuget.org/v3/index.json"
+    let nugetPushEnvVarName = "nuget_push"
 
 [<AutoOpen>]
 module Helper =
