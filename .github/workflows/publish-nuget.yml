@@ -1,10 +1,4 @@
-name: Build + Tests
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+name: Publish to NuGget
 
 jobs:
   build:
@@ -13,7 +7,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src
+        working-directory: .
         
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +19,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Test
-      run: dotnet test --verbosity normal
+    - name: publish.ps1
+      env:
+          nuget_push: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet fsi build.fsx publish
