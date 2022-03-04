@@ -21,7 +21,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.x
-    - name: publish.ps1
+    - name: nuget publish
       env:
           nuget_push: ${{ secrets.NUGET_API_KEY }}
       run: dotnet fsi build.fsx publish
