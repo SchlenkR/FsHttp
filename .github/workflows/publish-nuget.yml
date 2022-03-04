@@ -1,4 +1,4 @@
-name: Publish to NuGget
+name: Publish to Nuget
 
 jobs:
   build:
