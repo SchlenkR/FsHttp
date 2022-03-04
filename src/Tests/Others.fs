@@ -15,7 +15,7 @@ open Suave.Successful
 
 
 let [<TestCase>] ``Cookies can be sent``() =
-    use _ =
+    use server =
         GET
         >=> request (fun r ->
             r.cookies
@@ -33,7 +33,7 @@ let [<TestCase>] ``Cookies can be sent``() =
 
 
 let [<TestCase>] ``Custom HTTP method``() =
-    use _ =
+    use server =
         ``method`` (HttpMethod.parse "FLY")
         >=> request (fun r -> OK "flying")
         |> serve
@@ -48,7 +48,7 @@ let [<TestCase>] ``Custom HTTP method``() =
 let [<TestCase>] ``Custom Headers``() =
     let customHeaderKey = "X-Custom-Value"
 
-    use _ =
+    use server =
         GET
         >=> request (fun r ->
             r.header customHeaderKey
