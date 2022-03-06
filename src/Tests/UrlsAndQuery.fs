@@ -25,6 +25,7 @@ let [<TestCase>] ``Multiline urls``() =
                     ?q1=Query1
                     &q2=Query2")
     }
+    |> Request.send
     |> Response.toText
     |> should equal "Query1_Query2"
 
@@ -41,6 +42,7 @@ let [<TestCase>] ``Comments in urls are discarded``() =
                     //&q2=Query2
                     &q3=Query3")
     }
+    |> Request.send
     |> Response.toText
     |> should equal ("Query1_" + keyNotFoundString + "_Query3")
 
@@ -55,6 +57,7 @@ let [<TestCase>] ``Empty query params``() =
         GET (url "")
         query []
     }
+    |> Request.send
     |> Response.toText
     |> should equal ""
     
@@ -69,6 +72,7 @@ let [<TestCase>] ``Merge query params with url params``() =
         GET (url "?q1=Query1")
         query ["q2", "Query2"]
     }
+    |> Request.send
     |> Response.toText
     |> should equal "Query1_Query2"    
     
@@ -84,6 +88,7 @@ let [<TestCase>] ``Query params``() =
         query [ "q1", "Query1"
                 "q2", "Query2" ]
     }
+    |> Request.send
     |> Response.toText
     |> should equal "Query1_Query2"
     
@@ -98,5 +103,6 @@ let [<TestCase>] ``Query params encoding``() =
         GET (url "")
         query [ "q1", "<>" ]
     }
+    |> Request.send
     |> Response.toText
     |> should equal "<>"

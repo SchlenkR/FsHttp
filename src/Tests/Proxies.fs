@@ -25,6 +25,7 @@ let [<TestCase>] ``Proxy usage works`` () =
         GET "http://google.com"
         config_proxy (url "")
     }
+    |> Request.send
     |> Response.toText
     |> should equal "proxified"
 
@@ -45,6 +46,7 @@ let [<TestCase>] ``Proxy usage with credentials works`` () =
         GET "http://google.com"
         config_proxyWithCredentials (url "") credentials
     }
+    |> Request.send
     |> Response.toText
     |> should equal ("Basic " + ("test:password" |> Text.Encoding.UTF8.GetBytes |> Convert.ToBase64String))
 

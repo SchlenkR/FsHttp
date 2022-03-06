@@ -28,7 +28,8 @@ let private getRequestMessageProp<'a> (requestMessage: HttpRequestMessage) (prop
 
 
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
-let toMessage (request: Request): HttpRequestMessage =
+let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
+    let request = request.ToRequest()
     let header = request.header
     let requestMessage = new HttpRequestMessage(header.method, FsHttpUrl.toUriString header.url)
     do setRequestMessageProp requestMessage TimeoutPropertyName request.config.timeout
@@ -86,7 +87,10 @@ let toMessage (request: Request): HttpRequestMessage =
     do
         requestMessage.Content <- dotnetContent
         assignContentHeaders requestMessage.Headers header.headers
-    requestMessage
+    request,requestMessage
+
+let toRequest request = request |> toRequestAndMessage |> fst
+let toMessage request = request |> toRequestAndMessage |> snd
 
 let private getHttpClient =
     let timeoutHandler innerHandler =
@@ -137,12 +141,11 @@ let private getHttpClient =
             new HttpClient(handler |> timeoutHandler, Timeout = Timeout.InfiniteTimeSpan)
 
 /// Builds an asynchronous request, without sending it.
-let buildAsync (context: IToRequest) =
+let toAsync (context: IToRequest) =
     async {
-        let request = context.ToRequest()
-        if request.config.printptDebugMessages then
+        let request,requestMessage = toRequestAndMessage context
+        if request.config.printDebugMessages then
             printfn $"Sending request {request.header.method} {FsHttpUrl.toUriString request.header.url} ..."
-        use requestMessage = toMessage request
         use finalRequestMessage = 
             let httpMessageTransformer = Option.defaultValue id request.config.httpMessageTransformer
             httpMessageTransformer requestMessage
@@ -159,11 +162,12 @@ let buildAsync (context: IToRequest) =
         let! response =
             finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
             |> Async.AwaitTask
-        if request.config.printptDebugMessages then
+        if request.config.printDebugMessages then
             printfn $"{Helper.HttpStatusCode.show response.StatusCode} ({request.header.method} {FsHttpUrl.toUriString request.header.url})"
         let dispose () =
             do finalClient.Dispose()
             do response.Dispose()
+            do requestMessage.Dispose()
         return { request = request
                  content = response.Content
                  headers = response.Headers
@@ -179,12 +183,12 @@ let buildAsync (context: IToRequest) =
 /// Sends a context asynchronously.
 let sendAsync (context: IToRequest) =
     context
-    |> buildAsync
+    |> toAsync
     |> Async.StartChild
     |> Async.RunSynchronously
 
 /// Sends a context synchronously.
 let inline send context =
     context
-    |> buildAsync
+    |> toAsync
     |> Async.RunSynchronously

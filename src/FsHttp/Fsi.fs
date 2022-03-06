@@ -60,7 +60,7 @@ let modifyPrinter f (r: Response) =
         request = { r.request with 
                       config = { r.request.config with 
                                    printHint = f r.request.config.printHint
-                                   printptDebugMessages = true } } }
+                                   printDebugMessages = true } } }
 
 let rawPrinterTransformer = noCustomPrinting
 let headerOnlyPrinterTransformer = noResponseContentPrinting

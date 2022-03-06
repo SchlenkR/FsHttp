@@ -15,11 +15,11 @@ open Suave.Successful
 
 let superBodyContentType = "text/superString"
 
-type LazyHttpBuilder<'context when 'context :> IToRequest> with
+type HttpBuilder<'context when 'context :> IToRequest> with
     [<CustomOperation("superBody")>]
-    member this.SuperBody(builder: LazyHttpBuilder<_>, csvContent: string) =
+    member this.SuperBody(builder: HttpBuilder<_>, csvContent: string) =
         FsHttp.Dsl.Body.content superBodyContentType (StringContent csvContent) builder.Context
-        |> LazyHttpBuilder
+        |> HttpBuilder
 
 
 let [<TestCase>] ``Extending builder with custom content``() =
@@ -41,5 +41,6 @@ let [<TestCase>] ``Extending builder with custom content``() =
         body
         superBody dummyContent
     }
+    |> Request.send
     |> Response.toText
     |> should equal $"{superBodyContentType} - {dummyContent}"

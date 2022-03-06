@@ -40,6 +40,7 @@ let [<TestCase>] ``POST Multipart form data``() =
         stringPart "hurz2" "Lamm"
         stringPart "hurz3" "schrie"
     }
+    |> Request.send
     |> Response.toText
     |> should equal (joinLines [
         "I'm a chicken and I can fly!"
@@ -74,5 +75,6 @@ let [<TestCase>] ``Explicitly specified content type part is dominant``() =
         ContentTypeForPart explicitContentType2
         filePart "Resources/uploadFile2.txt"
     }
+    |> Request.send
     |> Response.toText
     |> should equal (explicitContentType1 + "," + explicitContentType2)

@@ -5,42 +5,35 @@ index: 1
 
 # FsHttp
 
-FsHttp is HTTP client library written in F#. It aims for describing and executing HTTP requests in a convenient ways that can be used in production and interactive environments.
+FsHttp is a HTTP client library written in F#. It aims for describing and executing HTTP requests in a convenient ways that can be used in production and interactive environments.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) ![build status](https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
 
-**NOTE**: The NuGet package [SchlenkR.FsHttp](https://www.nuget.org/packages/SchlenkR.FsHttp) is **deprecated**. Please use the package [FsHttp](https://www.nuget.org/packages/FsHttp) for releases >= 6.x
 
-
-NuGet
+Usage
 ---
-
-Install FsHttp via NuGet command line:
-
-```
-PM> Install-Package FsHttp
-```
-
-In F# Interactive:
 
 ```fsharp
 #r "nuget: FsHttp"
+
+let postResponse =
+    http {
+        POST "https://reqres.in/api/users"
+        CacheControl "no-cache"
+        body
+        json """
+        {
+            "name": "morpheus",
+            "job": "leader"
+        }
+        """
+    }
+    |> Response.toJson
+
+
 ```
 
-
-A simple request
+Further documentation
 ---
 
-```fsharp
-http {
-    POST "https://reqres.in/api/users"
-    CacheControl "no-cache"
-    body
-    json """
-    {
-        "name": "morpheus",
-        "job": "leader"
-    }
-    """
-}
-```
+Have a look at the [Integration Tests](src/Tests) that show various library details.

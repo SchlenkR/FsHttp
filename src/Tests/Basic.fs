@@ -58,6 +58,7 @@ let [<TestCase>] ``Split URL are interpreted correctly``() =
                     ?test=Hallo
                     &test2=Welt")
     }
+    |> Request.send
     |> Response.toText
     |> should equal "test=Hallo&test2=Welt"
 
@@ -71,6 +72,7 @@ let [<TestCase>] ``Smoke test for a header``() =
         GET (url @"")
         AcceptLanguage lang
     }
+    |> Request.send
     |> Response.toText
     |> should equal lang
 
@@ -86,6 +88,7 @@ let [<TestCase>] ``ContentType override``() =
         ContentType contentType
         text "hello world"
     }
+    |> Request.send
     |> Response.toText
     |> should contain contentType
 

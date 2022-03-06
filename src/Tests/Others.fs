@@ -28,6 +28,7 @@ let [<TestCase>] ``Cookies can be sent``() =
         GET (url @"")
         Cookie "test" "hello world"
     }
+    |> Request.send
     |> Response.toText
     |> should equal "hello world"
 
@@ -41,6 +42,7 @@ let [<TestCase>] ``Custom HTTP method``() =
     http {
         Method "FLY" (url @"")
     }
+    |> Request.send
     |> Response.toText
     |> should equal "flying"
 
@@ -62,6 +64,7 @@ let [<TestCase>] ``Custom Headers``() =
         GET (url @"")
         header customHeaderKey "hello world"
     }
+    |> Request.send
     |> Response.toText
     |> should equal "hello world"
     

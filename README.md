@@ -8,21 +8,21 @@ FsHttp is a HTTP client library written in F#. It aims for describing and execut
 
 [![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) ![build status](https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
 
-**NOTE**: The NuGet package [SchlenkR.FsHttp](https://www.nuget.org/packages/SchlenkR.FsHttp) is **deprecated**. Please use the package [FsHttp](https://www.nuget.org/packages/FsHttp) for releases >= 6.x
+**Package name change / deprecation hint**
+
+The NuGet package `SchlenkR.FsHttp` is _deprecated_. Please use the package [FsHttp](https://www.nuget.org/packages/FsHttp) for releases >= 6.x
+
 
 Documentation
 -------------
 
-Please visit the [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site.
-
-You can also have a the [Integration Tests](src/Tests) that show various use cases.
+Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for a detailed documentation.
 
 
 A Simple Example
 ----------------
 
 ```fsharp
-
 #r "nuget: FsHttp"
 
 open FsHttp
@@ -40,6 +40,19 @@ http {
     """
 }
 ```
+
+Upgrading to v9
+---
+
+* `http...` Builders: There is now only a single `http` builder, that is equivalent to the former `httpLazy` builder. To achieve the behaviour of the removed builders, please use:
+    * `httpLazy` -> `http { ... }`
+    * `http` -> `http { ... } |> Request.send`
+    * `httpAsync` -> `http { ... } |> Request.sendAsync`
+    * `httpLazyAsync` -> `http { ... } |> Request.toAsync`
+    * `httpMessage` -> `http { ... } |> Request.toMessage`
+    * see also: [./src/Tests/BuildersAndSignatures.fs](Tests in BuildersAndSignatures.fs)
+* Renamed type `LazyHttpBuilder` -> `HttpBuilder`
+* Renamed `Request.buildAsync` -> `Request.toAsync`
 
 
 Building

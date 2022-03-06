@@ -34,7 +34,7 @@ type Proxy =
 type Config =
     { timeout: TimeSpan
       printHint: PrintHint
-      printptDebugMessages: bool
+      printDebugMessages: bool
       httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
 #if NETSTANDARD_2
       httpClientHandlerTransformer: (HttpClientHandler -> HttpClientHandler) option

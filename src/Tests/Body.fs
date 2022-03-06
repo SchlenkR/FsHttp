@@ -27,6 +27,7 @@ let [<TestCase>] ``POST string data``() =
         body
         text data
     }
+    |> Request.send
     |> Response.toText
     |> should equal data
 
@@ -44,6 +45,7 @@ let [<TestCase>] ``POST binary data``() =
         body
         binary data
     }
+    |> Request.send
     |> Response.toBytes
     |> should equal data
 
@@ -62,6 +64,7 @@ let [<TestCase>] ``POST Form url encoded data``() =
             "q2","Query2"
         ]
     }
+    |> Request.send
     |> Response.toText
     |> should equal ("Query1_Query2")
 
@@ -79,6 +82,7 @@ let [<TestCase>] ``Specify content type explicitly``() =
         body
         ContentType contentType
     }
+    |> Request.send
     |> Response.toText
     |> should equal contentType
 
@@ -91,6 +95,7 @@ let [<TestCase>] ``Default content type for JSON is specified correctly``() =
         body
         json " [] "
     }
+    |> Request.send
     |> Response.toText
     |> should equal MimeTypes.applicationJson
 
@@ -106,6 +111,7 @@ let [<TestCase>] ``Explicitly specified content type is dominant``() =
         ContentType explicitContentType
         json " [] "
     }
+    |> Request.send
     |> Response.toText
     |> should equal explicitContentType
 
@@ -119,6 +125,7 @@ let [<TestCase>] ``Content length automatically set``() =
         body
         json contentData
     }
+    |> Request.send
     |> Response.toText
     |> should equal (contentData.Length.ToString())
 
