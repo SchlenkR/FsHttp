@@ -1,30 +1,19 @@
 <Project>
 
   <PropertyGroup>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Authors>Ronald Schlenker</Authors>
     <Version>8.0.1</Version>
-    <Company />
-    <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
-    <PackageIcon>https://github.com/fsprojects/FsHttp/blob/master/src/docs/img/logo.png</PackageIcon>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>
-v7.0.0
-- #92: `expect` and `assert` pass through the original response instead of unit.
+      v7.0.0
+      - #92: `expect` and `assert` pass through the original response instead of unit.
 
-v8.0.0
-- #93 (thanks @drhumlen): Changed content type 'text/json' to 'application/json'.
-- Http modules are always AutoOpen in both Dsl and DslCE
-- No extra modules for builder methods
+      v8.0.0
+      - #93 (thanks @drhumlen): Changed content type 'text/json' to 'application/json'.
+      - Http modules are always AutoOpen in both Dsl and DslCE
+      - No extra modules for builder methods
 
-v8.0.1
-- #89: No more blocking requests using net5 with FSI
-	  </PackageReleaseNotes>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/fsprojects/FsHttp</RepositoryUrl>
-    <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
-    <FsDocsLicenseLink>https://github.com/fsprojects/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
-    <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp</FsDocsReleaseNotesLink>
+      v8.0.1
+      - #89: No more blocking requests using net5 with FSI
+    </PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
