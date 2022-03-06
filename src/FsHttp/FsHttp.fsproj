@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>FsHttp</PackageId>
     <Description>A HTTP client library for F#.</Description>
@@ -32,6 +32,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" Version="5.0.0" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <PackageReference Include="FSharp.Core" Version="5.0.0" Condition="'$(TargetFramework)' == 'net5.0'" />
+    <PackageReference Include="FSharp.Core" Version="6.0.0" Condition="'$(TargetFramework)' == 'net6.0'" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
