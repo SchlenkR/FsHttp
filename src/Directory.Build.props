@@ -18,7 +18,7 @@ v8.0.0
 - No extra modules for builder methods
 
 v8.0.1
-- TODO
+- #89: No more blocking requests using net5 with FSI
 	  </PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/fsprojects/FsHttp</RepositoryUrl>
