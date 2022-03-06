@@ -72,9 +72,9 @@ let expandPrinterTransformer = (withResponseContentMaxLength Int32.MaxValue >> w
 
 type StringBuilder with
     member sb.append (s:string) = sb.Append s |> ignore
-    member sb.appendLine s = sb.AppendLine s |> ignore
+    member sb.appendLine (s:string) = sb.AppendLine s |> ignore
     member sb.newLine() = sb.appendLine ""
-    member sb.appendSection s =
+    member sb.appendSection (s:string) =
         sb.appendLine s
         String([0..s.Length] |> List.map (fun _ -> '-') |> List.toArray) |> sb.appendLine
 
