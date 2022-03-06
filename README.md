@@ -53,6 +53,7 @@ Upgrading to v9
     * see also: [./src/Tests/BuildersAndSignatures.fs](Tests in BuildersAndSignatures.fs)
 * Renamed type `LazyHttpBuilder` -> `HttpBuilder`
 * Renamed `Request.buildAsync` -> `Request.toAsync`
+* Removed `send` and `sendAsync` builder methods
 
 
 Building

@@ -28,9 +28,8 @@ let postResponse =
         }
         """
     }
+    |> Request.send
     |> Response.toJson
-
-
 ```
 
 Further documentation

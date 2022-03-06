@@ -8,7 +8,6 @@ open FsHttp.Tests.Server
 open NUnit.Framework
 
 open Suave
-open Suave.Cookie
 open Suave.Operators
 open Suave.Filters
 open Suave.Successful
@@ -16,6 +15,7 @@ open Suave.Successful
 let [<TestCase>] ``Shortcut for GET works``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
     
-    get (url @"?test=Hallo") { send }
+    get (url @"?test=Hallo")
+    |> Request.send
     |> Response.toText
     |> should equal "test=Hallo"

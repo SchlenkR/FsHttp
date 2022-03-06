@@ -483,21 +483,6 @@ type HttpBuilder<'context when 'context :> IToRequest> with
 
 
 // ---------
-// Sending
-// ---------
-
-type HttpBuilder<'context when 'context :> IToRequest> with
-    
-    [<CustomOperation("send")>]
-    member this.Send(builder: HttpBuilder<_>) =
-        builder.Context |> Request.send
-    
-    [<CustomOperation("sendAsync")>]
-    member this.SendAsync(builder: HttpBuilder<_>) =
-        builder.Context |> Request.sendAsync
-
-
-// ---------
 // FSI / Print
 // ---------
 

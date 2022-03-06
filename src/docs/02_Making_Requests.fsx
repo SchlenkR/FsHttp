@@ -23,23 +23,24 @@ Build up a GET request:
 *)
 
 http {
-    GET "https://reqres.in/api/users"
+    GET "https://myApi"
 }
+|> Request.send
 
 (**
 Add headers:
 *)
 http {
-    GET "https://reqres.in/api/users"
+    GET "https://myApi"
     CacheControl "no-cache"
 }
+|> Request.send
 
 (**
-Here is an example of a POST with JSON as body:
+POST a JSON:
 *)
 http {
-    POST "https://reqres.in/api/users"
-    CacheControl "no-cache"
+    POST "https://myApi"
 
     // use "body" keyword to start specifying body properties
     body
@@ -50,23 +51,26 @@ http {
     }
     """
 }
+|> Request.send
 
 
 (**
-## Verb-First Requests (Syntax)
-
-Alternatively, you can write the verb first.
-Note that computation expressions must not be empty, so you
-have to write at least 'send'.
-
+POST of form data:
 *)
+http {
+    POST "https://myApi"
 
-get "https://reqres.in/api/users" { send }
-
-get "https://reqres.in/api/users" {
-    CacheControl "no-cache"
-    send
+    // use "body" keyword to start specifying body properties
+    body
+    json """
+    {
+        "name": "morpheus",
+        "job": "leader"
+    }
+    """
 }
+|> Request.send
+
 
 
 (**
@@ -75,11 +79,16 @@ get "https://reqres.in/api/users" {
 You can split URL query parameters or comment lines out by using F# line-comment syntax.
 Line breaks and trailing or leading spaces will be removed:
 *)
-get "https://reqres.in/api/users
+http {
+    GET "https://myApi
             ?page=2
             //&skip=5
-            &delay=3" {
-    send }
+            &delay=3"
+}
+|> Request.send
 
 
 // TODO: Document 'query' operation
+
+// TODO: A config example
+
