@@ -4,6 +4,7 @@ open System.Net.Http
 open System.Threading
 
 open FsUnit
+open FsHttp
 open FsHttp.DslCE
 open FsHttp.Tests.Server
 
@@ -32,6 +33,7 @@ let [<TestCase>] ``Inject custom HttpClient`` () =
         config_setHttpClient httpClient
         GET "http://google.com"
     }
+    |> Request.send
     |> ignore
     
     intercepted |> should equal true
