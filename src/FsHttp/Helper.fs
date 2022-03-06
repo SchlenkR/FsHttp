@@ -7,23 +7,21 @@ let base64Encoding = Encoding.GetEncoding("ISO-8859-1")
 
 [<RequireQualifiedAccess>]
 module String =
-
-    let urlEncode (s: string) = System.Web.HttpUtility.UrlEncode(s)
-
+    let urlEncode (s: string) =
+        System.Web.HttpUtility.UrlEncode(s)
     let toBase64 (s: string) =
         s
         |> base64Encoding.GetBytes
         |> Convert.ToBase64String
-
     let fromBase64 (s: string) =
         s
         |> Convert.FromBase64String
         |> base64Encoding.GetString
-
-    let substring (s:string) maxLength = string(s.Substring(0, Math.Min(maxLength, s.Length)))
+    let substring (s:string) maxLength =
+        string(s.Substring(0, Math.Min(maxLength, s.Length)))
 
 [<RequireQualifiedAccess>]
-module Map =
+module internal Map =
     let union (m1: Map<'k, 'v>) (s: seq<'k * 'v>) =
         seq {
             yield! m1 |> Seq.map (fun kvp -> kvp.Key, kvp.Value)
@@ -46,27 +44,11 @@ module Url =
 module HttpStatusCode =
     let show (this: System.Net.HttpStatusCode) = $"{int this} ({this})"
 
-[<RequireQualifiedAccess>]
-module Testing =
-    let inline raiseExn (msg: string) =
-        let otype =
-            [
-                "Xunit.Sdk.XunitException, xunit.assert"
-                "NUnit.Framework.AssertionException, nunit.framework"
-                "Expecto.AssertException, expecto"
-            ]
-            |> List.tryPick(System.Type.GetType >> Option.ofObj)
-        match otype with
-        | None -> failwith msg
-        | Some t ->
-            let ctor = t.GetConstructor [| typeof<string> |]
-            ctor.Invoke [| msg |] :?> exn |> raise
-
 module Result =
     let raiseOnError (r: Result<'a, 'b>) =
         match r with
         | Ok value -> value
-        | Error value -> Testing.raiseExn $"{value}"
+        | Error value -> failwith $"'Error' result: {value}"
 
 module Stream =
     open System.IO

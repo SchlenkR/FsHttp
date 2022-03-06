@@ -5,6 +5,20 @@ open System.Text
 open Suave
 open Suave.Utils.Collections
 
+let inline raiseExn (msg: string) =
+    let otype =
+        [
+            "Xunit.Sdk.XunitException, xunit.assert"
+            "NUnit.Framework.AssertionException, nunit.framework"
+            "Expecto.AssertException, expecto"
+        ]
+        |> List.tryPick(System.Type.GetType >> Option.ofObj)
+    match otype with
+    | None -> failwith msg
+    | Some t ->
+        let ctor = t.GetConstructor [| typeof<string> |]
+        ctor.Invoke [| msg |] :?> exn |> raise
+
 let joinLines lines = String.concat "\n" lines
 let keyNotFoundString = "KEY_NOT_FOUND"
 let query key (r: HttpRequest) = defaultArg (Option.ofChoice (r.query ^^ key)) keyNotFoundString

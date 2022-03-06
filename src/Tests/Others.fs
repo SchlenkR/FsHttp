@@ -3,6 +3,7 @@
 open FsUnit
 open FsHttp
 open FsHttp.DslCE
+open FsHttp.Tests
 open FsHttp.Tests.Server
 
 open NUnit.Framework
@@ -56,7 +57,7 @@ let [<TestCase>] ``Custom Headers``() =
             r.header customHeaderKey
             |> function 
                 | Choice1Of2 v -> v 
-                | Choice2Of2 e -> raise (Helper.Testing.raiseExn $"Failed {e}")
+                | Choice2Of2 e -> raise (TestHelper.raiseExn $"Failed {e}")
             |> OK)
         |> serve
 
