@@ -55,6 +55,7 @@ Upgrading to v9
 * Renamed `Request.buildAsync` -> `Request.toAsync`
 * Removed `send` and `sendAsync` builder methods
 * Changed request and response printing (mostly used in FSI)
+* Printing related custom operations change in names and behaviour
 
 
 Building
