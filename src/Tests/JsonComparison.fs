@@ -1,5 +1,6 @@
 ﻿module FsHttp.Tests.``Json Comparison``
 
+open System
 open FSharp.Data
 open FsHttp
 open FsUnit
@@ -21,7 +22,7 @@ let [<TestCase>] ``Simple property as subset``() =
         |> JsonValue.Parse
         |> Json.expectJsonExact expectedJson
         |> ignore)
-    |> shouldFail
+    |> should throw typeof<Exception>
 
 let [<TestCase>] ``Property names are case sensitive``() =
     
@@ -34,7 +35,7 @@ let [<TestCase>] ``Property names are case sensitive``() =
         |> Json.assertJsonSubset expectedJson
         |> ignore
     )
-    |> shouldFail
+    |> should throw typeof<Exception>
 
     (fun () -> 
         referenceJson 
@@ -42,7 +43,7 @@ let [<TestCase>] ``Property names are case sensitive``() =
         |> Json.assertJsonExact expectedJson
         |> ignore
     )
-    |> shouldFail
+    |> should throw typeof<Exception>
 
 let [<TestCase>] ``Property values are case sensitive``() =
     
@@ -55,7 +56,7 @@ let [<TestCase>] ``Property values are case sensitive``() =
         |> Json.assertJsonSubset expectedJson
         |> ignore
     )
-    |> shouldFail
+    |> should throw typeof<Exception>
 
     (fun () -> 
         referenceJson 
@@ -63,7 +64,7 @@ let [<TestCase>] ``Property values are case sensitive``() =
         |> Json.assertJsonExact expectedJson
         |> ignore
     )
-    |> shouldFail
+    |> should throw typeof<Exception>
     
 let [<TestCase>] ``Arrays``() =
     
@@ -79,7 +80,7 @@ let [<TestCase>] ``Arrays``() =
         |> JsonValue.Parse
         |> Json.assertJson RespectOrder Subset """ [ 2, 3, 1 ] """
         |> ignore)
-    |> shouldFail
+    |> should throw typeof<Exception>
     
     referenceJson 
     |> JsonValue.Parse
@@ -92,7 +93,7 @@ let [<TestCase>] ``Arrays``() =
         |> Json.assertJsonExact """ [ 2, 3, 1 ] """
         |> ignore
     )
-    |> shouldFail
+    |> should throw typeof<Exception>
     
     (fun () -> 
         referenceJson 
@@ -100,7 +101,7 @@ let [<TestCase>] ``Arrays``() =
         |> Json.assertJson RespectOrder Exact """ [ 2, 3, 1, 5, 4 ] """
         |> ignore
     )
-    |> shouldFail
+    |> should throw typeof<Exception>
     
     referenceJson 
     |> JsonValue.Parse
@@ -121,14 +122,14 @@ let [<TestCase>] ``Exact Match Simple``() =
         |> Json.assertJsonExact """ { "a": 1, "b": 2 } """
         |> ignore
     )
-    |> shouldFail
+    |> should throw typeof<Exception>
     
     (fun () -> 
         """ { "a": 1, "b": 2 } """
         |> JsonValue.Parse
         |> Json.assertJsonExact """ { "a": 1, "b": 2, "c": 3 } """
         |> ignore)
-    |> shouldFail
+    |> should throw typeof<Exception>
     
     """ { "a": 1, "b": { "ba": 3, "bb": 4} } """
     |> JsonValue.Parse
@@ -153,7 +154,7 @@ let [<TestCase>] ``Exact Match Complex``() =
         |> Json.assertJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4 } } """
         |> ignore
     )
-    |> shouldFail
+    |> should throw typeof<Exception>
     
     (fun () -> 
         """ { "a": 1, "b": { "ba": 3, "bb": 4 } } """
@@ -161,4 +162,4 @@ let [<TestCase>] ``Exact Match Complex``() =
         |> Json.assertJsonExact """ { "a": 1, "b": { "ba": 3, "bb": 4, "bc": 5 } } """
         |> ignore
     )
-    |> shouldFail
+    |> should throw typeof<Exception>

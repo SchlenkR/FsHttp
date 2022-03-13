@@ -28,6 +28,7 @@
     <Compile Include="ExtendingBuilders.fs" />
     <Compile Include="Others.fs" />
     <Compile Include="Expectations.fs" />
+    <Compile Include="Printing.fs" />
     <Compile Include="JsonComparison.fs" />
   </ItemGroup>
   <ItemGroup>

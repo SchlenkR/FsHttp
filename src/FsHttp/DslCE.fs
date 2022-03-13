@@ -14,7 +14,7 @@ type HttpBuilder<'context when 'context :> IToRequest>(context: 'context) =
     member this.Context = context
     member this.Yield(_) = HttpBuilder context
     interface IToRequest with
-        member this.ToRequest() = context.ToRequest()
+        member this.Transform() = context.Transform()
 let http = HttpBuilder(defaultStartingContext())
 
 
@@ -321,17 +321,17 @@ type HttpBuilder<'context when 'context :> IToRequest> with
 // ---------
 // Body
 // ---------
-        
+
 type HttpBuilder<'context when 'context :> IToRequest> with
 
     // we keep this in for better intellisense support (eventhough it's redundant)
     [<CustomOperation("body")>]
     member this.Body<'toBodyContext
             when 'toBodyContext :> IToRequest
-            and 'toBodyContext :> IToBodyContext>
+            and 'toBodyContext :> IToBodyContext
+            >
         (builder: HttpBuilder<'toBodyContext>) 
-        =
-        builder.Context.ToBodyContext() |> HttpBuilder
+        = (builder.Context :> IToBodyContext).Transform() |> HttpBuilder
 
     [<CustomOperation("content")>]
     member this.Content(builder: HttpBuilder<_>, contentType, data) =
@@ -396,10 +396,10 @@ type HttpBuilder<'context when 'context :> IToRequest> with
     [<CustomOperation("multipart")>]
     member this.Multipart<'toMultipartContext
             when 'toMultipartContext :> IToRequest
-            and 'toMultipartContext :> IToMultipartContext>
+            and 'toMultipartContext :> IToMultipartContext
+            >
         (builder: HttpBuilder<'toMultipartContext>)
-        =
-        builder.Context.ToMultipartContext() |> HttpBuilder
+        = (builder.Context :> IToMultipartContext).Transform() |> HttpBuilder
 
     [<CustomOperation("part")>]
     member this.Part(builder: HttpBuilder<_>, content, defaultContentType, name) =
@@ -432,13 +432,13 @@ type HttpBuilder<'context when 'context :> IToRequest> with
 
 type HttpBuilder<'context when 'context :> IToRequest> with
 
-    [<CustomOperation("config_set")>]
-    member inline this.Set(builder: HttpBuilder<_>, configTransformer) =
-        Dsl.Config.set configTransformer builder.Context |> HttpBuilder
-
     [<CustomOperation("config_update")>]
     member inline this.Update(builder: HttpBuilder<_>, configTransformer) =
         Dsl.Config.update configTransformer builder.Context |> HttpBuilder
+
+    [<CustomOperation("config_set")>]
+    member inline this.Set(builder: HttpBuilder<_>, configTransformer) =
+        Dsl.Config.set configTransformer builder.Context |> HttpBuilder
 
     // TODO: Provide certStrategy configs
     [<CustomOperation("config_ignoreCertIssues")>]
@@ -483,10 +483,8 @@ type HttpBuilder<'context when 'context :> IToRequest> with
 
 
 // ---------
-// FSI / Print
+// Print
 // ---------
-
-open FsHttp.Fsi
 
 let inline private modifyPrintHint f (context: ^t when ^t :> IToRequest) =
     let transformPrintHint (config: Config) = { config with printHint = f config.printHint }
@@ -495,30 +493,38 @@ let inline private modifyPrintHint f (context: ^t when ^t :> IToRequest) =
 
 type HttpBuilder<'context when 'context :> IToRequest> with
 
-    [<CustomOperation("raw")>]
-    member inline this.Raw(builder: HttpBuilder<_>) =
-        modifyPrintHint rawPrinterTransformer builder.Context
+    [<CustomOperation("print_withConfig")>]
+    member inline this.WithConfig(builder: HttpBuilder<_>, updatePrintHint) =
+        Dsl.Print.withConfig updatePrintHint builder.Context |> HttpBuilder
 
-    [<CustomOperation("headerOnly")>]
+    [<CustomOperation("print_withRequestPrintMode")>]
+    member inline this.WithRequestPrintMode(builder: HttpBuilder<_>, updatePrintMode) =
+        Dsl.Print.withRequestPrintMode updatePrintMode builder.Context |> HttpBuilder
+
+    [<CustomOperation("print_withResponsePrintMode")>]
+    member inline this.WithResponsePrintMode(builder: HttpBuilder<_>, updatePrintMode) =
+        Dsl.Print.withResponsePrintMode updatePrintMode builder.Context |> HttpBuilder
+
+    [<CustomOperation("print_withResponseBody")>]
+    member inline this.WithResponseBody(builder: HttpBuilder<_>, updateBodyPrintMode) =
+        Dsl.Print.withResponseBody updateBodyPrintMode builder.Context |> HttpBuilder
+    
+    [<CustomOperation("print_useObjectFormatting")>]
+    member inline this.UseObjectFormatting(builder: HttpBuilder<_>) =
+        Dsl.Print.useObjectFormatting builder.Context |> HttpBuilder
+    
+    [<CustomOperation("print_headerOnly")>]
     member inline this.HeaderOnly(builder: HttpBuilder<_>) =
-        modifyPrintHint headerOnlyPrinterTransformer builder.Context
-
-    [<CustomOperation("show")>]
-    member inline this.Show(builder: HttpBuilder<_>, maxLength) =
-        modifyPrintHint (showPrinterTransformer maxLength) builder.Context
-
-    [<CustomOperation("preview")>]
-    member inline this.Preview(builder: HttpBuilder<_>) =
-        modifyPrintHint previewPrinterTransformer builder.Context
-
-    [<CustomOperation("prv")>]
-    member inline this.Prv(builder: HttpBuilder<_>) =
-        modifyPrintHint previewPrinterTransformer builder.Context
-
-    [<CustomOperation("expand")>]
-    member inline this.Expand(builder: HttpBuilder<_>) =
-        modifyPrintHint expandPrinterTransformer builder.Context
-
-    [<CustomOperation("exp")>]
-    member inline this.Exp(builder: HttpBuilder<_>) =
-        modifyPrintHint expandPrinterTransformer builder.Context
+        Dsl.Print.headerOnly builder.Context |> HttpBuilder
+    
+    [<CustomOperation("print_withResponseBodyLength")>]
+    member inline this.WithResponseBodyLength(builder: HttpBuilder<_>, maxLength) =
+        Dsl.Print.withResponseBodyLength maxLength builder.Context |> HttpBuilder
+    
+    [<CustomOperation("print_withResponseBodyFormat")>]
+    member inline this.WithResponseBodyFormat(builder: HttpBuilder<_>, format) =
+        Dsl.Print.withResponseBodyFormat format builder.Context |> HttpBuilder
+    
+    [<CustomOperation("print_withResponseBodyExpanded")>]
+    member inline this.WithResponseBodyExpanded(builder: HttpBuilder<_>) =
+        Dsl.Print.withResponseBodyExpanded builder.Context |> HttpBuilder

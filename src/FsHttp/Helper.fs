@@ -20,6 +20,14 @@ module String =
     let substring (s:string) maxLength =
         string(s.Substring(0, Math.Min(maxLength, s.Length)))
 
+type internal StringBuilder with
+    member sb.append (s:string) = sb.Append s |> ignore
+    member sb.appendLine (s:string) = sb.AppendLine s |> ignore
+    member sb.newLine() = sb.appendLine ""
+    member sb.appendSection (s:string) =
+        sb.appendLine s
+        String([0..s.Length] |> List.map (fun _ -> '-') |> List.toArray) |> sb.appendLine
+
 [<RequireQualifiedAccess>]
 module internal Map =
     let union (m1: Map<'k, 'v>) (s: seq<'k * 'v>) =
@@ -45,10 +53,10 @@ module HttpStatusCode =
     let show (this: System.Net.HttpStatusCode) = $"{int this} ({this})"
 
 module Result =
-    let raiseOnError (r: Result<'a, 'b>) =
+    let getValueOrThrow ex (r: Result<'a, 'b>) =
         match r with
         | Ok value -> value
-        | Error value -> failwith $"'Error' result: {value}"
+        | Error value -> raise (ex value)
 
 module Stream =
     open System.IO

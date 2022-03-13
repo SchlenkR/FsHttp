@@ -20,7 +20,7 @@ let [<TestCase>] ``Expect status code``() =
     |> Response.assertHttpStatusCode System.Net.HttpStatusCode.BadGateway
     |> ignore
 
-    Assert.Throws<AssertionException>(fun() ->
+    Assert.Throws<StatusCodeExpectedxception>(fun() ->
         http { GET (url @"") }
         |> Request.send
         |> Response.assertHttpStatusCode System.Net.HttpStatusCode.Ambiguous

@@ -54,6 +54,7 @@ Upgrading to v9
 * Renamed type `LazyHttpBuilder` -> `HttpBuilder`
 * Renamed `Request.buildAsync` -> `Request.toAsync`
 * Removed `send` and `sendAsync` builder methods
+* Changed request and response printing (mostly used in FSI)
 
 
 Building

@@ -15,13 +15,9 @@ open FsHttp.Domain
 module Http =
 
     let method (method: string) (url: string) =
-
-        // FSI init HACK
-        Fsi.Init.init()
-
         let formattedUrl =
             url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
-            |> Seq.map (fun x -> x.Trim())
+            |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
             |> Seq.filter (fun x -> not (x.StartsWith("//")))
             |> Seq.reduce (+)
 
@@ -246,7 +242,7 @@ module Body =
 
     /// Adds a header
     let header name value (context: IToBodyContext) =
-        let context = context.ToBodyContext()
+        let context = context.Transform()
         { context with 
             content = { context.content with
                           headers = Map.union context.header.headers [ name, value ] } }
@@ -257,7 +253,7 @@ module Body =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (contentType: string) (context: IToBodyContext) =
-        let context = context.ToBodyContext()
+        let context = context.Transform()
         { context with content = { context.content with contentType = Some contentType } }
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
@@ -284,7 +280,7 @@ module Body =
         header "Content-Range" range context 
 
     let content defaultContentType (data: ContentData) (context: IToBodyContext) =
-        let context = context.ToBodyContext()
+        let context = context.Transform()
         let content = context.content
         let contentType = content.contentType |> Option.defaultValue defaultContentType
         { context with
@@ -314,7 +310,6 @@ module Body =
         content MimeTypes.octetStream (FileContent path) context
 
 
-[<AutoOpen>]
 module Multipart =
     
     let part
@@ -323,7 +318,7 @@ module Multipart =
             (name: string)
             (context: IToMultipartContext)
         =
-        let context = context.ToMultipartContext()
+        let context = context.Transform()
         let contentType =
             match context.currentPartContentType with
             | None -> defaultContentType
@@ -338,7 +333,7 @@ module Multipart =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (contentType: string) (context: IToMultipartContext) =
-        let context = context.ToMultipartContext()
+        let context = context.Transform()
         { context with currentPartContentType = Some contentType }
 
     // -----
@@ -362,56 +357,82 @@ module Multipart =
         part (StreamContent value) None name context
 
 
-[<AutoOpen>]
 module Config =
 
-    let inline update (f: ConfigTransformer) (context: ^t) : 't =
-        (^t: (member Configure: (ConfigTransformer) -> ^t) (context, f))
+    let inline update transformer (context: IConfigure<ConfigTransformer, _>)=
+        context.Configure transformer
 
-    let inline set (config: Config) (context: ^t) : 't =
+    let inline set (config: Config) context =
         update (fun _ -> config) context
 
-    let inline ignoreCertIssues (context: ^t) =
+    let inline ignoreCertIssues context =
         update (fun config -> { config with certErrorStrategy = AlwaysAccept }) context
 
-    let inline timeout value (context: ^t) =
+    let inline timeout value context =
         update (fun config -> { config with timeout = value }) context
 
-    let inline timeoutInSeconds value (context: ^t) =
+    let inline timeoutInSeconds value context =
         update (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
 
-    let inline setHttpClient (client: HttpClient) (context: ^t) =
+    let inline setHttpClient (client: HttpClient) context =
         update (fun config -> { config with httpClientFactory = Some (fun () -> client) }) context
 
-    let inline setHttpClientFactory (clientFactory: unit -> HttpClient) (context: ^t) =
+    let inline setHttpClientFactory (clientFactory: unit -> HttpClient) context =
         update (fun config -> { config with httpClientFactory = Some clientFactory }) context
 
-    let inline transformHttpClient transformer (context: ^t) =
+    let inline transformHttpClient transformer context =
         update (fun config -> { config with httpClientTransformer = Some transformer }) context
 
-    let inline transformHttpRequestMessage transformer (context: ^t) =
+    let inline transformHttpRequestMessage transformer context =
         update (fun config -> { config with httpMessageTransformer = Some transformer }) context
 
-    let inline transformHttpClientHandler transformer (context: ^t) =
+    let inline transformHttpClientHandler transformer context =
         update (fun config -> { config with httpClientHandlerTransformer = Some transformer }) context
 
-    let inline proxy url (context: ^t) =
+    let inline proxy url context =
         update (fun config -> { config with proxy = Some { url = url; credentials = None } }) context
 
-    let inline proxyWithCredentials url credentials (context: ^t) =
+    let inline proxyWithCredentials url credentials context =
         update (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) context 
 
 
-[<AutoOpen>]
-module Fsi =
+module Print =
 
-    open FsHttp.Fsi
+    let inline withConfig transformer (context: IConfigure<PrintHintTransformer, _>) =
+        context.Configure transformer
+    
+    let inline withRequestPrintMode updatePrintMode context =
+        context |> withConfig (fun printHint ->
+            { printHint with requestPrintMode = updatePrintMode printHint.requestPrintMode })
+    
+    let inline withResponsePrintMode updatePrintMode context =
+        context |> withConfig (fun printHint ->
+            { printHint with responsePrintMode = updatePrintMode printHint.responsePrintMode })
+    
+    let inline withResponseBody updateBodyPrintMode context =
+        context |> withResponsePrintMode (fun printMode ->
+            match printMode with
+            | AsObject | HeadersOnly -> updateBodyPrintMode Config.defaultHeadersAndBodyPrintMode
+            | HeadersAndBody x -> updateBodyPrintMode x
+            |> HeadersAndBody)
 
-    // overrides for print modifier in DSL
-    let inline raw context = Request.send context |> modifyPrinter rawPrinterTransformer
-    let inline headerOnly context = Request.send context |> modifyPrinter headerOnlyPrinterTransformer
-    let inline show maxLength context = Request.send context |> modifyPrinter (showPrinterTransformer maxLength)
-    let inline preview context = Request.send context |> modifyPrinter previewPrinterTransformer
-    let inline prv context = preview context
-    let inline expand context = Request.send context |> modifyPrinter expandPrinterTransformer
-    let inline exp context = expand context
+    let inline useObjectFormatting context =
+        context 
+        |> withRequestPrintMode (fun _ -> AsObject)
+        |> withResponsePrintMode (fun _ -> AsObject)
+    
+    let inline headerOnly context =
+        context 
+        |> withResponsePrintMode (fun _ -> HeadersOnly)
+    
+    let inline withResponseBodyLength maxLength context =
+        context 
+        |> withResponseBody (fun bodyPrintMode -> { bodyPrintMode with maxLength = Some maxLength })
+    
+    let inline withResponseBodyFormat format context = 
+        context 
+        |> withResponseBody (fun bodyPrintMode -> { bodyPrintMode with format = format })
+    
+    let inline withResponseBodyExpanded context =
+        context 
+        |> withResponseBody (fun bodyPrintMode -> { bodyPrintMode with maxLength = None })

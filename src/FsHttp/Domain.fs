@@ -2,25 +2,24 @@
 module FsHttp.Domain
 
 open System
-open System.Net.Http
 
-type ContentPrintHint =
-    { isEnabled: bool
-      format: bool
-      maxLength: int }
+type StatusCodeExpectation =
+    { expected: System.Net.HttpStatusCode list
+      actual: System.Net.HttpStatusCode
+    }
 
-type RequestPrintHint = 
-    { printHeader: bool
-      printBody: bool }
+exception StatusCodeExpectedxception of StatusCodeExpectation
 
-type ResponsePrintHint =
-    { printHeader: bool
-      printContent: ContentPrintHint }
-
+type BodyPrintMode = { format: bool; maxLength: int option }
+type PrintMode<'bodyPrintMode> =
+    | AsObject
+    | HeadersOnly
+    | HeadersAndBody of BodyPrintMode
 type PrintHint = 
-    { isEnabled: bool
-      requestPrintHint: RequestPrintHint
-      responsePrintHint: ResponsePrintHint }
+    { printDebugMessages: bool
+      requestPrintMode: PrintMode<unit>
+      responsePrintMode: PrintMode<BodyPrintMode>
+    }
 
 type CertErrorStrategy =
     | Default
@@ -28,166 +27,35 @@ type CertErrorStrategy =
 
 type Proxy =
     { url: string
-      credentials: System.Net.ICredentials option }
+      credentials: System.Net.ICredentials option
+    }
 
 // TODO: Get rid of all the boolean switches and use options instead.
 type Config =
     { timeout: TimeSpan
       printHint: PrintHint
-      printDebugMessages: bool
-      httpMessageTransformer: (HttpRequestMessage -> HttpRequestMessage) option
+      httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage) option
 #if NETSTANDARD_2
-      httpClientHandlerTransformer: (HttpClientHandler -> HttpClientHandler) option
+      httpClientHandlerTransformer: (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
 #else
-      httpClientHandlerTransformer: (SocketsHttpHandler -> SocketsHttpHandler) option
+      httpClientHandlerTransformer: (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
 #endif
-      httpClientTransformer: (HttpClient -> HttpClient) option
-      httpCompletionOption: HttpCompletionOption
+      httpClientTransformer: (System.Net.Http.HttpClient -> System.Net.Http.HttpClient) option
+      httpCompletionOption: System.Net.Http.HttpCompletionOption
       proxy: Proxy option
       certErrorStrategy: CertErrorStrategy
-      httpClientFactory: (unit -> HttpClient) option }
+      httpClientFactory: (unit -> System.Net.Http.HttpClient) option
+    }
 
 type ConfigTransformer = Config -> Config
 
+type PrintHintTransformer = PrintHint -> PrintHint
 
 type FsHttpUrl =
     { address: string
-      additionalQueryParams: Map<string, string> }
-
-type Header =
-    { url: FsHttpUrl
-      method: HttpMethod
-      headers: Map<string, string>
-      // We use a .Net type here, which we never do in other places.
-      // Since Cookie is record style, I see no problem here.
-      cookies: System.Net.Cookie list }
-
-type ContentData =
-    | StringContent of string
-    | ByteArrayContent of byte array
-    | StreamContent of System.IO.Stream
-    | FormUrlEncodedContent of Map<string, string>
-    | FileContent of string
-
-type BodyContent =
-    { contentData: ContentData
-      headers: Map<string, string>
-      // TODO: remove this
-      contentType: string option }
-
-type MultipartContent =
-    { contentData:
-        {| name: string
-           contentType: string option
-           content: ContentData |} list
-      headers: Map<string, string>
-      contentType: string }
-
-type Request =
-    { header: Header
-      content: RequestContent
-      config: Config }
-
-and RequestContent =
-| Empty
-| Single of BodyContent
-| Multi of MultipartContent
-        
-
-
-type StartingContext =
-    { config: Config }
-    member this.Configure(transformConfig: ConfigTransformer) =
-        { this with config = transformConfig this.config }
-    // TODO: Get rid of IToRequest and failwith
-    interface IToRequest with
-        member _.ToRequest() = failwith "StartingContext can't be transformed."
-
-and HeaderContext =
-    { header: Header
-      config: Config }
-    interface IToRequest with
-        member this.ToRequest() =
-            { Request.header = this.header
-              content = Empty
-              config = this.config }
-    interface IToBodyContext with
-        member this.ToBodyContext() =
-            { header = this.header
-              content =
-                { BodyContent.contentData = ByteArrayContent [| |]
-                  headers = Map.empty
-                  contentType = None }
-              config = this.config }
-    interface IToMultipartContext with
-        member this.ToMultipartContext() =
-            let boundary = Guid.NewGuid().ToString("N")
-            { MultipartContext.header = this.header
-              content =
-                { MultipartContent.contentData = []
-                  headers = Map.empty
-                  contentType = $"multipart/form-data; boundary={boundary}" }
-              currentPartContentType = None
-              config = this.config }
-    member this.Configure(transformConfig: ConfigTransformer) =
-        { this with config = transformConfig this.config }
-
-and BodyContext =
-    { header: Header
-      content: BodyContent
-      config: Config }
-    interface IToRequest with
-        member this.ToRequest() =
-            { Request.header = this.header
-              content = Single this.content
-              config = this.config }
-    interface IToBodyContext with
-        member this.ToBodyContext() = this
-    member this.Configure(transformConfig: ConfigTransformer) =
-        { this with config = transformConfig this.config }
-        
-and MultipartContext =
-    { header: Header
-      content: MultipartContent
-      currentPartContentType : string option
-      config: Config }
-    interface IToRequest with
-        member this.ToRequest() =
-            { Request.header = this.header
-              content = Multi this.content
-              config = this.config }
-    interface IToMultipartContext with
-        member this.ToMultipartContext() = this
-    member this.Configure(transformConfig: ConfigTransformer) =
-        { this with config = transformConfig this.config }
-
-and IToRequest =
-    abstract member ToRequest : unit -> Request
-
-and IToBodyContext =
-    abstract member ToBodyContext : unit -> BodyContext
-
-and IToMultipartContext =
-    abstract member ToMultipartContext : unit -> MultipartContext
-
-
-type Response = 
-    { request: Request
-      requestMessage: System.Net.Http.HttpRequestMessage
-      content: System.Net.Http.HttpContent
-      headers: System.Net.Http.Headers.HttpResponseHeaders
-      reasonPhrase: string
-      statusCode: System.Net.HttpStatusCode
-      version: Version
-      originalHttpRequestMessage: System.Net.Http.HttpRequestMessage
-      originalHttpResponseMessage: System.Net.Http.HttpResponseMessage
-      dispose: unit -> unit }
-    interface IDisposable with
-        member this.Dispose() = this.dispose()
-
-
-module FsHttpUrl =
-    let toUriString (url: FsHttpUrl) =
+      additionalQueryParams: Map<string, string>
+    }
+    member url.ToUriString() =
         let uri = UriBuilder(url.address)
         let queryParamsString = 
             url.additionalQueryParams 
@@ -200,3 +68,187 @@ module FsHttpUrl =
             | "", q -> $"?{q}"
             | s, q -> $"{s}&{q}"
         uri.ToString()
+
+
+type Header =
+    { url: FsHttpUrl
+      method: System.Net.Http.HttpMethod
+      headers: Map<string, string>
+      // We use a .Net type here, which we never do in other places.
+      // Since Cookie is record style, I see no problem here.
+      cookies: System.Net.Cookie list
+    }
+
+type ContentData =
+    | StringContent of string
+    | ByteArrayContent of byte array
+    | StreamContent of System.IO.Stream
+    | FormUrlEncodedContent of Map<string, string>
+    | FileContent of string
+
+type BodyContent =
+    { contentData: ContentData
+      headers: Map<string, string>
+      // TODO: remove this
+      contentType: string option
+    }
+
+type MultipartContent =
+    { contentData:
+        {| name: string
+           contentType: string option
+           content: ContentData |} list
+      headers: Map<string, string>
+      contentType: string
+    }
+
+type RequestContent =
+    | Empty
+    | Single of BodyContent
+    | Multi of MultipartContent
+
+type Request =
+    { header: Header
+      content: RequestContent
+      config: Config
+    }
+    member this.Configure(transformConfig: ConfigTransformer) =
+        { this with config = transformConfig this.config }
+    member this.ConfigurePrintHint(transformPrintHint: PrintHintTransformer) =
+        { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
+
+
+// doesn't work; see: https://github.com/dotnet/fsharp/issues/12814
+////type ITransformTo<'t> =
+////    abstract member Transform : unit -> 't
+type IToRequest =
+    abstract member Transform : unit -> Request
+and IToBodyContext =
+    abstract member Transform : unit -> BodyContext
+and IToMultipartContext =
+    abstract member Transform : unit -> MultipartContext
+
+and IConfigure<'t, 'a> =
+    abstract member Configure : 't -> 'a
+
+and StartingContext =
+    { config: Config
+    }
+    interface IConfigure<ConfigTransformer, StartingContext> with
+        member this.Configure(transformConfig) =
+            { this with config = transformConfig this.config }
+    interface IConfigure<PrintHintTransformer, StartingContext> with
+        member this.Configure(transformPrintHint) =
+            { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
+    // TODO: Get rid of Transform and failwith
+    interface IToRequest with
+        member _.Transform() = failwith "StartingContext can't be transformed."
+
+and HeaderContext =
+    { header: Header
+      config: Config
+    }
+    interface IConfigure<ConfigTransformer, HeaderContext> with
+        member this.Configure(transformConfig) =
+            { this with config = transformConfig this.config }
+    interface IConfigure<PrintHintTransformer, HeaderContext> with
+        member this.Configure(transformPrintHint) =
+            { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
+    interface IToRequest with
+        member this.Transform() =
+            { Request.header = this.header
+              content = Empty
+              config = this.config
+            }
+    interface IToBodyContext with
+        member this.Transform() =
+            { header = this.header
+              content = {
+                  BodyContent.contentData = ByteArrayContent [| |]
+                  headers = Map.empty
+                  contentType = None
+              }
+              config = this.config
+            }
+    interface IToMultipartContext with
+        member this.Transform() =
+            let boundary = Guid.NewGuid().ToString("N")
+            { MultipartContext.header = this.header
+              content = { 
+                  MultipartContent.contentData = []
+                  headers = Map.empty
+                  contentType = $"multipart/form-data; boundary={boundary}"
+              }
+              currentPartContentType = None
+              config = this.config
+            }
+
+and BodyContext =
+    { header: Header
+      content: BodyContent
+      config: Config
+    }
+    interface IConfigure<ConfigTransformer, BodyContext> with
+        member this.Configure(transformConfig) =
+            { this with config = transformConfig this.config }
+    interface IConfigure<PrintHintTransformer, BodyContext> with
+        member this.Configure(transformPrintHint) =
+            { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
+    interface IToRequest with
+        member this.Transform() =
+            { Request.header = this.header
+              content = Single this.content
+              config = this.config
+            }
+    interface IToBodyContext with
+        member this.Transform() = this
+        
+and MultipartContext =
+    { header: Header
+      content: MultipartContent
+      currentPartContentType : string option
+      config: Config
+    }
+    interface IConfigure<ConfigTransformer, MultipartContext> with
+        member this.Configure(transformConfig) =
+            { this with config = transformConfig this.config }
+    interface IConfigure<PrintHintTransformer, MultipartContext> with
+        member this.Configure(transformPrintHint) =
+            { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
+    interface IToRequest with
+        member this.Transform() =
+            { Request.header = this.header
+              content = Multi this.content
+              config = this.config
+            }
+    interface IToMultipartContext with
+        member this.Transform() = this
+
+
+type Response = 
+    { request: Request
+      requestMessage: System.Net.Http.HttpRequestMessage
+      content: System.Net.Http.HttpContent
+      headers: System.Net.Http.Headers.HttpResponseHeaders
+      reasonPhrase: string
+      statusCode: System.Net.HttpStatusCode
+      version: Version
+      originalHttpRequestMessage: System.Net.Http.HttpRequestMessage
+      originalHttpResponseMessage: System.Net.Http.HttpResponseMessage
+      dispose: unit -> unit
+      printer: Response -> string
+    }
+    interface IConfigure<PrintHintTransformer, Response> with
+        member this.Configure(transformPrintHint) =
+            { this with
+                request =
+                    { this.request with
+                        config = { this.request.config with
+                                    printHint = transformPrintHint this.request.config.printHint
+                        }
+                }
+            }
+    interface IDisposable with
+        member this.Dispose() = this.dispose()
+    override this.ToString() =
+        this.printer this

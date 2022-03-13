@@ -6,6 +6,7 @@ open System.Net.Http
 open System.Net.Http.Headers
 open System.Threading
 
+open FsHttp
 open FsHttp.Domain
 
 let private TimeoutPropertyName = "RequestTimeout"
@@ -29,9 +30,9 @@ let private getRequestMessageProp<'a> (requestMessage: HttpRequestMessage) (prop
 
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
-    let request = request.ToRequest()
+    let request = request.Transform()
     let header = request.header
-    let requestMessage = new HttpRequestMessage(header.method, FsHttpUrl.toUriString header.url)
+    let requestMessage = new HttpRequestMessage(header.method, header.url.ToUriString())
     do setRequestMessageProp requestMessage TimeoutPropertyName request.config.timeout
 
     let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
@@ -144,8 +145,8 @@ let private getHttpClient =
 let toAsync (context: IToRequest) =
     async {
         let request,requestMessage = toRequestAndMessage context
-        if request.config.printDebugMessages then
-            printfn $"Sending request {request.header.method} {FsHttpUrl.toUriString request.header.url} ..."
+        if request.config.printHint.printDebugMessages then
+            printfn $"Sending request {request.header.method} {request.header.url.ToUriString()} ..."
         use finalRequestMessage = 
             let httpMessageTransformer = Option.defaultValue id request.config.httpMessageTransformer
             httpMessageTransformer requestMessage
@@ -162,8 +163,8 @@ let toAsync (context: IToRequest) =
         let! response =
             finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
             |> Async.AwaitTask
-        if request.config.printDebugMessages then
-            printfn $"{Helper.HttpStatusCode.show response.StatusCode} ({request.header.method} {FsHttpUrl.toUriString request.header.url})"
+        if request.config.printHint.printDebugMessages then
+            printfn $"{Helper.HttpStatusCode.show response.StatusCode} ({request.header.method} {request.header.url.ToUriString()})"
         let dispose () =
             do finalClient.Dispose()
             do response.Dispose()
@@ -177,7 +178,8 @@ let toAsync (context: IToRequest) =
                  version = response.Version
                  originalHttpRequestMessage = requestMessage
                  originalHttpResponseMessage = response
-                 dispose = dispose }
+                 dispose = dispose
+                 printer = Response.print }
     }
 
 /// Sends a context asynchronously.

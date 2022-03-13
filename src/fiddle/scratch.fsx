@@ -1,3 +1,4 @@
+
 #r "../FsHttp/bin/Debug/net5.0/FsHttp.dll"
 
 
@@ -7,9 +8,18 @@ open FsHttp.DslCE
 
 
 get "https://www.google.de" {
+    CacheControl "no-cache"
+}
+|> Request.send
+
+
+
+get "https://www.google.de" {
     multipart
     stringPart "" ""
 }
+|> Request.send
+
 
 http {
     DELETE $"..."

@@ -30,14 +30,13 @@
     <PackageReference Update="FSharp.Core" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MimeTypes.fs" />
     <Compile Include="Helper.fs" />
     <Compile Include="Json.fs" />
+    <Compile Include="MimeTypes.fs" />
     <Compile Include="Domain.fs" />
     <Compile Include="Config.fs" />
-    <Compile Include="Request.fs" />
     <Compile Include="Response.fs" />
-    <Compile Include="Fsi.fs" />
+    <Compile Include="Request.fs" />
     <Compile Include="Dsl.fs" />
     <Compile Include="DslCE.fs" />
     <Compile Include="Operators.fs" />
