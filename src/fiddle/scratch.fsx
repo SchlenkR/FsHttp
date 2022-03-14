@@ -1,9 +1,7 @@
 
 #r "../FsHttp/bin/Debug/net5.0/FsHttp.dll"
 
-
 open FsHttp
-open FsHttp.DslCE
 
 
 
@@ -13,8 +11,23 @@ get "https://www.google.de" {
 |> Request.send
 
 
+let a = get "https://www.google.de"
+let a' = get "https://www.google.de" :> IBuilder<HeaderContext>
+
+let x = a' {
+    multipart
+    stringPart "" ""
+}
 
 get "https://www.google.de" {
+    multipart
+    stringPart "" ""
+}
+|> Request.send
+
+
+http {
+    GET "https://www.google.de"
     multipart
     stringPart "" ""
 }
@@ -28,25 +41,20 @@ http {
 
 
 module Dsl =
-    open FsHttp
-    open FsHttp.Dsl
-    
-    Http.get "https://www.wikipedia.de"
+    get "https://www.wikipedia.de"
     |> Header.accept "application/text"
     |> Body.json "{}"
     |> Request.send
     |> ignore
 
-    Http.get "https://www.wikipedia.de"
+    get "https://www.wikipedia.de"
     |> Header.accept "text"
 
 
-open FsHttp
-open FsHttp.DslCE
 open FsHttp.Operators
 
 % get "https://www.wikipedia.de"
-|> Response.httpResponseMessage
+|> Response.asOriginalHttpResponseMessage
 
 
 
@@ -75,7 +83,7 @@ http {
 
 
 
-// retry
+// retry (TODO)
 let rec retry work resultOk retries = async {
     let! res = work
     if (resultOk res) || (retries = 0) then return res
@@ -131,7 +139,7 @@ http {
 
 
 get "http://localhost:5000/test/lines" {
-    timeoutInSeconds 20.0
+    config_timeoutInSeconds 20.0
 }
 |> Request.send
 |> Response.toStream
@@ -169,22 +177,6 @@ http {
     }
     """
 }
-
-// shortcuts
-open FsHttp.DslCE.Operators
-
-% get "https://reqres.in/api/users"
-
-Config.setDefaultConfig (fun config ->
-    printfn "%A" config
-    config)
-
-open FsHttp.Fsi
-
-Config.setDefaultConfig (fun config ->
-    { config with printHint = Fsi.previewPrinterTransformer config.printHint })
-
-
 
 
 

@@ -1,3 +1,4 @@
+[<AutoOpen>]
 module FsHttp.Dsl
 
 open System
@@ -6,8 +7,8 @@ open System.Net.Http
 open System.Text
 open System.Globalization
 
+open FsHttp
 open FsHttp.Helper
-open FsHttp.Domain
 
 
 /// Request constructors for RFC 2626 HTTP methods

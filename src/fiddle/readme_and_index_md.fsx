@@ -1,7 +1,6 @@
 #r "nuget: FsHttp"
 
 open FsHttp
-open FsHttp.DslCE
 
 http {
     POST "https://reqres.in/api/users"

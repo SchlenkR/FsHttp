@@ -12,7 +12,6 @@ index: 7
 #r "nuget: FSharp.Data"
 #r "../FsHttp/bin/Release/netstandard2.0/FsHttp.dll"
 open FsHttp
-open FsHttp.DslCE
 
 
 (**
@@ -21,9 +20,6 @@ open FsHttp.DslCE
 
 #r @"nuget: FsHttp"
 open FsHttp
-
-// Choose your style (here: Computation Expression)
-open FsHttp.DslCE
 
 
 (**
@@ -42,7 +38,7 @@ Some predefined printers are defined in ```./src/FsHttp/DslCE.fs, module Fsi```
 http {
     GET "https://reqres.in/api/users"
     CacheControl "no-cache"
-    exp
+    print_withResponseBodyExpanded
 }
 
 

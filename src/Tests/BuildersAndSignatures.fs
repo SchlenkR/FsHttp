@@ -2,7 +2,6 @@
 
 open System.Net.Http
 open FsHttp
-open FsHttp.DslCE
 
 let signatures () =
     let _: IToRequest = http { GET "" }
@@ -12,3 +11,85 @@ let signatures () =
     let _: Async<Response> = http { GET "" } |> Request.sendAsync
     let _: Response = http { GET "" } |> Request.send
     ()
+
+
+let ``Shortcuts work - had problems with resolution before`` () =
+    get "https://www.google.de" {
+        multipart
+        stringPart "" ""
+    }
+
+(*
+let ``Explicit 'body' keyword is needed for describing request body`` () =
+    http {
+        GET ""
+        json ""
+    }
+*)
+
+(*
+let ``Explicit 'multibody' keyword is needed for describing request body`` () =
+    http {
+        GET ""
+        stringPart ""
+    }
+*)
+
+let ``General configuration is possible on all builder contextx`` () =
+    http {
+        config_timeoutInSeconds 1.0
+        GET "http://myService.com"
+    }
+    |> ignore
+   
+    http {
+        GET "http://myService.com"
+        config_timeoutInSeconds 1.0
+    }
+    |> ignore
+   
+    http {
+        GET "http://myService.com"
+        body
+        text ""
+        config_timeoutInSeconds 1.0
+    }
+    |> ignore
+   
+   
+    http {
+        GET "http://myService.com"
+        multipart
+        stringPart "" ""
+        config_timeoutInSeconds 1.0
+    }
+    |> ignore
+   
+let ``Print configuration is possible on all builder contextx`` () =
+    http {
+        print_headerOnly
+        GET "http://myService.com"
+    }
+    |> ignore
+   
+    http {
+        GET "http://myService.com"
+        print_headerOnly
+    }
+    |> ignore
+   
+    http {
+        GET "http://myService.com"
+        body
+        text ""
+        print_headerOnly
+    }
+    |> ignore
+   
+    http {
+        GET "http://myService.com"
+        multipart
+        stringPart "" ""
+        print_headerOnly
+    }
+    |> ignore

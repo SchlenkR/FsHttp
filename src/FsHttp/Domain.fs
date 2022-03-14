@@ -10,7 +10,10 @@ type StatusCodeExpectation =
 
 exception StatusCodeExpectedxception of StatusCodeExpectation
 
-type BodyPrintMode = { format: bool; maxLength: int option }
+type BodyPrintMode = 
+    { format: bool
+      maxLength: int option
+    }
 type PrintMode<'bodyPrintMode> =
     | AsObject
     | HeadersOnly
@@ -112,48 +115,55 @@ type Request =
       content: RequestContent
       config: Config
     }
-    member this.Configure(transformConfig: ConfigTransformer) =
-        { this with config = transformConfig this.config }
-    member this.ConfigurePrintHint(transformPrintHint: PrintHintTransformer) =
-        { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
 
-
-// doesn't work; see: https://github.com/dotnet/fsharp/issues/12814
-////type ITransformTo<'t> =
-////    abstract member Transform : unit -> 't
 type IToRequest =
     abstract member Transform : unit -> Request
-and IToBodyContext =
-    abstract member Transform : unit -> BodyContext
-and IToMultipartContext =
-    abstract member Transform : unit -> MultipartContext
 
-and IConfigure<'t, 'a> =
-    abstract member Configure : 't -> 'a
+type IConfigure<'t, 'self> =
+    abstract member Configure : 't -> 'self
 
-and StartingContext =
+// It seems to impossible extending builder methods on the context type
+// directly when they are not polymorph.
+type IBuilder<'self> =
+    abstract member Self : 'self
+
+let configPrinter (c: IConfigure<ConfigTransformer, _>) transformPrintHint =
+    c.Configure (fun conf -> { conf with printHint = transformPrintHint conf.printHint })
+
+type StartingContext =
     { config: Config
     }
+    interface IBuilder<StartingContext> with
+        member this.Self = this
     interface IConfigure<ConfigTransformer, StartingContext> with
         member this.Configure(transformConfig) =
             { this with config = transformConfig this.config }
     interface IConfigure<PrintHintTransformer, StartingContext> with
         member this.Configure(transformPrintHint) =
-            { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
-    // TODO: Get rid of Transform and failwith
-    interface IToRequest with
-        member _.Transform() = failwith "StartingContext can't be transformed."
+            configPrinter this transformPrintHint
+
+// Unifying IToBodyContext and IToMultipartContext doesn't work; see:
+// https://github.com/dotnet/fsharp/issues/12814
+type IToBodyContext =
+    inherit IToRequest
+    abstract member Transform : unit -> BodyContext
+
+and IToMultipartContext =
+    inherit IToRequest
+    abstract member Transform : unit -> MultipartContext
 
 and HeaderContext =
     { header: Header
       config: Config
     }
+    interface IBuilder<HeaderContext> with
+        member this.Self = this
     interface IConfigure<ConfigTransformer, HeaderContext> with
         member this.Configure(transformConfig) =
             { this with config = transformConfig this.config }
     interface IConfigure<PrintHintTransformer, HeaderContext> with
         member this.Configure(transformPrintHint) =
-            { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
+            configPrinter this transformPrintHint
     interface IToRequest with
         member this.Transform() =
             { Request.header = this.header
@@ -188,12 +198,14 @@ and BodyContext =
       content: BodyContent
       config: Config
     }
+    interface IBuilder<BodyContext> with
+        member this.Self = this
     interface IConfigure<ConfigTransformer, BodyContext> with
         member this.Configure(transformConfig) =
             { this with config = transformConfig this.config }
     interface IConfigure<PrintHintTransformer, BodyContext> with
         member this.Configure(transformPrintHint) =
-            { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
+            configPrinter this transformPrintHint
     interface IToRequest with
         member this.Transform() =
             { Request.header = this.header
@@ -209,12 +221,14 @@ and MultipartContext =
       currentPartContentType : string option
       config: Config
     }
+    interface IBuilder<MultipartContext> with
+        member this.Self = this
     interface IConfigure<ConfigTransformer, MultipartContext> with
         member this.Configure(transformConfig) =
             { this with config = transformConfig this.config }
     interface IConfigure<PrintHintTransformer, MultipartContext> with
         member this.Configure(transformPrintHint) =
-            { this with config = { this.config with printHint = transformPrintHint this.config.printHint } }
+            configPrinter this transformPrintHint
     interface IToRequest with
         member this.Transform() =
             { Request.header = this.header
@@ -223,7 +237,6 @@ and MultipartContext =
             }
     interface IToMultipartContext with
         member this.Transform() = this
-
 
 type Response = 
     { request: Request

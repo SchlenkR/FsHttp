@@ -5,7 +5,6 @@ open System.Threading
 
 open FsUnit
 open FsHttp
-open FsHttp.DslCE
 open FsHttp.Tests.Server
 
 open NUnit.Framework

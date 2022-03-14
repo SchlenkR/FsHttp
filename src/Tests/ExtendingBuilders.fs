@@ -2,7 +2,6 @@
 
 open FsUnit
 open FsHttp
-open FsHttp.DslCE
 open FsHttp.Tests.TestHelper
 open FsHttp.Tests.Server
 
@@ -15,11 +14,10 @@ open Suave.Successful
 
 let superBodyContentType = "text/superString"
 
-type HttpBuilder<'context when 'context :> IToRequest> with
+type IBuilder<'self> with
     [<CustomOperation("superBody")>]
-    member this.SuperBody(builder: HttpBuilder<_>, csvContent: string) =
-        FsHttp.Dsl.Body.content superBodyContentType (StringContent csvContent) builder.Context
-        |> HttpBuilder
+    member this.SuperBody(context: IBuilder<BodyContext>, csvContent: string) =
+        FsHttp.Dsl.Body.content superBodyContentType (StringContent csvContent) context.Self
 
 
 let [<TestCase>] ``Extending builder with custom content``() =

@@ -3,7 +3,6 @@
 open NUnit.Framework
 
 open FsHttp
-open FsHttp.DslCE
 open FsHttp.Tests.Server
 
 open Suave.ServerErrors

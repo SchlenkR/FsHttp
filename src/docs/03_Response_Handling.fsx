@@ -12,7 +12,6 @@ index: 3
 #r "nuget: FSharp.Data"
 #r "../FsHttp/bin/Release/netstandard2.0/FsHttp.dll"
 open FsHttp
-open FsHttp.DslCE
 
 
 (**

@@ -26,7 +26,6 @@ A Simple Example
 #r "nuget: FsHttp"
 
 open FsHttp
-open FsHttp.DslCE
 
 http {
     POST "https://reqres.in/api/users"
@@ -56,6 +55,8 @@ Upgrading to v9
 * Removed `send` and `sendAsync` builder methods
 * Changed request and response printing (mostly used in FSI)
 * Printing related custom operations change in names and behaviour
+* `Dsl` / `DslCE` namespaces: There is no need for distinction of both namespaces. It is now sufficient to `open FsHttp` only.
+* The `HttpBuilder<'context>` is replaced by `IBuilder<'self>`, so that the CE methods work directly on the `HeaderContext`, `BodyContext`, and `MultipartContext` directly. This simplifies things like mixing Dsl and DslCE, pre-configuring and chaining requests.
 
 
 Building

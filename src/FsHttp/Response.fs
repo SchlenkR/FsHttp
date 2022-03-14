@@ -5,10 +5,10 @@ open System.Collections.Generic
 open System.Net
 open System.Net.Http
 open System.Text
-open FsHttp.Helper
-open FsHttp.Domain
 open System.Xml.Linq
 open FSharp.Data
+open FsHttp.Helper
+open FsHttp.Domain
 
 
 // -----------

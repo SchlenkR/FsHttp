@@ -38,7 +38,7 @@
     <Compile Include="Response.fs" />
     <Compile Include="Request.fs" />
     <Compile Include="Dsl.fs" />
-    <Compile Include="DslCE.fs" />
+    <Compile Include="Dsl.CE.fs" />
     <Compile Include="Operators.fs" />
   </ItemGroup>
   <ItemGroup>

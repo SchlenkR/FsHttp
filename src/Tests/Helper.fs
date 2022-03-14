@@ -3,7 +3,6 @@
 open System
 
 open FsUnit
-open FsHttp
 open FsHttp.Helper
 
 open NUnit.Framework

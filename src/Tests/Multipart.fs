@@ -4,7 +4,6 @@ open System.IO
 
 open FsUnit
 open FsHttp
-open FsHttp.DslCE
 open FsHttp.Tests.Server
 open FsHttp.Tests.TestHelper
 

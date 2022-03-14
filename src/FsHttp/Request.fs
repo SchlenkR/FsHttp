@@ -7,7 +7,6 @@ open System.Net.Http.Headers
 open System.Threading
 
 open FsHttp
-open FsHttp.Domain
 
 let private TimeoutPropertyName = "RequestTimeout"
 
