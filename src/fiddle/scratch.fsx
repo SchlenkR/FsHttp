@@ -312,3 +312,20 @@ b {
     yield "Hurz"
     test
 }
+
+open System
+
+module C =
+    let mutable a = DateTime.Now
+    let getDt () = a
+    let x = getDt()
+
+AppDomain.CurrentDomain.GetAssemblies() 
+|> Array.find (fun x -> x.GetName().Name = "FSI-ASSEMBLY")
+|> fun asm -> asm.GetTypes()
+|> Seq.find (fun t -> t.Name = "B")
+|> fun t -> t.GetProperties()
+
+C.a <- DateTime.Now
+let a = C.x
+let b = C.x

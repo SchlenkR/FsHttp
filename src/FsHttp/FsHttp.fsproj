@@ -34,7 +34,7 @@
     <Compile Include="Json.fs" />
     <Compile Include="MimeTypes.fs" />
     <Compile Include="Domain.fs" />
-    <Compile Include="Config.fs" />
+    <Compile Include="GlobalConfig.fs" />
     <Compile Include="Response.fs" />
     <Compile Include="Request.fs" />
     <Compile Include="Dsl.fs" />

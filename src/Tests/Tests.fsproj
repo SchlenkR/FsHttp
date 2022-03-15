@@ -18,6 +18,7 @@
     </None>
     <Compile Include="Helper.fs" />
     <Compile Include="Basic.fs" />
+    <Compile Include="GlobalConfig.fs" />
     <Compile Include="AlternativeSyntaxes.fs" />
     <Compile Include="UrlsAndQuery.fs" />
     <Compile Include="Body.fs" />

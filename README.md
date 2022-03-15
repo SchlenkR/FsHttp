@@ -57,6 +57,8 @@ Upgrading to v9
 * Printing related custom operations change in names and behaviour
 * `Dsl` / `DslCE` namespaces: There is no need for distinction of both namespaces. It is now sufficient to `open FsHttp` only.
 * The `HttpBuilder<'context>` is replaced by `IBuilder<'self>`, so that the CE methods work directly on the `HeaderContext`, `BodyContext`, and `MultipartContext` directly. This simplifies things like mixing Dsl and DslCE, pre-configuring and chaining requests.
+* The global configuration is now in the `FsHttp.GlobalConfig` module. The `Config` module is only for functions on request contexts.
+* QueryParams is `(string * obj) list` now
 
 
 Building

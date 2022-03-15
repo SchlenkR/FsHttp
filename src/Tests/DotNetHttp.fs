@@ -15,7 +15,9 @@ open Suave.Successful
 
 
 let [<TestCase>] ``Inject custom HttpClient`` () =
-    use server = GET >=> OK "" |> serve
+    let executedFlag = "executed"
+
+    use server = GET >=> OK executedFlag |> serve
 
     let mutable intercepted = false
     
@@ -30,10 +32,11 @@ let [<TestCase>] ``Inject custom HttpClient`` () =
 
     http {
         config_setHttpClient httpClient
-        GET "http://google.com"
+        GET (url "")
     }
     |> Request.send
-    |> ignore
+    |> Response.toText
+    |> should equal executedFlag
     
     intercepted |> should equal true
    

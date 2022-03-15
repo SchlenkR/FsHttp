@@ -11,13 +11,23 @@ open FsHttp
 
 type IBuilder<'self> with
     member this.Yield(_) = this
-    
-// Whatch out: Config.defaultConfig is mutable, so access must be delayed.
-// TODO: That won't work
-let private defaultStartingContext () = { config = Config.defaultConfig }
-let http = defaultStartingContext ()
 
+type StartingContext =
+    { config: Config option }
+    member this.ActualConfig =
+        this.config |> Option.defaultValue GlobalConfig.mutableDefaults
+    interface IBuilder<StartingContext> with
+        member this.Self = this
+    interface IConfigure<ConfigTransformer, StartingContext> with
+        member this.Configure(transformConfig) =
+            { this with config = Some (transformConfig this.ActualConfig) }
+    interface IConfigure<PrintHintTransformer, StartingContext> with
+        member this.Configure(transformPrintHint) =
+            configPrinter this transformPrintHint
     
+let http = { config = None }
+
+
 // ---------
 // Methods
 // ---------
@@ -25,36 +35,44 @@ let http = defaultStartingContext ()
 type IBuilder<'self> with
     
     [<CustomOperation("Method")>]
-    member this.Method(_: IBuilder<StartingContext>, method, url) = 
-        Http.method method url
+    member this.Method(_: IBuilder<StartingContext>, method, url) = Http.method method url
     
     // RFC 2626 specifies 8 methods
     [<CustomOperation("GET")>]
-    member this.Get(_: IBuilder<StartingContext>, url) = get url
+    member this.Get(context: IBuilder<StartingContext>, url) =
+        getWithConfig context.Self.ActualConfig url
     
     [<CustomOperation("PUT")>]
-    member this.Put(_: IBuilder<StartingContext>, url) = put url
+    member this.Put(context: IBuilder<StartingContext>, url) =
+        putWithConfig context.Self.ActualConfig url
     
     [<CustomOperation("POST")>]
-    member this.Post(_: IBuilder<StartingContext>, url) = post url
+    member this.Post(context: IBuilder<StartingContext>, url) =
+        postWithConfig context.Self.ActualConfig url
     
     [<CustomOperation("DELETE")>]
-    member this.Delete(_: IBuilder<StartingContext>, url) = delete url
+    member this.Delete(context: IBuilder<StartingContext>, url) =
+        deleteWithConfig context.Self.ActualConfig url
     
     [<CustomOperation("OPTIONS")>]
-    member this.Options(_: IBuilder<StartingContext>, url) = options url
+    member this.Options(context: IBuilder<StartingContext>, url) =
+        optionsWithConfig context.Self.ActualConfig url
     
     [<CustomOperation("HEAD")>]
-    member this.Head(_: IBuilder<StartingContext>, url) = head url
+    member this.Head(context: IBuilder<StartingContext>, url) =
+        headWithConfig context.Self.ActualConfig url
     
     [<CustomOperation("TRACE")>]
-    member this.Trace(_: IBuilder<StartingContext>, url) = trace url
+    member this.Trace(context: IBuilder<StartingContext>, url) =
+        traceWithConfig context.Self.ActualConfig url
     
     [<CustomOperation("CONNECT")>]
-    member this.Connect(_: IBuilder<StartingContext>, url) = connect url
+    member this.Connect(context: IBuilder<StartingContext>, url) =
+        connectWithConfig context.Self.ActualConfig url
     
     [<CustomOperation("PATCH")>]
-    member this.Patch(_: IBuilder<StartingContext>, url) = patch url
+    member this.Patch(context: IBuilder<StartingContext>, url) =
+        patchWithConfig context.Self.ActualConfig url
     
     
 // ---------

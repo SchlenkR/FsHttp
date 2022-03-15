@@ -1,7 +1,10 @@
 ﻿module FsHttp.Tests.``Builders and Signatures``
 
+open System
 open System.Net.Http
 open FsHttp
+open NUnit.Framework
+open FsUnit
 
 let signatures () =
     let _: IToRequest = http { GET "" }
@@ -11,7 +14,6 @@ let signatures () =
     let _: Async<Response> = http { GET "" } |> Request.sendAsync
     let _: Response = http { GET "" } |> Request.send
     ()
-
 
 let ``Shortcuts work - had problems with resolution before`` () =
     get "https://www.google.de" {
@@ -93,3 +95,14 @@ let ``Print configuration is possible on all builder contextx`` () =
         print_headerOnly
     }
     |> ignore
+
+let [<TestCase>] ``Config of StartingContext is taken`` () =
+    let timeout = TimeSpan.FromSeconds 22.2
+
+    let req = http {
+        config_timeout timeout
+        GET "http://myservice"
+    }
+
+    GlobalConfig.defaults.Config.timeout |> should not' (equal timeout)
+    req.config.timeout |> should equal timeout

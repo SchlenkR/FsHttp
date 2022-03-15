@@ -15,7 +15,7 @@ open FsHttp.Helper
 [<AutoOpen>]
 module Http =
 
-    let method (method: string) (url: string) =
+    let methodWithConfig config (method: string) (url: string) =
         let formattedUrl =
             url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
             |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
@@ -29,17 +29,32 @@ module Http =
               method = HttpMethod(method)
               headers = Map.empty
               cookies = [] }
-          config = Config.defaultConfig }
+          config = config }
 
-    let get (url: string) = method "GET" url
-    let put (url: string) = method "PUT" url
-    let post (url: string) = method "POST" url
-    let delete (url: string) = method "DELETE" url
-    let options (url: string) = method "OPTIONS" url
-    let head (url: string) = method "HEAD" url
-    let trace (url: string) = method "TRACE" url
-    let connect (url: string) = method "CONNECT" url
-    let patch (url: string) = method "PATCH" url
+    let method (method: string) (url: string) =
+        methodWithConfig GlobalConfig.mutableDefaults method url
+
+    let internal getWithConfig config (url: string) = methodWithConfig config "GET" url
+    let internal putWithConfig config (url: string) = methodWithConfig config "PUT" url
+    let internal postWithConfig config (url: string) = methodWithConfig config "POST" url
+    let internal deleteWithConfig config (url: string) = methodWithConfig config "DELETE" url
+    let internal optionsWithConfig config (url: string) = methodWithConfig config "OPTIONS" url
+    let internal headWithConfig config (url: string) = methodWithConfig config "HEAD" url
+    let internal traceWithConfig config (url: string) = methodWithConfig config "TRACE" url
+    let internal connectWithConfig config (url: string) = methodWithConfig config "CONNECT" url
+    let internal patchWithConfig config (url: string) = methodWithConfig config "PATCH" url
+
+    let internal defaultConfig = GlobalConfig.mutableDefaults
+
+    let get (url: string) = methodWithConfig defaultConfig "GET" url
+    let put (url: string) = methodWithConfig defaultConfig "PUT" url
+    let post (url: string) = methodWithConfig defaultConfig "POST" url
+    let delete (url: string) = methodWithConfig defaultConfig "DELETE" url
+    let options (url: string) = methodWithConfig defaultConfig "OPTIONS" url
+    let head (url: string) = methodWithConfig defaultConfig "HEAD" url
+    let trace (url: string) = methodWithConfig defaultConfig "TRACE" url
+    let connect (url: string) = methodWithConfig defaultConfig "CONNECT" url
+    let patch (url: string) = methodWithConfig defaultConfig "PATCH" url
 
     // TODO: RFC 4918 (WebDAV) adds 7 methods
 
@@ -53,7 +68,7 @@ module Header =
                          headers = Map.union context.header.headers [ name, value ] } }
 
     /// Adds a set of query parameters to the URL    
-    let query (queryParams: (string * string) list) (context: HeaderContext) =
+    let query (queryParams: (string * obj) list) (context: HeaderContext) =
         { context with
             header = { context.header with
                          url = { context.header.url with 
@@ -376,7 +391,9 @@ module Config =
         update (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
 
     let inline setHttpClient (client: HttpClient) context =
-        update (fun config -> { config with httpClientFactory = Some (fun () -> client) }) context
+        update (fun config -> 
+            printfn "SETTING CLIENT"
+            { config with httpClientFactory = Some (fun () -> printfn "USING CLIENT"; client) }) context
 
     let inline setHttpClientFactory (clientFactory: unit -> HttpClient) context =
         update (fun config -> { config with httpClientFactory = Some clientFactory }) context
@@ -413,7 +430,7 @@ module Print =
     let inline withResponseBody updateBodyPrintMode context =
         context |> withResponsePrintMode (fun printMode ->
             match printMode with
-            | AsObject | HeadersOnly -> updateBodyPrintMode Config.defaultHeadersAndBodyPrintMode
+            | AsObject | HeadersOnly -> updateBodyPrintMode (GlobalConfig.defaultHeadersAndBodyPrintMode())
             | HeadersAndBody x -> updateBodyPrintMode x
             |> HeadersAndBody)
 

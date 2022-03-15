@@ -56,7 +56,7 @@ type PrintHintTransformer = PrintHint -> PrintHint
 
 type FsHttpUrl =
     { address: string
-      additionalQueryParams: Map<string, string>
+      additionalQueryParams: Map<string, obj>
     }
     member url.ToUriString() =
         let uri = UriBuilder(url.address)
@@ -129,18 +129,6 @@ type IBuilder<'self> =
 
 let configPrinter (c: IConfigure<ConfigTransformer, _>) transformPrintHint =
     c.Configure (fun conf -> { conf with printHint = transformPrintHint conf.printHint })
-
-type StartingContext =
-    { config: Config
-    }
-    interface IBuilder<StartingContext> with
-        member this.Self = this
-    interface IConfigure<ConfigTransformer, StartingContext> with
-        member this.Configure(transformConfig) =
-            { this with config = transformConfig this.config }
-    interface IConfigure<PrintHintTransformer, StartingContext> with
-        member this.Configure(transformPrintHint) =
-            configPrinter this transformPrintHint
 
 // Unifying IToBodyContext and IToMultipartContext doesn't work; see:
 // https://github.com/dotnet/fsharp/issues/12814
