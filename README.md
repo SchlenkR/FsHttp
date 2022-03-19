@@ -2,15 +2,11 @@
 FsHttp
 ======
 
-FsHttp is a HTTP client library written in F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
+FsHttp is a .Net HTTP client library For C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
 
 **FsHttp** is authored by [@ronaldschlenker](https://github.com/ronaldschlenker). Feel free to leave a message.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) ![build status](https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
-
-**Package name change / deprecation hint**
-
-The NuGet package `SchlenkR.FsHttp` is _deprecated_. Please use the package [FsHttp](https://www.nuget.org/packages/FsHttp) for releases >= 6.x
 
 
 Documentation
@@ -21,6 +17,8 @@ Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for 
 
 A Simple Example
 ----------------
+
+An example in F#:
 
 ```fsharp
 #r "nuget: FsHttp"
@@ -41,7 +39,26 @@ http {
 |> Request.send
 ```
 
-Upgrading to v9
+An example in C#:
+
+```csharp
+#r "nuget: FsHttp"
+
+using FsHttp.CSharp;
+
+await "https://reqres.in/api/users".Post()
+    .CacheControl("no-cache")
+    .Body()
+    .Json(@"
+        {
+            ""name"": ""morpheus"",
+            ""job"": ""leader""
+        }
+    ")
+    .SendAsync();
+```
+
+Upgrading to v9 (Breaking Changes)
 ---
 
 * `http...` Builders: There is now only a single `http` builder, that is equivalent to the former `httpLazy` builder. To achieve the behaviour of the removed builders, please use:
@@ -60,6 +77,7 @@ Upgrading to v9
 * The `HttpBuilder<'context>` is replaced by `IBuilder<'self>`, so that the CE methods work directly on the `HeaderContext`, `BodyContext`, and `MultipartContext` directly. This simplifies things like mixing Dsl and DslCE, pre-configuring and chaining requests.
 * The global configuration is now in the `FsHttp.GlobalConfig` module. The `Config` module is only for functions on request contexts.
 * QueryParams is `(string * obj) list` now
+* Smaller (breaking) changes
 
 
 Building

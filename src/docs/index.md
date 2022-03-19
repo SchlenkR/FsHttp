@@ -16,6 +16,8 @@ Usage
 ```fsharp
 #r "nuget: FsHttp"
 
+open FsHttp
+
 let postResponse =
     http {
         POST "https://reqres.in/api/users"

@@ -4,6 +4,28 @@
 open FsHttp
 
 
+// Pre-Config
+type PreBuilder<'a> = string -> IRequestContext<'a>
+
+let auth (builder: PreBuilder<_>) url =
+    builder url {
+        Authorization "Bearer 4711"
+    }
+
+
+
+let httpPre method url = Http.method method url
+
+type Pre<'a> = string * string -> IRequestContext<'a>
+
+let getx (pre: Pre) = 
+
+let pre method url : IRequestContext<'a> =
+    httpPre method url {
+        Accept "sdfsdf"
+    }
+
+
 
 get "https://www.google.de" {
     CacheControl "no-cache"

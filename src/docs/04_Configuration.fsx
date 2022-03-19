@@ -15,19 +15,27 @@ open FsHttp
 
 
 (**
-## Configuration: Timeouts, etc.
+## Per request configuration
 
-You can specify a timeout:
+It's possible to configure requests per instance by the use of `config_`
+methods in any stage of the request definition:
 *)
-// should throw because it's very short
 http {
-    GET "http://www.google.de"
-    config_timeoutInSeconds 0.1
+    config_timeoutInSeconds 11.1
+    GET "http://myService"
 }
 
+// or
+
+get "http://myService"
+|> Config.timeoutInSeconds 11.1
+
 (**
+## Global configuration
+
 You can also set config values globally (inherited when requests are created):
 *)
-Config.setDefaultConfig (fun config ->
-    { config with timeout = System.TimeSpan.FromSeconds 15.0 })
 
+GlobalConfig.defaults
+|> Config.timeoutInSeconds 11.1
+|> GlobalConfig.set
