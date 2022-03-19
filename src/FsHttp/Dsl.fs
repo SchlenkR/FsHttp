@@ -10,7 +10,6 @@ open System.Globalization
 open FsHttp
 open FsHttp.Helper
 
-
 /// Request constructors for RFC 2626 HTTP methods
 [<AutoOpen>]
 module Http =
@@ -374,44 +373,72 @@ module Multipart =
 
 
 module Config =
+    module With =
+        let inline ignoreCertIssues config =
+            { config with certErrorStrategy = AlwaysAccept }
+
+        let inline timeout value config =
+            { config with timeout = value }
+
+        let inline timeoutInSeconds value config =
+            { config with timeout = TimeSpan.FromSeconds value }
+
+        let inline setHttpClient (client: HttpClient) config =
+            { config with httpClientFactory = Some (fun () -> client) }
+
+        let inline setHttpClientFactory (clientFactory: unit -> HttpClient) config =
+            { config with httpClientFactory = Some clientFactory }
+
+        let inline transformHttpClient transformer config =
+            { config with httpClientTransformer = Some transformer }
+
+        let inline transformHttpRequestMessage transformer config =
+            { config with httpMessageTransformer = Some transformer }
+
+        let inline transformHttpClientHandler transformer config =
+            { config with httpClientHandlerTransformer = Some transformer }
+
+        let inline proxy url config =
+            { config with proxy = Some { url = url; credentials = None } }
+
+        let inline proxyWithCredentials url credentials config =
+            { config with proxy = Some { url = url; credentials = Some credentials } }
 
     let inline update transformer (context: IConfigure<ConfigTransformer, _>)=
         context.Configure transformer
 
     let inline set (config: Config) context =
-        update (fun _ -> config) context
+        context |> update (fun _ -> config)
 
     let inline ignoreCertIssues context =
-        update (fun config -> { config with certErrorStrategy = AlwaysAccept }) context
+        context |> update (fun config -> config |> With.ignoreCertIssues)
 
     let inline timeout value context =
-        update (fun config -> { config with timeout = value }) context
+        context |> update (fun config -> config |> With.timeout value)
 
     let inline timeoutInSeconds value context =
-        update (fun config -> { config with timeout = TimeSpan.FromSeconds value }) context
+        context |> update (fun config -> config |> With.timeoutInSeconds value)
 
     let inline setHttpClient (client: HttpClient) context =
-        update (fun config -> 
-            printfn "SETTING CLIENT"
-            { config with httpClientFactory = Some (fun () -> printfn "USING CLIENT"; client) }) context
+        context |> update (fun config -> config |> With.setHttpClient client)
 
     let inline setHttpClientFactory (clientFactory: unit -> HttpClient) context =
-        update (fun config -> { config with httpClientFactory = Some clientFactory }) context
+        context |> update (fun config -> config |> With.setHttpClientFactory clientFactory)
 
     let inline transformHttpClient transformer context =
-        update (fun config -> { config with httpClientTransformer = Some transformer }) context
+        context |> update (fun config -> config |> With.transformHttpClient transformer)
 
     let inline transformHttpRequestMessage transformer context =
-        update (fun config -> { config with httpMessageTransformer = Some transformer }) context
+        context |> update (fun config -> config |> With.transformHttpRequestMessage transformer)
 
     let inline transformHttpClientHandler transformer context =
-        update (fun config -> { config with httpClientHandlerTransformer = Some transformer }) context
+        context |> update (fun config -> config |> With.transformHttpClientHandler transformer)
 
     let inline proxy url context =
-        update (fun config -> { config with proxy = Some { url = url; credentials = None } }) context
+        context |> update (fun config -> config |> With.proxy url)
 
     let inline proxyWithCredentials url credentials context =
-        update (fun config -> { config with proxy = Some { url = url; credentials = Some credentials } }) context 
+        context |> update (fun config -> config |> With.proxyWithCredentials url credentials)
 
 
 module Print =

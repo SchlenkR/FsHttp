@@ -14,10 +14,7 @@ open Suave.Successful
 
 
 let [<TestCase>] ``POST string data``() =
-    use server =
-        POST
-        >=> request (contentText >> OK)
-        |> serve
+    use server = POST >=> request (contentText >> OK) |> serve
 
     let data = "hello world"
 

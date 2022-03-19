@@ -9,14 +9,14 @@ open FsUnit
 let signatures () =
     let _: IToRequest = http { GET "" }
     let _: Request = http { GET "" } |> Request.toRequest
-    let _: HttpRequestMessage = http { GET "" } |> Request.toMessage
+    let _: HttpRequestMessage = http { GET "" } |> Request.toHttpRequestMessage
     let _: Async<Response> = http { GET "" } |> Request.toAsync
     let _: Async<Response> = http { GET "" } |> Request.sendAsync
     let _: Response = http { GET "" } |> Request.send
     ()
 
 let ``Shortcuts work - had problems with resolution before`` () =
-    get "https://www.google.de" {
+    get "https://myService" {
         multipart
         stringPart "" ""
     }

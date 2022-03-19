@@ -14,9 +14,9 @@ open Suave.Successful
 
 let superBodyContentType = "text/superString"
 
-type IBuilder<'self> with
+type IRequestContext<'self> with
     [<CustomOperation("superBody")>]
-    member this.SuperBody(context: IBuilder<BodyContext>, csvContent: string) =
+    member this.SuperBody(context: IRequestContext<BodyContext>, csvContent: string) =
         FsHttp.Dsl.Body.content superBodyContentType (StringContent csvContent) context.Self
 
 

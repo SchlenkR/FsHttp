@@ -30,3 +30,14 @@ let serve (app: WebPart) =
         cts.Dispose()
     { new System.IDisposable with
         member this.Dispose() = dispose() }
+
+module Predefined =
+    open Suave
+    open Suave.Operators
+    open Suave.Filters
+    open Suave.Successful
+    
+    open FsHttp.Tests.TestHelper
+    
+    let postReturnsBody () =
+        POST >=> request (contentText >> OK) |> serve

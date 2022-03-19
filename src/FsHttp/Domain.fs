@@ -124,7 +124,7 @@ type IConfigure<'t, 'self> =
 
 // It seems to impossible extending builder methods on the context type
 // directly when they are not polymorph.
-type IBuilder<'self> =
+type IRequestContext<'self> =
     abstract member Self : 'self
 
 let configPrinter (c: IConfigure<ConfigTransformer, _>) transformPrintHint =
@@ -144,7 +144,7 @@ and HeaderContext =
     { header: Header
       config: Config
     }
-    interface IBuilder<HeaderContext> with
+    interface IRequestContext<HeaderContext> with
         member this.Self = this
     interface IConfigure<ConfigTransformer, HeaderContext> with
         member this.Configure(transformConfig) =
@@ -186,7 +186,7 @@ and BodyContext =
       content: BodyContent
       config: Config
     }
-    interface IBuilder<BodyContext> with
+    interface IRequestContext<BodyContext> with
         member this.Self = this
     interface IConfigure<ConfigTransformer, BodyContext> with
         member this.Configure(transformConfig) =
@@ -209,7 +209,7 @@ and MultipartContext =
       currentPartContentType : string option
       config: Config
     }
-    interface IBuilder<MultipartContext> with
+    interface IRequestContext<MultipartContext> with
         member this.Self = this
     interface IConfigure<ConfigTransformer, MultipartContext> with
         member this.Configure(transformConfig) =

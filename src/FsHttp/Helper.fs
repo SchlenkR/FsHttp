@@ -60,10 +60,9 @@ module Result =
 
 module Stream =
     open System.IO
-    
+
     let copyToCallbackAsync (target: Stream) callback (source: Stream) = async {
         let buffer = Array.create 1024 (byte 0)
-        
         let logTimeSpan = TimeSpan.FromSeconds 1.5
         let mutable continueLooping = true
         let mutable overallBytesCount = 0
@@ -71,17 +70,17 @@ module Stream =
         while continueLooping do
             let! readCount = source.ReadAsync(buffer, 0, buffer.Length) |> Async.AwaitTask
             do target.Write(buffer, 0, readCount)
-
-            overallBytesCount <- overallBytesCount + readCount
-                
+            do overallBytesCount <- overallBytesCount + readCount
             let now = DateTime.Now
             if (now - lastNotificationTime) > logTimeSpan then
                 do callback overallBytesCount
-                lastNotificationTime <- now
-                    
-            continueLooping <- readCount > 0
+                do lastNotificationTime <- now
+            do continueLooping <- readCount > 0
         callback overallBytesCount
     }
+
+    let copyToCallbackTAsync (target: Stream) callback (source: Stream) =
+        copyToCallbackAsync target callback source |> Async.StartAsTask
         
     let copyToAsync target source = async {
         printfn "Download response received - starting download..."
@@ -91,6 +90,9 @@ module Stream =
         printfn "Download finished."
     }
 
+    let copyToTAsync target source =
+        copyToAsync target source |> Async.StartAsTask
+
     let toStringUtf8Async source = async {
         use ms = new MemoryStream()
         do! source |> copyToAsync ms
@@ -99,11 +101,17 @@ module Stream =
         return sr.ReadToEnd()
     }
 
+    let toStringUtf8TAsync source =
+        toStringUtf8Async source |> Async.StartAsTask
+
     let toBytesAsync source = async {
         use ms = new MemoryStream()
         do! source |> copyToAsync ms
         return ms.ToArray()
     }
+
+    let toBytesTAsync source =
+        toBytesAsync source |> Async.StartAsTask
 
     let saveFileAsync fileName source = async {
         printfn "Download response received (file: %s) - starting download..." fileName
@@ -111,3 +119,6 @@ module Stream =
         do! source |> copyToAsync fs
         printfn "Download finished."
     }
+
+    let saveFileTAsync fileName source =
+        saveFileAsync fileName source |> Async.StartAsTask

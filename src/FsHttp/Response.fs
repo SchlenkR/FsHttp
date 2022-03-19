@@ -21,18 +21,18 @@ let private tryParse text parserName parser =
     | ex ->
         Exception("Could not parse " + parserName + ": " + (String.substring text maxContentLengthOnParseFail), ex)
         |> raise
-    
-let toStreamAsync (r: Response) =
-    r.content.ReadAsStreamAsync() |> Async.AwaitTask
-let toStream (r: Response) =
-    toStreamAsync r |> Async.RunSynchronously
 
-let toBytesAsync (r: Response) = async {
-    let! stream = r |> toStreamAsync
-    return! stream |> Stream.toBytesAsync
-}
-let toBytes (r: Response) =
-    toBytesAsync r |> Async.RunSynchronously
+let toStreamTAsync (r: Response) = r.content.ReadAsStreamAsync()
+let toStreamAsync (r: Response) = toStreamTAsync r |> Async.AwaitTask
+let toStream (r: Response) = (toStreamTAsync r).Result
+
+let toBytesAsync (r: Response) = 
+    async {
+        let! stream = r |> toStreamAsync
+        return! stream |> Stream.toBytesAsync
+    }
+let toBytesTAsync (r: Response) = toBytesAsync r |> Async.StartAsTask
+let toBytes (r: Response) = toBytesAsync r |> Async.RunSynchronously
 
 // TODO: Don't read the whole response; read only requested chars.
 let toStringAsync maxLength (r: Response) =
@@ -44,39 +44,43 @@ let toStringAsync maxLength (r: Response) =
         let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
         return (String.substring content maxLength) + (getTrimChars content)
     }
+let toStringTAsync maxLength response =
+    toStringAsync maxLength response |> Async.StartAsTask
 let toString maxLength response =
     toStringAsync maxLength response |> Async.RunSynchronously
 
-let toTextAsync (r: Response) =
-    toStringAsync Int32.MaxValue r
-let toText (r: Response) =
-    toTextAsync r |> Async.RunSynchronously
+let toTextAsync (r: Response) = toStringAsync Int32.MaxValue r
+let toTextTAsync (r: Response) = toTextAsync r |> Async.StartAsTask
+let toText (r: Response) = toTextAsync r |> Async.RunSynchronously
 
 let private parseJson text =
     tryParse text "JSON" JsonValue.Parse
 
-let toJsonAsync (r: Response) : Async<JsonValue> = async {
-    let! s = toTextAsync r 
-    return parseJson s
-}
-let toJson (r: Response) : JsonValue =
-    toJsonAsync r |> Async.RunSynchronously
+let toJsonAsync (r: Response) = 
+    async {
+        let! s = toTextAsync r 
+        return parseJson s
+    }
+let toJsonTAsync (r: Response) = toJsonAsync r |> Async.StartAsTask
+let toJson (r: Response) = toJsonAsync r |> Async.RunSynchronously
 
-let toJsonArrayAsync (r: Response) = async {
-    let! res = toJsonAsync r
-    return res |> fun json -> json.AsArray()
-}
-let toJsonArray (r: Response) =
-    toJsonArrayAsync r |> Async.RunSynchronously
+let toJsonArrayAsync (r: Response) = 
+    async {
+        let! res = toJsonAsync r
+        return res |> fun json -> json.AsArray()
+    }
+let toJsonArrayTAsync (r: Response) = toJsonArrayAsync r |> Async.StartAsTask
+let toJsonArray (r: Response) = toJsonArrayAsync r |> Async.RunSynchronously
 
 let private parseXml text = tryParse text "XML" XDocument.Parse
 
-let toXmlAsync (r: Response) = async {
-    let! s = toTextAsync r 
-    return parseXml s
-}
-let toXml (r: Response) =
-    toXmlAsync r |> Async.RunSynchronously
+let toXmlAsync (r: Response) = 
+    async {
+        let! s = toTextAsync r 
+        return parseXml s
+    }
+let toXmlTAsync (r: Response) = toXmlAsync r |> Async.StartAsTask
+let toXml (r: Response) = toXmlAsync r |> Async.RunSynchronously
 
 // TODO: toHtml
 
@@ -98,15 +102,16 @@ let toFormattedTextAsync (r: Response) =
         with _ ->
             return s
     }
-let toFormattedText (r: Response) =
-    toFormattedTextAsync r |> Async.RunSynchronously
+let toFormattedTextTAsync (r: Response) = toFormattedTextAsync r |> Async.StartAsTask
+let toFormattedText (r: Response) = toFormattedTextAsync r |> Async.RunSynchronously
 
-let saveFileAsync (fileName: string) (r: Response) = async {
-    let! stream = r |> toStreamAsync 
-    do! stream |> Stream.saveFileAsync fileName
-}
-let saveFile (fileName: string) (r: Response) =
-    saveFileAsync fileName r |> Async.RunSynchronously
+let saveFileAsync (fileName: string) (r: Response) = 
+    async {
+        let! stream = r |> toStreamAsync 
+        do! stream |> Stream.saveFileAsync fileName
+    }
+let saveFileTAsync (fileName: string) (r: Response) = saveFileAsync fileName r |> Async.StartAsTask
+let saveFile (fileName: string) (r: Response) = saveFileAsync fileName r |> Async.RunSynchronously
 
 let toResult (response: Response) =
     match int response.statusCode with

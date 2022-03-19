@@ -90,7 +90,7 @@ let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
     request,requestMessage
 
 let toRequest request = request |> toRequestAndMessage |> fst
-let toMessage request = request |> toRequestAndMessage |> snd
+let toHttpRequestMessage request = request |> toRequestAndMessage |> snd
 
 let private getHttpClient =
     let timeoutHandler innerHandler =
@@ -181,15 +181,14 @@ let toAsync (context: IToRequest) =
                  printer = Response.print }
     }
 
-/// Sends a context asynchronously.
-let sendAsync (context: IToRequest) =
-    context
-    |> toAsync
-    |> Async.StartChild
-    |> Async.RunSynchronously
+/// Sends a request asynchronously.
+let sendTAsync (context: IToRequest) =
+    context |> toAsync |> Async.StartAsTask
 
-/// Sends a context synchronously.
+/// Sends a request asynchronously.
+let sendAsync (context: IToRequest) =
+    sendTAsync context |> Async.AwaitTask
+
+/// Sends a request synchronously.
 let inline send context =
-    context
-    |> toAsync
-    |> Async.RunSynchronously
+    context |> toAsync |> Async.RunSynchronously

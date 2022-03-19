@@ -38,6 +38,7 @@ http {
     }
     """
 }
+|> Request.send
 ```
 
 Upgrading to v9
