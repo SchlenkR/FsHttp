@@ -38,16 +38,15 @@ type Config =
     { timeout: TimeSpan
       printHint: PrintHint
       httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage) option
-#if NETSTANDARD_2
-      httpClientHandlerTransformer: (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
-#else
       httpClientHandlerTransformer: (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
-#endif
       httpClientTransformer: (System.Net.Http.HttpClient -> System.Net.Http.HttpClient) option
       httpCompletionOption: System.Net.Http.HttpCompletionOption
       proxy: Proxy option
       certErrorStrategy: CertErrorStrategy
       httpClientFactory: (unit -> System.Net.Http.HttpClient) option
+      
+      /// Calls `LoadIntoBufferAsync` of the response's HttpContent immediately after receiving.
+      bufferResponseContent: bool
     }
 
 type ConfigTransformer = Config -> Config

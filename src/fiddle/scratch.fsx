@@ -1,4 +1,28 @@
 
+#r "nuget: FsHttp"
+
+open System.IO
+open FsHttp
+open FsHttp.DslCE
+open FsHttp.Operators
+
+let resp =
+    % get "https://www.google.de"
+    |> Response.asOriginalHttpResponseMessage
+
+let s1 = resp.Content.ReadAsStream()
+
+let c = resp.Content
+c.LoadIntoBufferAsync()
+
+let bstream = new BufferedStream(s)
+
+let buffer = Array.zeroCreate<byte> 2000
+bstream.Read(buffer, 0, 2000)
+
+bstream.Position <- 0
+
+
 #r "../FsHttp/bin/Debug/net5.0/FsHttp.dll"
 
 open FsHttp

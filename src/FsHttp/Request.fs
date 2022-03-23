@@ -11,20 +11,12 @@ open FsHttp
 let private TimeoutPropertyName = "RequestTimeout"
 
 let private setRequestMessageProp (requestMessage: HttpRequestMessage) (propName: string) (value: 'a) =
-#if NETSTANDARD_2
-    do requestMessage.Properties.[propName] <- value
-#else
     do requestMessage.Options.Set(HttpRequestOptionsKey propName, value)
-#endif
 
 let private getRequestMessageProp<'a> (requestMessage: HttpRequestMessage) (propName: string) =
-#if NETSTANDARD_2
-    requestMessage.Properties.[propName] :?> 'a
-#else
     match requestMessage.Options.TryGetValue<'a>(HttpRequestOptionsKey propName) with
     | true,value -> value
     | false,_ -> failwith $"HttpRequestOptionsKey '{propName}' not found."
-#endif
 
 
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
@@ -33,7 +25,6 @@ let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
     let header = request.header
     let requestMessage = new HttpRequestMessage(header.method, header.url.ToUriString())
     do setRequestMessageProp requestMessage TimeoutPropertyName request.config.timeout
-
     let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
         let dotnetContent =
             match part with
@@ -60,11 +51,9 @@ let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
         if contentType.IsSome then
             dotnetContent.Headers.ContentType <- MediaTypeHeaderValue contentType.Value
         dotnetContent
-
     let assignContentHeaders (target: HttpHeaders) (headers: Map<string, string>) =
         for kvp in headers do
             target.Add(kvp.Key, kvp.Value)
-
     let dotnetContent =
         match request.content with
         | Empty -> null
@@ -108,24 +97,15 @@ let private getHttpClient =
             let transformHandler = Option.defaultValue id config.httpClientHandlerTransformer
             let handler =
                 transformHandler <|
-#if NETSTANDARD_2
-                    new HttpClientHandler()
-#else
                     new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
-#endif
-
             match config.certErrorStrategy with
             | Default -> ()
             | AlwaysAccept ->
-#if NETSTANDARD_2
-                handler.ServerCertificateCustomValidationCallback <- (fun msg cert chain errors -> true)
-#else
                 handler.SslOptions <-
                     let options = Security.SslClientAuthenticationOptions()
                     options.RemoteCertificateValidationCallback <-
                         Security.RemoteCertificateValidationCallback(fun sender cert chain errors -> true)
                     options
-#endif
 
             match config.proxy with
             | Some proxy ->
@@ -162,6 +142,9 @@ let toAsync (context: IToRequest) =
         let! response =
             finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
             |> Async.AwaitTask
+        if request.config.bufferResponseContent then
+            // Task is started immediately, but must not be awaited when running in background.
+            response.Content.LoadIntoBufferAsync() |> ignore
         if request.config.printHint.printDebugMessages then
             printfn $"{Helper.HttpStatusCode.show response.StatusCode} ({request.header.method} {request.header.url.ToUriString()})"
         let dispose () =

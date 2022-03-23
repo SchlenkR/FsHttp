@@ -24,6 +24,7 @@ let mutable internal mutableDefaults =
         httpCompletionOption  = System.Net.Http.HttpCompletionOption.ResponseHeadersRead
         proxy = None
         certErrorStrategy = Default
+        bufferResponseContent = false
     }
 
 type GlobalConfigWrapper(config) =

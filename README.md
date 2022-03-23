@@ -77,7 +77,8 @@ Upgrading to v9 (Breaking Changes)
 * The `HttpBuilder<'context>` is replaced by `IBuilder<'self>`, so that the CE methods work directly on the `HeaderContext`, `BodyContext`, and `MultipartContext` directly. This simplifies things like mixing Dsl and DslCE, pre-configuring and chaining requests.
 * The global configuration is now in the `FsHttp.GlobalConfig` module. The `Config` module is only for functions on request contexts.
 * QueryParams is `(string * obj) list` now
-* Smaller (breaking) changes
+* Use of System.Text.Json as a standard JSON library and created separate Newtonsoft and FSharp.Data JSON packages.
+* Smaller breaking changes
 
 
 Building

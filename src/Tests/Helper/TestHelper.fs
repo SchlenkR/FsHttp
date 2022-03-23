@@ -1,9 +1,11 @@
-﻿module FsHttp.Tests.TestHelper
+﻿[<AutoOpen>]
+module FsHttp.Tests.TestHelper
 
 open System.Text
 
 open Suave
 open Suave.Utils.Collections
+open FsUnit
 
 let inline raiseExn (msg: string) =
     let otype =
@@ -25,3 +27,6 @@ let query key (r: HttpRequest) = defaultArg (Option.ofChoice (r.query ^^ key)) k
 let header key (r: HttpRequest) = defaultArg (Option.ofChoice (r.header key)) keyNotFoundString
 let form key (r: HttpRequest) = defaultArg (Option.ofChoice (r.form ^^ key)) keyNotFoundString
 let contentText (r: HttpRequest) = r.rawForm |> Encoding.UTF8.GetString
+
+let shouldEqual (a: 'a) (b: 'b) = a |> should equal b
+let shouldNotEquals (a: 'a) (b: 'b) = a |> should not' (equal b)

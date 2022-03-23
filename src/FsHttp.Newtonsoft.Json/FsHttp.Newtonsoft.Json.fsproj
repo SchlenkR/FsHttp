@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Description>FsHttp integration package for Json.NET (Newtonsoft.Json)</Description>
+    <PackageId>FsHttp.Newtonsoft.Json</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Response.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" Version="5.0.0" Condition="'$(TargetFramework)' == 'net5.0'" />
+    <PackageReference Include="FSharp.Core" Version="6.0.0" Condition="'$(TargetFramework)' == 'net6.0'" />
+    <PackageReference Include="System.Text.Json" Version="6.0.2" />
+  </ItemGroup>
+</Project>

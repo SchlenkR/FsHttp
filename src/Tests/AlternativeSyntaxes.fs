@@ -10,6 +10,7 @@ open Suave
 open Suave.Operators
 open Suave.Filters
 open Suave.Successful
+open FsHttp.Tests.Helper
 
 let [<TestCase>] ``Shortcut for GET works``() =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
@@ -17,4 +18,4 @@ let [<TestCase>] ``Shortcut for GET works``() =
     get (url @"?test=Hallo")
     |> Request.send
     |> Response.toText
-    |> should equal "test=Hallo"
+    |> shouldEqual "test=Hallo"

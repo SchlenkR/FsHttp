@@ -2,7 +2,6 @@ module FsHttp.Response
 
 open System
 open System.Collections.Generic
-open System.IO
 open System.Net
 open System.Net.Http
 open System.Text
@@ -16,117 +15,103 @@ open FsHttp.Domain
 // Content transformation
 // -----------
 
-// TODO: For all functions that serialize response content, it should be checked that content-length
-//       header is set, and if not, a "maxSerContentLength" should be used or an exception thrown.
+let maxContentLengthOnParseFail = 1000
+let private tryParse text parserName parser =
+    try parser text with
+    | ex ->
+        Exception("Could not parse " + parserName + ": " + (String.substring text maxContentLengthOnParseFail), ex)
+        |> raise
 
-// TODO: Cancellation token passing in all content based async method calls
+let toStreamTAsync (r: Response) = r.content.ReadAsStreamAsync()
+let toStreamAsync (r: Response) = toStreamTAsync r |> Async.AwaitTask
+let toStream (r: Response) = (toStreamTAsync r).Result
 
-/// Starts serializing the content stream into a buffer as a background task.
-let loadContent (response: Response) =
-    response.content.LoadIntoBufferAsync() |> ignore
-    response
-
-let toStreamTAsync response = response.content.ReadAsStreamAsync()
-let toStreamAsync response = toStreamTAsync response |> Async.AwaitTask
-let toStream response = (toStreamTAsync response).Result
-
-let private parseAsync response parserName parse =
+let toBytesAsync (r: Response) = 
     async {
-        use! contentStream = toStreamAsync response
-        use bufferingStream = new Stream.Utf8StringBufferingStream(contentStream, None)
-        try
-            let! ct = Async.CancellationToken
-            return! parse bufferingStream ct
-        with ex ->
-            let errorDisplayContent = bufferingStream.GetUtf8String()
-            let msg = $"Could not parse %s{parserName}: {ex.Message}{br}Content:{br}{errorDisplayContent}"
-            return raise (Exception(msg, ex))
-    }
-
-let toBytesAsync response = 
-    async {
-        let! stream = response |> toStreamAsync
+        let! stream = r |> toStreamAsync
         return! stream |> Stream.toBytesAsync
     }
-let toBytesTAsync response = toBytesAsync response |> Async.StartAsTask
-let toBytes response = toBytesAsync response |> Async.RunSynchronously
+let toBytesTAsync (r: Response) = toBytesAsync r |> Async.StartAsTask
+let toBytes (r: Response) = toBytesAsync r |> Async.RunSynchronously
 
-let private toStringWithLengthAsync maxLength response =
+// TODO: Don't read the whole response; read only requested chars.
+let toStringAsync maxLength (r: Response) =
+    let getTrimChars (s: string) =
+        match s.Length with
+        | l when l > maxLength -> "\n..."
+        | _ -> ""
     async {
-        use! stream = response |> toStreamAsync
-        match maxLength with
-        | None ->
-            use sr = new StreamReader(stream)
-            return! sr.ReadToEndAsync() |> Async.AwaitTask
-        | Some maxLength ->
-            return! stream |> Stream.readUtf8StringAsync maxLength
+        let! content = r.content.ReadAsStringAsync() |> Async.AwaitTask
+        return (String.substring content maxLength) + (getTrimChars content)
     }
-
-let toStringAsync maxLength response =
-    toStringWithLengthAsync maxLength response
 let toStringTAsync maxLength response =
     toStringAsync maxLength response |> Async.StartAsTask
 let toString maxLength response =
     toStringAsync maxLength response |> Async.RunSynchronously
 
-let toTextAsync response = toStringWithLengthAsync None response
-let toTextTAsync response = toTextAsync response |> Async.StartAsTask
-let toText response = toTextAsync response |> Async.RunSynchronously
+let toTextAsync (r: Response) = toStringAsync Int32.MaxValue r
+let toTextTAsync (r: Response) = toTextAsync r |> Async.StartAsTask
+let toText (r: Response) = toTextAsync r |> Async.RunSynchronously
 
-let toJsonAsync response = 
-    parseAsync response "JSON" (fun stream ct ->
-        JsonDocument.ParseAsync(stream, cancellationToken = ct) |> Async.AwaitTask)
-let toJsonTAsync response = toJsonAsync response |> Async.StartAsTask
-let toJson response = toJsonAsync response |> Async.RunSynchronously
+let private parseJson text =
+    tryParse text "JSON" JsonValue.Parse
 
-let toJsonSeqAsync response =
+let toJsonAsync (r: Response) = 
     async {
-        let! res = toJsonAsync response
-        return res |> fun json -> json.RootElement.EnumerateArray()
+        let! s = toTextAsync r 
+        return parseJson s
     }
-let toJsonSeqTAsync response = toJsonSeqAsync response |> Async.StartAsTask
-let toJsonSeq response = toJsonSeqAsync response |> Async.RunSynchronously
+let toJsonTAsync (r: Response) = toJsonAsync r |> Async.StartAsTask
+let toJson (r: Response) = toJsonAsync r |> Async.RunSynchronously
 
-let toXmlAsync response =
-    parseAsync response "XML" (fun stream ct ->
-        XDocument.LoadAsync(stream, LoadOptions.SetLineInfo, ct) |> Async.AwaitTask)
-let toXmlTAsync response = toXmlAsync response |> Async.StartAsTask
-let toXml response = toXmlAsync response |> Async.RunSynchronously
+let toJsonArrayAsync (r: Response) = 
+    async {
+        let! res = toJsonAsync r
+        return res |> fun json -> json.AsArray()
+    }
+let toJsonArrayTAsync (r: Response) = toJsonArrayAsync r |> Async.StartAsTask
+let toJsonArray (r: Response) = toJsonArrayAsync r |> Async.RunSynchronously
+
+let private parseXml text = tryParse text "XML" XDocument.Parse
+
+let toXmlAsync (r: Response) = 
+    async {
+        let! s = toTextAsync r 
+        return parseXml s
+    }
+let toXmlTAsync (r: Response) = toXmlAsync r |> Async.StartAsTask
+let toXml (r: Response) = toXmlAsync r |> Async.RunSynchronously
 
 // TODO: toHtml
 
 /// Tries to convert the response content according to it's type to a formatted string.
-let toFormattedTextAsync response =
-    let toJsonString (doc: JsonDocument) =
-        use stream = new MemoryStream()
-        let writer = new Utf8JsonWriter(stream, new JsonWriterOptions(Indented = true))
-        do doc.WriteTo(writer)
-        do writer.Flush()
-        Encoding.UTF8.GetString(stream.ToArray())
+let toFormattedTextAsync (r: Response) =
     async {
-        let mediaType = try response.content.Headers.ContentType.MediaType with _ -> ""
+        let mediaType = try r.content.Headers.ContentType.MediaType with _ -> ""
+        let! s = toTextAsync r
         try
             if mediaType.Contains("/json") then
-                let! json = toJsonAsync response
-                return toJsonString json
+                let json = parseJson s
+                use tw = new System.IO.StringWriter()
+                json.WriteTo(tw, JsonSaveOptions.None)
+                return tw.ToString()
             else if mediaType.Contains("/xml") then
-                let! xml = toXmlAsync response
-                return xml.ToString(SaveOptions.None)
+                return (parseXml s).ToString(SaveOptions.None)
             else
-                return! toTextAsync response
+                return s
         with _ ->
-            return! toTextAsync response
+            return s
     }
-let toFormattedTextTAsync response = toFormattedTextAsync response |> Async.StartAsTask
-let toFormattedText response = toFormattedTextAsync response |> Async.RunSynchronously
+let toFormattedTextTAsync (r: Response) = toFormattedTextAsync r |> Async.StartAsTask
+let toFormattedText (r: Response) = toFormattedTextAsync r |> Async.RunSynchronously
 
-let saveFileAsync (fileName: string) response = 
+let saveFileAsync (fileName: string) (r: Response) = 
     async {
-        let! stream = response |> toStreamAsync 
+        let! stream = r |> toStreamAsync 
         do! stream |> Stream.saveFileAsync fileName
     }
-let saveFileTAsync (fileName: string) response = saveFileAsync fileName response |> Async.StartAsTask
-let saveFile (fileName: string) response = saveFileAsync fileName response |> Async.RunSynchronously
+let saveFileTAsync (fileName: string) (r: Response) = saveFileAsync fileName r |> Async.StartAsTask
+let saveFile (fileName: string) (r: Response) = saveFileAsync fileName r |> Async.RunSynchronously
 
 let toResult (response: Response) =
     match int response.statusCode with
@@ -144,11 +129,11 @@ let asOriginalHttpResponseMessage (response: Response) =
 // Expect / Assert
 // -----------
 
-let expectHttpStatusCodes (codes: HttpStatusCode list) response =
-    match set codes |> Set.contains response.statusCode with
-    | true -> Ok response
+let expectHttpStatusCodes (codes: HttpStatusCode list) (r: Response) =
+    match set codes |> Set.contains r.statusCode with
+    | true -> Ok r
     //| false -> Error (sprintf $"Status code {HttpStatusCode.show r.statusCode} is not in expected [{codes}].")
-    | false -> Error { expected = codes; actual = response.statusCode }
+    | false -> Error { expected = codes; actual = r.statusCode }
 let expectHttpStatusCode (code: HttpStatusCode) = expectHttpStatusCodes [code]
 let expectStatusCodes (codes: int list) = expectHttpStatusCodes (codes |> List.map LanguagePrimitives.EnumOfValue)
 let expectStatusCode (code: int) = expectStatusCodes [code]
@@ -287,7 +272,7 @@ let print (response: Response) =
                         else toText response
                     match maxLength with
                     | Some maxLength when contentText.Length > maxLength ->
-                        (contentText.Substring (0,maxLength)) + $"{br}..."
+                        (contentText.Substring (0,maxLength)) + $"{Environment.NewLine}..."
                     | _ -> contentText
                 with ex -> sprintf "ERROR reading response content: %s" (ex.ToString())
             sb.appendLine contentIndicator
