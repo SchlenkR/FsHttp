@@ -16,21 +16,23 @@
     <None Include="Resources\uploadFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="Helper.fs" />
-    <Compile Include="Basic.fs" />
-    <Compile Include="GlobalConfig.fs" />
     <Compile Include="AlternativeSyntaxes.fs" />
-    <Compile Include="UrlsAndQuery.fs" />
+    <Compile Include="Basic.fs" />
     <Compile Include="Body.fs" />
-    <Compile Include="Multipart.fs" />
-    <Compile Include="Proxies.fs" />
-    <Compile Include="DotNetHttp.fs" />
     <Compile Include="BuildersAndSignatures.fs" />
-    <Compile Include="ExtendingBuilders.fs" />
-    <Compile Include="Others.fs" />
+    <Compile Include="DotNetHttp.fs" />
     <Compile Include="Expectations.fs" />
-    <Compile Include="Printing.fs" />
+    <Compile Include="ExtendingBuilders.fs" />
+    <Compile Include="GlobalConfig.fs" />
+    <Compile Include="Helper.fs" />
     <Compile Include="JsonComparison.fs" />
+    <Compile Include="Json.SystemText.fs" />
+    <Compile Include="Json.FSharpData.fs" />
+    <Compile Include="Multipart.fs" />
+    <Compile Include="Printing.fs" />
+    <Compile Include="Proxies.fs" />
+    <Compile Include="Others.fs" />
+    <Compile Include="UrlsAndQuery.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FsUnit" Version="4.0.7" />
@@ -41,6 +43,7 @@
     <PackageReference Include="Suave" Version="2.6.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FsHttp.FSharpData\FsHttp.FSharpData.fsproj" />
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
   <ItemGroup>

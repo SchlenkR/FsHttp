@@ -78,6 +78,7 @@ Upgrading to v9 (Breaking Changes)
 * The global configuration is now in the `FsHttp.GlobalConfig` module. The `Config` module is only for functions on request contexts.
 * QueryParams is `(string * obj) list` now
 * Use of System.Text.Json as a standard JSON library and created separate Newtonsoft and FSharp.Data JSON packages.
+* Dropped support for .Net Standard 2.0
 * Smaller breaking changes
 
 

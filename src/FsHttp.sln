@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fiddle", "fiddle", "{8FD963
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.CSharp", "Test.CSharp\Test.CSharp.csproj", "{C425534B-C569-4BC1-81AD-77BE8F79D91C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JsonIntegration", "JsonIntegration", "{FD2CA2F0-E5B9-4D04-998B-8C2910E164BA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationPackages", "IntegrationPackages", "{FD2CA2F0-E5B9-4D04-998B-8C2910E164BA}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp.Newtonsoft.Json", "FsHttp.Newtonsoft.Json\FsHttp.Newtonsoft.Json.fsproj", "{A11DD880-D4D3-43F8-ADA5-12A872FE155C}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp.FSharpData", "FsHttp.FSharpData\FsHttp.FSharpData.fsproj", "{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,16 +37,16 @@ Global
 		{C425534B-C569-4BC1-81AD-77BE8F79D91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C425534B-C569-4BC1-81AD-77BE8F79D91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C425534B-C569-4BC1-81AD-77BE8F79D91C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A11DD880-D4D3-43F8-ADA5-12A872FE155C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A11DD880-D4D3-43F8-ADA5-12A872FE155C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A11DD880-D4D3-43F8-ADA5-12A872FE155C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A11DD880-D4D3-43F8-ADA5-12A872FE155C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A11DD880-D4D3-43F8-ADA5-12A872FE155C} = {FD2CA2F0-E5B9-4D04-998B-8C2910E164BA}
+		{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9} = {FD2CA2F0-E5B9-4D04-998B-8C2910E164BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {490D0829-D4E3-4267-8132-14A5B0C9D347}

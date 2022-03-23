@@ -338,6 +338,14 @@ type IRequestContext<'self> with
     member this.Json(context: IRequestContext<BodyContext>, json) =
         Body.json json context.Self
     
+    [<CustomOperation("jsonSerializeWith")>]
+    member this.JsonSerializeWith(context: IRequestContext<BodyContext>, options, instance) =
+        Body.jsonSerializeWith options instance context.Self
+    
+    [<CustomOperation("jsonSerialize")>]
+    member this.JsonSerialize(context: IRequestContext<BodyContext>, instance) =
+        Body.jsonSerialize instance context.Self
+    
     [<CustomOperation("formUrlEncoded")>]
     member this.FormUrlEncoded(context: IRequestContext<BodyContext>, data) =
         Body.formUrlEncoded data context.Self

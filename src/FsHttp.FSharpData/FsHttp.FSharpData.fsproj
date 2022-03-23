@@ -5,10 +5,11 @@
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <PropertyGroup>
-    <Description>FsHttp integration package for Json.NET (Newtonsoft.Json)</Description>
-    <PackageId>FsHttp.Newtonsoft.Json</PackageId>
+    <Description>FSharp.Data (JSON) integration package for FsHttp</Description>
+    <PackageId>FsHttp.FSharpData</PackageId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="JsonExtensions.fs" />
     <Compile Include="Response.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -17,6 +18,12 @@
   <ItemGroup>
     <PackageReference Include="FSharp.Core" Version="5.0.0" Condition="'$(TargetFramework)' == 'net5.0'" />
     <PackageReference Include="FSharp.Core" Version="6.0.0" Condition="'$(TargetFramework)' == 'net6.0'" />
-    <PackageReference Include="System.Text.Json" Version="6.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\docs\img\logo_small.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
 </Project>

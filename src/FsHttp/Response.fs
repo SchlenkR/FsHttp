@@ -8,6 +8,7 @@ open System.Net.Http
 open System.Text
 open System.Text.Json
 open System.Xml.Linq
+
 open FsHttp.Helper
 open FsHttp.Domain
 
@@ -30,7 +31,7 @@ let toStreamTAsync response = response.content.ReadAsStreamAsync()
 let toStreamAsync response = toStreamTAsync response |> Async.AwaitTask
 let toStream response = (toStreamTAsync response).Result
 
-let private parseAsync response parserName parse =
+let parseAsync parserName parse response =
     async {
         use! contentStream = toStreamAsync response
         use bufferingStream = new Stream.Utf8StringBufferingStream(contentStream, None)
@@ -73,27 +74,61 @@ let toTextAsync response = toStringWithLengthAsync None response
 let toTextTAsync response = toTextAsync response |> Async.StartAsTask
 let toText response = toTextAsync response |> Async.RunSynchronously
 
-let toJsonAsync response = 
-    parseAsync response "JSON" (fun stream ct ->
-        JsonDocument.ParseAsync(stream, cancellationToken = ct) |> Async.AwaitTask)
-let toJsonTAsync response = toJsonAsync response |> Async.StartAsTask
-let toJson response = toJsonAsync response |> Async.RunSynchronously
-
-let toJsonSeqAsync response =
-    async {
-        let! res = toJsonAsync response
-        return res |> fun json -> json.RootElement.EnumerateArray()
-    }
-let toJsonSeqTAsync response = toJsonSeqAsync response |> Async.StartAsTask
-let toJsonSeq response = toJsonSeqAsync response |> Async.RunSynchronously
-
 let toXmlAsync response =
-    parseAsync response "XML" (fun stream ct ->
+    response |> parseAsync "XML" (fun stream ct ->
         XDocument.LoadAsync(stream, LoadOptions.SetLineInfo, ct) |> Async.AwaitTask)
 let toXmlTAsync response = toXmlAsync response |> Async.StartAsTask
 let toXml response = toXmlAsync response |> Async.RunSynchronously
 
 // TODO: toHtml
+
+
+// -----------
+// JSON (System.Text.Json)
+//      It is intended to shadow (some) of the provided JSON functions and operators
+//      in additional JSON integration packages.
+// -----------
+
+let toJsonDocumentAsync response =
+    response |> parseAsync "JSON" (fun stream ct ->
+        JsonDocument.ParseAsync(stream, cancellationToken = ct) |> Async.AwaitTask)
+let toJsonDocumentTAsync response = toJsonDocumentAsync response |> Async.StartAsTask
+let toJsonDocument response = toJsonDocumentAsync response |> Async.RunSynchronously
+
+let toJsonAsync response = toJsonDocumentAsync response |> Async.map (fun doc -> doc.RootElement)
+let toJsonTAsync response = toJsonAsync response |> Async.StartAsTask
+let toJson response = toJsonAsync response |> Async.RunSynchronously
+
+let toJsonSeqAsync response = toJsonAsync response |> Async.map (fun json -> json.EnumerateArray())
+let toJsonSeqTAsync response = toJsonSeqAsync response |> Async.StartAsTask
+let toJsonSeq response = toJsonSeqAsync response |> Async.RunSynchronously
+
+let deserializeJsonWithAsync<'a> options response =
+    async {
+        use! stream = toStreamAsync response
+        let! ct = Async.CancellationToken
+        return!
+            JsonSerializer.DeserializeAsync<'a>(
+                stream, 
+                options = options,
+                cancellationToken =  ct).AsTask()
+            |> Async.AwaitTask
+
+    }
+let deserializeWithJsonTAsync<'a> options response =
+    deserializeJsonWithAsync<'a> options response |> Async.StartAsTask
+let deserializeWithJson<'a> options response =
+    deserializeJsonWithAsync<'a> options response |> Async.RunSynchronously
+
+let deserializeJsonAsync<'a> response =
+    deserializeJsonWithAsync<'a> (JsonSerializerOptions JsonSerializerDefaults.Web) response
+let deserializeJsonTAsync response = deserializeJsonAsync<'a> response |> Async.StartAsTask
+let deserializeJson<'a> response = deserializeJsonAsync<'a> response |> Async.RunSynchronously
+
+
+// -----------
+// Formatting
+// -----------
 
 /// Tries to convert the response content according to it's type to a formatted string.
 let toFormattedTextAsync response =
@@ -107,7 +142,7 @@ let toFormattedTextAsync response =
         let mediaType = try response.content.Headers.ContentType.MediaType with _ -> ""
         try
             if mediaType.Contains("/json") then
-                let! json = toJsonAsync response
+                let! json = toJsonDocumentAsync response
                 return toJsonString json
             else if mediaType.Contains("/xml") then
                 let! xml = toXmlAsync response
@@ -120,6 +155,11 @@ let toFormattedTextAsync response =
 let toFormattedTextTAsync response = toFormattedTextAsync response |> Async.StartAsTask
 let toFormattedText response = toFormattedTextAsync response |> Async.RunSynchronously
 
+
+// -----------
+// Saving / IO
+// -----------
+
 let saveFileAsync (fileName: string) response = 
     async {
         let! stream = response |> toStreamAsync 
@@ -127,6 +167,11 @@ let saveFileAsync (fileName: string) response =
     }
 let saveFileTAsync (fileName: string) response = saveFileAsync fileName response |> Async.StartAsTask
 let saveFile (fileName: string) response = saveFileAsync fileName response |> Async.RunSynchronously
+
+
+// -----------
+// Transformations
+// -----------
 
 let toResult (response: Response) =
     match int response.statusCode with

@@ -254,6 +254,7 @@ module Header =
 
 
 module Body =
+    open System.Text.Json
 
     /// Adds a header
     let header name value (context: IToBodyContext) =
@@ -317,6 +318,14 @@ module Body =
 
     let json (json: string) (context: IToBodyContext) =
         content MimeTypes.applicationJson (StringContent json) context
+
+    let jsonSerializeWith options (instance: 'a) (context: IToBodyContext) =
+        // TODO: Use async / stream
+        let jsonString = JsonSerializer.Serialize(instance, options = options)
+        json jsonString context
+
+    let jsonSerialize (instance: 'a) (context: IToBodyContext) =
+        jsonSerializeWith (JsonSerializerOptions(JsonSerializerDefaults.Web)) instance context
 
     let formUrlEncoded (data: (string * string) list) (context: IToBodyContext) =
         content "application/x-www-form-urlencoded" (FormUrlEncodedContent (Map.ofList data)) context
