@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -151,36 +156,44 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '137', 137)" onmouseover="showTip(event, '137', 137)">
+              <code onmouseout="hideTip(event, '220', 220)" onmouseover="showTip(event, '220', 220)">
                 <p>
-                  <a id="raiseOnError">
-                    <a href="#raiseOnError">
-                      <code><span>raiseOnError&#32;<span>r</span></span></code>
+                  <a id="getValueOrThrow">
+                    <a href="#getValueOrThrow">
+                      <code><span>getValueOrThrow&#32;<span>ex&#32;r</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="137">
+              <div class="fsdocs-tip" id="220">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>raiseOnError&#32;<span>r</span></span></code>
+                  <code><span>getValueOrThrow&#32;<span>ex&#32;r</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
+                        ex
+                      </b>
+                      :
+                      <code><span>'b&#32;->&#32;'a</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
                         r
                       </b>
                       :
-                      <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-fsharpresult-2">Result</a>&lt;<span>'a,&#32;'b</span>&gt;</span></code>
+                      <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-fsharpresult-2">Result</a>&lt;<span>'a0,&#32;'b</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'a</code>
+                    <code>'a0</code>
                   </span>
                   <br/>
                 </div>
@@ -189,15 +202,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Helper.Result.raiseOnError``2```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Helper.Result.getValueOrThrow``3```')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Result.raiseOnError``2\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Result.getValueOrThrow``3\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L66-66" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L57-57" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -208,10 +221,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
+                  ex
+                </span>
+                :
+                <code><span>'b&#32;->&#32;'a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
                   r
                 </span>
                 :
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-fsharpresult-2">Result</a>&lt;<span>'a,&#32;'b</span>&gt;</span></code>
+                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-fsharpresult-2">Result</a>&lt;<span>'a0,&#32;'b</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -220,7 +241,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'a</code>
+                <code>'a0</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>

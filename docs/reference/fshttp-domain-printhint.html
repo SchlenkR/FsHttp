@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -171,72 +176,24 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '259', 259)" onmouseover="showTip(event, '259', 259)">
+              <code onmouseout="hideTip(event, '363', 363)" onmouseover="showTip(event, '363', 363)">
                 <p>
-                  <a id="isEnabled">
-                    <a href="#isEnabled">
-                      <code>isEnabled</code>
+                  <a id="printDebugMessages">
+                    <a href="#printDebugMessages">
+                      <code>printDebugMessages</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="259">
+              <div class="fsdocs-tip" id="363">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code>isEnabled</code>
+                  <code>printDebugMessages</code>
                   <br/>
                   <br/>
                   <span>
                     Field type: 
                     <code>bool</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L21-21" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code>bool</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '260', 260)" onmouseover="showTip(event, '260', 260)">
-                <p>
-                  <a id="requestPrintHint">
-                    <a href="#requestPrintHint">
-                      <code>requestPrintHint</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="260">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>requestPrintHint</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-requestprinthint.html">RequestPrintHint</a></code>
                   </span>
                   <br/>
                 </div>
@@ -258,7 +215,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-requestprinthint.html">RequestPrintHint</a></code>
+                <code>bool</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -267,24 +224,24 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '261', 261)" onmouseover="showTip(event, '261', 261)">
+              <code onmouseout="hideTip(event, '364', 364)" onmouseover="showTip(event, '364', 364)">
                 <p>
-                  <a id="responsePrintHint">
-                    <a href="#responsePrintHint">
-                      <code>responsePrintHint</code>
+                  <a id="requestPrintMode">
+                    <a href="#requestPrintMode">
+                      <code>requestPrintMode</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="261">
+              <div class="fsdocs-tip" id="364">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code>responsePrintHint</code>
+                  <code>requestPrintMode</code>
                   <br/>
                   <br/>
                   <span>
                     Field type: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-responseprinthint.html">ResponsePrintHint</a></code>
+                    <code><span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;unit&gt;</span></code>
                   </span>
                   <br/>
                 </div>
@@ -306,7 +263,55 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-responseprinthint.html">ResponsePrintHint</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;unit&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '365', 365)" onmouseover="showTip(event, '365', 365)">
+                <p>
+                  <a id="responsePrintMode">
+                    <a href="#responsePrintMode">
+                      <code>responsePrintMode</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="365">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>responsePrintMode</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L24-24" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>

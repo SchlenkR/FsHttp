@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>ResponsePrintHint (FsHttp)</title>
+    <title>ConfigTransformer (FsHttp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -106,39 +111,31 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h2>
-    ResponsePrintHint Type
+    ConfigTransformer Type
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="/FsHttp/reference/fshttp.html">
-        FsHttp
+      <a href="/FsHttp/reference/fshttp-csharp.html">
+        FsHttp.CSharp
       </a>
     </dt>
     <dt>
       Assembly: FsHttp.dll
     </dt>
     <dt>
-      Parent Module: 
-      <a href="/FsHttp/reference/fshttp-domain.html">
-        Domain
-      </a>
+      Abbreviation For: 
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-config.html">Config</a>,&#32;<a href="/FsHttp/reference/fshttp-domain-config.html">Config</a></span>&gt;</span></code>
     </dt>
     <dt>
       Base Type: 
-      <code>obj</code>
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.multicastdelegate">MulticastDelegate</a></code>
     </dt>
     <dt>
       All Interfaces: 
-      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-responseprinthint.html">ResponsePrintHint</a>&gt;</span></code>
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.icloneable">ICloneable</a></code>
       , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
-      , 
-      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-responseprinthint.html">ResponsePrintHint</a>&gt;</span></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.runtime.serialization.iserializable">ISerializable</a></code>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
@@ -148,129 +145,6 @@
       </p>
     </div>
   </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div>
-    <h3>
-      Record fields
-    </h3>
-    <table class="table outer-list fsdocs-member-list">
-      <thead>
-        <tr>
-          <td class="fsdocs-member-list-header">
-            Record Field
-          </td>
-          <td class="fsdocs-member-list-header">
-            Description
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '282', 282)" onmouseover="showTip(event, '282', 282)">
-                <p>
-                  <a id="printContent">
-                    <a href="#printContent">
-                      <code>printContent</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="282">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>printContent</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-contentprinthint.html">ContentPrintHint</a></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L18-18" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-contentprinthint.html">ContentPrintHint</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '283', 283)" onmouseover="showTip(event, '283', 283)">
-                <p>
-                  <a id="printHeader">
-                    <a href="#printHeader">
-                      <code>printHeader</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="283">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>printHeader</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code>bool</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L17-17" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code>bool</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
 </div>
             
         </div>

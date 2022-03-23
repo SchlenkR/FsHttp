@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -105,47 +110,53 @@
         <hr />
         <div class="container" id="fsdocs-content">
             
-<h2><a name="Configuration-Timeouts-etc" class="anchor" href="#Configuration-Timeouts-etc">Configuration: Timeouts, etc.</a></h2>
-<p>You can specify a timeout:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// should throw because it&#39;s very short</span>
-<span onmouseout="hideTip(event, 'fs3', 4)" onmouseover="showTip(event, 'fs3', 4)" class="k">http</span> <span class="pn">{</span>
-    <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="k">GET</span> <span class="s">&quot;http://www.google.de&quot;</span>
-    <span class="id">timeoutInSeconds</span> <span class="n">0.1</span>
+<h2><a name="Per-request-configuration" class="anchor" href="#Per-request-configuration">Per request configuration</a></h2>
+<p>It's possible to configure requests per instance by the use of <code>config_</code>
+methods in any stage of the request definition:</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="k">http</span> <span class="pn">{</span>
+    <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="k">config_timeoutInSeconds</span> <span class="n">11.1</span>
+    <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="k">GET</span> <span class="s">&quot;http://myService&quot;</span>
 <span class="pn">}</span>
+
+<span class="c">// or</span>
+
+<span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="fn">get</span> <span class="s">&quot;http://myService&quot;</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="m">Config</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="id">timeoutInSeconds</span> <span class="n">11.1</span>
 </code></pre>
+<h2><a name="Global-configuration" class="anchor" href="#Global-configuration">Global configuration</a></h2>
 <p>You can also set config values globally (inherited when requests are created):</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs1', 6)" onmouseover="showTip(event, 'fs1', 6)" class="id">FsHttp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="m">Config</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs6', 8)" onmouseover="showTip(event, 'fs6', 8)" class="id">setDefaultConfig</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="fn">config</span> <span class="k">-&gt;</span>
-    <span class="pn">{</span> <span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="fn">config</span> <span class="k">with</span> <span class="prop">timeout</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 11)" onmouseover="showTip(event, 'fs8', 11)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 12)" onmouseover="showTip(event, 'fs9', 12)" class="vt">TimeSpan</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 13)" onmouseover="showTip(event, 'fs10', 13)" class="id">FromSeconds</span> <span class="n">15.0</span> <span class="pn">}</span><span class="pn">)</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="m">GlobalConfig</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 9)" onmouseover="showTip(event, 'fs9', 9)" class="id">defaults</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs6', 10)" onmouseover="showTip(event, 'fs6', 10)" class="m">Config</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="id">timeoutInSeconds</span> <span class="n">11.1</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 12)" onmouseover="showTip(event, 'fs8', 12)" class="m">GlobalConfig</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 13)" onmouseover="showTip(event, 'fs10', 13)" class="id">set</span>
 </code></pre>
 
             <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
-<div class="fsdocs-tip" id="fs2">Modul DslCE
+<div class="fsdocs-tip" id="fs2">val http : StartingContext</div>
+<div class="fsdocs-tip" id="fs3">Benutzerdefinierter Vorgang: config_timeoutInSeconds (float)
 
-aus FsHttp</div>
-<div class="fsdocs-tip" id="fs3">val http : EagerSyncHttpBuilder</div>
+Aufrufe IRequestContext.TimeoutInSeconds</div>
 <div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: GET (string)
 
-Aufrufe LazyHttpBuilder.Get</div>
-<div class="fsdocs-tip" id="fs5">Modul Config
+Aufrufe IRequestContext.Get</div>
+<div class="fsdocs-tip" id="fs5">val get : url:string -&gt; HeaderContext</div>
+<div class="fsdocs-tip" id="fs6">Multiple items<br />Modul Config
+
+aus FsHttp.Dsl<br /><br />--------------------<br />type Config =
+  { timeout: TimeSpan
+    printHint: PrintHint
+    httpMessageTransformer: (HttpRequestMessage -&gt; HttpRequestMessage) option
+    httpClientHandlerTransformer: (SocketsHttpHandler -&gt; SocketsHttpHandler) option
+    httpClientTransformer: (HttpClient -&gt; HttpClient) option
+    httpCompletionOption: HttpCompletionOption
+    proxy: Proxy option
+    certErrorStrategy: CertErrorStrategy
+    httpClientFactory: (unit -&gt; HttpClient) option }</div>
+<div class="fsdocs-tip" id="fs7">val timeoutInSeconds : value:float -&gt; context:IConfigure&lt;ConfigTransformer,&#39;c&gt; -&gt; &#39;c</div>
+<div class="fsdocs-tip" id="fs8">Modul GlobalConfig
 
 aus FsHttp</div>
-<div class="fsdocs-tip" id="fs6">val setDefaultConfig : setter:(Config -&gt; Config) -&gt; unit</div>
-<div class="fsdocs-tip" id="fs7">val config : Config</div>
-<div class="fsdocs-tip" id="fs8">Namespace System</div>
-<div class="fsdocs-tip" id="fs9">Multiple items<br />[&lt;Struct&gt;]
-type TimeSpan =
-  new : hours: int * minutes: int * seconds: int -&gt; unit + 3 &#220;berladungen
-  member Add : ts: TimeSpan -&gt; TimeSpan
-  member CompareTo : value: obj -&gt; int + 1 &#220;berladung
-  member Divide : divisor: float -&gt; TimeSpan + 1 &#220;berladung
-  member Duration : unit -&gt; TimeSpan
-  member Equals : value: obj -&gt; bool + 2 &#220;berladungen
-  member GetHashCode : unit -&gt; int
-  member Multiply : factor: float -&gt; TimeSpan
-  member Negate : unit -&gt; TimeSpan
-  member Subtract : ts: TimeSpan -&gt; TimeSpan
-  ...<br /><em>&lt;summary&gt;Represents a time interval.&lt;/summary&gt;</em><br /><br />--------------------<br />System.TimeSpan ()<br />System.TimeSpan(ticks: int64) : System.TimeSpan<br />System.TimeSpan(hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int, milliseconds: int) : System.TimeSpan</div>
-<div class="fsdocs-tip" id="fs10">System.TimeSpan.FromSeconds(value: float) : System.TimeSpan</div>
+<div class="fsdocs-tip" id="fs9">val defaults : GlobalConfig.GlobalConfigWrapper</div>
+<div class="fsdocs-tip" id="fs10">val set : config:GlobalConfig.GlobalConfigWrapper -&gt; unit</div>
 
         </div>
 

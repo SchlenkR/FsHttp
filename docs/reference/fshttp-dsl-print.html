@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Stream (FsHttp)</title>
+    <title>Print (FsHttp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -111,7 +111,7 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h2>
-    Stream Module
+    Print Module
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
@@ -125,8 +125,8 @@
     </dt>
     <dt>
       Parent Module: 
-      <a href="/FsHttp/reference/fshttp-helper.html">
-        Helper
+      <a href="/FsHttp/reference/fshttp-dsl.html">
+        Dsl
       </a>
     </dt>
   </dl>
@@ -136,55 +136,6 @@
         
       </p>
     </div>
-  </div>
-  <div>
-    <h3>
-      Types
-    </h3>
-    <table class="table outer-list fsdocs-entity-list">
-      <thead>
-        <tr>
-          <td>
-            Type
-          </td>
-          <td>
-            Description
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="fsdocs-entity-name">
-            <p>
-              <a name="Utf8StringBufferingStream">
-                <a href="/FsHttp/reference/fshttp-helper-stream-utf8stringbufferingstream.html">
-                  Utf8StringBufferingStream
-                </a>
-              </a>
-            </p>
-          </td>
-          <td class="fsdocs-entity-xmldoc">
-            <div>
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Helper.Stream.Utf8StringBufferingStream`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Helper.Stream.Utf8StringBufferingStream\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L85-85" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
   <div>
     <h3>
@@ -205,61 +156,58 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '221', 221)" onmouseover="showTip(event, '221', 221)">
+              <code onmouseout="hideTip(event, '103', 103)" onmouseover="showTip(event, '103', 103)">
                 <p>
-                  <a id="copyToAsync">
-                    <a href="#copyToAsync">
-                      <code><span>copyToAsync&#32;<span>target&#32;source</span></span></code>
+                  <a id="headerOnly">
+                    <a href="#headerOnly">
+                      <code><span>headerOnly&#32;<span>context</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="221">
+              <div class="fsdocs-tip" id="103">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>copyToAsync&#32;<span>target&#32;source</span></span></code>
+                  <code><span>headerOnly&#32;<span>context</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        target
+                        context
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        source
-                      </b>
-                      :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;unit&gt;</span></code>
+                    <code>'c</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.copyToAsync`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Print.headerOnly``1```')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.copyToAsync\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Print.headerOnly``1\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L163-163" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L478-478" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -270,18 +218,10 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  target
+                  context
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  source
-                </span>
-                :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -290,7 +230,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;unit&gt;</span></code>
+                <code>'c</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -299,69 +239,58 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '222', 222)" onmouseover="showTip(event, '222', 222)">
+              <code onmouseout="hideTip(event, '104', 104)" onmouseover="showTip(event, '104', 104)">
                 <p>
-                  <a id="copyToCallbackAsync">
-                    <a href="#copyToCallbackAsync">
-                      <code><span>copyToCallbackAsync&#32;<span>target&#32;callback&#32;source</span></span></code>
+                  <a id="useObjectFormatting">
+                    <a href="#useObjectFormatting">
+                      <code><span>useObjectFormatting&#32;<span>context</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="222">
+              <div class="fsdocs-tip" id="104">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>copyToCallbackAsync&#32;<span>target&#32;callback&#32;source</span></span></code>
+                  <code><span>useObjectFormatting&#32;<span>context</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        target
+                        context
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        callback
-                      </b>
-                      :
-                      <code><span>int&#32;->&#32;unit</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        source
-                      </b>
-                      :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'d</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;unit&gt;</span></code>
+                    <code>'e</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;d, &#39;e
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.copyToCallbackAsync`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Print.useObjectFormatting``2```')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.copyToCallbackAsync\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Print.useObjectFormatting``2\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L142-142" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L473-473" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -372,26 +301,10 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  target
+                  context
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  callback
-                </span>
-                :
-                <code><span>int&#32;->&#32;unit</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  source
-                </span>
-                :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'d</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -400,7 +313,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;unit&gt;</span></code>
+                <code>'e</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -409,69 +322,66 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '223', 223)" onmouseover="showTip(event, '223', 223)">
+              <code onmouseout="hideTip(event, '105', 105)" onmouseover="showTip(event, '105', 105)">
                 <p>
-                  <a id="copyToCallbackTAsync">
-                    <a href="#copyToCallbackTAsync">
-                      <code><span>copyToCallbackTAsync&#32;<span>target&#32;callback&#32;source</span></span></code>
+                  <a id="withConfig">
+                    <a href="#withConfig">
+                      <code><span>withConfig&#32;<span>transformer&#32;context</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="223">
+              <div class="fsdocs-tip" id="105">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>copyToCallbackTAsync&#32;<span>target&#32;callback&#32;source</span></span></code>
+                  <code><span>withConfig&#32;<span>transformer&#32;context</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        target
+                        transformer
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        callback
+                        context
                       </b>
                       :
-                      <code><span>int&#32;->&#32;unit</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        source
-                      </b>
-                      :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;unit&gt;</span></code>
+                    <code>'c</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.copyToCallbackTAsync`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Print.withConfig``1```')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.copyToCallbackTAsync\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Print.withConfig``1\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L160-160" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L455-455" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -482,26 +392,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  target
+                  transformer
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                <code><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  callback
+                  context
                 </span>
                 :
-                <code><span>int&#32;->&#32;unit</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  source
-                </span>
-                :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -510,7 +412,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;unit&gt;</span></code>
+                <code>'c</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -519,61 +421,66 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '224', 224)" onmouseover="showTip(event, '224', 224)">
+              <code onmouseout="hideTip(event, '106', 106)" onmouseover="showTip(event, '106', 106)">
                 <p>
-                  <a id="copyToTAsync">
-                    <a href="#copyToTAsync">
-                      <code><span>copyToTAsync&#32;<span>target&#32;source</span></span></code>
+                  <a id="withRequestPrintMode">
+                    <a href="#withRequestPrintMode">
+                      <code><span>withRequestPrintMode&#32;<span>updatePrintMode&#32;context</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="224">
+              <div class="fsdocs-tip" id="106">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>copyToTAsync&#32;<span>target&#32;source</span></span></code>
+                  <code><span>withRequestPrintMode&#32;<span>updatePrintMode&#32;context</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        target
+                        updatePrintMode
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                      <code><span><span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;unit&gt;</span>&#32;->&#32;<span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;unit&gt;</span></span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        source
+                        context
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;unit&gt;</span></code>
+                    <code>'c</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.copyToTAsync`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Print.withRequestPrintMode``1```')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.copyToTAsync\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Print.withRequestPrintMode``1\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L171-171" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L458-458" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -584,18 +491,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  target
+                  updatePrintMode
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                <code><span><span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;unit&gt;</span>&#32;->&#32;<span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;unit&gt;</span></span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  source
+                  context
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -604,7 +511,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;unit&gt;</span></code>
+                <code>'c</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -613,26 +520,307 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '225', 225)" onmouseover="showTip(event, '225', 225)">
+              <code onmouseout="hideTip(event, '107', 107)" onmouseover="showTip(event, '107', 107)">
                 <p>
-                  <a id="readUtf8StringAsync">
-                    <a href="#readUtf8StringAsync">
-                      <code><span>readUtf8StringAsync&#32;<span>maxUtf16CharCount&#32;stream</span></span></code>
+                  <a id="withResponseBody">
+                    <a href="#withResponseBody">
+                      <code><span>withResponseBody&#32;<span>updateBodyPrintMode&#32;context</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="225">
+              <div class="fsdocs-tip" id="107">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>readUtf8StringAsync&#32;<span>maxUtf16CharCount&#32;stream</span></span></code>
+                  <code><span>withResponseBody&#32;<span>updateBodyPrintMode&#32;context</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        maxUtf16CharCount
+                        updateBodyPrintMode
+                      </b>
+                      :
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&#32;->&#32;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        context
+                      </b>
+                      :
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'c</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;c
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Print.withResponseBody``1```')">
+                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Print.withResponseBody``1\'/>')">
+                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L466-466" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  updateBodyPrintMode
+                </span>
+                :
+                <code><span><a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&#32;->&#32;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  context
+                </span>
+                :
+                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>'c</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '108', 108)" onmouseover="showTip(event, '108', 108)">
+                <p>
+                  <a id="withResponseBodyExpanded">
+                    <a href="#withResponseBodyExpanded">
+                      <code><span>withResponseBodyExpanded&#32;<span>context</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="108">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>withResponseBodyExpanded&#32;<span>context</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        context
+                      </b>
+                      :
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'c</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;c
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Print.withResponseBodyExpanded``1```')">
+                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Print.withResponseBodyExpanded``1\'/>')">
+                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L490-490" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  context
+                </span>
+                :
+                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>'c</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '109', 109)" onmouseover="showTip(event, '109', 109)">
+                <p>
+                  <a id="withResponseBodyFormat">
+                    <a href="#withResponseBodyFormat">
+                      <code><span>withResponseBodyFormat&#32;<span>format&#32;context</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="109">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>withResponseBodyFormat&#32;<span>format&#32;context</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        format
+                      </b>
+                      :
+                      <code>bool</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        context
+                      </b>
+                      :
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'c</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;c
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Print.withResponseBodyFormat``1```')">
+                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Print.withResponseBodyFormat``1\'/>')">
+                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L486-486" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  format
+                </span>
+                :
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  context
+                </span>
+                :
+                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>'c</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '110', 110)" onmouseover="showTip(event, '110', 110)">
+                <p>
+                  <a id="withResponseBodyLength">
+                    <a href="#withResponseBodyLength">
+                      <code><span>withResponseBodyLength&#32;<span>maxLength&#32;context</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="110">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>withResponseBodyLength&#32;<span>maxLength&#32;context</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        maxLength
                       </b>
                       :
                       <code>int</code>
@@ -640,34 +828,39 @@
                     <br/>
                     <span>
                       <b>
-                        stream
+                        context
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;string&gt;</span></code>
+                    <code>'c</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.readUtf8StringAsync`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Print.withResponseBodyLength``1```')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.readUtf8StringAsync\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Print.withResponseBodyLength``1\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L118-118" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L482-482" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -678,7 +871,7 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  maxUtf16CharCount
+                  maxLength
                 </span>
                 :
                 <code>int</code>
@@ -686,10 +879,10 @@
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  stream
+                  context
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -698,7 +891,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;string&gt;</span></code>
+                <code>'c</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -707,61 +900,66 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '226', 226)" onmouseover="showTip(event, '226', 226)">
+              <code onmouseout="hideTip(event, '111', 111)" onmouseover="showTip(event, '111', 111)">
                 <p>
-                  <a id="saveFileAsync">
-                    <a href="#saveFileAsync">
-                      <code><span>saveFileAsync&#32;<span>fileName&#32;source</span></span></code>
+                  <a id="withResponsePrintMode">
+                    <a href="#withResponsePrintMode">
+                      <code><span>withResponsePrintMode&#32;<span>updatePrintMode&#32;context</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="226">
+              <div class="fsdocs-tip" id="111">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>saveFileAsync&#32;<span>fileName&#32;source</span></span></code>
+                  <code><span>withResponsePrintMode&#32;<span>updatePrintMode&#32;context</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        fileName
+                        updatePrintMode
                       </b>
                       :
-                      <code>string</code>
+                      <code><span><span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span>&#32;->&#32;<span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span></span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        source
+                        context
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;unit&gt;</span></code>
+                    <code>'c</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.saveFileAsync`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Print.withResponsePrintMode``1```')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.saveFileAsync\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Print.withResponsePrintMode``1\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L194-194" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L462-462" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -772,18 +970,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  fileName
+                  updatePrintMode
                 </span>
                 :
-                <code>string</code>
+                <code><span><span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span>&#32;->&#32;<span><a href="/FsHttp/reference/fshttp-domain-printmode-1.html">PrintMode</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span></span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  source
+                  context
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -792,413 +990,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;unit&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '227', 227)" onmouseover="showTip(event, '227', 227)">
-                <p>
-                  <a id="saveFileTAsync">
-                    <a href="#saveFileTAsync">
-                      <code><span>saveFileTAsync&#32;<span>fileName&#32;source</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="227">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>saveFileTAsync&#32;<span>fileName&#32;source</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        fileName
-                      </b>
-                      :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        source
-                      </b>
-                      :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;unit&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.saveFileTAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.saveFileTAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L201-201" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  fileName
-                </span>
-                :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  source
-                </span>
-                :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;unit&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '228', 228)" onmouseover="showTip(event, '228', 228)">
-                <p>
-                  <a id="toBytesAsync">
-                    <a href="#toBytesAsync">
-                      <code><span>toBytesAsync&#32;<span>source</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="228">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>toBytesAsync&#32;<span>source</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        source
-                      </b>
-                      :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;<span>byte[]</span>&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.toBytesAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.toBytesAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L185-185" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  source
-                </span>
-                :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;<span>byte[]</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '229', 229)" onmouseover="showTip(event, '229', 229)">
-                <p>
-                  <a id="toBytesTAsync">
-                    <a href="#toBytesTAsync">
-                      <code><span>toBytesTAsync&#32;<span>source</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="229">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>toBytesTAsync&#32;<span>source</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        source
-                      </b>
-                      :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span>byte[]</span>&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.toBytesTAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.toBytesTAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L191-191" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  source
-                </span>
-                :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span>byte[]</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '230', 230)" onmouseover="showTip(event, '230', 230)">
-                <p>
-                  <a id="toStringUtf8Async">
-                    <a href="#toStringUtf8Async">
-                      <code><span>toStringUtf8Async&#32;<span>source</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="230">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>toStringUtf8Async&#32;<span>source</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        source
-                      </b>
-                      :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;string&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.toStringUtf8Async`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.toStringUtf8Async\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L174-174" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  source
-                </span>
-                :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;string&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '231', 231)" onmouseover="showTip(event, '231', 231)">
-                <p>
-                  <a id="toStringUtf8TAsync">
-                    <a href="#toStringUtf8TAsync">
-                      <code><span>toStringUtf8TAsync&#32;<span>source</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="231">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>toStringUtf8TAsync&#32;<span>source</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        source
-                      </b>
-                      :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;string&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Helper.Stream.toStringUtf8TAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Stream.toStringUtf8TAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L182-182" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  source
-                </span>
-                :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;string&gt;</span></code>
+                <code>'c</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>

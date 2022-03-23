@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -107,38 +112,35 @@
             
 <h2><a name="Access-HttpClient-and-HttpMessage" class="anchor" href="#Access-HttpClient-and-HttpMessage">Access HttpClient and HttpMessage</a></h2>
 <p>Transform underlying http client and do whatever you feel you gave to do:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs3', 4)" onmouseover="showTip(event, 'fs3', 4)" class="k">http</span> <span class="pn">{</span>
-    <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="k">GET</span> <span class="s">@&quot;https://reqres.in/api/users?page=2&amp;delay=3&quot;</span>
-    <span onmouseout="hideTip(event, 'fs5', 6)" onmouseover="showTip(event, 'fs5', 6)" class="k">config_transformHttpClient</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs6', 7)" onmouseover="showTip(event, 'fs6', 7)" class="d">httpClient</span> <span class="k">-&gt;</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="k">http</span> <span class="pn">{</span>
+    <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="k">GET</span> <span class="s">@&quot;https://reqres.in/api/users?page=2&amp;delay=3&quot;</span>
+    <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="k">config_transformHttpClient</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="d">httpClient</span> <span class="k">-&gt;</span>
         <span class="c">// this will cause a timeout exception</span>
-        <span onmouseout="hideTip(event, 'fs6', 8)" onmouseover="showTip(event, 'fs6', 8)" class="d">httpClient</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="id">Timeout</span> <span class="k">&lt;-</span> <span onmouseout="hideTip(event, 'fs8', 10)" onmouseover="showTip(event, 'fs8', 10)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 11)" onmouseover="showTip(event, 'fs9', 11)" class="vt">TimeSpan</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 12)" onmouseover="showTip(event, 'fs10', 12)" class="id">FromMilliseconds</span> <span class="n">1.0</span>
-        <span onmouseout="hideTip(event, 'fs6', 13)" onmouseover="showTip(event, 'fs6', 13)" class="d">httpClient</span><span class="pn">)</span>
+        <span onmouseout="hideTip(event, 'fs5', 6)" onmouseover="showTip(event, 'fs5', 6)" class="d">httpClient</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs6', 7)" onmouseover="showTip(event, 'fs6', 7)" class="id">Timeout</span> <span class="k">&lt;-</span> <span onmouseout="hideTip(event, 'fs7', 8)" onmouseover="showTip(event, 'fs7', 8)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 9)" onmouseover="showTip(event, 'fs8', 9)" class="vt">TimeSpan</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 10)" onmouseover="showTip(event, 'fs9', 10)" class="id">FromMilliseconds</span> <span class="n">1.0</span>
+        <span onmouseout="hideTip(event, 'fs5', 11)" onmouseover="showTip(event, 'fs5', 11)" class="d">httpClient</span><span class="pn">)</span>
 <span class="pn">}</span>
 </code></pre>
 <p>Transform underlying http request message:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs3', 14)" onmouseover="showTip(event, 'fs3', 14)" class="k">http</span> <span class="pn">{</span>
-    <span onmouseout="hideTip(event, 'fs4', 15)" onmouseover="showTip(event, 'fs4', 15)" class="k">GET</span> <span class="s">@&quot;https://reqres.in/api/users?page=2&amp;delay=3&quot;</span>
-    <span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="k">config_transformHttpRequestMessage</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs12', 17)" onmouseover="showTip(event, 'fs12', 17)" class="d">msg</span> <span class="k">-&gt;</span>
-        <span onmouseout="hideTip(event, 'fs13', 18)" onmouseover="showTip(event, 'fs13', 18)" class="fn">printfn</span> <span class="s">&quot;HTTP message: </span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs12', 19)" onmouseover="showTip(event, 'fs12', 19)" class="d">msg</span>
-        <span onmouseout="hideTip(event, 'fs12', 20)" onmouseover="showTip(event, 'fs12', 20)" class="d">msg</span><span class="pn">)</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs2', 12)" onmouseover="showTip(event, 'fs2', 12)" class="k">http</span> <span class="pn">{</span>
+    <span onmouseout="hideTip(event, 'fs3', 13)" onmouseover="showTip(event, 'fs3', 13)" class="k">GET</span> <span class="s">@&quot;https://reqres.in/api/users?page=2&amp;delay=3&quot;</span>
+    <span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="k">config_transformHttpRequestMessage</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs11', 15)" onmouseover="showTip(event, 'fs11', 15)" class="d">msg</span> <span class="k">-&gt;</span>
+        <span onmouseout="hideTip(event, 'fs12', 16)" onmouseover="showTip(event, 'fs12', 16)" class="fn">printfn</span> <span class="s">&quot;HTTP message: </span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="d">msg</span>
+        <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="d">msg</span><span class="pn">)</span>
 <span class="pn">}</span>
 </code></pre>
 
             <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
-<div class="fsdocs-tip" id="fs2">Modul DslCE
+<div class="fsdocs-tip" id="fs2">val http : StartingContext</div>
+<div class="fsdocs-tip" id="fs3">Benutzerdefinierter Vorgang: GET (string)
 
-aus FsHttp</div>
-<div class="fsdocs-tip" id="fs3">val http : EagerSyncHttpBuilder</div>
-<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: GET (string)
+Aufrufe IRequestContext.Get</div>
+<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: config_transformHttpClient (System.Net.Http.HttpClient -&gt; System.Net.Http.HttpClient)
 
-Aufrufe LazyHttpBuilder.Get</div>
-<div class="fsdocs-tip" id="fs5">Benutzerdefinierter Vorgang: config_transformHttpClient (System.Net.Http.HttpClient -&gt; System.Net.Http.HttpClient)
-
-Aufrufe LazyHttpBuilder.TransformHttpClient</div>
-<div class="fsdocs-tip" id="fs6">val httpClient : System.Net.Http.HttpClient</div>
-<div class="fsdocs-tip" id="fs7">Eigenschaft System.Net.Http.HttpClient.Timeout: System.TimeSpan with get, set</div>
-<div class="fsdocs-tip" id="fs8">Namespace System</div>
-<div class="fsdocs-tip" id="fs9">Multiple items<br />[&lt;Struct&gt;]
+Aufrufe IRequestContext.TransformHttpClient</div>
+<div class="fsdocs-tip" id="fs5">val httpClient : System.Net.Http.HttpClient</div>
+<div class="fsdocs-tip" id="fs6">Eigenschaft System.Net.Http.HttpClient.Timeout: System.TimeSpan with get, set<br /><em>&lt;summary&gt;Gets or sets the timespan to wait before the request times out.&lt;/summary&gt;<br />&lt;exception cref=&quot;T:System.ArgumentOutOfRangeException&quot;&gt;The timeout specified is less than or equal to zero and is not &lt;see cref=&quot;F:System.Threading.Timeout.InfiniteTimeSpan&quot; /&gt;.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.InvalidOperationException&quot;&gt;An operation has already been started on the current instance.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.ObjectDisposedException&quot;&gt;The current instance has been disposed.&lt;/exception&gt;<br />&lt;returns&gt;The timespan to wait before the request times out.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs7">Namespace System</div>
+<div class="fsdocs-tip" id="fs8">Multiple items<br />[&lt;Struct&gt;]
 type TimeSpan =
   new : hours: int * minutes: int * seconds: int -&gt; unit + 3 &#220;berladungen
   member Add : ts: TimeSpan -&gt; TimeSpan
@@ -151,12 +153,12 @@ type TimeSpan =
   member Negate : unit -&gt; TimeSpan
   member Subtract : ts: TimeSpan -&gt; TimeSpan
   ...<br /><em>&lt;summary&gt;Represents a time interval.&lt;/summary&gt;</em><br /><br />--------------------<br />System.TimeSpan ()<br />System.TimeSpan(ticks: int64) : System.TimeSpan<br />System.TimeSpan(hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int, milliseconds: int) : System.TimeSpan</div>
-<div class="fsdocs-tip" id="fs10">System.TimeSpan.FromMilliseconds(value: float) : System.TimeSpan</div>
-<div class="fsdocs-tip" id="fs11">Benutzerdefinierter Vorgang: config_transformHttpRequestMessage (System.Net.Http.HttpRequestMessage -&gt; System.Net.Http.HttpRequestMessage)
+<div class="fsdocs-tip" id="fs9">System.TimeSpan.FromMilliseconds(value: float) : System.TimeSpan</div>
+<div class="fsdocs-tip" id="fs10">Benutzerdefinierter Vorgang: config_transformHttpRequestMessage (System.Net.Http.HttpRequestMessage -&gt; System.Net.Http.HttpRequestMessage)
 
-Aufrufe LazyHttpBuilder.TransformHttpRequestMessage</div>
-<div class="fsdocs-tip" id="fs12">val msg : System.Net.Http.HttpRequestMessage</div>
-<div class="fsdocs-tip" id="fs13">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Print to &lt;c&gt;stdout&lt;/c&gt; using the given format, and add a newline.&lt;/summary&gt;<br />&lt;param name=&quot;format&quot;&gt;The formatter.&lt;/param&gt;<br />&lt;returns&gt;The formatted result.&lt;/returns&gt;</em></div>
+Aufrufe IRequestContext.TransformHttpRequestMessage</div>
+<div class="fsdocs-tip" id="fs11">val msg : System.Net.Http.HttpRequestMessage</div>
+<div class="fsdocs-tip" id="fs12">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Print to &lt;c&gt;stdout&lt;/c&gt; using the given format, and add a newline.&lt;/summary&gt;<br />&lt;param name=&quot;format&quot;&gt;The formatter.&lt;/param&gt;<br />&lt;returns&gt;The formatted result.&lt;/returns&gt;</em></div>
 
         </div>
 

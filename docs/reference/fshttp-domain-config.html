@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -159,7 +164,57 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '221', 221)" onmouseover="showTip(event, '221', 221)">
+              <code onmouseout="hideTip(event, '327', 327)" onmouseover="showTip(event, '327', 327)">
+                <p>
+                  <a id="bufferResponseContent">
+                    <a href="#bufferResponseContent">
+                      <code>bufferResponseContent</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="327">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>bufferResponseContent</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code>bool</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L49-49" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Calls `LoadIntoBufferAsync` of the response's HttpContent immediately after receiving.
+
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '328', 328)" onmouseover="showTip(event, '328', 328)">
                 <p>
                   <a id="certErrorStrategy">
                     <a href="#certErrorStrategy">
@@ -168,7 +223,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="221">
+              <div class="fsdocs-tip" id="328">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>certErrorStrategy</code>
@@ -177,198 +232,6 @@
                   <span>
                     Field type: 
                     <code><a href="/FsHttp/reference/fshttp-domain-certerrorstrategy.html">CertErrorStrategy</a></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L47-47" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-certerrorstrategy.html">CertErrorStrategy</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '222', 222)" onmouseover="showTip(event, '222', 222)">
-                <p>
-                  <a id="httpClientFactory">
-                    <a href="#httpClientFactory">
-                      <code>httpClientFactory</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="222">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>httpClientFactory</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code><span><span>(<span>unit&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span>)</span>&#32;option</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L48-48" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code><span><span>(<span>unit&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span>)</span>&#32;option</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '223', 223)" onmouseover="showTip(event, '223', 223)">
-                <p>
-                  <a id="httpClientHandlerTransformer">
-                    <a href="#httpClientHandlerTransformer">
-                      <code>httpClientHandlerTransformer</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="223">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>httpClientHandlerTransformer</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclienthandler">HttpClientHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclienthandler">HttpClientHandler</a></span>)</span>&#32;option</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L40-40" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclienthandler">HttpClientHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclienthandler">HttpClientHandler</a></span>)</span>&#32;option</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '224', 224)" onmouseover="showTip(event, '224', 224)">
-                <p>
-                  <a id="httpClientTransformer">
-                    <a href="#httpClientTransformer">
-                      <code>httpClientTransformer</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="224">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>httpClientTransformer</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span>)</span>&#32;option</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L44-44" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span>)</span>&#32;option</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '225', 225)" onmouseover="showTip(event, '225', 225)">
-                <p>
-                  <a id="httpCompletionOption">
-                    <a href="#httpCompletionOption">
-                      <code>httpCompletionOption</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="225">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>httpCompletionOption</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpcompletionoption">HttpCompletionOption</a></code>
                   </span>
                   <br/>
                 </div>
@@ -390,7 +253,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpcompletionoption">HttpCompletionOption</a></code>
+                <code><a href="/FsHttp/reference/fshttp-domain-certerrorstrategy.html">CertErrorStrategy</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -399,168 +262,24 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '226', 226)" onmouseover="showTip(event, '226', 226)">
+              <code onmouseout="hideTip(event, '329', 329)" onmouseover="showTip(event, '329', 329)">
                 <p>
-                  <a id="httpMessageTransformer">
-                    <a href="#httpMessageTransformer">
-                      <code>httpMessageTransformer</code>
+                  <a id="httpClientFactory">
+                    <a href="#httpClientFactory">
+                      <code>httpClientFactory</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="226">
+              <div class="fsdocs-tip" id="329">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code>httpMessageTransformer</code>
+                  <code>httpClientFactory</code>
                   <br/>
                   <br/>
                   <span>
                     Field type: 
-                    <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a></span>)</span>&#32;option</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L38-38" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a></span>)</span>&#32;option</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '227', 227)" onmouseover="showTip(event, '227', 227)">
-                <p>
-                  <a id="printHint">
-                    <a href="#printHint">
-                      <code>printHint</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="227">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>printHint</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-printhint.html">PrintHint</a></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L36-36" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-printhint.html">PrintHint</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '228', 228)" onmouseover="showTip(event, '228', 228)">
-                <p>
-                  <a id="printptDebugMessages">
-                    <a href="#printptDebugMessages">
-                      <code>printptDebugMessages</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="228">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>printptDebugMessages</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code>bool</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L37-37" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code>bool</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '229', 229)" onmouseover="showTip(event, '229', 229)">
-                <p>
-                  <a id="proxy">
-                    <a href="#proxy">
-                      <code>proxy</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="229">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>proxy</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code><span><a href="/FsHttp/reference/fshttp-domain-proxy.html">Proxy</a>&#32;option</span></code>
+                    <code><span><span>(<span>unit&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span>)</span>&#32;option</span></code>
                   </span>
                   <br/>
                 </div>
@@ -582,6 +301,294 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
+                <code><span><span>(<span>unit&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span>)</span>&#32;option</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '330', 330)" onmouseover="showTip(event, '330', 330)">
+                <p>
+                  <a id="httpClientHandlerTransformer">
+                    <a href="#httpClientHandlerTransformer">
+                      <code>httpClientHandlerTransformer</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="330">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>httpClientHandlerTransformer</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a></span>)</span>&#32;option</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L41-41" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a></span>)</span>&#32;option</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '331', 331)" onmouseover="showTip(event, '331', 331)">
+                <p>
+                  <a id="httpClientTransformer">
+                    <a href="#httpClientTransformer">
+                      <code>httpClientTransformer</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="331">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>httpClientTransformer</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span>)</span>&#32;option</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L42-42" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span>)</span>&#32;option</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '332', 332)" onmouseover="showTip(event, '332', 332)">
+                <p>
+                  <a id="httpCompletionOption">
+                    <a href="#httpCompletionOption">
+                      <code>httpCompletionOption</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="332">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>httpCompletionOption</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpcompletionoption">HttpCompletionOption</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L43-43" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpcompletionoption">HttpCompletionOption</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '333', 333)" onmouseover="showTip(event, '333', 333)">
+                <p>
+                  <a id="httpMessageTransformer">
+                    <a href="#httpMessageTransformer">
+                      <code>httpMessageTransformer</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="333">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>httpMessageTransformer</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a></span>)</span>&#32;option</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L40-40" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a></span>)</span>&#32;option</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '334', 334)" onmouseover="showTip(event, '334', 334)">
+                <p>
+                  <a id="printHint">
+                    <a href="#printHint">
+                      <code>printHint</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="334">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>printHint</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><a href="/FsHttp/reference/fshttp-domain-printhint.html">PrintHint</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L39-39" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><a href="/FsHttp/reference/fshttp-domain-printhint.html">PrintHint</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '335', 335)" onmouseover="showTip(event, '335', 335)">
+                <p>
+                  <a id="proxy">
+                    <a href="#proxy">
+                      <code>proxy</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="335">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>proxy</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><span><a href="/FsHttp/reference/fshttp-domain-proxy.html">Proxy</a>&#32;option</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L44-44" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
                 <code><span><a href="/FsHttp/reference/fshttp-domain-proxy.html">Proxy</a>&#32;option</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
@@ -591,7 +598,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '230', 230)" onmouseover="showTip(event, '230', 230)">
+              <code onmouseout="hideTip(event, '336', 336)" onmouseover="showTip(event, '336', 336)">
                 <p>
                   <a id="timeout">
                     <a href="#timeout">
@@ -600,7 +607,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="230">
+              <div class="fsdocs-tip" id="336">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>timeout</code>
@@ -617,7 +624,7 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L35-35" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L38-38" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>

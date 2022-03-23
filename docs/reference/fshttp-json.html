@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -145,60 +150,44 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '149', 149)" onmouseover="showTip(event, '149', 149)">
+              <code onmouseout="hideTip(event, '238', 238)" onmouseover="showTip(event, '238', 238)">
                 <p>
-                  <a id="assertJson">
-                    <a href="#assertJson">
-                      <code><span>assertJson&#32;<span>arrayComparison&#32;structuralComparison&#32;expectedJson&#32;actualJsonValue</span></span></code>
+                  <a id="( ? )">
+                    <a href="#( ? )">
+                      <code><span><span>json</span>&#32;?&#32;<span>key</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="149">
+              <div class="fsdocs-tip" id="238">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>assertJson&#32;<span>arrayComparison&#32;structuralComparison&#32;expectedJson&#32;actualJsonValue</span></span></code>
+                  <code><span><span>json</span>&#32;?&#32;<span>key</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        arrayComparison
+                        json
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-arraycomparison.html">ArrayComparison</a></code>
+                      <code><a href="https://docs.microsoft.com/dotnet/api/system.text.json.jsonelement">JsonElement</a></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        structuralComparison
-                      </b>
-                      :
-                      <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-structuralcomparison.html">StructuralComparison</a></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        expectedJson
+                        key
                       </b>
                       :
                       <code>string</code>
                     </span>
                     <br/>
-                    <span>
-                      <b>
-                        actualJsonValue
-                      </b>
-                      :
-                      <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                    </span>
-                    <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
+                    <code><a href="https://docs.microsoft.com/dotnet/api/system.text.json.jsonelement">JsonElement</a></code>
                   </span>
                   <br/>
                 </div>
@@ -207,15 +196,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Json.assertJson`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Json.op_Dynamic`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Json.assertJson\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Json.op_Dynamic\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Json.fs#L84-84" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Operators.fs#L7-7" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -226,655 +215,27 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  arrayComparison
+                  json
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-arraycomparison.html">ArrayComparison</a></code>
+                <code><a href="https://docs.microsoft.com/dotnet/api/system.text.json.jsonelement">JsonElement</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  structuralComparison
-                </span>
-                :
-                <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-structuralcomparison.html">StructuralComparison</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  expectedJson
+                  key
                 </span>
                 :
                 <code>string</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  actualJsonValue
-                </span>
-                :
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '150', 150)" onmouseover="showTip(event, '150', 150)">
-                <p>
-                  <a id="assertJsonExact">
-                    <a href="#assertJsonExact">
-                      <code><span>assertJsonExact&#32;<span>expectedJson&#32;actualJsonValue</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="150">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>assertJsonExact&#32;<span>expectedJson&#32;actualJsonValue</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        expectedJson
-                      </b>
-                      :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        actualJsonValue
-                      </b>
-                      :
-                      <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Json.assertJsonExact`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Json.assertJsonExact\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Json.fs#L96-96" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  expectedJson
-                </span>
-                :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  actualJsonValue
-                </span>
-                :
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '151', 151)" onmouseover="showTip(event, '151', 151)">
-                <p>
-                  <a id="assertJsonSubset">
-                    <a href="#assertJsonSubset">
-                      <code><span>assertJsonSubset&#32;<span>expectedJson&#32;actualJsonValue</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="151">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>assertJsonSubset&#32;<span>expectedJson&#32;actualJsonValue</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        expectedJson
-                      </b>
-                      :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        actualJsonValue
-                      </b>
-                      :
-                      <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Json.assertJsonSubset`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Json.assertJsonSubset\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Json.fs#L93-93" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  expectedJson
-                </span>
-                :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  actualJsonValue
-                </span>
-                :
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '152', 152)" onmouseover="showTip(event, '152', 152)">
-                <p>
-                  <a id="compareJson">
-                    <a href="#compareJson">
-                      <code><span>compareJson&#32;<span>arrayComparison&#32;expectedJson&#32;resultJson</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="152">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>compareJson&#32;<span>arrayComparison&#32;expectedJson&#32;resultJson</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        arrayComparison
-                      </b>
-                      :
-                      <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-arraycomparison.html">ArrayComparison</a></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        expectedJson
-                      </b>
-                      :
-                      <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        resultJson
-                      </b>
-                      :
-                      <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><span>string&#32;list</span>&#32;*&#32;<span>string&#32;list</span></span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Json.compareJson`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Json.compareJson\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Json.fs#L21-21" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  arrayComparison
-                </span>
-                :
-                <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-arraycomparison.html">ArrayComparison</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  expectedJson
-                </span>
-                :
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  resultJson
-                </span>
-                :
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><span>string&#32;list</span>&#32;*&#32;<span>string&#32;list</span></span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '153', 153)" onmouseover="showTip(event, '153', 153)">
-                <p>
-                  <a id="expectJson">
-                    <a href="#expectJson">
-                      <code><span>expectJson&#32;<span>arrayComparison&#32;structuralComparison&#32;expectedJson&#32;actualJsonValue</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="153">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>expectJson&#32;<span>arrayComparison&#32;structuralComparison&#32;expectedJson&#32;actualJsonValue</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        arrayComparison
-                      </b>
-                      :
-                      <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-arraycomparison.html">ArrayComparison</a></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        structuralComparison
-                      </b>
-                      :
-                      <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-structuralcomparison.html">StructuralComparison</a></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        expectedJson
-                      </b>
-                      :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        actualJsonValue
-                      </b>
-                      :
-                      <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-fsharpresult-2">Result</a>&lt;<span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a>,&#32;string</span>&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Json.expectJson`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Json.expectJson\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Json.fs#L47-47" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  arrayComparison
-                </span>
-                :
-                <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-arraycomparison.html">ArrayComparison</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  structuralComparison
-                </span>
-                :
-                <code><a href="/FsHttp/reference/fshttp-jsoncomparisontypes-structuralcomparison.html">StructuralComparison</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  expectedJson
-                </span>
-                :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  actualJsonValue
-                </span>
-                :
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-fsharpresult-2">Result</a>&lt;<span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a>,&#32;string</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '154', 154)" onmouseover="showTip(event, '154', 154)">
-                <p>
-                  <a id="expectJsonExact">
-                    <a href="#expectJsonExact">
-                      <code><span>expectJsonExact&#32;<span>expectedJson&#32;actualJsonValue</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="154">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>expectJsonExact&#32;<span>expectedJson&#32;actualJsonValue</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        expectedJson
-                      </b>
-                      :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        actualJsonValue
-                      </b>
-                      :
-                      <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Json.expectJsonExact`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Json.expectJsonExact\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Json.fs#L77-77" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  expectedJson
-                </span>
-                :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  actualJsonValue
-                </span>
-                :
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '155', 155)" onmouseover="showTip(event, '155', 155)">
-                <p>
-                  <a id="expectJsonSubset">
-                    <a href="#expectJsonSubset">
-                      <code><span>expectJsonSubset&#32;<span>expectedJson&#32;actualJsonValue</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="155">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>expectJsonSubset&#32;<span>expectedJson&#32;actualJsonValue</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        expectedJson
-                      </b>
-                      :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        actualJsonValue
-                      </b>
-                      :
-                      <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-fsharpresult-2">Result</a>&lt;<span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a>,&#32;string</span>&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Json.expectJsonSubset`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Json.expectJsonSubset\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Json.fs#L74-74" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  expectedJson
-                </span>
-                :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  actualJsonValue
-                </span>
-                :
-                <code><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-fsharpresult-2">Result</a>&lt;<span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-data-jsonvalue">JsonValue</a>,&#32;string</span>&gt;</span></code>
+                <code><a href="https://docs.microsoft.com/dotnet/api/system.text.json.jsonelement">JsonElement</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>

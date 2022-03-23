@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>ArrayComparison (FsHttp)</title>
+    <title>Migrations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -104,146 +109,31 @@
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
-            <div>
-  <h2>
-    ArrayComparison Type
-  </h2>
-  <dl class="fsdocs-metadata">
-    <dt>
-      Namespace: 
-      <a href="/FsHttp/reference/fshttp.html">
-        FsHttp
-      </a>
-    </dt>
-    <dt>
-      Assembly: FsHttp.dll
-    </dt>
-    <dt>
-      Parent Module: 
-      <a href="/FsHttp/reference/fshttp-jsoncomparisontypes.html">
-        JsonComparisonTypes
-      </a>
-    </dt>
-    <dt>
-      Base Type: 
-      <code>obj</code>
-    </dt>
-    <dt>
-      All Interfaces: 
-      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="/FsHttp/reference/fshttp-jsoncomparisontypes-arraycomparison.html">ArrayComparison</a>&gt;</span></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
-      , 
-      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="/FsHttp/reference/fshttp-jsoncomparisontypes-arraycomparison.html">ArrayComparison</a>&gt;</span></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
-    </dt>
-  </dl>
-  <div class="fsdocs-xmldoc">
-    <div>
-      <p class="fsdocs-summary">
-        
-      </p>
-    </div>
-  </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div>
-    <h3>
-      Union cases
-    </h3>
-    <table class="table outer-list fsdocs-member-list">
-      <thead>
-        <tr>
-          <td class="fsdocs-member-list-header">
-            Union case
-          </td>
-          <td class="fsdocs-member-list-header">
-            Description
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '396', 396)" onmouseover="showTip(event, '396', 396)">
-                <p>
-                  <a id="IgnoreOrder">
-                    <a href="#IgnoreOrder">
-                      <code><span>IgnoreOrder</span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="396">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>IgnoreOrder</span></code>
-                  <br/>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Json.fs#L8-8" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '397', 397)" onmouseover="showTip(event, '397', 397)">
-                <p>
-                  <a id="RespectOrder">
-                    <a href="#RespectOrder">
-                      <code><span>RespectOrder</span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="397">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>RespectOrder</span></code>
-                  <br/>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Json.fs#L8-8" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+            
+<h2><a name="Migrations" class="anchor" href="#Migrations">Migrations</a></h2>
+<h3><a name="To-v9-Breaking-Changes" class="anchor" href="#To-v9-Breaking-Changes">To v9 (Breaking Changes)</a></h3>
+<ul>
+<li><code>http...</code> Builders: There is now only a single <code>http</code> builder, that is equivalent to the former <code>httpLazy</code> builder. To achieve the behaviour of the removed builders, please use:</li>
+<li><code>httpLazy</code> -&gt; <code>http { ... }</code></li>
+<li><code>http</code> -&gt; <code>http { ... } |&gt; Request.send</code></li>
+<li><code>httpAsync</code> -&gt; <code>http { ... } |&gt; Request.sendAsync</code></li>
+<li><code>httpLazyAsync</code> -&gt; <code>http { ... } |&gt; Request.toAsync</code></li>
+<li><code>httpMessage</code> -&gt; <code>http { ... } |&gt; Request.toMessage</code></li>
+<li>see also: <a href="Tests in BuildersAndSignatures.fs">./src/Tests/BuildersAndSignatures.fs</a></li>
+<li>Renamed type <code>LazyHttpBuilder</code> -&gt; <code>HttpBuilder</code></li>
+<li>Renamed <code>Request.buildAsync</code> -&gt; <code>Request.toAsync</code></li>
+<li>Removed <code>send</code> and <code>sendAsync</code> builder methods</li>
+<li>Changed request and response printing (mostly used in FSI)</li>
+<li>Printing related custom operations change in names and behaviour</li>
+<li><code>Dsl</code> / <code>DslCE</code> namespaces: There is no need for distinction of both namespaces. It is now sufficient to <code>open FsHttp</code> only.</li>
+<li>The <code>HttpBuilder&lt;'context&gt;</code> is replaced by <code>IBuilder&lt;'self&gt;</code>, so that the CE methods work directly on the <code>HeaderContext</code>, <code>BodyContext</code>, and <code>MultipartContext</code> directly. This simplifies things like mixing Dsl and DslCE, pre-configuring and chaining requests.</li>
+<li>The global configuration is now in the <code>FsHttp.GlobalConfig</code> module. The <code>Config</code> module is only for functions on request contexts.</li>
+<li>QueryParams is <code>(string * obj) list</code> now</li>
+<li>Use of System.Text.Json as a standard JSON library and created separate Newtonsoft and FSharp.Data JSON packages.</li>
+<li>Dropped support for .Net Standard 2.0</li>
+<li>Smaller breaking changes</li>
+</ul>
+
             
         </div>
 

@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -133,12 +138,6 @@
       <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-fshttpurl.html">FsHttpUrl</a>&gt;</span></code>
       , 
       <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
-      , 
-      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-fshttpurl.html">FsHttpUrl</a>&gt;</span></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
@@ -171,7 +170,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '239', 239)" onmouseover="showTip(event, '239', 239)">
+              <code onmouseout="hideTip(event, '342', 342)" onmouseover="showTip(event, '342', 342)">
                 <p>
                   <a id="additionalQueryParams">
                     <a href="#additionalQueryParams">
@@ -180,7 +179,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="239">
+              <div class="fsdocs-tip" id="342">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>additionalQueryParams</code>
@@ -188,7 +187,7 @@
                   <br/>
                   <span>
                     Field type: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2">Map</a>&lt;<span>string,&#32;string</span>&gt;</span></code>
+                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2">Map</a>&lt;<span>string,&#32;obj</span>&gt;</span></code>
                   </span>
                   <br/>
                 </div>
@@ -197,7 +196,7 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L55-55" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L58-58" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -210,7 +209,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2">Map</a>&lt;<span>string,&#32;string</span>&gt;</span></code>
+                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2">Map</a>&lt;<span>string,&#32;obj</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -219,7 +218,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '240', 240)" onmouseover="showTip(event, '240', 240)">
+              <code onmouseout="hideTip(event, '343', 343)" onmouseover="showTip(event, '343', 343)">
                 <p>
                   <a id="address">
                     <a href="#address">
@@ -228,7 +227,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="240">
+              <div class="fsdocs-tip" id="343">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>address</code>
@@ -245,7 +244,7 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L54-54" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L57-57" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -269,7 +268,81 @@
   </div>
   <div></div>
   <div></div>
-  <div></div>
+  <div>
+    <h3>
+      Instance members
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Instance member
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '344', 344)" onmouseover="showTip(event, '344', 344)">
+                <p>
+                  <a id="ToUriString">
+                    <a href="#ToUriString">
+                      <code><span>this.ToUriString<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="344">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.ToUriString<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>string</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Domain.FsHttpUrl.ToUriString`')">
+                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Domain.FsHttpUrl.ToUriString\'/>')">
+                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L60-60" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div></div>
 </div>
             

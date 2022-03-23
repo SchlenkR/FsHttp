@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Http (FsHttp)</title>
+    <title>Response (FsHttp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -106,43 +111,47 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h2>
-    Http Module
+    Response Type
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="/FsHttp/reference/fshttp.html">
-        FsHttp
+      <a href="/FsHttp/reference/fshttp-csharp.html">
+        FsHttp.CSharp
       </a>
     </dt>
     <dt>
       Assembly: FsHttp.dll
     </dt>
     <dt>
-      Parent Module: 
-      <a href="/FsHttp/reference/fshttp-dslce.html">
-        DslCE
-      </a>
+      Base Type: 
+      <code>obj</code>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
     <div>
       <p class="fsdocs-summary">
         
- Provides builder construction shortcuts for RFC 2626 HTTP methods
-
       </p>
     </div>
   </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
   <div>
     <h3>
-      Functions and values
+      Static members
     </h3>
     <table class="table outer-list fsdocs-member-list">
       <thead>
         <tr>
           <td class="fsdocs-member-list-header">
-            Function or value
+            Static member
           </td>
           <td class="fsdocs-member-list-header">
             Description
@@ -153,36 +162,36 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '104', 104)" onmouseover="showTip(event, '104', 104)">
+              <code onmouseout="hideTip(event, '495', 495)" onmouseover="showTip(event, '495', 495)">
                 <p>
-                  <a id="connect">
-                    <a href="#connect">
-                      <code><span>connect&#32;<span>url</span></span></code>
+                  <a id="AssertOk">
+                    <a href="#AssertOk">
+                      <code><span>Response.AssertOk<span><span>(<span>response</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="104">
+              <div class="fsdocs-tip" id="495">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>connect&#32;<span>url</span></span></code>
+                  <code><span>Response.AssertOk<span><span>(<span>response</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        response
                       </b>
                       :
-                      <code>string</code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
                   </span>
                   <br/>
                 </div>
@@ -191,15 +200,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.connect`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.AssertOk`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.connect\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.AssertOk\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L72-72" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L505-505" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -210,10 +219,10 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  response
                 </span>
                 :
-                <code>string</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -222,7 +231,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -231,36 +240,44 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '105', 105)" onmouseover="showTip(event, '105', 105)">
+              <code onmouseout="hideTip(event, '496', 496)" onmouseover="showTip(event, '496', 496)">
                 <p>
-                  <a id="delete">
-                    <a href="#delete">
-                      <code><span>delete&#32;<span>url</span></span></code>
+                  <a id="AssertStatusCode">
+                    <a href="#AssertStatusCode">
+                      <code><span>Response.AssertStatusCode<span><span>(<span>response,&#32;statusCode</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="105">
+              <div class="fsdocs-tip" id="496">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>delete&#32;<span>url</span></span></code>
+                  <code><span>Response.AssertStatusCode<span><span>(<span>response,&#32;statusCode</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        response
                       </b>
                       :
-                      <code>string</code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        statusCode
+                      </b>
+                      :
+                      <code>int</code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
                   </span>
                   <br/>
                 </div>
@@ -269,15 +286,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.delete`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.AssertStatusCode`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.delete\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.AssertStatusCode\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L68-68" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L501-501" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -288,10 +305,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  response
                 </span>
                 :
-                <code>string</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  statusCode
+                </span>
+                :
+                <code>int</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -300,7 +325,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -309,36 +334,44 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '106', 106)" onmouseover="showTip(event, '106', 106)">
+              <code onmouseout="hideTip(event, '497', 497)" onmouseover="showTip(event, '497', 497)">
                 <p>
-                  <a id="get">
-                    <a href="#get">
-                      <code><span>get&#32;<span>url</span></span></code>
+                  <a id="AssertStatusCodes">
+                    <a href="#AssertStatusCodes">
+                      <code><span>Response.AssertStatusCodes<span><span>(<span>response,&#32;statusCodes</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="106">
+              <div class="fsdocs-tip" id="497">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>get&#32;<span>url</span></span></code>
+                  <code><span>Response.AssertStatusCodes<span><span>(<span>response,&#32;statusCodes</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        response
                       </b>
                       :
-                      <code>string</code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        statusCodes
+                      </b>
+                      :
+                      <code><span>seq&lt;int&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
                   </span>
                   <br/>
                 </div>
@@ -347,15 +380,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.get`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.AssertStatusCodes`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.get\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.AssertStatusCodes\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L65-65" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L497-497" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -366,10 +399,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  response
                 </span>
                 :
-                <code>string</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  statusCodes
+                </span>
+                :
+                <code><span>seq&lt;int&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -378,7 +419,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -387,26 +428,34 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '107', 107)" onmouseover="showTip(event, '107', 107)">
+              <code onmouseout="hideTip(event, '498', 498)" onmouseover="showTip(event, '498', 498)">
                 <p>
-                  <a id="head">
-                    <a href="#head">
-                      <code><span>head&#32;<span>url</span></span></code>
+                  <a id="SaveFileAsync">
+                    <a href="#SaveFileAsync">
+                      <code><span>Response.SaveFileAsync<span><span>(<span>response,&#32;fileName</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="107">
+              <div class="fsdocs-tip" id="498">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>head&#32;<span>url</span></span></code>
+                  <code><span>Response.SaveFileAsync<span><span>(<span>response,&#32;fileName</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        response
+                      </b>
+                      :
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        fileName
                       </b>
                       :
                       <code>string</code>
@@ -416,7 +465,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;unit&gt;</span></code>
                   </span>
                   <br/>
                 </div>
@@ -425,15 +474,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.head`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.SaveFileAsync`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.head\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.SaveFileAsync\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L70-70" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L493-493" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -444,7 +493,15 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  response
+                </span>
+                :
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  fileName
                 </span>
                 :
                 <code>string</code>
@@ -456,7 +513,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;unit&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -465,44 +522,36 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '108', 108)" onmouseover="showTip(event, '108', 108)">
+              <code onmouseout="hideTip(event, '499', 499)" onmouseover="showTip(event, '499', 499)">
                 <p>
-                  <a id="method">
-                    <a href="#method">
-                      <code><span>method&#32;<span>method&#32;url</span></span></code>
+                  <a id="ToBytesAsync">
+                    <a href="#ToBytesAsync">
+                      <code><span>Response.ToBytesAsync<span><span>(<span>response</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="108">
+              <div class="fsdocs-tip" id="499">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>method&#32;<span>method&#32;url</span></span></code>
+                  <code><span>Response.ToBytesAsync<span><span>(<span>response</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        method
+                        response
                       </b>
                       :
-                      <code>string</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        url
-                      </b>
-                      :
-                      <code>string</code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span>byte[]</span>&gt;</span></code>
                   </span>
                   <br/>
                 </div>
@@ -511,15 +560,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.method`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToBytesAsync`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.method\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToBytesAsync\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L63-63" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L471-471" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -530,18 +579,10 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  method
+                  response
                 </span>
                 :
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  url
-                </span>
-                :
-                <code>string</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -550,7 +591,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span>byte[]</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -559,36 +600,36 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '109', 109)" onmouseover="showTip(event, '109', 109)">
+              <code onmouseout="hideTip(event, '500', 500)" onmouseover="showTip(event, '500', 500)">
                 <p>
-                  <a id="options">
-                    <a href="#options">
-                      <code><span>options&#32;<span>url</span></span></code>
+                  <a id="ToFormattedTextAsync">
+                    <a href="#ToFormattedTextAsync">
+                      <code><span>Response.ToFormattedTextAsync<span><span>(<span>response</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="109">
+              <div class="fsdocs-tip" id="500">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>options&#32;<span>url</span></span></code>
+                  <code><span>Response.ToFormattedTextAsync<span><span>(<span>response</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        response
                       </b>
                       :
-                      <code>string</code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;string&gt;</span></code>
                   </span>
                   <br/>
                 </div>
@@ -597,15 +638,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.options`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToFormattedTextAsync`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.options\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToFormattedTextAsync\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L69-69" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L489-489" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -616,10 +657,10 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  response
                 </span>
                 :
-                <code>string</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -628,7 +669,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;string&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -637,36 +678,36 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '110', 110)" onmouseover="showTip(event, '110', 110)">
+              <code onmouseout="hideTip(event, '501', 501)" onmouseover="showTip(event, '501', 501)">
                 <p>
-                  <a id="patch">
-                    <a href="#patch">
-                      <code><span>patch&#32;<span>url</span></span></code>
+                  <a id="ToStreamAsync">
+                    <a href="#ToStreamAsync">
+                      <code><span>Response.ToStreamAsync<span><span>(<span>response</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="110">
+              <div class="fsdocs-tip" id="501">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>patch&#32;<span>url</span></span></code>
+                  <code><span>Response.ToStreamAsync<span><span>(<span>response</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        response
                       </b>
                       :
-                      <code>string</code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a>&gt;</span></code>
                   </span>
                   <br/>
                 </div>
@@ -675,15 +716,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.patch`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToStreamAsync`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.patch\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToStreamAsync\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L73-73" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L467-467" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -694,10 +735,10 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  response
                 </span>
                 :
-                <code>string</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -706,7 +747,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -715,36 +756,44 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '111', 111)" onmouseover="showTip(event, '111', 111)">
+              <code onmouseout="hideTip(event, '502', 502)" onmouseover="showTip(event, '502', 502)">
                 <p>
-                  <a id="post">
-                    <a href="#post">
-                      <code><span>post&#32;<span>url</span></span></code>
+                  <a id="ToStringAsync">
+                    <a href="#ToStringAsync">
+                      <code><span>Response.ToStringAsync<span><span>(<span>response,&#32;maxLength</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="111">
+              <div class="fsdocs-tip" id="502">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>post&#32;<span>url</span></span></code>
+                  <code><span>Response.ToStringAsync<span><span>(<span>response,&#32;maxLength</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        response
                       </b>
                       :
-                      <code>string</code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        maxLength
+                      </b>
+                      :
+                      <code><span>int&#32;option</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;string&gt;</span></code>
                   </span>
                   <br/>
                 </div>
@@ -753,15 +802,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.post`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToStringAsync`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.post\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToStringAsync\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L67-67" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L475-475" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -772,10 +821,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  response
                 </span>
                 :
-                <code>string</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  maxLength
+                </span>
+                :
+                <code><span>int&#32;option</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -784,7 +841,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;string&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -793,36 +850,36 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '112', 112)" onmouseover="showTip(event, '112', 112)">
+              <code onmouseout="hideTip(event, '503', 503)" onmouseover="showTip(event, '503', 503)">
                 <p>
-                  <a id="put">
-                    <a href="#put">
-                      <code><span>put&#32;<span>url</span></span></code>
+                  <a id="ToTextAsync">
+                    <a href="#ToTextAsync">
+                      <code><span>Response.ToTextAsync<span><span>(<span>response</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="112">
+              <div class="fsdocs-tip" id="503">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>put&#32;<span>url</span></span></code>
+                  <code><span>Response.ToTextAsync<span><span>(<span>response</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        response
                       </b>
                       :
-                      <code>string</code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;string&gt;</span></code>
                   </span>
                   <br/>
                 </div>
@@ -831,15 +888,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.put`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToTextAsync`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.put\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToTextAsync\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L66-66" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L479-479" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -850,10 +907,10 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  response
                 </span>
                 :
-                <code>string</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -862,7 +919,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;string&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -871,36 +928,36 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '113', 113)" onmouseover="showTip(event, '113', 113)">
+              <code onmouseout="hideTip(event, '504', 504)" onmouseover="showTip(event, '504', 504)">
                 <p>
-                  <a id="trace">
-                    <a href="#trace">
-                      <code><span>trace&#32;<span>url</span></span></code>
+                  <a id="ToXmlAsync">
+                    <a href="#ToXmlAsync">
+                      <code><span>Response.ToXmlAsync<span><span>(<span>response</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="113">
+              <div class="fsdocs-tip" id="504">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>trace&#32;<span>url</span></span></code>
+                  <code><span>Response.ToXmlAsync<span><span>(<span>response</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        response
                       </b>
                       :
-                      <code>string</code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/system.xml.linq.xdocument">XDocument</a>&gt;</span></code>
                   </span>
                   <br/>
                 </div>
@@ -909,15 +966,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.DslCE.Http.trace`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToXmlAsync`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.DslCE.Http.trace\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToXmlAsync\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/DslCE.fs#L71-71" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L485-485" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -928,10 +985,10 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  response
                 </span>
                 :
-                <code>string</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -940,7 +997,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-dslce-lazyhttpbuilder-1.html">LazyHttpBuilder</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/system.xml.linq.xdocument">XDocument</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -949,14 +1006,6 @@
       </tbody>
     </table>
   </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
 </div>
             
         </div>

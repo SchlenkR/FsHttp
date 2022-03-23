@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Testing (FsHttp)</title>
+    <title>Async (FsHttp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -106,7 +111,7 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h2>
-    Testing Module
+    Async Module
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
@@ -151,40 +156,45 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '147', 147)" onmouseover="showTip(event, '147', 147)">
+              <code onmouseout="hideTip(event, '217', 217)" onmouseover="showTip(event, '217', 217)">
                 <p>
-                  <a id="raiseExn">
-                    <a href="#raiseExn">
-                      <code><span>Testing.raiseExn&#32;<span>msg</span></span></code>
+                  <a id="map">
+                    <a href="#map">
+                      <code><span>map&#32;<span>f&#32;x</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="147">
+              <div class="fsdocs-tip" id="217">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Testing.raiseExn&#32;<span>msg</span></span></code>
+                  <code><span>map&#32;<span>f&#32;x</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        msg
+                        f
                       </b>
                       :
-                      <code>string</code>
+                      <code><span>'a&#32;->&#32;'b</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'a</code>
+                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;'b&gt;</span></code>
                   </span>
-                  <br/>
-                  Modifiers: 
-                  inline
                   <br/>
                 </div>
               </div>
@@ -192,15 +202,15 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Helper.Testing.raiseExn``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Helper.Async.map``2```')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Testing.raiseExn``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Async.map``2\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L51-51" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L63-63" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -211,10 +221,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  msg
+                  f
                 </span>
                 :
-                <code>string</code>
+                <code><span>'a&#32;->&#32;'b</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -223,7 +241,101 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'a</code>
+                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '218', 218)" onmouseover="showTip(event, '218', 218)">
+                <p>
+                  <a id="mapTask">
+                    <a href="#mapTask">
+                      <code><span>mapTask&#32;<span>f&#32;x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="218">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>mapTask&#32;<span>f&#32;x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'a&#32;->&#32;'b</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;'b&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Helper.Async.mapTask``2```')">
+                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Async.mapTask``2\'/>')">
+                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L68-68" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'a&#32;->&#32;'b</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync-1">Async</a>&lt;'b&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>

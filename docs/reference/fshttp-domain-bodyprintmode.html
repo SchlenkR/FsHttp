@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Init (FsHttp)</title>
+    <title>BodyPrintMode (FsHttp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -106,7 +111,7 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h2>
-    Init Module
+    BodyPrintMode Type
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
@@ -120,9 +125,25 @@
     </dt>
     <dt>
       Parent Module: 
-      <a href="/FsHttp/reference/fshttp-fsi.html">
-        Fsi
+      <a href="/FsHttp/reference/fshttp-domain.html">
+        Domain
       </a>
+    </dt>
+    <dt>
+      Base Type: 
+      <code>obj</code>
+    </dt>
+    <dt>
+      All Interfaces: 
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
+      , 
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
@@ -132,64 +153,19 @@
       </p>
     </div>
   </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
   <div>
     <h3>
-      Types
-    </h3>
-    <table class="table outer-list fsdocs-entity-list">
-      <thead>
-        <tr>
-          <td>
-            Type
-          </td>
-          <td>
-            Description
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="fsdocs-entity-name">
-            <p>
-              <a name="PrintableResponse">
-                <a href="/FsHttp/reference/fshttp-fsi-init-printableresponse.html">
-                  PrintableResponse
-                </a>
-              </a>
-            </p>
-          </td>
-          <td class="fsdocs-entity-xmldoc">
-            <div>
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Fsi.Init.PrintableResponse`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Fsi.Init.PrintableResponse\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Fsi.fs#L196-196" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <h3>
-      Functions and values
+      Record fields
     </h3>
     <table class="table outer-list fsdocs-member-list">
       <thead>
         <tr>
           <td class="fsdocs-member-list-header">
-            Function or value
+            Record Field
           </td>
           <td class="fsdocs-member-list-header">
             Description
@@ -200,32 +176,25 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '133', 133)" onmouseover="showTip(event, '133', 133)">
+              <code onmouseout="hideTip(event, '323', 323)" onmouseover="showTip(event, '323', 323)">
                 <p>
-                  <a id="init">
-                    <a href="#init">
-                      <code><span>init&#32;<span>()</span></span></code>
+                  <a id="format">
+                    <a href="#format">
+                      <code>format</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="133">
+              <div class="fsdocs-tip" id="323">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>init&#32;<span>()</span></span></code>
+                  <code>format</code>
                   <br/>
                   <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        ()
-                      </b>
-                      :
-                      <code>unit</code>
-                    </span>
-                    <br/>
-                  </ul>
+                  <span>
+                    Field type: 
+                    <code>bool</code>
+                  </span>
                   <br/>
                 </div>
               </div>
@@ -233,15 +202,7 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Fsi.Init.init`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Fsi.Init.init\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Fsi.fs#L201-201" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L14-14" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -249,25 +210,68 @@
                 
               </p>
             </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  ()
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
                 </span>
-                :
-                <code>unit</code>
+                <code>bool</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '324', 324)" onmouseover="showTip(event, '324', 324)">
+                <p>
+                  <a id="maxLength">
+                    <a href="#maxLength">
+                      <code>maxLength</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="324">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>maxLength</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><span>int&#32;option</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L15-15" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><span>int&#32;option</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
             </dl>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
   <div></div>
   <div></div>
   <div></div>

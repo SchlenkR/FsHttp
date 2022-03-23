@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -135,6 +140,12 @@
       <code><a href="/FsHttp/reference/fshttp-domain-itobodycontext.html">IToBodyContext</a></code>
       , 
       <code><a href="/FsHttp/reference/fshttp-domain-itorequest.html">IToRequest</a></code>
+      , 
+      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a></span>&gt;</span></code>
+      , 
+      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a></span>&gt;</span></code>
+      , 
+      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a>&gt;</span></code>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
@@ -167,7 +178,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '245', 245)" onmouseover="showTip(event, '245', 245)">
+              <code onmouseout="hideTip(event, '349', 349)" onmouseover="showTip(event, '349', 349)">
                 <p>
                   <a id="config">
                     <a href="#config">
@@ -176,7 +187,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="245">
+              <div class="fsdocs-tip" id="349">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>config</code>
@@ -193,7 +204,7 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L108-108" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L144-144" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -215,7 +226,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '246', 246)" onmouseover="showTip(event, '246', 246)">
+              <code onmouseout="hideTip(event, '350', 350)" onmouseover="showTip(event, '350', 350)">
                 <p>
                   <a id="header">
                     <a href="#header">
@@ -224,7 +235,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="246">
+              <div class="fsdocs-tip" id="350">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>header</code>
@@ -241,7 +252,7 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L107-107" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L143-143" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -265,103 +276,7 @@
   </div>
   <div></div>
   <div></div>
-  <div>
-    <h3>
-      Instance members
-    </h3>
-    <table class="table outer-list fsdocs-member-list">
-      <thead>
-        <tr>
-          <td class="fsdocs-member-list-header">
-            Instance member
-          </td>
-          <td class="fsdocs-member-list-header">
-            Description
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '247', 247)" onmouseover="showTip(event, '247', 247)">
-                <p>
-                  <a id="Configure">
-                    <a href="#Configure">
-                      <code><span>this.Configure<span><span>(<span>transformConfig</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="247">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>this.Configure<span><span>(<span>transformConfig</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        transformConfig
-                      </b>
-                      :
-                      <code><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.Domain.HeaderContext.Configure`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Domain.HeaderContext.Configure\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L132-132" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  transformConfig
-                </span>
-                :
-                <code><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-headercontext.html">HeaderContext</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <div></div>
   <div></div>
 </div>
             

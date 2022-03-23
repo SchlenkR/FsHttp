@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Config (FsHttp)</title>
+    <title>Body (FsHttp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -111,23 +111,21 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h2>
-    Config Module
+    Body Type
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="/FsHttp/reference/fshttp.html">
-        FsHttp
+      <a href="/FsHttp/reference/fshttp-csharp.html">
+        FsHttp.CSharp
       </a>
     </dt>
     <dt>
       Assembly: FsHttp.dll
     </dt>
     <dt>
-      Parent Module: 
-      <a href="/FsHttp/reference/fshttp-dsl.html">
-        Dsl
-      </a>
+      Base Type: 
+      <code>obj</code>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
@@ -137,64 +135,23 @@
       </p>
     </div>
   </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
   <div>
     <h3>
-      Nested modules
-    </h3>
-    <table class="table outer-list fsdocs-entity-list">
-      <thead>
-        <tr>
-          <td>
-            Modules
-          </td>
-          <td>
-            Description
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="fsdocs-entity-name">
-            <p>
-              <a name="With">
-                <a href="/FsHttp/reference/fshttp-dsl-config-with.html">
-                  With
-                </a>
-              </a>
-            </p>
-          </td>
-          <td class="fsdocs-entity-xmldoc">
-            <div>
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Dsl.Config.With`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Dsl.Config.With\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L385-385" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <h3>
-      Functions and values
+      Static members
     </h3>
     <table class="table outer-list fsdocs-member-list">
       <thead>
         <tr>
           <td class="fsdocs-member-list-header">
-            Function or value
+            Static member
           </td>
           <td class="fsdocs-member-list-header">
             Description
@@ -205,19 +162,19 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '20', 20)" onmouseover="showTip(event, '20', 20)">
+              <code onmouseout="hideTip(event, '399', 399)" onmouseover="showTip(event, '399', 399)">
                 <p>
-                  <a id="ignoreCertIssues">
-                    <a href="#ignoreCertIssues">
-                      <code><span>ignoreCertIssues&#32;<span>context</span></span></code>
+                  <a id="Binary">
+                    <a href="#Binary">
+                      <code><span>Body.Binary<span><span>(<span>context,&#32;data</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="20">
+              <div class="fsdocs-tip" id="399">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>ignoreCertIssues&#32;<span>context</span></span></code>
+                  <code><span>Body.Binary<span><span>(<span>context,&#32;data</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
@@ -227,36 +184,39 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span>byte&#32;array</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'c</code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.ignoreCertIssues``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Binary`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.ignoreCertIssues``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Binary\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L422-422" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L294-294" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -270,7 +230,15 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span>byte&#32;array</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -279,7 +247,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'c</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -288,26 +256,114 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '21', 21)" onmouseover="showTip(event, '21', 21)">
+              <code onmouseout="hideTip(event, '400', 400)" onmouseover="showTip(event, '400', 400)">
                 <p>
-                  <a id="proxy">
-                    <a href="#proxy">
-                      <code><span>proxy&#32;<span>url&#32;context</span></span></code>
+                  <a id="Body">
+                    <a href="#Body">
+                      <code><span>Body.Body<span><span>(<span>context</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="21">
+              <div class="fsdocs-tip" id="400">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>proxy&#32;<span>url&#32;context</span></span></code>
+                  <code><span>Body.Body<span><span>(<span>context</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        context
+                      </b>
+                      :
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.CSharp.Body.Body``1```')">
+                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Body``1\'/>')">
+                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L286-286" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ An explicit transformation from a previous context to allow for describing the request body.
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  context
+                </span>
+                :
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '401', 401)" onmouseover="showTip(event, '401', 401)">
+                <p>
+                  <a id="Content">
+                    <a href="#Content">
+                      <code><span>Body.Content<span><span>(<span>context,&#32;contentType,&#32;data</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="401">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Body.Content<span><span>(<span>context,&#32;contentType,&#32;data</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        context
+                      </b>
+                      :
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        contentType
                       </b>
                       :
                       <code>string</code>
@@ -315,39 +371,34 @@
                     <br/>
                     <span>
                       <b>
-                        context
+                        data
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><a href="/FsHttp/reference/fshttp-domain-contentdata.html">ContentData</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'c</code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.proxy``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Content`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.proxy``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Content\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L446-446" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L290-290" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -358,7 +409,15 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  context
+                </span>
+                :
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  contentType
                 </span>
                 :
                 <code>string</code>
@@ -366,10 +425,10 @@
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  context
+                  data
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><a href="/FsHttp/reference/fshttp-domain-contentdata.html">ContentData</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -378,7 +437,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'c</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -387,26 +446,226 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '22', 22)" onmouseover="showTip(event, '22', 22)">
+              <code onmouseout="hideTip(event, '402', 402)" onmouseover="showTip(event, '402', 402)">
                 <p>
-                  <a id="proxyWithCredentials">
-                    <a href="#proxyWithCredentials">
-                      <code><span>proxyWithCredentials&#32;<span>url&#32;credentials&#32;context</span></span></code>
+                  <a id="ContentEncoding">
+                    <a href="#ContentEncoding">
+                      <code><span>Body.ContentEncoding<span><span>(<span>context,&#32;encoding</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="22">
+              <div class="fsdocs-tip" id="402">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>proxyWithCredentials&#32;<span>url&#32;credentials&#32;context</span></span></code>
+                  <code><span>Body.ContentEncoding<span><span>(<span>context,&#32;encoding</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        url
+                        context
+                      </b>
+                      :
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        encoding
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.ContentEncoding`')">
+                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.ContentEncoding\'/>')">
+                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L319-319" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ The type of encoding used on the data
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  context
+                </span>
+                :
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  encoding
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '403', 403)" onmouseover="showTip(event, '403', 403)">
+                <p>
+                  <a id="ContentType">
+                    <a href="#ContentType">
+                      <code><span>Body.ContentType<span><span>(<span>context,&#32;contentType</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="403">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Body.ContentType<span><span>(<span>context,&#32;contentType</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        context
+                      </b>
+                      :
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        contentType
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.ContentType`')">
+                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.ContentType\'/>')">
+                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
+                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L324-324" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ The MIME type of the body of the request (used with POST and PUT requests)
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  context
+                </span>
+                :
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  contentType
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '404', 404)" onmouseover="showTip(event, '404', 404)">
+                <p>
+                  <a id="ContentTypeWithEncoding">
+                    <a href="#ContentTypeWithEncoding">
+                      <code><span>Body.ContentTypeWithEncoding<span><span>(<span>context,&#32;contentType,&#32;charset</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="404">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Body.ContentTypeWithEncoding<span><span>(<span>context,&#32;contentType,&#32;charset</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        context
+                      </b>
+                      :
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        contentType
                       </b>
                       :
                       <code>string</code>
@@ -414,58 +673,55 @@
                     <br/>
                     <span>
                       <b>
-                        credentials
+                        charset
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.net.icredentials">ICredentials</a></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        context
-                      </b>
-                      :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><a href="https://docs.microsoft.com/dotnet/api/system.text.encoding">Encoding</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'c</code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.proxyWithCredentials``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.ContentTypeWithEncoding`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.proxyWithCredentials``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.ContentTypeWithEncoding\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L449-449" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L329-329" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
+ The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
+
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  url
+                  context
+                </span>
+                :
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  contentType
                 </span>
                 :
                 <code>string</code>
@@ -473,18 +729,10 @@
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  credentials
+                  charset
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.net.icredentials">ICredentials</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  context
-                </span>
-                :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><a href="https://docs.microsoft.com/dotnet/api/system.text.encoding">Encoding</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -493,7 +741,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'c</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -502,66 +750,61 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '23', 23)" onmouseover="showTip(event, '23', 23)">
+              <code onmouseout="hideTip(event, '405', 405)" onmouseover="showTip(event, '405', 405)">
                 <p>
-                  <a id="set">
-                    <a href="#set">
-                      <code><span>set&#32;<span>config&#32;context</span></span></code>
+                  <a id="File">
+                    <a href="#File">
+                      <code><span>Body.File<span><span>(<span>context,&#32;path</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="23">
+              <div class="fsdocs-tip" id="405">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>set&#32;<span>config&#32;context</span></span></code>
+                  <code><span>Body.File<span><span>(<span>context,&#32;path</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        config
+                        context
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-config.html">Config</a></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        context
+                        path
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code>string</code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'c</code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.set``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.File`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.set``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.File\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L419-419" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L314-314" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -572,18 +815,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  config
+                  context
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-config.html">Config</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  context
+                  path
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code>string</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -592,7 +835,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'c</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -601,66 +844,61 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '24', 24)" onmouseover="showTip(event, '24', 24)">
+              <code onmouseout="hideTip(event, '406', 406)" onmouseover="showTip(event, '406', 406)">
                 <p>
-                  <a id="setHttpClient">
-                    <a href="#setHttpClient">
-                      <code><span>setHttpClient&#32;<span>client&#32;context</span></span></code>
+                  <a id="FormUrlEncoded">
+                    <a href="#FormUrlEncoded">
+                      <code><span>Body.FormUrlEncoded<span><span>(<span>context,&#32;data</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="24">
+              <div class="fsdocs-tip" id="406">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>setHttpClient&#32;<span>client&#32;context</span></span></code>
+                  <code><span>Body.FormUrlEncoded<span><span>(<span>context,&#32;data</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        client
+                        context
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        context
+                        data
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><span>(<span>string&#32;*&#32;string</span>)</span>&#32;list</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'c</code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.setHttpClient``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.FormUrlEncoded`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.setHttpClient``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.FormUrlEncoded\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L431-431" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L310-310" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -671,18 +909,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  client
+                  context
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  context
+                  data
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><span>(<span>string&#32;*&#32;string</span>)</span>&#32;list</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -691,7 +929,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'c</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -700,66 +938,61 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '25', 25)" onmouseover="showTip(event, '25', 25)">
+              <code onmouseout="hideTip(event, '407', 407)" onmouseover="showTip(event, '407', 407)">
                 <p>
-                  <a id="setHttpClientFactory">
-                    <a href="#setHttpClientFactory">
-                      <code><span>setHttpClientFactory&#32;<span>clientFactory&#32;context</span></span></code>
+                  <a id="Json">
+                    <a href="#Json">
+                      <code><span>Body.Json<span><span>(<span>context,&#32;json</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="25">
+              <div class="fsdocs-tip" id="407">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>setHttpClientFactory&#32;<span>clientFactory&#32;context</span></span></code>
+                  <code><span>Body.Json<span><span>(<span>context,&#32;json</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        clientFactory
+                        context
                       </b>
                       :
-                      <code><span>unit&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        context
+                        json
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code>string</code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'c</code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.setHttpClientFactory``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Json`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.setHttpClientFactory``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Json\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L434-434" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L306-306" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -770,18 +1003,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  clientFactory
+                  context
                 </span>
                 :
-                <code><span>unit&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  context
+                  json
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code>string</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -790,7 +1023,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'c</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -799,66 +1032,61 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '26', 26)" onmouseover="showTip(event, '26', 26)">
+              <code onmouseout="hideTip(event, '408', 408)" onmouseover="showTip(event, '408', 408)">
                 <p>
-                  <a id="timeout">
-                    <a href="#timeout">
-                      <code><span>timeout&#32;<span>value&#32;context</span></span></code>
+                  <a id="Stream">
+                    <a href="#Stream">
+                      <code><span>Body.Stream<span><span>(<span>context,&#32;stream</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="26">
+              <div class="fsdocs-tip" id="408">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>timeout&#32;<span>value&#32;context</span></span></code>
+                  <code><span>Body.Stream<span><span>(<span>context,&#32;stream</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        value
+                        context
                       </b>
                       :
-                      <code><a href="https://docs.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        context
+                        stream
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'c</code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.timeout``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Stream`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.timeout``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Stream\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L425-425" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L298-298" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -869,18 +1097,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  value
+                  context
                 </span>
                 :
-                <code><a href="https://docs.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  context
+                  stream
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><a href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -889,7 +1117,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'c</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -898,66 +1126,61 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '27', 27)" onmouseover="showTip(event, '27', 27)">
+              <code onmouseout="hideTip(event, '409', 409)" onmouseover="showTip(event, '409', 409)">
                 <p>
-                  <a id="timeoutInSeconds">
-                    <a href="#timeoutInSeconds">
-                      <code><span>timeoutInSeconds&#32;<span>value&#32;context</span></span></code>
+                  <a id="Text">
+                    <a href="#Text">
+                      <code><span>Body.Text<span><span>(<span>context,&#32;text</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="27">
+              <div class="fsdocs-tip" id="409">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>timeoutInSeconds&#32;<span>value&#32;context</span></span></code>
+                  <code><span>Body.Text<span><span>(<span>context,&#32;text</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        value
+                        context
                       </b>
                       :
-                      <code>float</code>
+                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        context
+                        text
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code>string</code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>'c</code>
+                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.timeoutInSeconds``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Text`')">
                 <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.timeoutInSeconds``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Text\'/>')">
                 <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
                 <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L428-428" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L302-302" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -968,18 +1191,18 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  value
+                  context
                 </span>
                 :
-                <code>float</code>
+                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  context
+                  text
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code>string</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -988,403 +1211,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'c</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '28', 28)" onmouseover="showTip(event, '28', 28)">
-                <p>
-                  <a id="transformHttpClient">
-                    <a href="#transformHttpClient">
-                      <code><span>transformHttpClient&#32;<span>transformer&#32;context</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="28">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>transformHttpClient&#32;<span>transformer&#32;context</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        transformer
-                      </b>
-                      :
-                      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        context
-                      </b>
-                      :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>'c</code>
-                  </span>
-                  <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.transformHttpClient``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.transformHttpClient``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L437-437" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  transformer
-                </span>
-                :
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  context
-                </span>
-                :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>'c</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '29', 29)" onmouseover="showTip(event, '29', 29)">
-                <p>
-                  <a id="transformHttpClientHandler">
-                    <a href="#transformHttpClientHandler">
-                      <code><span>transformHttpClientHandler&#32;<span>transformer&#32;context</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="29">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>transformHttpClientHandler&#32;<span>transformer&#32;context</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        transformer
-                      </b>
-                      :
-                      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a></span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        context
-                      </b>
-                      :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>'c</code>
-                  </span>
-                  <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.transformHttpClientHandler``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.transformHttpClientHandler``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L443-443" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  transformer
-                </span>
-                :
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a></span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  context
-                </span>
-                :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>'c</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '30', 30)" onmouseover="showTip(event, '30', 30)">
-                <p>
-                  <a id="transformHttpRequestMessage">
-                    <a href="#transformHttpRequestMessage">
-                      <code><span>transformHttpRequestMessage&#32;<span>transformer&#32;context</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="30">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>transformHttpRequestMessage&#32;<span>transformer&#32;context</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        transformer
-                      </b>
-                      :
-                      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a></span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        context
-                      </b>
-                      :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>'c</code>
-                  </span>
-                  <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.transformHttpRequestMessage``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.transformHttpRequestMessage``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L440-440" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  transformer
-                </span>
-                :
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httprequestmessage">HttpRequestMessage</a></span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  context
-                </span>
-                :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>'c</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '31', 31)" onmouseover="showTip(event, '31', 31)">
-                <p>
-                  <a id="update">
-                    <a href="#update">
-                      <code><span>update&#32;<span>transformer&#32;context</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="31">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>update&#32;<span>transformer&#32;context</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        transformer
-                      </b>
-                      :
-                      <code><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        context
-                      </b>
-                      :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>'c</code>
-                  </span>
-                  <br/>
-                  Modifiers: 
-                  inline
-                  <br/>
-                  Type parameters: 
-                  &#39;c
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.update``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.update``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L416-416" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  transformer
-                </span>
-                :
-                <code><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  context
-                </span>
-                :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>'c</code>
+                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -1393,14 +1220,6 @@
       </tbody>
     </table>
   </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
 </div>
             
         </div>

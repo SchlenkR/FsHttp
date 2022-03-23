@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Map (FsHttp)</title>
+    <title>StatusCodeExpectation (FsHttp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -86,6 +86,11 @@
   <a class="nav-link" href="/FsHttp/07_FSI.html">
     F# Interactive Usage
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/08_Migrations.html">
+    Migrations
+  </a>
 </li>
                 <li class="nav-header">
   API Reference
@@ -106,7 +111,7 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h2>
-    Map Module
+    StatusCodeExpectation Type
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
@@ -120,9 +125,25 @@
     </dt>
     <dt>
       Parent Module: 
-      <a href="/FsHttp/reference/fshttp-helper.html">
-        Helper
+      <a href="/FsHttp/reference/fshttp-domain.html">
+        Domain
       </a>
+    </dt>
+    <dt>
+      Base Type: 
+      <code>obj</code>
+    </dt>
+    <dt>
+      All Interfaces: 
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-statuscodeexpectation.html">StatusCodeExpectation</a>&gt;</span></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
+      , 
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="/FsHttp/reference/fshttp-domain-statuscodeexpectation.html">StatusCodeExpectation</a>&gt;</span></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
@@ -132,15 +153,19 @@
       </p>
     </div>
   </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
   <div>
     <h3>
-      Functions and values
+      Record fields
     </h3>
     <table class="table outer-list fsdocs-member-list">
       <thead>
         <tr>
           <td class="fsdocs-member-list-header">
-            Function or value
+            Record Field
           </td>
           <td class="fsdocs-member-list-header">
             Description
@@ -151,44 +176,24 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '136', 136)" onmouseover="showTip(event, '136', 136)">
+              <code onmouseout="hideTip(event, '388', 388)" onmouseover="showTip(event, '388', 388)">
                 <p>
-                  <a id="union">
-                    <a href="#union">
-                      <code><span>Map.union&#32;<span>m1&#32;s</span></span></code>
+                  <a id="actual">
+                    <a href="#actual">
+                      <code>actual</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="136">
+              <div class="fsdocs-tip" id="388">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Map.union&#32;<span>m1&#32;s</span></span></code>
+                  <code>actual</code>
                   <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        m1
-                      </b>
-                      :
-                      <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2">Map</a>&lt;<span>'k,&#32;'v</span>&gt;</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        s
-                      </b>
-                      :
-                      <code><span>seq&lt;<span>'k&#32;*&#32;'v</span>&gt;</span></code>
-                    </span>
-                    <br/>
-                  </ul>
                   <br/>
                   <span>
-                    Returns: 
-                    <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2">Map</a>&lt;<span>'k,&#32;'v</span>&gt;</span></code>
+                    Field type: 
+                    <code><a href="https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode">HttpStatusCode</a></code>
                   </span>
                   <br/>
                 </div>
@@ -197,15 +202,7 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Helper.Map.union``2```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Helper.Map.union``2\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L27-27" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L8-8" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="/FsHttp/content/img/github.png" class="normal"/>
                 <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
               </a>
@@ -213,30 +210,60 @@
                 
               </p>
             </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  m1
-                </span>
-                :
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2">Map</a>&lt;<span>'k,&#32;'v</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  s
-                </span>
-                :
-                <code><span>seq&lt;<span>'k&#32;*&#32;'v</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns: 
+                  Field type: 
                 </span>
-                <code><span><a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2">Map</a>&lt;<span>'k,&#32;'v</span>&gt;</span></code>
+                <code><a href="https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode">HttpStatusCode</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '389', 389)" onmouseover="showTip(event, '389', 389)">
+                <p>
+                  <a id="expected">
+                    <a href="#expected">
+                      <code>expected</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="389">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>expected</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode">HttpStatusCode</a>&#32;list</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L7-7" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="/FsHttp/content/img/github.png" class="normal"/>
+                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode">HttpStatusCode</a>&#32;list</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -245,10 +272,6 @@
       </tbody>
     </table>
   </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
   <div></div>
   <div></div>
   <div></div>
