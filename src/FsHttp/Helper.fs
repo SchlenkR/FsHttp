@@ -65,17 +65,24 @@ module Async =
             let! x = x
             return f x
         }
-    let mapTask f x = 
+    let await f x = 
+        async {
+            let! x = x
+            return! f x
+        }
+
+// TODO: F# 6 task comp switch
+module Task =
+    let map f x = 
         async {
             let! x = x |> Async.AwaitTask
             return f x
         }
-
-module Task =
-    open System.Threading.Tasks
-
-    let map f (x: Task<_>) =
-        x.ContinueWith(Func<Task<_>, _>(fun t -> f t.Result))
+    let await f x = 
+        async {
+            let! x = x |> Async.AwaitTask
+            return! f x |> Async.AwaitTask
+        }
 
 module Stream =
     open System.IO
