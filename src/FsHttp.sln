@@ -9,7 +9,6 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Tests", "Tests\Tests.fsproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fiddle", "fiddle", "{8FD9639C-B3E6-47E5-BE90-833586AD3001}"
 	ProjectSection(SolutionItems) = preProject
-		fiddle\DieselMeister.fsx = fiddle\DieselMeister.fsx
 		fiddle\scratch.fsx = fiddle\scratch.fsx
 	EndProjectSection
 EndProject

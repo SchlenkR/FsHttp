@@ -160,8 +160,7 @@ let toAsync (context: IToRequest) =
                  version = response.Version
                  originalHttpRequestMessage = requestMessage
                  originalHttpResponseMessage = response
-                 dispose = dispose
-                 printer = Response.print }
+                 dispose = dispose }
     }
 
 /// Sends a request asynchronously.

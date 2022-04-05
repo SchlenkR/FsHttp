@@ -236,7 +236,6 @@ type Response =
       originalHttpRequestMessage: System.Net.Http.HttpRequestMessage
       originalHttpResponseMessage: System.Net.Http.HttpResponseMessage
       dispose: unit -> unit
-      printer: Response -> string
     }
     interface IConfigure<PrintHintTransformer, Response> with
         member this.Configure(transformPrintHint) =
@@ -250,5 +249,3 @@ type Response =
             }
     interface IDisposable with
         member this.Dispose() = this.dispose()
-    override this.ToString() =
-        this.printer this

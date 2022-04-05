@@ -15,6 +15,10 @@ open FsHttp.Helper
 module Http =
 
     let methodWithConfig config (method: string) (url: string) =
+
+        // FSI init HACK
+        FsiInit.init()
+
         let formattedUrl =
             url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
             |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
