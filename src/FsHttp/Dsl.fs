@@ -8,6 +8,7 @@ open System.Text
 open System.Globalization
 
 open FsHttp
+open FsHttp.HelperInternal
 open FsHttp.Helper
 
 /// Request constructors for RFC 2626 HTTP methods

@@ -15,7 +15,9 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp</FsDocsReleaseNotesLink>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="HelperInternal.fs" />
     <Compile Include="Helper.fs" />
+    <Compile Include="HelperAutos.fs" />
     <Compile Include="MimeTypes.fs" />
     <Compile Include="Domain.fs" />
     <Compile Include="GlobalConfig.fs" />

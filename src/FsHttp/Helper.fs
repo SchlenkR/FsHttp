@@ -2,12 +2,17 @@ module FsHttp.Helper
 
 open System
 open System.Text
-
-let base64Encoding = Encoding.GetEncoding("ISO-8859-1")
-let br = Environment.NewLine
+open FsHttp.HelperInternal
 
 [<RequireQualifiedAccess>]
-module String =
+module Result =
+    let getValueOrThrow ex (r: Result<'a, 'b>) =
+        match r with
+        | Ok value -> value
+        | Error value -> raise (ex value)
+
+[<RequireQualifiedAccess>]
+module String =   
     let urlEncode (s: string) =
         System.Web.HttpUtility.UrlEncode(s)
     let toBase64 (s: string) =
@@ -21,23 +26,6 @@ module String =
     let substring maxLength (s:string) =
         string(s.Substring(0, Math.Min(maxLength, s.Length)))
 
-type internal StringBuilder with
-    member sb.append (s:string) = sb.Append s |> ignore
-    member sb.appendLine (s:string) = sb.AppendLine s |> ignore
-    member sb.newLine() = sb.appendLine ""
-    member sb.appendSection (s:string) =
-        sb.appendLine s
-        String([0..s.Length] |> List.map (fun _ -> '-') |> List.toArray) |> sb.appendLine
-
-[<RequireQualifiedAccess>]
-module internal Map =
-    let union (m1: Map<'k, 'v>) (s: seq<'k * 'v>) =
-        seq {
-            yield! m1 |> Seq.map (fun kvp -> kvp.Key, kvp.Value)
-            yield! s
-        }
-        |> Map.ofSeq
-
 [<RequireQualifiedAccess>]
 module Url =
     let combine (url1: string) (url2: string) =
@@ -49,41 +37,8 @@ module Url =
         let b = (norm url2).TrimStart(delTrim).TrimEnd(delTrim)
         a + sdel + b
 
+
 [<RequireQualifiedAccess>]
-module HttpStatusCode =
-    let show (this: System.Net.HttpStatusCode) = $"{int this} ({this})"
-
-module Result =
-    let getValueOrThrow ex (r: Result<'a, 'b>) =
-        match r with
-        | Ok value -> value
-        | Error value -> raise (ex value)
-
-module Async =
-    let map f x = 
-        async {
-            let! x = x
-            return f x
-        }
-    let await f x = 
-        async {
-            let! x = x
-            return! f x
-        }
-
-// TODO: F# 6 task comp switch
-module Task =
-    let map f x = 
-        async {
-            let! x = x |> Async.AwaitTask
-            return f x
-        }
-    let await f x = 
-        async {
-            let! x = x |> Async.AwaitTask
-            return! f x |> Async.AwaitTask
-        }
-
 module Stream =
     open System.IO
     open System.Runtime.InteropServices

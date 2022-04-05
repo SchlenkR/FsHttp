@@ -1,8 +1,8 @@
 ﻿namespace FsHttp
 
 open System
-open FSharp.Data
 open FsHttp.Helper
+open FSharp.Data
 
 [<AutoOpen>]
 module JsonComparisonTypes =

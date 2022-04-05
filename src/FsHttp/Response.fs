@@ -9,6 +9,7 @@ open System.Text
 open System.Text.Json
 open System.Xml.Linq
 
+open FsHttp.HelperInternal
 open FsHttp.Helper
 open FsHttp.Domain
 
@@ -37,7 +38,7 @@ let parseAsync parserName parse response =
         use bufferingStream = new Stream.Utf8StringBufferingStream(contentStream, None)
         try
             let! ct = Async.CancellationToken
-            return! parse bufferingStream ct
+            return! parse (bufferingStream :> Stream) ct
         with ex ->
             let errorDisplayContent = bufferingStream.GetUtf8String()
             let msg = $"Could not parse %s{parserName}: {ex.Message}{br}Content:{br}{errorDisplayContent}"

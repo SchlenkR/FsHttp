@@ -146,7 +146,7 @@ let toAsync (context: IToRequest) =
             // Task is started immediately, but must not be awaited when running in background.
             response.Content.LoadIntoBufferAsync() |> ignore
         if request.config.printHint.printDebugMessages then
-            printfn $"{Helper.HttpStatusCode.show response.StatusCode} ({request.header.method} {request.header.url.ToUriString()})"
+            printfn $"{response.StatusCode |> int} ({response.StatusCode}) ({request.header.method} {request.header.url.ToUriString()})"
         let dispose () =
             do finalClient.Dispose()
             do response.Dispose()
