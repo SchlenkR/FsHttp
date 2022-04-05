@@ -9,9 +9,9 @@ open System.Text
 open System.Text.Json
 open System.Xml.Linq
 
+open FsHttp
 open FsHttp.HelperInternal
 open FsHttp.Helper
-open FsHttp.Domain
 
 
 // -----------

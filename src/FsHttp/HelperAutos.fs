@@ -1,5 +1,4 @@
-[<AutoOpen>]
-module FsHttp.HelperAutos
+namespace FsHttp
 
 module Async =
     let map f x = 

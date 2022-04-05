@@ -9,7 +9,6 @@ index: 3
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "nuget: FSharp.Data"
 #r "../FsHttp/bin/Release/net6.0/FsHttp.dll"
 open FsHttp
 
@@ -22,7 +21,6 @@ something like text or JSON:
 
 See also: [Response](reference/fshttp-response.html)
 *)
-
 http {
     POST "https://reqres.in/api/users"
     CacheControl "no-cache"
@@ -34,35 +32,19 @@ http {
     }
     """
 }
-|> Response.toJson
-
-(**
-Works of course also like this:
-*)
-post "https://reqres.in/api/users" {
-    CacheControl "no-cache"
-    body
-    json """
-    {
-        "name": "morpheus",
-        "job": "leader"
-    }
-    """
-    send
-}
+|> Request.send
 |> Response.toJson
 
 
 
 (**
-Use FSharp.Data.JsonExtensions to do JSON processing:
+JSON dynamic processing:
 *)
-open FSharp.Data
-open FSharp.Data.JsonExtensions
+open System.Text.Json
 
 http {
     GET @"https://reqres.in/api/users?page=2&delay=3"
 }
+|> Request.send
 |> Response.toJson
-|> fun json -> json?page.AsInteger()
-
+|> fun json -> json?page.GetInt32()

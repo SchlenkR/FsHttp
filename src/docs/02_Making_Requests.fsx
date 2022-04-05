@@ -9,42 +9,54 @@ index: 2
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "nuget: FSharp.Data"
 #r "../FsHttp/bin/Release/net6.0/FsHttp.dll"
 
 (**
-## Basics
+Installing
 *)
+// Reference the 'FsHttp' package from NuGet in your script or project
+#r "nuget: FsHttp"
 
+// Opening 'FsHttp' is sufficient
+// (no need for FsHttp.DSL or others anymore).
 open FsHttp
 
 (**
-Build up a GET request (don't send it yet):
+Performing a GET request:
 *)
-
 http {
-    GET "https://myApi"
+    GET "https://mysite"
+    AcceptLanguage "en-US"
+}
+|> Request.sendAsync
+
+(**
+An alternative way: Verb-first functions
+*)
+get "https://mysite" {
+    AcceptLanguage "en-US"
+}
+|> Request.sendAsync
+
+(**
+Working in F# Interactive or notebooks, a short form for sending requests can be used: The `%` operator.
+
+> Note: Since the `%` operator send a synchronous request (blocking the caller thread),
+> it is only recommended for using in an interactive environment.
+*)
+open FsHttp.Operators
+
+% http {
+    GET "https://mysite"
+    AcceptLanguage "en-US"
 }
 
 (**
-There is also a short form for this:
-*)
-get "https://myApi"
-
-(**
-No matter which form you choose, you can add headers:
+Performing a POST request with JSON string content:
 *)
 http {
-    GET "https://myApi"
-    CacheControl "no-cache"
-}
-
-(**
-POST JSON content:
-*)
-http {
-    POST "https://myApi"
-
+    POST "https://mysite"
+    
     // use "body" keyword to start specifying body properties
     body
     json """
@@ -54,92 +66,69 @@ http {
     }
     """
 }
+|> Request.sendAsync
 
 
 (**
-## Sending requests
+Performing a POST request with JSON object content:
 *)
-
-// Sends a request immediately and blocks until it returns:
 http {
-    GET "https://myApi"
-}
-|> Request.send
+    POST "https://mysite"
 
-// Sends a request immediately asynchronousely ("hot" async):
-http {
-    GET "https://myApi"
+    body
+    jsonSerialize
+        {|
+            name = "morpheus"
+            job = "leader"
+        |}
 }
 |> Request.sendAsync
 
-// Builds an async request, but doesn't start sending ("cold" async - idiomatic F#):
-http {
-    GET "https://myApi"
-}
-|> Request.toAsync
+
 
 (**
-There is also a shortcut for sending a request (immediately; blocking - like `Request.send`),
-which is the `%` operator. The intention of this operator is simplifying FSI usage.
-*)
+Performing a POST multipart request:
 
-open FsHttp.Operators
-
-% get "http://myApi"
-
-// or
-
-% http {
-    GET "http://myApi"
-}
-
-(**
-## Multipart request
-
-POST form data:
+> Please have a look at the [https://github.com/fsprojects/FsHttp/blob/master/src/Tests/Multipart.fs](multipart tests) for more documentation.
 *)
 http {
-    POST "https://myApi"
+    POST "https://mysite"
 
-    // use "multipart" keyword to start specifying multiple parts
+    // use "multipart" keyword (instead of 'body') to start specifying multiple parts
     multipart
     stringPart "user" "morpheus"
     stringPart "secret" "redpill"
+    filePartWithName "super.txt" "F# rocks!"
 }
-|> Request.send
+|> Request.sendAsync
 
 
 (**
-> Please have a look at the [./src/Tests/Multipart.fs](multipart tests) for more documentation.
-
-## URL Formatting (Line Breaks and Comments)
-
-You can split URL query parameters or comment lines out by using F# line-comment syntax.
+URL Formatting (Line Breaks and Comments): You can split URL query parameters or comment 
+lines out by using F# line-comment syntax.
 Line breaks and trailing or leading spaces will be removed:
 *)
 http {
-    GET "https://myApi
+    GET "https://mysite
             ?page=2
             //&skip=5
-            &delay=3"
+            &name=Hans"
 }
+|> Request.sendAsync
 
 
 (**
 ### Query parameters
 
 It's also possible to specify query params in a list:
+> Please note:** Up to including F# 5, an upcast of the parameter values is needed!
 *)
 
 http {
-    GET "https://myApi"
+    GET "https://mysite"
     query [
         "page", 2
-        "skip", 5
         "name", "Hans"
     ]
 }
-
-(**
-**Please note:** Up to including F# 5, an upcast of the parameter values is needed!
-*)
+|> Request.sendAsync

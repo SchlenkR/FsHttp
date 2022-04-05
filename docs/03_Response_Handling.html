@@ -78,16 +78,6 @@
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/06_Builders_and_Evaluation.html">
-    Builders and Evaluation
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="/FsHttp/07_FSI.html">
-    F# Interactive Usage
-  </a>
-</li>             
-<li class="nav-item">
   <a class="nav-link" href="/FsHttp/08_Migrations.html">
     Migrations
   </a>
@@ -125,31 +115,18 @@ something like text or JSON:</p>
 <span class="s">    }</span>
 <span class="s">    &quot;&quot;&quot;</span>
 <span class="pn">}</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="id">toJson</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="m">Request</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="id">send</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs9', 9)" onmouseover="showTip(event, 'fs9', 9)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 10)" onmouseover="showTip(event, 'fs10', 10)" class="id">toJson</span>
 </code></pre>
-<p>Works of course also like this:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs9', 9)" onmouseover="showTip(event, 'fs9', 9)" class="fn">post</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span> <span class="pn">{</span>
-    <span onmouseout="hideTip(event, 'fs4', 10)" onmouseover="showTip(event, 'fs4', 10)" class="k">CacheControl</span> <span class="s">&quot;no-cache&quot;</span>
-    <span onmouseout="hideTip(event, 'fs5', 11)" onmouseover="showTip(event, 'fs5', 11)" class="k">body</span>
-    <span onmouseout="hideTip(event, 'fs6', 12)" onmouseover="showTip(event, 'fs6', 12)" class="k">json</span> <span class="s">&quot;&quot;&quot;</span>
-<span class="s">    {</span>
-<span class="s">        &quot;name&quot;: &quot;morpheus&quot;,</span>
-<span class="s">        &quot;job&quot;: &quot;leader&quot;</span>
-<span class="s">    }</span>
-<span class="s">    &quot;&quot;&quot;</span>
-    <span class="id">send</span>
-<span class="pn">}</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 14)" onmouseover="showTip(event, 'fs8', 14)" class="id">toJson</span>
-</code></pre>
-<p>Use FSharp.Data.JsonExtensions to do JSON processing:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs10', 15)" onmouseover="showTip(event, 'fs10', 15)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="id">Data</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs10', 17)" onmouseover="showTip(event, 'fs10', 17)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="id">Data</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 19)" onmouseover="showTip(event, 'fs12', 19)" class="m">JsonExtensions</span>
+<p>JSON dynamic processing:</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs11', 11)" onmouseover="showTip(event, 'fs11', 11)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 12)" onmouseover="showTip(event, 'fs12', 12)" class="id">Text</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 13)" onmouseover="showTip(event, 'fs13', 13)" class="id">Json</span>
 
-<span onmouseout="hideTip(event, 'fs2', 20)" onmouseover="showTip(event, 'fs2', 20)" class="k">http</span> <span class="pn">{</span>
-    <span onmouseout="hideTip(event, 'fs13', 21)" onmouseover="showTip(event, 'fs13', 21)" class="k">GET</span> <span class="s">@&quot;https://reqres.in/api/users?page=2&amp;delay=3&quot;</span>
+<span onmouseout="hideTip(event, 'fs2', 14)" onmouseover="showTip(event, 'fs2', 14)" class="k">http</span> <span class="pn">{</span>
+    <span onmouseout="hideTip(event, 'fs14', 15)" onmouseover="showTip(event, 'fs14', 15)" class="k">GET</span> <span class="s">@&quot;https://reqres.in/api/users?page=2&amp;delay=3&quot;</span>
 <span class="pn">}</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs7', 22)" onmouseover="showTip(event, 'fs7', 22)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 23)" onmouseover="showTip(event, 'fs14', 23)" class="id">toJson</span>
-<span class="o">|&gt;</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs15', 24)" onmouseover="showTip(event, 'fs15', 24)" class="fn">json</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs15', 25)" onmouseover="showTip(event, 'fs15', 25)" class="fn">json</span><span class="o">?</span><span class="id">page</span><span class="pn">.</span><span class="id">AsInteger</span><span class="pn">(</span><span class="pn">)</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs7', 16)" onmouseover="showTip(event, 'fs7', 16)" class="m">Request</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 17)" onmouseover="showTip(event, 'fs8', 17)" class="id">send</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs9', 18)" onmouseover="showTip(event, 'fs9', 18)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 19)" onmouseover="showTip(event, 'fs15', 19)" class="id">toJson</span>
+<span class="o">|&gt;</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs16', 20)" onmouseover="showTip(event, 'fs16', 20)" class="fn">json</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs16', 21)" onmouseover="showTip(event, 'fs16', 21)" class="fn">json</span><span class="o">?</span><span class="id">page</span><span class="pn">.</span><span class="id">GetInt32</span><span class="pn">(</span><span class="pn">)</span>
 </code></pre>
 
             <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
@@ -170,7 +147,16 @@ Aufrufe IRequestContext.Body<br /><em>&lt;summary&gt;
 <div class="fsdocs-tip" id="fs6">Benutzerdefinierter Vorgang: json (string)
 
 Aufrufe IRequestContext.Json</div>
-<div class="fsdocs-tip" id="fs7">Multiple items<br />Modul Response
+<div class="fsdocs-tip" id="fs7">Multiple items<br />Modul Request
+
+aus FsHttp<br /><br />--------------------<br />type Request =
+  { header: Header
+    content: RequestContent
+    config: Config }</div>
+<div class="fsdocs-tip" id="fs8">val send : context:IToRequest -&gt; Response<br /><em>&lt;summary&gt;
+ Sends a request synchronously.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs9">Multiple items<br />Modul Response
 
 aus FsHttp<br /><br />--------------------<br />type Response =
   { request: Request
@@ -182,38 +168,18 @@ aus FsHttp<br /><br />--------------------<br />type Response =
     version: Version
     originalHttpRequestMessage: HttpRequestMessage
     originalHttpResponseMessage: HttpResponseMessage
-    dispose: unit -&gt; unit
-    ... }
+    dispose: unit -&gt; unit }
     interface IDisposable
-    interface IConfigure&lt;PrintHintTransformer,Response&gt;
-    override ToString : unit -&gt; string</div>
-<div class="fsdocs-tip" id="fs8">val toJson : r:Response -&gt; FSharp.Data.JsonValue</div>
-<div class="fsdocs-tip" id="fs9">val post : url:string -&gt; HeaderContext</div>
-<div class="fsdocs-tip" id="fs10">Multiple items<br />Namespace FSharp<br /><br />--------------------<br />Namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs11">Multiple items<br />Namespace FSharp.Data<br /><br />--------------------<br />Namespace Microsoft.FSharp.Data</div>
-<div class="fsdocs-tip" id="fs12">Multiple items<br />Modul JsonExtensions
-
-aus FSharp.Data<br /><em>&lt;summary&gt;
- Provides the dynamic operator for getting a property of a JSON object
-&lt;/summary&gt;</em><br /><br />--------------------<br />type JsonExtensions =
-  static member AsArray : x:JsonValue -&gt; JsonValue []
-  static member AsBoolean : x:JsonValue -&gt; bool
-  static member AsDateTime : x:JsonValue * ?cultureInfo:CultureInfo -&gt; DateTime
-  static member AsDateTimeOffset : x:JsonValue * ?cultureInfo:CultureInfo -&gt; DateTimeOffset
-  static member AsDecimal : x:JsonValue * ?cultureInfo:CultureInfo -&gt; decimal
-  static member AsFloat : x:JsonValue * ?cultureInfo:CultureInfo * ?missingValues:string [] -&gt; float
-  static member AsGuid : x:JsonValue -&gt; Guid
-  static member AsInteger : x:JsonValue * ?cultureInfo:CultureInfo -&gt; int
-  static member AsInteger64 : x:JsonValue * ?cultureInfo:CultureInfo -&gt; int64
-  static member AsString : x:JsonValue * ?cultureInfo:CultureInfo -&gt; string
-  ...<br /><em>&lt;summary&gt;
- Extension methods with operations on JSON values
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs13">Benutzerdefinierter Vorgang: GET (string)
+    interface IConfigure&lt;PrintHintTransformer,Response&gt;</div>
+<div class="fsdocs-tip" id="fs10">val toJson : response:Response -&gt; System.Text.Json.JsonElement</div>
+<div class="fsdocs-tip" id="fs11">Namespace System</div>
+<div class="fsdocs-tip" id="fs12">Namespace System.Text</div>
+<div class="fsdocs-tip" id="fs13">Namespace System.Text.Json</div>
+<div class="fsdocs-tip" id="fs14">Benutzerdefinierter Vorgang: GET (string)
 
 Aufrufe IRequestContext.Get</div>
-<div class="fsdocs-tip" id="fs14">val toJson : r:Response -&gt; JsonValue</div>
-<div class="fsdocs-tip" id="fs15">val json : JsonValue</div>
+<div class="fsdocs-tip" id="fs15">val toJson : response:Response -&gt; JsonElement</div>
+<div class="fsdocs-tip" id="fs16">val json : JsonElement</div>
 
         </div>
 

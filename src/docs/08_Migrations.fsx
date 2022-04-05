@@ -18,7 +18,7 @@ index: 8
 * `httpAsync` -> `http { ... } |> Request.sendAsync`
 * `httpLazyAsync` -> `http { ... } |> Request.toAsync`
 * `httpMessage` -> `http { ... } |> Request.toMessage`
-* see also: [./src/Tests/BuildersAndSignatures.fs](Tests in BuildersAndSignatures.fs)
+* see also: [https://github.com/fsprojects/FsHttp/blob/master/src/Tests/BuildersAndSignatures.fs](Tests in BuildersAndSignatures.fs)
 * Renamed type `LazyHttpBuilder` -> `HttpBuilder`
 * Renamed `Request.buildAsync` -> `Request.toAsync`
 * Removed `send` and `sendAsync` builder methods

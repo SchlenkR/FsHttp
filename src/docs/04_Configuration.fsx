@@ -9,7 +9,6 @@ index: 4
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "nuget: FSharp.Data"
 #r "../FsHttp/bin/Release/net6.0/FsHttp.dll"
 open FsHttp
 
@@ -35,7 +34,6 @@ get "http://myService"
 
 You can also set config values globally (inherited when requests are created):
 *)
-
 GlobalConfig.defaults
 |> Config.timeoutInSeconds 11.1
 |> GlobalConfig.set

@@ -2,7 +2,7 @@
 FsHttp
 ======
 
-FsHttp is a .Net HTTP client library For C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
+FsHttp is a .Net HTTP client library for C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
 
 **FsHttp** is authored by [@ronaldschlenker](https://github.com/ronaldschlenker). Feel free to leave a message.
 

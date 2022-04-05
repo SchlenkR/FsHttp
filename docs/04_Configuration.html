@@ -78,16 +78,6 @@
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/06_Builders_and_Evaluation.html">
-    Builders and Evaluation
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="/FsHttp/07_FSI.html">
-    F# Interactive Usage
-  </a>
-</li>             
-<li class="nav-item">
   <a class="nav-link" href="/FsHttp/08_Migrations.html">
     Migrations
   </a>
@@ -150,7 +140,8 @@ aus FsHttp.Dsl<br /><br />--------------------<br />type Config =
     httpCompletionOption: HttpCompletionOption
     proxy: Proxy option
     certErrorStrategy: CertErrorStrategy
-    httpClientFactory: (unit -&gt; HttpClient) option }</div>
+    httpClientFactory: (unit -&gt; HttpClient) option
+    bufferResponseContent: bool }</div>
 <div class="fsdocs-tip" id="fs7">val timeoutInSeconds : value:float -&gt; context:IConfigure&lt;ConfigTransformer,&#39;c&gt; -&gt; &#39;c</div>
 <div class="fsdocs-tip" id="fs8">Modul GlobalConfig
 
