@@ -86,7 +86,7 @@ let publish = "publish", fun () ->
     let nugetApiKey = Environment.environVar Properties.nugetPushEnvVarName
     !! ".pack/*.nupkg"
     |> Seq.iter (fun p ->
-        Shell.ExecSuccess ("dotnet", $"nuget push {p} -k {nugetApiKey} -s {Properties.nugetServer}")
+        Shell.ExecSuccess ("dotnet", $"nuget push {p} -k {nugetApiKey} -s {Properties.nugetServer} --skip-duplicate")
     )
 
 run [
