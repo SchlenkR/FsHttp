@@ -104,6 +104,10 @@ let toJsonSeqAsync response = toJsonAsync response |> Async.map (fun json -> jso
 let toJsonSeqTAsync response = toJsonSeqAsync response |> Async.StartAsTask
 let toJsonSeq response = toJsonSeqAsync response |> Async.RunSynchronously
 
+let toJsonArrayAsync response = toJsonSeqAsync response |> Async.map Seq.toArray
+let toJsonArrayTAsync response = toJsonSeqTAsync response |> Task.map Seq.toArray
+let toJsonArray response = toJsonSeq response |> Seq.toArray
+
 let deserializeJsonWithAsync<'a> options response =
     async {
         use! stream = toStreamAsync response
@@ -161,8 +165,12 @@ let toFormattedText response = toFormattedTextAsync response |> Async.RunSynchro
 // Saving / IO
 // -----------
 
-let saveFileAsync (fileName: string) response = 
+let saveFileAsync (fileName: string) response =
     async {
+        let fullFileName = Path.GetFullPath fileName
+        let dir = Path.GetDirectoryName fullFileName
+        if Directory.Exists dir |> not then
+            Directory.CreateDirectory dir |> ignore
         let! stream = response |> toStreamAsync 
         do! stream |> Stream.saveFileAsync fileName
     }
