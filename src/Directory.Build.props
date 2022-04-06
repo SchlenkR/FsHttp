@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>9.0.1</Version>
+    <Version>9.0.2</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
@@ -22,9 +22,13 @@
       v8.0.1
       - #89: No more blocking requests using net5 with FSI
 
-      v9.0.0
+      v9.0.0 / v9.0.1
       - Redefined builders (see README.md)
       - Many breaking changes (see "Migrations" sections in the docu)
+      
+      v9.0.2
+      - Added JSON toArray functions
+      - Fixed #99: Response.saveFile should create the directory if not present
     </PackageReleaseNotes>
   </PropertyGroup>
 
