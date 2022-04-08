@@ -11,12 +11,20 @@ open FsHttp
 let private TimeoutPropertyName = "RequestTimeout"
 
 let private setRequestMessageProp (requestMessage: HttpRequestMessage) (propName: string) (value: 'a) =
+#if NETSTANDARD2_1
+    do requestMessage.Properties.[propName] <- value
+#else
     do requestMessage.Options.Set(HttpRequestOptionsKey propName, value)
+#endif
 
 let private getRequestMessageProp<'a> (requestMessage: HttpRequestMessage) (propName: string) =
+#if NETSTANDARD2_1
+    requestMessage.Properties.[propName] :?> 'a
+#else
     match requestMessage.Options.TryGetValue<'a>(HttpRequestOptionsKey propName) with
     | true,value -> value
     | false,_ -> failwith $"HttpRequestOptionsKey '{propName}' not found."
+#endif
 
 
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
@@ -90,23 +98,34 @@ let private getHttpClient =
                 base.SendAsync(request, cts.Token)
         }
 
+#if NETSTANDARD2_1
+    let getHandler ignoreSslIssues =
+        let handler = new HttpClientHandler()
+        if ignoreSslIssues then
+            handler.ServerCertificateCustomValidationCallback <- (fun msg cert chain errors -> true)
+        handler
+#else
+    let getHandler ignoreSslIssues =
+        let handler = new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
+        if ignoreSslIssues then
+            handler.SslOptions <-
+                let options = Security.SslClientAuthenticationOptions()
+                let callback = Security.RemoteCertificateValidationCallback(fun sender cert chain errors -> true)
+                do options.RemoteCertificateValidationCallback <- callback
+                options
+        handler
+#endif
+
     fun (config: Config) ->
         match config.httpClientFactory with
         | Some clientFactory -> clientFactory()
         | None ->
             let transformHandler = Option.defaultValue id config.httpClientHandlerTransformer
-            let handler =
-                transformHandler <|
-                    new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
-            match config.certErrorStrategy with
-            | Default -> ()
-            | AlwaysAccept ->
-                handler.SslOptions <-
-                    let options = Security.SslClientAuthenticationOptions()
-                    options.RemoteCertificateValidationCallback <-
-                        Security.RemoteCertificateValidationCallback(fun sender cert chain errors -> true)
-                    options
-
+            let ignoreSslIssues =
+                match config.certErrorStrategy with
+                | Default -> false
+                | AlwaysAccept -> true
+            let handler = getHandler ignoreSslIssues |> transformHandler
             match config.proxy with
             | Some proxy ->
                 let webProxy = WebProxy(proxy.url)

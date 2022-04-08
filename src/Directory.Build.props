@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>9.0.2</Version>
+    <Version>9.0.3</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
@@ -29,6 +29,9 @@
       v9.0.2
       - Added JSON toArray functions
       - Fixed #99: Response.saveFile should create the directory if not present
+      
+      v9.0.3
+      - Supporting netstandard2.1 again
     </PackageReleaseNotes>
   </PropertyGroup>
 

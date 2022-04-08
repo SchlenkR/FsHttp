@@ -3,6 +3,7 @@ module FsHttp.Helper
 open System
 open System.Text
 open FsHttp.HelperInternal
+open System
 
 [<RequireQualifiedAccess>]
 module Result =
@@ -70,7 +71,12 @@ module Stream =
         override _.Length with get() = baseStream.Length
         override _.Position with get() = baseStream.Position and set(_) = notSeekable()
         member _.GetUtf8String() =
-            let s = Encoding.UTF8.GetString(CollectionsMarshal.AsSpan(readBuffer)).AsSpan()
+#if NETSTANDARD2_1
+            let buffer = readBuffer |> Seq.toArray
+#else
+            let buffer = CollectionsMarshal.AsSpan(readBuffer)
+#endif
+            let s = Encoding.UTF8.GetString(buffer).AsSpan()
             if s.Length = 0 then
                 s.ToString()
             else

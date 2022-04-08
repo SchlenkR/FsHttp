@@ -33,12 +33,18 @@ type Proxy =
       credentials: System.Net.ICredentials option
     }
 
+#if NETSTANDARD2_1
+type HttpClientHandlerTransformer = (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
+#else
+type HttpClientHandlerTransformer = (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
+#endif
+
 // TODO: Get rid of all the boolean switches and use options instead.
 type Config =
     { timeout: TimeSpan
       printHint: PrintHint
       httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage) option
-      httpClientHandlerTransformer: (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
+      httpClientHandlerTransformer: HttpClientHandlerTransformer
       httpClientTransformer: (System.Net.Http.HttpClient -> System.Net.Http.HttpClient) option
       httpCompletionOption: System.Net.Http.HttpCompletionOption
       proxy: Proxy option
