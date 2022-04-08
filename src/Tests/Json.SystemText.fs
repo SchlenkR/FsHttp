@@ -78,3 +78,23 @@ let [<TestCase>] ``To JSON array``() =
     |> Seq.map (fun json -> json?name.GetString())
     |> Seq.toList
     |> shouldEqual [ "John Doe"; "Foo Bar" ]
+
+let [<TestCase>] ``Unicode chars``() =
+    use server = returnBody()
+
+    let name = "John+Doe"
+
+    http {
+        POST (url "")
+        body
+        json (sprintf """
+            {
+                "name": "%s"
+            }
+        """ name)
+    }
+    |> Request.send
+    |> Response.toJson
+    |> fun json -> json?name.GetString()
+    |> Seq.toList
+    |> shouldEqual name
