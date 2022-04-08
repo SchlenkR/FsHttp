@@ -3,6 +3,7 @@
     <TargetFrameworks>netstandard2.1;net5.0;net6.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
+    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
   </PropertyGroup>
   <PropertyGroup>
     <Description>FSharp.Data (JSON) integration package for FsHttp</Description>
@@ -16,8 +17,7 @@
     <PackageReference Include="FSharp.Data" Version="4.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="5.0.0" Condition="'$(TargetFramework)' == 'net5.0'" />
-    <PackageReference Include="FSharp.Core" Version="6.0.0" Condition="'$(TargetFramework)' == 'net6.0'" />
+    <PackageReference Include="FSharp.Core" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />

@@ -46,7 +46,4 @@
     <ProjectReference Include="..\FsHttp.FSharpData\FsHttp.FSharpData.fsproj" />
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="6.0.0" />
-  </ItemGroup>
 </Project>
