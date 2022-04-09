@@ -1,6 +1,7 @@
 module FsHttp.GlobalConfig
 
 open System
+open System.Text.Json
 open FsHttp.Domain
 
 let inline internal defaultHeadersAndBodyPrintMode() =
@@ -36,3 +37,14 @@ type GlobalConfigWrapper(config) =
 
 let defaults = GlobalConfigWrapper mutableDefaults
 let set (config: GlobalConfigWrapper) = mutableDefaults <- config.Config
+
+// TODO: Do we need something like this, which is more intuitive, but doesn't
+// support the pipelined config API?
+////module Defaults =
+////    let get () = mutableDefaults
+////    let set (config: Config) = mutableDefaults <- config
+
+module Json =
+    // TODO: Document this
+    let mutable defaultJsonDocumentOptions = JsonDocumentOptions()
+    let mutable defaultJsonSerializerOptions = JsonSerializerOptions JsonSerializerDefaults.Web

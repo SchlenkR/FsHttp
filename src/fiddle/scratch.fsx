@@ -1,4 +1,9 @@
 
+#r "nuget: Newtonsoft.Json"
+open Newtonsoft.Json.Linq
+let x = JObject.Parse """ { "name": "Hans", "age": 23.4 }  """
+
+
 #r "nuget: FsHttp"
 
 open System.IO

@@ -10,6 +10,7 @@ open System.Text.Json
 open System.Xml.Linq
 
 open FsHttp
+open FsHttp.GlobalConfig.Json
 open FsHttp.HelperInternal
 open FsHttp.Helper
 
@@ -96,23 +97,39 @@ let toXml response = toXmlAsync response |> Async.RunSynchronously
 //      in additional JSON integration packages.
 // -----------
 
-let toJsonDocumentAsync response =
+let toJsonDocumentWithAsync options response =
     response |> parseAsync "JSON" (fun stream ct ->
-        JsonDocument.ParseAsync(stream, cancellationToken = ct) |> Async.AwaitTask)
-let toJsonDocumentTAsync response = toJsonDocumentAsync response |> Async.StartAsTask
-let toJsonDocument response = toJsonDocumentAsync response |> Async.RunSynchronously
+        JsonDocument.ParseAsync(stream, options, cancellationToken = ct) |> Async.AwaitTask)
+let toJsonDocumentWithTAsync options response = toJsonDocumentWithAsync options response |> Async.StartAsTask
+let toJsonDocumentWith options response = toJsonDocumentWithAsync options response |> Async.RunSynchronously
 
-let toJsonAsync response = toJsonDocumentAsync response |> Async.map (fun doc -> doc.RootElement)
-let toJsonTAsync response = toJsonAsync response |> Async.StartAsTask
-let toJson response = toJsonAsync response |> Async.RunSynchronously
+let toJsonDocumentAsync response = toJsonDocumentWithAsync defaultJsonDocumentOptions response
+let toJsonDocumentTAsync response = toJsonDocumentWithTAsync defaultJsonDocumentOptions response
+let toJsonDocument response = toJsonDocumentWith defaultJsonDocumentOptions response
 
-let toJsonSeqAsync response = toJsonAsync response |> Async.map (fun json -> json.EnumerateArray())
-let toJsonSeqTAsync response = toJsonSeqAsync response |> Async.StartAsTask
-let toJsonSeq response = toJsonSeqAsync response |> Async.RunSynchronously
+let toJsonWithAsync options response = toJsonDocumentWithAsync options response |> Async.map (fun doc -> doc.RootElement)
+let toJsonWithTAsync options response = toJsonWithAsync options response |> Async.StartAsTask
+let toJsonWith options response = toJsonWithAsync options response |> Async.RunSynchronously
 
-let toJsonArrayAsync response = toJsonSeqAsync response |> Async.map Seq.toArray
-let toJsonArrayTAsync response = toJsonSeqTAsync response |> Task.map Seq.toArray
-let toJsonArray response = toJsonSeq response |> Seq.toArray
+let toJsonAsync response = toJsonWithAsync defaultJsonDocumentOptions response
+let toJsonTAsync response = toJsonWithTAsync defaultJsonDocumentOptions response
+let toJson response = toJsonWith defaultJsonDocumentOptions response
+
+let toJsonSeqWithAsync options response = toJsonWithAsync options response |> Async.map (fun json -> json.EnumerateArray())
+let toJsonSeqWithTAsync options response = toJsonSeqWithAsync options response |> Async.StartAsTask
+let toJsonSeqWith options response = toJsonSeqWithAsync options response |> Async.RunSynchronously
+
+let toJsonSeqAsync response = toJsonSeqWithAsync defaultJsonDocumentOptions response
+let toJsonSeqTAsync response = toJsonSeqWithTAsync defaultJsonDocumentOptions response
+let toJsonSeq response = toJsonSeqWith defaultJsonDocumentOptions response
+
+let toJsonArrayWithAsync options response = toJsonSeqWithAsync options response |> Async.map Seq.toArray
+let toJsonArrayWithTAsync options response = toJsonArrayWithAsync options response |> Async.StartAsTask
+let toJsonArrayWith options response = toJsonArrayWithAsync options response |> Async.RunSynchronously
+
+let toJsonArrayAsync response = toJsonArrayWithAsync defaultJsonDocumentOptions response
+let toJsonArrayTAsync response = toJsonArrayWithTAsync defaultJsonDocumentOptions response
+let toJsonArray response = toJsonArrayWith defaultJsonDocumentOptions response
 
 let deserializeJsonWithAsync<'a> options response =
     async {
@@ -126,15 +143,12 @@ let deserializeJsonWithAsync<'a> options response =
             |> Async.AwaitTask
 
     }
-let deserializeWithJsonTAsync<'a> options response =
-    deserializeJsonWithAsync<'a> options response |> Async.StartAsTask
-let deserializeWithJson<'a> options response =
-    deserializeJsonWithAsync<'a> options response |> Async.RunSynchronously
+let deserializeWithJsonTAsync<'a> options response = deserializeJsonWithAsync<'a> options response |> Async.StartAsTask
+let deserializeWithJson<'a> options response = deserializeJsonWithAsync<'a> options response |> Async.RunSynchronously
 
-let deserializeJsonAsync<'a> response =
-    deserializeJsonWithAsync<'a> (JsonSerializerOptions JsonSerializerDefaults.Web) response
-let deserializeJsonTAsync response = deserializeJsonAsync<'a> response |> Async.StartAsTask
-let deserializeJson<'a> response = deserializeJsonAsync<'a> response |> Async.RunSynchronously
+let deserializeJsonAsync<'a> response = deserializeJsonWithAsync<'a> defaultJsonSerializerOptions response
+let deserializeJsonTAsync<'a> response = deserializeWithJsonTAsync<'a> defaultJsonSerializerOptions response
+let deserializeJson<'a> response = deserializeWithJson<'a> defaultJsonSerializerOptions response
 
 
 // -----------

@@ -38,6 +38,9 @@
 
       v9.0.5
       - Support for netstandard2.0
+      - New 'FsHttp.NewtonsoftJson' integration package
+      - More JSON functions and defaults config
+    </PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

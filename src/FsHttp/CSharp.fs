@@ -479,8 +479,6 @@ type Response =
     static member ToTextAsync(response: Domain.Response) =
         Response.toTextTAsync response
 
-    // TODO: Which JSON to use?
-
     [<Extension>]
     static member ToXmlAsync(response: Domain.Response) =
         Response.toXmlTAsync response

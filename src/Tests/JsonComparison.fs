@@ -2,7 +2,7 @@
 
 open System
 open FSharp.Data
-open FsHttp
+open FsHttp.FSharpData
 open FsUnit
 open NUnit.Framework
 

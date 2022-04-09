@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationPackages", "Inte
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp.FSharpData", "FsHttp.FSharpData\FsHttp.FSharpData.fsproj", "{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp.NewtonsoftJson", "FsHttp.NewtonsoftJson\FsHttp.NewtonsoftJson.fsproj", "{0B8E19D6-8361-43CE-9049-9B3E230141BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,12 +42,17 @@ Global
 		{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B8E19D6-8361-43CE-9049-9B3E230141BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B8E19D6-8361-43CE-9049-9B3E230141BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B8E19D6-8361-43CE-9049-9B3E230141BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B8E19D6-8361-43CE-9049-9B3E230141BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1ADA0D10-F5FF-4A6F-8EEF-E72F5F9B02A9} = {FD2CA2F0-E5B9-4D04-998B-8C2910E164BA}
+		{0B8E19D6-8361-43CE-9049-9B3E230141BC} = {FD2CA2F0-E5B9-4D04-998B-8C2910E164BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {490D0829-D4E3-4267-8132-14A5B0C9D347}

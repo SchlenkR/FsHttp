@@ -33,13 +33,13 @@ type Proxy =
       credentials: System.Net.ICredentials option
     }
 
+type HttpClientHandlerTransformer =
 #if NETSTANDARD2_0 || NETSTANDARD2_1
-type HttpClientHandlerTransformer = (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
+    (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
 #else
-type HttpClientHandlerTransformer = (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
+    (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
 #endif
 
-// TODO: Get rid of all the boolean switches and use options instead.
 type Config =
     { timeout: TimeSpan
       printHint: PrintHint
@@ -97,7 +97,6 @@ type ContentData =
 type BodyContent =
     { contentData: ContentData
       headers: Map<string, string>
-      // TODO: remove this
       contentType: string option
     }
 

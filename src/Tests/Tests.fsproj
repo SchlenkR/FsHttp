@@ -28,6 +28,7 @@
     <Compile Include="JsonComparison.fs" />
     <Compile Include="Json.SystemText.fs" />
     <Compile Include="Json.FSharpData.fs" />
+    <Compile Include="Json.NewtonsoftJson.fs" />
     <Compile Include="Multipart.fs" />
     <Compile Include="Printing.fs" />
     <Compile Include="Proxies.fs" />
@@ -44,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FsHttp.FSharpData\FsHttp.FSharpData.fsproj" />
+    <ProjectReference Include="..\FsHttp.NewtonsoftJson\FsHttp.NewtonsoftJson.fsproj" />
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
 </Project>
