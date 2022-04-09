@@ -11,14 +11,14 @@ open FsHttp
 let private TimeoutPropertyName = "RequestTimeout"
 
 let private setRequestMessageProp (requestMessage: HttpRequestMessage) (propName: string) (value: 'a) =
-#if NETSTANDARD2_1
+#if NETSTANDARD2_0 || NETSTANDARD2_1
     do requestMessage.Properties.[propName] <- value
 #else
     do requestMessage.Options.Set(HttpRequestOptionsKey propName, value)
 #endif
 
 let private getRequestMessageProp<'a> (requestMessage: HttpRequestMessage) (propName: string) =
-#if NETSTANDARD2_1
+#if NETSTANDARD2_0 || NETSTANDARD2_1
     requestMessage.Properties.[propName] :?> 'a
 #else
     match requestMessage.Options.TryGetValue<'a>(HttpRequestOptionsKey propName) with
@@ -98,7 +98,7 @@ let private getHttpClient =
                 base.SendAsync(request, cts.Token)
         }
 
-#if NETSTANDARD2_1
+#if NETSTANDARD2_0 || NETSTANDARD2_1
     let getHandler ignoreSslIssues =
         let handler = new HttpClientHandler()
         if ignoreSslIssues then

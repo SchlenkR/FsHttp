@@ -71,7 +71,7 @@ module Stream =
         override _.Length with get() = baseStream.Length
         override _.Position with get() = baseStream.Position and set(_) = notSeekable()
         member _.GetUtf8String() =
-#if NETSTANDARD2_1
+#if NETSTANDARD2_0 || NETSTANDARD2_1
             let buffer = readBuffer |> Seq.toArray
 #else
             let buffer = CollectionsMarshal.AsSpan(readBuffer)

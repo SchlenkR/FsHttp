@@ -33,7 +33,7 @@ type Proxy =
       credentials: System.Net.ICredentials option
     }
 
-#if NETSTANDARD2_1
+#if NETSTANDARD2_0 || NETSTANDARD2_1
 type HttpClientHandlerTransformer = (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
 #else
 type HttpClientHandlerTransformer = (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option

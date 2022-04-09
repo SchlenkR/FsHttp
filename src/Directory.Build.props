@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>9.0.4</Version>
+    <Version>9.0.5</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>F# FSharp Http Rest FsHttp</PackageTags>
@@ -25,17 +25,19 @@
       v9.0.0 / v9.0.1
       - Redefined builders (see README.md)
       - Many breaking changes (see "Migrations" sections in the docu)
-      
+
       v9.0.2
       - Added JSON toArray functions
       - Fixed #99: Response.saveFile should create the directory if not present
-      
+
       v9.0.3
       - Supporting netstandard2.1 again
-      
+
       v9.0.4
       - Referenced lowest possible FSharp.Core and other referenced packages version
-    </PackageReleaseNotes>
+
+      v9.0.5
+      - Support for netstandard2.0
   </PropertyGroup>
 
 </Project>
