@@ -14,10 +14,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="/FsHttp/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="http://localhost:8901/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,6 +26,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
     <!-- END SEARCH BOX: this adds support for the search box -->
     
+<script type="text/javascript">
+    var wsUri = "ws://localhost:8901/websocket";
+    function init()
+    {
+        websocket = new WebSocket(wsUri);
+        websocket.onclose = function(evt) { onClose(evt) };
+    }
+    function onClose(evt)
+    {
+        console.log('closing');
+        websocket.close();
+        document.location.reload();
+    }
+    window.addEventListener("load", init, false);
+</script>
+
 </head>
 
 <body>
@@ -34,7 +50,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="/FsHttp/"><img id="fsdocs-logo" src="/FsHttp/img/logo.png" /></a>
+            <a href="http://localhost:8901/"><img id="fsdocs-logo" src="http://localhost:8901/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -58,35 +74,55 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/02_Making_Requests.html">
-    Making Requests
+  <a class="nav-link" href="http://localhost:8901/Overview.html">
+    Overview
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/03_Response_Handling.html">
+  <a class="nav-link" href="http://localhost:8901/Requesting_JSON.html">
+    Sending JSON
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Requesting_Multipart_Files.html">
+    Multipart and File Upload
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Response_Handling.html">
     Response Handling
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/04_Configuration.html">
-    Configuration
+  <a class="nav-link" href="http://localhost:8901/URLs_and_Query_Params.html">
+    URLs and Query Params
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/05_HttpClient_Http_Message.html">
+  <a class="nav-link" href="http://localhost:8901/FSI.html">
+    F# Interactive Usage
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Migrations.html">
+    Migrations
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/HttpClient_Http_Message.html">
     HttpClient And HttpMessage
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/08_Migrations.html">
-    Migrations
+  <a class="nav-link" href="http://localhost:8901/Configuration.html">
+    Configuration
   </a>
 </li>
                 <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
+  <a class="nav-link" href="http://localhost:8901/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -95,7 +131,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="/FsHttp/">FsHttp</a></h3>
+            <h3 class="muted"><a href="http://localhost:8901/">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -106,7 +142,7 @@
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="/FsHttp/reference/fshttp.html">
+      <a href="http://localhost:8901/reference/fshttp.html">
         FsHttp
       </a>
     </dt>
@@ -115,7 +151,7 @@
     </dt>
     <dt>
       Parent Module: 
-      <a href="/FsHttp/reference/fshttp-domain.html">
+      <a href="http://localhost:8901/reference/fshttp-domain.html">
         Domain
       </a>
     </dt>
@@ -125,15 +161,15 @@
     </dt>
     <dt>
       All Interfaces: 
-      <code><a href="/FsHttp/reference/fshttp-domain-itobodycontext.html">IToBodyContext</a></code>
+      <code><a href="http://localhost:8901/reference/fshttp-domain-itobodycontext.html">IToBodyContext</a></code>
       , 
-      <code><a href="/FsHttp/reference/fshttp-domain-itorequest.html">IToRequest</a></code>
+      <code><a href="http://localhost:8901/reference/fshttp-domain-itorequest.html">IToRequest</a></code>
       , 
-      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></span>&gt;</span></code>
+      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-printhinttransformer.html">PrintHintTransformer</a>,&#32;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></span>&gt;</span></code>
       , 
-      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></span>&gt;</span></code>
+      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></span>&gt;</span></code>
       , 
-      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
@@ -166,7 +202,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '313', 313)" onmouseover="showTip(event, '313', 313)">
+              <code onmouseout="hideTip(event, '334', 334)" onmouseover="showTip(event, '334', 334)">
                 <p>
                   <a id="config">
                     <a href="#config">
@@ -175,7 +211,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="313">
+              <div class="fsdocs-tip" id="334">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>config</code>
@@ -183,7 +219,7 @@
                   <br/>
                   <span>
                     Field type: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-config.html">Config</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-config.html">Config</a></code>
                   </span>
                   <br/>
                 </div>
@@ -192,9 +228,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L186-186" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L192-192" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -205,7 +241,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-config.html">Config</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-config.html">Config</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -214,7 +250,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '314', 314)" onmouseover="showTip(event, '314', 314)">
+              <code onmouseout="hideTip(event, '335', 335)" onmouseover="showTip(event, '335', 335)">
                 <p>
                   <a id="content">
                     <a href="#content">
@@ -223,7 +259,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="314">
+              <div class="fsdocs-tip" id="335">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>content</code>
@@ -231,7 +267,7 @@
                   <br/>
                   <span>
                     Field type: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontent.html">BodyContent</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontent.html">BodyContent</a></code>
                   </span>
                   <br/>
                 </div>
@@ -240,9 +276,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L185-185" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L191-191" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -253,7 +289,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontent.html">BodyContent</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontent.html">BodyContent</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -262,7 +298,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '315', 315)" onmouseover="showTip(event, '315', 315)">
+              <code onmouseout="hideTip(event, '336', 336)" onmouseover="showTip(event, '336', 336)">
                 <p>
                   <a id="header">
                     <a href="#header">
@@ -271,7 +307,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="315">
+              <div class="fsdocs-tip" id="336">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>header</code>
@@ -279,7 +315,7 @@
                   <br/>
                   <span>
                     Field type: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-header.html">Header</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-header.html">Header</a></code>
                   </span>
                   <br/>
                 </div>
@@ -288,9 +324,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L184-184" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L190-190" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -301,7 +337,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-header.html">Header</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-header.html">Header</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -320,10 +356,10 @@
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = '/FsHttp/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'http://localhost:8901/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="/FsHttp/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="http://localhost:8901/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>

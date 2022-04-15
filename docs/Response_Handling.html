@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>BodyPrintMode (FsHttp)</title>
+    <title>Response Handling</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Ronald Schlenker">
 
@@ -135,175 +135,88 @@
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
-            <div>
-  <h2>
-    BodyPrintMode Type
-  </h2>
-  <dl class="fsdocs-metadata">
-    <dt>
-      Namespace: 
-      <a href="http://localhost:8901/reference/fshttp.html">
-        FsHttp
-      </a>
-    </dt>
-    <dt>
-      Assembly: FsHttp.dll
-    </dt>
-    <dt>
-      Parent Module: 
-      <a href="http://localhost:8901/reference/fshttp-domain.html">
-        Domain
-      </a>
-    </dt>
-    <dt>
-      Base Type: 
-      <code>obj</code>
-    </dt>
-    <dt>
-      All Interfaces: 
-      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
-      , 
-      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodyprintmode.html">BodyPrintMode</a>&gt;</span></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
-      , 
-      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
-    </dt>
-  </dl>
-  <div class="fsdocs-xmldoc">
-    <div>
-      <p class="fsdocs-summary">
-        
-      </p>
-    </div>
-  </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div>
-    <h3>
-      Record fields
-    </h3>
-    <table class="table outer-list fsdocs-member-list">
-      <thead>
-        <tr>
-          <td class="fsdocs-member-list-header">
-            Record Field
-          </td>
-          <td class="fsdocs-member-list-header">
-            Description
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '337', 337)" onmouseover="showTip(event, '337', 337)">
-                <p>
-                  <a id="format">
-                    <a href="#format">
-                      <code>format</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="337">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>format</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code>bool</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L14-14" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
-                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code>bool</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '338', 338)" onmouseover="showTip(event, '338', 338)">
-                <p>
-                  <a id="maxLength">
-                    <a href="#maxLength">
-                      <code>maxLength</code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="338">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code>maxLength</code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Field type: 
-                    <code><span>int&#32;option</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L15-15" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
-                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Field type: 
-                </span>
-                <code><span>int&#32;option</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
             
+<h2><a name="Response-Content-Transformations" class="anchor" href="#Response-Content-Transformations">Response Content Transformations</a></h2>
+<p>There are several ways transforming the content of the returned response to
+something like text or JSON:</p>
+<p>See also: <a href="reference/fshttp-response.html">Response</a></p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="k">http</span> <span class="pn">{</span>
+    <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="k">POST</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span>
+    <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="k">CacheControl</span> <span class="s">&quot;no-cache&quot;</span>
+    <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="k">body</span>
+    <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="k">json</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">    {</span>
+<span class="s">        &quot;name&quot;: &quot;morpheus&quot;,</span>
+<span class="s">        &quot;job&quot;: &quot;leader&quot;</span>
+<span class="s">    }</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="pn">}</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="m">Request</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="id">send</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs9', 9)" onmouseover="showTip(event, 'fs9', 9)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 10)" onmouseover="showTip(event, 'fs10', 10)" class="id">toJson</span>
+</code></pre>
+<p>JSON dynamic processing:</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs11', 11)" onmouseover="showTip(event, 'fs11', 11)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 12)" onmouseover="showTip(event, 'fs12', 12)" class="id">Text</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 13)" onmouseover="showTip(event, 'fs13', 13)" class="id">Json</span>
+
+<span onmouseout="hideTip(event, 'fs2', 14)" onmouseover="showTip(event, 'fs2', 14)" class="k">http</span> <span class="pn">{</span>
+    <span onmouseout="hideTip(event, 'fs14', 15)" onmouseover="showTip(event, 'fs14', 15)" class="k">GET</span> <span class="s">@&quot;https://reqres.in/api/users?page=2&amp;delay=3&quot;</span>
+<span class="pn">}</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs7', 16)" onmouseover="showTip(event, 'fs7', 16)" class="m">Request</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 17)" onmouseover="showTip(event, 'fs8', 17)" class="id">send</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs9', 18)" onmouseover="showTip(event, 'fs9', 18)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 19)" onmouseover="showTip(event, 'fs15', 19)" class="id">toJson</span>
+<span class="o">|&gt;</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs16', 20)" onmouseover="showTip(event, 'fs16', 20)" class="fn">json</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs16', 21)" onmouseover="showTip(event, 'fs16', 21)" class="fn">json</span><span class="o">?</span><span class="id">page</span><span class="pn">.</span><span class="id">GetInt32</span><span class="pn">(</span><span class="pn">)</span>
+</code></pre>
+
+            <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
+<div class="fsdocs-tip" id="fs2">val http : StartingContext</div>
+<div class="fsdocs-tip" id="fs3">Benutzerdefinierter Vorgang: POST (string)
+
+Aufrufe IRequestContext.Post</div>
+<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: CacheControl (string)
+
+Aufrufe IRequestContext.CacheControl<br /><em>&lt;summary&gt;
+ Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs5">Benutzerdefinierter Vorgang: body
+
+Aufrufe IRequestContext.Body<br /><em>&lt;summary&gt;
+ An explicit transformation from a previous context to allow for describing the request body.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs6">Benutzerdefinierter Vorgang: json (string)
+
+Aufrufe IRequestContext.Json</div>
+<div class="fsdocs-tip" id="fs7">Multiple items<br />Modul Request
+
+aus FsHttp<br /><br />--------------------<br />type Request =
+  { header: Header
+    content: RequestContent
+    config: Config }</div>
+<div class="fsdocs-tip" id="fs8">val send : context:IToRequest -&gt; Response<br /><em>&lt;summary&gt;
+ Sends a request synchronously.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs9">Multiple items<br />Modul Response
+
+aus FsHttp<br /><br />--------------------<br />type Response =
+  { request: Request
+    requestMessage: HttpRequestMessage
+    content: HttpContent
+    headers: HttpResponseHeaders
+    reasonPhrase: string
+    statusCode: HttpStatusCode
+    version: Version
+    originalHttpRequestMessage: HttpRequestMessage
+    originalHttpResponseMessage: HttpResponseMessage
+    dispose: unit -&gt; unit }
+    interface IDisposable
+    interface IConfigure&lt;PrintHintTransformer,Response&gt;</div>
+<div class="fsdocs-tip" id="fs10">val toJson : response:Response -&gt; System.Text.Json.JsonElement</div>
+<div class="fsdocs-tip" id="fs11">Namespace System</div>
+<div class="fsdocs-tip" id="fs12">Namespace System.Text</div>
+<div class="fsdocs-tip" id="fs13">Namespace System.Text.Json</div>
+<div class="fsdocs-tip" id="fs14">Benutzerdefinierter Vorgang: GET (string)
+
+Aufrufe IRequestContext.Get</div>
+<div class="fsdocs-tip" id="fs15">val toJson : response:Response -&gt; JsonElement</div>
+<div class="fsdocs-tip" id="fs16">val json : JsonElement</div>
+
         </div>
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->

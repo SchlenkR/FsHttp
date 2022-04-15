@@ -14,10 +14,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="/FsHttp/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="http://localhost:8901/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,6 +26,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
     <!-- END SEARCH BOX: this adds support for the search box -->
     
+<script type="text/javascript">
+    var wsUri = "ws://localhost:8901/websocket";
+    function init()
+    {
+        websocket = new WebSocket(wsUri);
+        websocket.onclose = function(evt) { onClose(evt) };
+    }
+    function onClose(evt)
+    {
+        console.log('closing');
+        websocket.close();
+        document.location.reload();
+    }
+    window.addEventListener("load", init, false);
+</script>
+
 </head>
 
 <body>
@@ -34,7 +50,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="/FsHttp/"><img id="fsdocs-logo" src="/FsHttp/img/logo.png" /></a>
+            <a href="http://localhost:8901/"><img id="fsdocs-logo" src="http://localhost:8901/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -58,35 +74,55 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/02_Making_Requests.html">
-    Making Requests
+  <a class="nav-link" href="http://localhost:8901/Overview.html">
+    Overview
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/03_Response_Handling.html">
+  <a class="nav-link" href="http://localhost:8901/Requesting_JSON.html">
+    Sending JSON
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Requesting_Multipart_Files.html">
+    Multipart and File Upload
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Response_Handling.html">
     Response Handling
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/04_Configuration.html">
-    Configuration
+  <a class="nav-link" href="http://localhost:8901/URLs_and_Query_Params.html">
+    URLs and Query Params
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/05_HttpClient_Http_Message.html">
+  <a class="nav-link" href="http://localhost:8901/FSI.html">
+    F# Interactive Usage
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Migrations.html">
+    Migrations
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/HttpClient_Http_Message.html">
     HttpClient And HttpMessage
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/08_Migrations.html">
-    Migrations
+  <a class="nav-link" href="http://localhost:8901/Configuration.html">
+    Configuration
   </a>
 </li>
                 <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
+  <a class="nav-link" href="http://localhost:8901/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -95,7 +131,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="/FsHttp/">FsHttp</a></h3>
+            <h3 class="muted"><a href="http://localhost:8901/">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -106,7 +142,7 @@
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="/FsHttp/reference/fshttp.html">
+      <a href="http://localhost:8901/reference/fshttp.html">
         FsHttp
       </a>
     </dt>
@@ -115,7 +151,7 @@
     </dt>
     <dt>
       Parent Module: 
-      <a href="/FsHttp/reference/fshttp-domain.html">
+      <a href="http://localhost:8901/reference/fshttp-domain.html">
         Domain
       </a>
     </dt>
@@ -154,7 +190,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '320', 320)" onmouseover="showTip(event, '320', 320)">
+              <code onmouseout="hideTip(event, '341', 341)" onmouseover="showTip(event, '341', 341)">
                 <p>
                   <a id="bufferResponseContent">
                     <a href="#bufferResponseContent">
@@ -163,7 +199,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="320">
+              <div class="fsdocs-tip" id="341">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>bufferResponseContent</code>
@@ -180,9 +216,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L49-49" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L55-55" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -204,7 +240,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '321', 321)" onmouseover="showTip(event, '321', 321)">
+              <code onmouseout="hideTip(event, '342', 342)" onmouseover="showTip(event, '342', 342)">
                 <p>
                   <a id="certErrorStrategy">
                     <a href="#certErrorStrategy">
@@ -213,7 +249,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="321">
+              <div class="fsdocs-tip" id="342">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>certErrorStrategy</code>
@@ -221,7 +257,7 @@
                   <br/>
                   <span>
                     Field type: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-certerrorstrategy.html">CertErrorStrategy</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-certerrorstrategy.html">CertErrorStrategy</a></code>
                   </span>
                   <br/>
                 </div>
@@ -230,9 +266,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L45-45" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L51-51" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -243,7 +279,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-certerrorstrategy.html">CertErrorStrategy</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-certerrorstrategy.html">CertErrorStrategy</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -252,7 +288,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '322', 322)" onmouseover="showTip(event, '322', 322)">
+              <code onmouseout="hideTip(event, '343', 343)" onmouseover="showTip(event, '343', 343)">
                 <p>
                   <a id="httpClientFactory">
                     <a href="#httpClientFactory">
@@ -261,7 +297,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="322">
+              <div class="fsdocs-tip" id="343">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>httpClientFactory</code>
@@ -278,9 +314,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L46-46" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L52-52" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -300,7 +336,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '323', 323)" onmouseover="showTip(event, '323', 323)">
+              <code onmouseout="hideTip(event, '344', 344)" onmouseover="showTip(event, '344', 344)">
                 <p>
                   <a id="httpClientHandlerTransformer">
                     <a href="#httpClientHandlerTransformer">
@@ -309,7 +345,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="323">
+              <div class="fsdocs-tip" id="344">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>httpClientHandlerTransformer</code>
@@ -317,7 +353,7 @@
                   <br/>
                   <span>
                     Field type: 
-                    <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a></span>)</span>&#32;option</span></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-httpclienthandlertransformer.html">HttpClientHandlerTransformer</a></code>
                   </span>
                   <br/>
                 </div>
@@ -326,9 +362,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L41-41" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L47-47" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -339,7 +375,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><span><span>(<span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a></span>)</span>&#32;option</span></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-httpclienthandlertransformer.html">HttpClientHandlerTransformer</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -348,7 +384,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '324', 324)" onmouseover="showTip(event, '324', 324)">
+              <code onmouseout="hideTip(event, '345', 345)" onmouseover="showTip(event, '345', 345)">
                 <p>
                   <a id="httpClientTransformer">
                     <a href="#httpClientTransformer">
@@ -357,7 +393,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="324">
+              <div class="fsdocs-tip" id="345">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>httpClientTransformer</code>
@@ -374,9 +410,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L42-42" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L48-48" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -396,7 +432,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '325', 325)" onmouseover="showTip(event, '325', 325)">
+              <code onmouseout="hideTip(event, '346', 346)" onmouseover="showTip(event, '346', 346)">
                 <p>
                   <a id="httpCompletionOption">
                     <a href="#httpCompletionOption">
@@ -405,7 +441,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="325">
+              <div class="fsdocs-tip" id="346">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>httpCompletionOption</code>
@@ -422,9 +458,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L43-43" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L49-49" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -444,7 +480,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '326', 326)" onmouseover="showTip(event, '326', 326)">
+              <code onmouseout="hideTip(event, '347', 347)" onmouseover="showTip(event, '347', 347)">
                 <p>
                   <a id="httpMessageTransformer">
                     <a href="#httpMessageTransformer">
@@ -453,7 +489,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="326">
+              <div class="fsdocs-tip" id="347">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>httpMessageTransformer</code>
@@ -470,9 +506,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L40-40" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L46-46" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -492,7 +528,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '327', 327)" onmouseover="showTip(event, '327', 327)">
+              <code onmouseout="hideTip(event, '348', 348)" onmouseover="showTip(event, '348', 348)">
                 <p>
                   <a id="printHint">
                     <a href="#printHint">
@@ -501,7 +537,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="327">
+              <div class="fsdocs-tip" id="348">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>printHint</code>
@@ -509,7 +545,7 @@
                   <br/>
                   <span>
                     Field type: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-printhint.html">PrintHint</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-printhint.html">PrintHint</a></code>
                   </span>
                   <br/>
                 </div>
@@ -518,9 +554,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L39-39" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L45-45" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -531,7 +567,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-printhint.html">PrintHint</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-printhint.html">PrintHint</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -540,7 +576,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '328', 328)" onmouseover="showTip(event, '328', 328)">
+              <code onmouseout="hideTip(event, '349', 349)" onmouseover="showTip(event, '349', 349)">
                 <p>
                   <a id="proxy">
                     <a href="#proxy">
@@ -549,7 +585,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="328">
+              <div class="fsdocs-tip" id="349">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>proxy</code>
@@ -557,7 +593,7 @@
                   <br/>
                   <span>
                     Field type: 
-                    <code><span><a href="/FsHttp/reference/fshttp-domain-proxy.html">Proxy</a>&#32;option</span></code>
+                    <code><span><a href="http://localhost:8901/reference/fshttp-domain-proxy.html">Proxy</a>&#32;option</span></code>
                   </span>
                   <br/>
                 </div>
@@ -566,9 +602,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L44-44" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L50-50" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -579,7 +615,7 @@
                 <span class="fsdocs-return-name">
                   Field type: 
                 </span>
-                <code><span><a href="/FsHttp/reference/fshttp-domain-proxy.html">Proxy</a>&#32;option</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-proxy.html">Proxy</a>&#32;option</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -588,7 +624,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '329', 329)" onmouseover="showTip(event, '329', 329)">
+              <code onmouseout="hideTip(event, '350', 350)" onmouseover="showTip(event, '350', 350)">
                 <p>
                   <a id="timeout">
                     <a href="#timeout">
@@ -597,7 +633,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="329">
+              <div class="fsdocs-tip" id="350">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>timeout</code>
@@ -614,9 +650,9 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L38-38" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L44-44" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -646,10 +682,10 @@
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = '/FsHttp/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'http://localhost:8901/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="/FsHttp/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="http://localhost:8901/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>

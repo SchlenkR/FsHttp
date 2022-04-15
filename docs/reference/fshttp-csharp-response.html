@@ -14,10 +14,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="/FsHttp/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="http://localhost:8901/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,6 +26,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
     <!-- END SEARCH BOX: this adds support for the search box -->
     
+<script type="text/javascript">
+    var wsUri = "ws://localhost:8901/websocket";
+    function init()
+    {
+        websocket = new WebSocket(wsUri);
+        websocket.onclose = function(evt) { onClose(evt) };
+    }
+    function onClose(evt)
+    {
+        console.log('closing');
+        websocket.close();
+        document.location.reload();
+    }
+    window.addEventListener("load", init, false);
+</script>
+
 </head>
 
 <body>
@@ -34,7 +50,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="/FsHttp/"><img id="fsdocs-logo" src="/FsHttp/img/logo.png" /></a>
+            <a href="http://localhost:8901/"><img id="fsdocs-logo" src="http://localhost:8901/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -58,35 +74,55 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/02_Making_Requests.html">
-    Making Requests
+  <a class="nav-link" href="http://localhost:8901/Overview.html">
+    Overview
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/03_Response_Handling.html">
+  <a class="nav-link" href="http://localhost:8901/Requesting_JSON.html">
+    Sending JSON
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Requesting_Multipart_Files.html">
+    Multipart and File Upload
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Response_Handling.html">
     Response Handling
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/04_Configuration.html">
-    Configuration
+  <a class="nav-link" href="http://localhost:8901/URLs_and_Query_Params.html">
+    URLs and Query Params
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/05_HttpClient_Http_Message.html">
+  <a class="nav-link" href="http://localhost:8901/FSI.html">
+    F# Interactive Usage
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Migrations.html">
+    Migrations
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/HttpClient_Http_Message.html">
     HttpClient And HttpMessage
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/08_Migrations.html">
-    Migrations
+  <a class="nav-link" href="http://localhost:8901/Configuration.html">
+    Configuration
   </a>
 </li>
                 <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
+  <a class="nav-link" href="http://localhost:8901/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -95,7 +131,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="/FsHttp/">FsHttp</a></h3>
+            <h3 class="muted"><a href="http://localhost:8901/">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -106,7 +142,7 @@
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="/FsHttp/reference/fshttp-csharp.html">
+      <a href="http://localhost:8901/reference/fshttp-csharp.html">
         FsHttp.CSharp
       </a>
     </dt>
@@ -152,7 +188,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '485', 485)" onmouseover="showTip(event, '485', 485)">
+              <code onmouseout="hideTip(event, '510', 510)" onmouseover="showTip(event, '510', 510)">
                 <p>
                   <a id="AssertOk">
                     <a href="#AssertOk">
@@ -161,7 +197,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="485">
+              <div class="fsdocs-tip" id="510">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.AssertOk<span><span>(<span>response</span>)</span></span></span></code>
@@ -174,14 +210,14 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                   </span>
                   <br/>
                 </div>
@@ -191,16 +227,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.AssertOk`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.AssertOk\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L505-505" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -212,7 +248,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -221,7 +257,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -230,7 +266,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '486', 486)" onmouseover="showTip(event, '486', 486)">
+              <code onmouseout="hideTip(event, '511', 511)" onmouseover="showTip(event, '511', 511)">
                 <p>
                   <a id="AssertStatusCode">
                     <a href="#AssertStatusCode">
@@ -239,7 +275,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="486">
+              <div class="fsdocs-tip" id="511">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.AssertStatusCode<span><span>(<span>response,&#32;statusCode</span>)</span></span></span></code>
@@ -252,7 +288,7 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                     <span>
@@ -267,7 +303,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                   </span>
                   <br/>
                 </div>
@@ -277,16 +313,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.AssertStatusCode`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.AssertStatusCode\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L501-501" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -298,7 +334,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -315,7 +351,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -324,7 +360,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '487', 487)" onmouseover="showTip(event, '487', 487)">
+              <code onmouseout="hideTip(event, '512', 512)" onmouseover="showTip(event, '512', 512)">
                 <p>
                   <a id="AssertStatusCodes">
                     <a href="#AssertStatusCodes">
@@ -333,7 +369,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="487">
+              <div class="fsdocs-tip" id="512">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.AssertStatusCodes<span><span>(<span>response,&#32;statusCodes</span>)</span></span></span></code>
@@ -346,7 +382,7 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                     <span>
@@ -361,7 +397,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                   </span>
                   <br/>
                 </div>
@@ -371,16 +407,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.AssertStatusCodes`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.AssertStatusCodes\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L497-497" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -392,7 +428,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -409,7 +445,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -418,7 +454,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '488', 488)" onmouseover="showTip(event, '488', 488)">
+              <code onmouseout="hideTip(event, '513', 513)" onmouseover="showTip(event, '513', 513)">
                 <p>
                   <a id="SaveFileAsync">
                     <a href="#SaveFileAsync">
@@ -427,7 +463,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="488">
+              <div class="fsdocs-tip" id="513">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.SaveFileAsync<span><span>(<span>response,&#32;fileName</span>)</span></span></span></code>
@@ -440,7 +476,7 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                     <span>
@@ -465,16 +501,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.SaveFileAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.SaveFileAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L493-493" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -486,7 +522,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -512,7 +548,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '489', 489)" onmouseover="showTip(event, '489', 489)">
+              <code onmouseout="hideTip(event, '514', 514)" onmouseover="showTip(event, '514', 514)">
                 <p>
                   <a id="ToBytesAsync">
                     <a href="#ToBytesAsync">
@@ -521,7 +557,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="489">
+              <div class="fsdocs-tip" id="514">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.ToBytesAsync<span><span>(<span>response</span>)</span></span></span></code>
@@ -534,7 +570,7 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
@@ -551,16 +587,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToBytesAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToBytesAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L471-471" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -572,7 +608,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -590,7 +626,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '490', 490)" onmouseover="showTip(event, '490', 490)">
+              <code onmouseout="hideTip(event, '515', 515)" onmouseover="showTip(event, '515', 515)">
                 <p>
                   <a id="ToFormattedTextAsync">
                     <a href="#ToFormattedTextAsync">
@@ -599,7 +635,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="490">
+              <div class="fsdocs-tip" id="515">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.ToFormattedTextAsync<span><span>(<span>response</span>)</span></span></span></code>
@@ -612,7 +648,7 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
@@ -629,16 +665,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToFormattedTextAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToFormattedTextAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L489-489" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -650,7 +686,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -668,7 +704,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '491', 491)" onmouseover="showTip(event, '491', 491)">
+              <code onmouseout="hideTip(event, '516', 516)" onmouseover="showTip(event, '516', 516)">
                 <p>
                   <a id="ToStreamAsync">
                     <a href="#ToStreamAsync">
@@ -677,7 +713,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="491">
+              <div class="fsdocs-tip" id="516">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.ToStreamAsync<span><span>(<span>response</span>)</span></span></span></code>
@@ -690,7 +726,7 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
@@ -707,16 +743,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToStreamAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToStreamAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L467-467" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -728,7 +764,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -746,7 +782,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '492', 492)" onmouseover="showTip(event, '492', 492)">
+              <code onmouseout="hideTip(event, '517', 517)" onmouseover="showTip(event, '517', 517)">
                 <p>
                   <a id="ToStringAsync">
                     <a href="#ToStringAsync">
@@ -755,7 +791,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="492">
+              <div class="fsdocs-tip" id="517">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.ToStringAsync<span><span>(<span>response,&#32;maxLength</span>)</span></span></span></code>
@@ -768,7 +804,7 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                     <span>
@@ -793,16 +829,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToStringAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToStringAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L475-475" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -814,7 +850,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -840,7 +876,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '493', 493)" onmouseover="showTip(event, '493', 493)">
+              <code onmouseout="hideTip(event, '518', 518)" onmouseover="showTip(event, '518', 518)">
                 <p>
                   <a id="ToTextAsync">
                     <a href="#ToTextAsync">
@@ -849,7 +885,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="493">
+              <div class="fsdocs-tip" id="518">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.ToTextAsync<span><span>(<span>response</span>)</span></span></span></code>
@@ -862,7 +898,7 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
@@ -879,16 +915,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToTextAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToTextAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L479-479" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -900,7 +936,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -918,7 +954,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '494', 494)" onmouseover="showTip(event, '494', 494)">
+              <code onmouseout="hideTip(event, '519', 519)" onmouseover="showTip(event, '519', 519)">
                 <p>
                   <a id="ToXmlAsync">
                     <a href="#ToXmlAsync">
@@ -927,7 +963,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="494">
+              <div class="fsdocs-tip" id="519">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Response.ToXmlAsync<span><span>(<span>response</span>)</span></span></span></code>
@@ -940,7 +976,7 @@
                         response
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
                     </span>
                     <br/>
                   </ul>
@@ -957,16 +993,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Response.ToXmlAsync`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Response.ToXmlAsync\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L485-485" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -978,7 +1014,7 @@
                   response
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-response.html">Response</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-response.html">Response</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -1002,10 +1038,10 @@
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = '/FsHttp/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'http://localhost:8901/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="/FsHttp/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="http://localhost:8901/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>

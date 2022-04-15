@@ -14,10 +14,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="/FsHttp/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="http://localhost:8901/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,6 +26,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
     <!-- END SEARCH BOX: this adds support for the search box -->
     
+<script type="text/javascript">
+    var wsUri = "ws://localhost:8901/websocket";
+    function init()
+    {
+        websocket = new WebSocket(wsUri);
+        websocket.onclose = function(evt) { onClose(evt) };
+    }
+    function onClose(evt)
+    {
+        console.log('closing');
+        websocket.close();
+        document.location.reload();
+    }
+    window.addEventListener("load", init, false);
+</script>
+
 </head>
 
 <body>
@@ -34,7 +50,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="/FsHttp/"><img id="fsdocs-logo" src="/FsHttp/img/logo.png" /></a>
+            <a href="http://localhost:8901/"><img id="fsdocs-logo" src="http://localhost:8901/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -58,35 +74,55 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/02_Making_Requests.html">
-    Making Requests
+  <a class="nav-link" href="http://localhost:8901/Overview.html">
+    Overview
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/03_Response_Handling.html">
+  <a class="nav-link" href="http://localhost:8901/Requesting_JSON.html">
+    Sending JSON
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Requesting_Multipart_Files.html">
+    Multipart and File Upload
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Response_Handling.html">
     Response Handling
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/04_Configuration.html">
-    Configuration
+  <a class="nav-link" href="http://localhost:8901/URLs_and_Query_Params.html">
+    URLs and Query Params
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/05_HttpClient_Http_Message.html">
+  <a class="nav-link" href="http://localhost:8901/FSI.html">
+    F# Interactive Usage
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Migrations.html">
+    Migrations
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/HttpClient_Http_Message.html">
     HttpClient And HttpMessage
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/08_Migrations.html">
-    Migrations
+  <a class="nav-link" href="http://localhost:8901/Configuration.html">
+    Configuration
   </a>
 </li>
                 <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
+  <a class="nav-link" href="http://localhost:8901/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -95,7 +131,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="/FsHttp/">FsHttp</a></h3>
+            <h3 class="muted"><a href="http://localhost:8901/">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -120,7 +156,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="Async">
-              <a href="/FsHttp/reference/fshttp-async.html">
+              <a href="http://localhost:8901/reference/fshttp-async.html">
                 Async
               </a>
             </a>
@@ -129,16 +165,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Async`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Async\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
-            <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/HelperAutos.fs#L3-3" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+            <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/HelperAutos.fs#L26-26" class="fsdocs-source-link" title="Source on GitHub">
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -150,7 +186,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="Domain">
-              <a href="/FsHttp/reference/fshttp-domain.html">
+              <a href="http://localhost:8901/reference/fshttp-domain.html">
                 Domain
               </a>
             </a>
@@ -159,16 +195,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Domain`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Domain\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
             <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Domain.fs#L2-2" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -180,7 +216,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="Dsl">
-              <a href="/FsHttp/reference/fshttp-dsl.html">
+              <a href="http://localhost:8901/reference/fshttp-dsl.html">
                 Dsl
               </a>
             </a>
@@ -189,16 +225,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Dsl`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Dsl\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
             <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L2-2" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -210,7 +246,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="DslCE">
-              <a href="/FsHttp/reference/fshttp-dslce.html">
+              <a href="http://localhost:8901/reference/fshttp-dslce.html">
                 DslCE
               </a>
             </a>
@@ -219,16 +255,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.DslCE`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.DslCE\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
             <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.CE.fs#L2-2" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -240,7 +276,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="GlobalConfig">
-              <a href="/FsHttp/reference/fshttp-globalconfig.html">
+              <a href="http://localhost:8901/reference/fshttp-globalconfig.html">
                 GlobalConfig
               </a>
             </a>
@@ -249,16 +285,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.GlobalConfig`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.GlobalConfig\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
             <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/GlobalConfig.fs#L1-1" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -270,7 +306,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="Helper">
-              <a href="/FsHttp/reference/fshttp-helper.html">
+              <a href="http://localhost:8901/reference/fshttp-helper.html">
                 Helper
               </a>
             </a>
@@ -279,16 +315,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Helper`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Helper\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
             <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Helper.fs#L1-1" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -299,26 +335,26 @@
       <tr>
         <td class="fsdocs-entity-name">
           <p>
-            <a name="Json">
-              <a href="/FsHttp/reference/fshttp-json.html">
-                Json
+            <a name="JsonDynamic">
+              <a href="http://localhost:8901/reference/fshttp-jsondynamic.html">
+                JsonDynamic
               </a>
             </a>
           </p>
         </td>
         <td class="fsdocs-entity-xmldoc">
           <div>
-            <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Json`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+            <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.JsonDynamic`')">
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
-            <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Json\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+            <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.JsonDynamic\'/>')">
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
-            <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Operators.fs#L4-4" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+            <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Operators.fs#L6-6" class="fsdocs-source-link" title="Source on GitHub">
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -330,7 +366,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="MimeTypes">
-              <a href="/FsHttp/reference/fshttp-mimetypes.html">
+              <a href="http://localhost:8901/reference/fshttp-mimetypes.html">
                 MimeTypes
               </a>
             </a>
@@ -339,16 +375,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.MimeTypes`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.MimeTypes\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
             <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/MimeTypes.fs#L1-1" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -360,7 +396,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="Operators">
-              <a href="/FsHttp/reference/fshttp-operators.html">
+              <a href="http://localhost:8901/reference/fshttp-operators.html">
                 Operators
               </a>
             </a>
@@ -369,16 +405,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Operators`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Operators\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
             <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Operators.fs#L9-9" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -390,7 +426,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="Request">
-              <a href="/FsHttp/reference/fshttp-request.html">
+              <a href="http://localhost:8901/reference/fshttp-request.html">
                 Request
               </a>
             </a>
@@ -399,16 +435,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Request`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Request\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
             <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Request.fs#L1-1" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -420,7 +456,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="Response">
-              <a href="/FsHttp/reference/fshttp-response.html">
+              <a href="http://localhost:8901/reference/fshttp-response.html">
                 Response
               </a>
             </a>
@@ -429,16 +465,46 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Response`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Response\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
             <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Response.fs#L1-1" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
+            </a>
+            <p class="fsdocs-summary">
+              
+            </p>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="fsdocs-entity-name">
+          <p>
+            <a name="SystemTextJsonExtensions">
+              <a href="http://localhost:8901/reference/fshttp-systemtextjsonextensions.html">
+                SystemTextJsonExtensions
+              </a>
+            </a>
+          </p>
+        </td>
+        <td class="fsdocs-entity-xmldoc">
+          <div>
+            <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.SystemTextJsonExtensions`')">
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
+            </div>
+            <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.SystemTextJsonExtensions\'/>')">
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
+            </div>
+            <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/HelperAutos.fs#L6-6" class="fsdocs-source-link" title="Source on GitHub">
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -450,7 +516,7 @@
         <td class="fsdocs-entity-name">
           <p>
             <a name="Task">
-              <a href="/FsHttp/reference/fshttp-task.html">
+              <a href="http://localhost:8901/reference/fshttp-task.html">
                 Task
               </a>
             </a>
@@ -459,16 +525,16 @@
         <td class="fsdocs-entity-xmldoc">
           <div>
             <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Task`')">
-              <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
             </div>
             <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Task\'/>')">
-              <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-              <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+              <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
             </div>
-            <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/HelperAutos.fs#L16-16" class="fsdocs-source-link" title="Source on GitHub">
-              <img src="/FsHttp/content/img/github.png" class="normal"/>
-              <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+            <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/HelperAutos.fs#L40-40" class="fsdocs-source-link" title="Source on GitHub">
+              <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+              <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
@@ -484,10 +550,10 @@
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = '/FsHttp/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'http://localhost:8901/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="/FsHttp/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="http://localhost:8901/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>

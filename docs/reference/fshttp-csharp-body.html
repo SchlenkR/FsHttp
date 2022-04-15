@@ -14,10 +14,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="/FsHttp/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="http://localhost:8901/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,6 +26,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
     <!-- END SEARCH BOX: this adds support for the search box -->
     
+<script type="text/javascript">
+    var wsUri = "ws://localhost:8901/websocket";
+    function init()
+    {
+        websocket = new WebSocket(wsUri);
+        websocket.onclose = function(evt) { onClose(evt) };
+    }
+    function onClose(evt)
+    {
+        console.log('closing');
+        websocket.close();
+        document.location.reload();
+    }
+    window.addEventListener("load", init, false);
+</script>
+
 </head>
 
 <body>
@@ -34,7 +50,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="/FsHttp/"><img id="fsdocs-logo" src="/FsHttp/img/logo.png" /></a>
+            <a href="http://localhost:8901/"><img id="fsdocs-logo" src="http://localhost:8901/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -58,35 +74,55 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/02_Making_Requests.html">
-    Making Requests
+  <a class="nav-link" href="http://localhost:8901/Overview.html">
+    Overview
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/03_Response_Handling.html">
+  <a class="nav-link" href="http://localhost:8901/Requesting_JSON.html">
+    Sending JSON
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Requesting_Multipart_Files.html">
+    Multipart and File Upload
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Response_Handling.html">
     Response Handling
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/04_Configuration.html">
-    Configuration
+  <a class="nav-link" href="http://localhost:8901/URLs_and_Query_Params.html">
+    URLs and Query Params
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/05_HttpClient_Http_Message.html">
+  <a class="nav-link" href="http://localhost:8901/FSI.html">
+    F# Interactive Usage
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Migrations.html">
+    Migrations
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/HttpClient_Http_Message.html">
     HttpClient And HttpMessage
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/08_Migrations.html">
-    Migrations
+  <a class="nav-link" href="http://localhost:8901/Configuration.html">
+    Configuration
   </a>
 </li>
                 <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
+  <a class="nav-link" href="http://localhost:8901/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -95,7 +131,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="/FsHttp/">FsHttp</a></h3>
+            <h3 class="muted"><a href="http://localhost:8901/">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -106,7 +142,7 @@
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="/FsHttp/reference/fshttp-csharp.html">
+      <a href="http://localhost:8901/reference/fshttp-csharp.html">
         FsHttp.CSharp
       </a>
     </dt>
@@ -152,7 +188,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '389', 389)" onmouseover="showTip(event, '389', 389)">
+              <code onmouseout="hideTip(event, '414', 414)" onmouseover="showTip(event, '414', 414)">
                 <p>
                   <a id="Binary">
                     <a href="#Binary">
@@ -161,7 +197,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="389">
+              <div class="fsdocs-tip" id="414">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.Binary<span><span>(<span>context,&#32;data</span>)</span></span></span></code>
@@ -174,7 +210,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -189,7 +225,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -199,16 +235,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Binary`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Binary\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L294-294" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -220,7 +256,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -237,7 +273,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -246,7 +282,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '390', 390)" onmouseover="showTip(event, '390', 390)">
+              <code onmouseout="hideTip(event, '415', 415)" onmouseover="showTip(event, '415', 415)">
                 <p>
                   <a id="Body">
                     <a href="#Body">
@@ -255,7 +291,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="390">
+              <div class="fsdocs-tip" id="415">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.Body<span><span>(<span>context</span>)</span></span></span></code>
@@ -268,14 +304,14 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;'a&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -285,16 +321,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.CSharp.Body.Body``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Body``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L286-286" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -308,7 +344,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;'a&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -317,7 +353,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -326,7 +362,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '391', 391)" onmouseover="showTip(event, '391', 391)">
+              <code onmouseout="hideTip(event, '416', 416)" onmouseover="showTip(event, '416', 416)">
                 <p>
                   <a id="Content">
                     <a href="#Content">
@@ -335,7 +371,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="391">
+              <div class="fsdocs-tip" id="416">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.Content<span><span>(<span>context,&#32;contentType,&#32;data</span>)</span></span></span></code>
@@ -348,7 +384,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -364,14 +400,14 @@
                         data
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-contentdata.html">ContentData</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-contentdata.html">ContentData</a></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -381,16 +417,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Content`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Content\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L290-290" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -402,7 +438,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -418,7 +454,7 @@
                   data
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-contentdata.html">ContentData</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-contentdata.html">ContentData</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -427,7 +463,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -436,7 +472,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '392', 392)" onmouseover="showTip(event, '392', 392)">
+              <code onmouseout="hideTip(event, '417', 417)" onmouseover="showTip(event, '417', 417)">
                 <p>
                   <a id="ContentEncoding">
                     <a href="#ContentEncoding">
@@ -445,7 +481,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="392">
+              <div class="fsdocs-tip" id="417">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.ContentEncoding<span><span>(<span>context,&#32;encoding</span>)</span></span></span></code>
@@ -458,7 +494,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -473,7 +509,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -483,16 +519,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.ContentEncoding`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.ContentEncoding\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L319-319" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -506,7 +542,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -523,7 +559,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -532,7 +568,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '393', 393)" onmouseover="showTip(event, '393', 393)">
+              <code onmouseout="hideTip(event, '418', 418)" onmouseover="showTip(event, '418', 418)">
                 <p>
                   <a id="ContentType">
                     <a href="#ContentType">
@@ -541,7 +577,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="393">
+              <div class="fsdocs-tip" id="418">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.ContentType<span><span>(<span>context,&#32;contentType</span>)</span></span></span></code>
@@ -554,7 +590,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -569,7 +605,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -579,16 +615,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.ContentType`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.ContentType\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L324-324" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -602,7 +638,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -619,7 +655,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -628,7 +664,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '394', 394)" onmouseover="showTip(event, '394', 394)">
+              <code onmouseout="hideTip(event, '419', 419)" onmouseover="showTip(event, '419', 419)">
                 <p>
                   <a id="ContentTypeWithEncoding">
                     <a href="#ContentTypeWithEncoding">
@@ -637,7 +673,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="394">
+              <div class="fsdocs-tip" id="419">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.ContentTypeWithEncoding<span><span>(<span>context,&#32;contentType,&#32;charset</span>)</span></span></span></code>
@@ -650,7 +686,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -673,7 +709,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -683,16 +719,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.ContentTypeWithEncoding`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.ContentTypeWithEncoding\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L329-329" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -706,7 +742,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -731,7 +767,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -740,7 +776,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '395', 395)" onmouseover="showTip(event, '395', 395)">
+              <code onmouseout="hideTip(event, '420', 420)" onmouseover="showTip(event, '420', 420)">
                 <p>
                   <a id="File">
                     <a href="#File">
@@ -749,7 +785,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="395">
+              <div class="fsdocs-tip" id="420">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.File<span><span>(<span>context,&#32;path</span>)</span></span></span></code>
@@ -762,7 +798,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -777,7 +813,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -787,16 +823,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.File`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.File\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L314-314" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -808,7 +844,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -825,7 +861,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -834,7 +870,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '396', 396)" onmouseover="showTip(event, '396', 396)">
+              <code onmouseout="hideTip(event, '421', 421)" onmouseover="showTip(event, '421', 421)">
                 <p>
                   <a id="FormUrlEncoded">
                     <a href="#FormUrlEncoded">
@@ -843,7 +879,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="396">
+              <div class="fsdocs-tip" id="421">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.FormUrlEncoded<span><span>(<span>context,&#32;data</span>)</span></span></span></code>
@@ -856,7 +892,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -871,7 +907,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -881,16 +917,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.FormUrlEncoded`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.FormUrlEncoded\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L310-310" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -902,7 +938,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -919,7 +955,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -928,7 +964,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '397', 397)" onmouseover="showTip(event, '397', 397)">
+              <code onmouseout="hideTip(event, '422', 422)" onmouseover="showTip(event, '422', 422)">
                 <p>
                   <a id="Json">
                     <a href="#Json">
@@ -937,7 +973,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="397">
+              <div class="fsdocs-tip" id="422">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.Json<span><span>(<span>context,&#32;json</span>)</span></span></span></code>
@@ -950,7 +986,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -965,7 +1001,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -975,16 +1011,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Json`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Json\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L306-306" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -996,7 +1032,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -1013,7 +1049,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -1022,7 +1058,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '398', 398)" onmouseover="showTip(event, '398', 398)">
+              <code onmouseout="hideTip(event, '423', 423)" onmouseover="showTip(event, '423', 423)">
                 <p>
                   <a id="Stream">
                     <a href="#Stream">
@@ -1031,7 +1067,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="398">
+              <div class="fsdocs-tip" id="423">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.Stream<span><span>(<span>context,&#32;stream</span>)</span></span></span></code>
@@ -1044,7 +1080,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -1059,7 +1095,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -1069,16 +1105,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Stream`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Stream\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L298-298" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -1090,7 +1126,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -1107,7 +1143,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -1116,7 +1152,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '399', 399)" onmouseover="showTip(event, '399', 399)">
+              <code onmouseout="hideTip(event, '424', 424)" onmouseover="showTip(event, '424', 424)">
                 <p>
                   <a id="Text">
                     <a href="#Text">
@@ -1125,7 +1161,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="399">
+              <div class="fsdocs-tip" id="424">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Body.Text<span><span>(<span>context,&#32;text</span>)</span></span></span></code>
@@ -1138,7 +1174,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -1153,7 +1189,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                    <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
                   </span>
                   <br/>
                 </div>
@@ -1163,16 +1199,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FsHttp.CSharp.Body.Text`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.CSharp.Body.Text\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/CSharp.fs#L302-302" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -1184,7 +1220,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-irequestcontext-1.html">IRequestContext</a>&lt;<a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -1201,7 +1237,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><a href="/FsHttp/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-bodycontext.html">BodyContext</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -1216,10 +1252,10 @@
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = '/FsHttp/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'http://localhost:8901/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="/FsHttp/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="http://localhost:8901/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>

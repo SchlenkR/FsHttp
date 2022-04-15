@@ -14,10 +14,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="/FsHttp/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="http://localhost:8901/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="http://localhost:8901/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,6 +26,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
     <!-- END SEARCH BOX: this adds support for the search box -->
     
+<script type="text/javascript">
+    var wsUri = "ws://localhost:8901/websocket";
+    function init()
+    {
+        websocket = new WebSocket(wsUri);
+        websocket.onclose = function(evt) { onClose(evt) };
+    }
+    function onClose(evt)
+    {
+        console.log('closing');
+        websocket.close();
+        document.location.reload();
+    }
+    window.addEventListener("load", init, false);
+</script>
+
 </head>
 
 <body>
@@ -34,7 +50,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="/FsHttp/"><img id="fsdocs-logo" src="/FsHttp/img/logo.png" /></a>
+            <a href="http://localhost:8901/"><img id="fsdocs-logo" src="http://localhost:8901/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -58,35 +74,55 @@
   Documentation
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/02_Making_Requests.html">
-    Making Requests
+  <a class="nav-link" href="http://localhost:8901/Overview.html">
+    Overview
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/03_Response_Handling.html">
+  <a class="nav-link" href="http://localhost:8901/Requesting_JSON.html">
+    Sending JSON
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Requesting_Multipart_Files.html">
+    Multipart and File Upload
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Response_Handling.html">
     Response Handling
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/04_Configuration.html">
-    Configuration
+  <a class="nav-link" href="http://localhost:8901/URLs_and_Query_Params.html">
+    URLs and Query Params
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/05_HttpClient_Http_Message.html">
+  <a class="nav-link" href="http://localhost:8901/FSI.html">
+    F# Interactive Usage
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/Migrations.html">
+    Migrations
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="http://localhost:8901/HttpClient_Http_Message.html">
     HttpClient And HttpMessage
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/08_Migrations.html">
-    Migrations
+  <a class="nav-link" href="http://localhost:8901/Configuration.html">
+    Configuration
   </a>
 </li>
                 <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
+  <a class="nav-link" href="http://localhost:8901/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -95,7 +131,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="/FsHttp/">FsHttp</a></h3>
+            <h3 class="muted"><a href="http://localhost:8901/">FsHttp</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -106,7 +142,7 @@
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="/FsHttp/reference/fshttp.html">
+      <a href="http://localhost:8901/reference/fshttp.html">
         FsHttp
       </a>
     </dt>
@@ -115,7 +151,7 @@
     </dt>
     <dt>
       Parent Module: 
-      <a href="/FsHttp/reference/fshttp-dsl.html">
+      <a href="http://localhost:8901/reference/fshttp-dsl.html">
         Dsl
       </a>
     </dt>
@@ -147,7 +183,7 @@
           <td class="fsdocs-entity-name">
             <p>
               <a name="With">
-                <a href="/FsHttp/reference/fshttp-dsl-config-with.html">
+                <a href="http://localhost:8901/reference/fshttp-dsl-config-with.html">
                   With
                 </a>
               </a>
@@ -156,16 +192,16 @@
           <td class="fsdocs-entity-xmldoc">
             <div>
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FsHttp.Dsl.Config.With`')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FsHttp.Dsl.Config.With\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L390-390" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -217,7 +253,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -239,16 +275,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.ignoreCertIssues``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.ignoreCertIssues``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L427-427" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -260,7 +296,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -308,7 +344,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -330,16 +366,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.proxy``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.proxy``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L451-451" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -359,7 +395,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -415,7 +451,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -437,16 +473,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.proxyWithCredentials``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.proxyWithCredentials``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L454-454" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -474,7 +510,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -514,7 +550,7 @@
                         config
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-config.html">Config</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-config.html">Config</a></code>
                     </span>
                     <br/>
                     <span>
@@ -522,7 +558,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -544,16 +580,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.set``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.set``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L424-424" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -565,7 +601,7 @@
                   config
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-config.html">Config</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-config.html">Config</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -573,7 +609,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -621,7 +657,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -643,16 +679,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.setHttpClient``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.setHttpClient``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L436-436" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -672,7 +708,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -720,7 +756,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -742,16 +778,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.setHttpClientFactory``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.setHttpClientFactory``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L439-439" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -771,7 +807,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -819,7 +855,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -841,16 +877,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.timeout``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.timeout``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L430-430" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -870,7 +906,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -918,7 +954,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -940,16 +976,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.timeoutInSeconds``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.timeoutInSeconds``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L433-433" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -969,7 +1005,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -1017,7 +1053,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -1039,16 +1075,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.transformHttpClient``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.transformHttpClient``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L442-442" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -1068,7 +1104,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -1108,7 +1144,7 @@
                         transformer
                       </b>
                       :
-                      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a></span></code>
+                      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclienthandler">HttpClientHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclienthandler">HttpClientHandler</a></span></code>
                     </span>
                     <br/>
                     <span>
@@ -1116,7 +1152,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -1138,16 +1174,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.transformHttpClientHandler``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.transformHttpClientHandler``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L448-448" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -1159,7 +1195,7 @@
                   transformer
                 </span>
                 :
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.socketshttphandler">SocketsHttpHandler</a></span></code>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclienthandler">HttpClientHandler</a>&#32;->&#32;<a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpclienthandler">HttpClientHandler</a></span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -1167,7 +1203,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -1215,7 +1251,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -1237,16 +1273,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.transformHttpRequestMessage``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.transformHttpRequestMessage``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L445-445" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -1266,7 +1302,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -1306,7 +1342,7 @@
                         transformer
                       </b>
                       :
-                      <code><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a></code>
+                      <code><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a></code>
                     </span>
                     <br/>
                     <span>
@@ -1314,7 +1350,7 @@
                         context
                       </b>
                       :
-                      <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                      <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -1336,16 +1372,16 @@
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FsHttp.Dsl.Config.update``1```')">
-                <img src="/FsHttp/content/img/copy-md.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-md-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-md.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-md-hover.png" class="hover"/>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FsHttp.Dsl.Config.update``1\'/>')">
-                <img src="/FsHttp/content/img/copy-xml.png" class="normal"/>
-                <img src="/FsHttp/content/img/copy-xml-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/copy-xml.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/copy-xml-hover.png" class="hover"/>
               </div>
               <a href="https://github.com/fsprojects/FsHttp/blob/master/src/FsHttp/Dsl.fs#L421-421" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="/FsHttp/content/img/github.png" class="normal"/>
-                <img src="/FsHttp/content/img/github-hover.png" class="hover"/>
+                <img src="http://localhost:8901/content/img/github.png" class="normal"/>
+                <img src="http://localhost:8901/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
@@ -1357,7 +1393,7 @@
                   transformer
                 </span>
                 :
-                <code><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a></code>
+                <code><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
@@ -1365,7 +1401,7 @@
                   context
                 </span>
                 :
-                <code><span><a href="/FsHttp/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="/FsHttp/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
+                <code><span><a href="http://localhost:8901/reference/fshttp-domain-iconfigure-2.html">IConfigure</a>&lt;<span><a href="http://localhost:8901/reference/fshttp-domain-configtransformer.html">ConfigTransformer</a>,&#32;'c</span>&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -1397,10 +1433,10 @@
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = '/FsHttp/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'http://localhost:8901/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="/FsHttp/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="http://localhost:8901/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>
