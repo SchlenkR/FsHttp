@@ -38,7 +38,8 @@ let init() =
         |> Option.flatten
         |> function
             | None ->
-                printfn "--- FsHttp: FSI object not found (this is expected when running in a notebook)."
+                ////printfn "--- FsHttp: FSI object not found (this is expected when running in a notebook)."
+                ()
             | Some fsiInstance ->
                 let t = fsiInstance.GetType()
 
@@ -48,6 +49,7 @@ let init() =
                 addPrinter.Invoke(fsiInstance, [| printer |]) |> ignore
                 ////addPrintTransformer.Invoke(fsiInstance, [| printTransformer |]) |> ignore
                     
-                printfn "--- FsHttp: Printer successfully registered."
+                ////printfn "--- FsHttp: Printer successfully registered."
+                ()
             
     isInitialized <- true
