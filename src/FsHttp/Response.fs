@@ -143,12 +143,12 @@ let deserializeJsonWithAsync<'a> options response =
             |> Async.AwaitTask
 
     }
-let deserializeWithJsonTAsync<'a> options response = deserializeJsonWithAsync<'a> options response |> Async.StartAsTask
-let deserializeWithJson<'a> options response = deserializeJsonWithAsync<'a> options response |> Async.RunSynchronously
+let deserializeJsonWithTAsync<'a> options response = deserializeJsonWithAsync<'a> options response |> Async.StartAsTask
+let deserializeJsonWith<'a> options response = deserializeJsonWithAsync<'a> options response |> Async.RunSynchronously
 
 let deserializeJsonAsync<'a> response = deserializeJsonWithAsync<'a> defaultJsonSerializerOptions response
-let deserializeJsonTAsync<'a> response = deserializeWithJsonTAsync<'a> defaultJsonSerializerOptions response
-let deserializeJson<'a> response = deserializeWithJson<'a> defaultJsonSerializerOptions response
+let deserializeJsonTAsync<'a> response = deserializeJsonWithTAsync<'a> defaultJsonSerializerOptions response
+let deserializeJson<'a> response = deserializeJsonWith<'a> defaultJsonSerializerOptions response
 
 
 // -----------
