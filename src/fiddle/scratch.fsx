@@ -1,10 +1,25 @@
 
+#r "nuget: FsHttp"
+
+open FsHttp
+
+http {
+    POST "https://reqres.in/api/users"
+    CacheControl "no-cache"
+    body
+    jsonSerialize
+        {|
+            name = "morpheus"
+            job = "leader"
+        |}
+}
+
+
 #r "nuget: Newtonsoft.Json"
 open Newtonsoft.Json.Linq
 let x = JObject.Parse """ { "name": "Hans", "age": 23.4 }  """
 
 
-#r "nuget: FsHttp"
 
 open System.IO
 open FsHttp

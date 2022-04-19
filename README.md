@@ -29,12 +29,11 @@ http {
     POST "https://reqres.in/api/users"
     CacheControl "no-cache"
     body
-    json """
-    {
-        "name": "morpheus",
-        "job": "leader"
-    }
-    """
+    jsonSerialize
+        {|
+            name = "morpheus"
+            job = "leader"
+        |}
 }
 |> Request.send
 ```
@@ -49,12 +48,12 @@ using FsHttp.CSharp;
 await "https://reqres.in/api/users".Post()
     .CacheControl("no-cache")
     .Body()
-    .Json(@"
+    .JsonSerialize(new
         {
-            ""name"": ""morpheus"",
-            ""job"": ""leader""
+            name = "morpheus",
+            job = "leader"
         }
-    ")
+    )
     .SendAsync();
 ```
 
