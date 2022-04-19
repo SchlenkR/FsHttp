@@ -12,7 +12,7 @@ namespace Test.CSharp
         public void Setup() { }
 
         [Test]
-        public async Task PostsContent()
+        public async Task PostsText()
         {
             const string Content = "Hello World";
 
@@ -26,6 +26,25 @@ namespace Test.CSharp
                 .ToTextAsync();
 
             Assert.AreEqual(Content, response);
+        }
+
+        public record Person(string Name, string Job);
+
+        [Test]
+        public async Task PostsJsonObject()
+        {
+            var jsonObj = new Person("morpheus", "leader");
+
+            using var server = Server.Predefined.postReturnsBody();
+
+            var response = await
+                (await Server.url("").Post()
+                    .Body()
+                    .JsonSerialize(jsonObj)
+                    .SendAsync())
+                .DeserializeJsonAsync<Person>();
+
+            Assert.AreEqual(jsonObj, response);
         }
 
         [Test]

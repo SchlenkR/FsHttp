@@ -307,6 +307,14 @@ type Body =
         Body.json json context.Self
 
     [<Extension>]
+    static member JsonSerializeWith(context: IRequestContext<BodyContext>, options, json) =
+        Body.jsonSerializeWith options json context.Self
+
+    [<Extension>]
+    static member JsonSerialize(context: IRequestContext<BodyContext>, json) =
+        Body.jsonSerialize json context.Self
+
+    [<Extension>]
     static member FormUrlEncoded(context: IRequestContext<BodyContext>, data) =
         Body.formUrlEncoded data context.Self
 
@@ -482,6 +490,38 @@ type Response =
     [<Extension>]
     static member ToXmlAsync(response: Domain.Response) =
         Response.toXmlTAsync response
+
+    [<Extension>]
+    static member ToJsonDocumentWithAsync(response: Domain.Response, options) =
+        Response.toJsonDocumentWithTAsync options response
+
+    [<Extension>]
+    static member ToJsonDocumentAsync(response: Domain.Response) =
+        Response.toJsonDocumentTAsync response
+
+    [<Extension>]
+    static member ToJsonWithAsync(response: Domain.Response, options) =
+        Response.toJsonWithTAsync options response
+
+    [<Extension>]
+    static member ToJsonAsync(response: Domain.Response) =
+        Response.toJsonTAsync response
+
+    [<Extension>]
+    static member ToJsonEnumerableWithAsync(response: Domain.Response, options) =
+        Response.toJsonSeqWithTAsync options response
+
+    [<Extension>]
+    static member ToJsonEnumerableAsync(response: Domain.Response) =
+        Response.toJsonSeqTAsync response
+
+    [<Extension>]
+    static member DeserializeJsonWithAsync<'T>(response: Domain.Response, options) =
+        Response.deserializeJsonWithTAsync options response
+
+    [<Extension>]
+    static member DeserializeJsonAsync(response: Domain.Response) =
+        Response.deserializeJsonTAsync response
 
     [<Extension>]
     static member ToFormattedTextAsync(response: Domain.Response) =
