@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>9.0.6</Version>
+    <Version>9.1.0</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
@@ -43,6 +43,10 @@
 
       v9.0.6
       - #100 - Removed FSI print messages
+
+      v9.1.0
+      - Fixed naming inconsistency for 'Response.deserialize...' functions
+      - More C# JSON functions
     </PackageReleaseNotes>
   </PropertyGroup>
 
