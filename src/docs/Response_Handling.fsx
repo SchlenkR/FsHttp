@@ -61,7 +61,10 @@ that will be used as default for any request where JSON (de)serialization is inv
 
 #r "nuget: FSharp.SystemTextJson"
 
-// Prepare global configuration
+// ---------------------------------
+// Prepare global JSON configuration
+// ---------------------------------
+
 open System.Text.Json
 open System.Text.Json.Serialization
 
@@ -70,11 +73,18 @@ FsHttp.GlobalConfig.Json.defaultJsonSerializerOptions <-
     options.Converters.Add(JsonFSharpConverter())
     options
 
-// ...
+// -----------------
+// ... make requests
+// -----------------
+
+type Person = { name: string; age: int; address: string option }
+let john = { name ="John"; age = 23; address = Some "whereever" }
 
 http {
-    GET @"https://reqres.in/api/users?page=2&delay=3"
+    POST "loopback body"
+    body
+    jsonSerialize john
 }
 |> Request.send
-|> Response.toJson
-|> fun json -> json?page.GetInt32()
+|> Response.deserializeJson<Person>
+|> fun p -> p.address = john.address // true

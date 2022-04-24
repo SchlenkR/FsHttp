@@ -37,15 +37,15 @@ let [<TestCase>] ``Serialize / Deserialize JSON object``() =
 let [<TestCase>] ``Serialize / Deserialize JSON object with Tarmil``() =
     use server = returnBody()
 
-    let person1 = { name = "John Doe"; age = 34; address = Some "Whereever" }
-    let person2 = { name = "Bryan Adams"; age = 55; address = None }
-    let payload = [ person1; person2 ]
-
     FsHttp.GlobalConfig.Json.defaultJsonSerializerOptions <-
         let options = JsonSerializerOptions()
         options.Converters.Add(JsonFSharpConverter())
         options
-    
+
+    let person1 = { name = "John Doe"; age = 34; address = Some "Whereever" }
+    let person2 = { name = "Bryan Adams"; age = 55; address = None }
+    let payload = [ person1; person2 ]
+   
     http {
         POST (url "")
         body
