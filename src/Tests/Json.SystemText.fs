@@ -12,9 +12,13 @@ open Suave.Operators
 open Suave.Filters
 open Suave.Successful
 
-type Person = { name: string; age: int }
+open System.Text.Json
+open System.Text.Json.Serialization
 
 let returnBody () = POST >=> request (contentText >> OK) |> serve
+
+type Person = { name: string; age: int }
+type SuperPerson = { name: string; age: int; address: string option }
 
 let [<TestCase>] ``Serialize / Deserialize JSON object``() =
     use server = returnBody()
@@ -29,6 +33,27 @@ let [<TestCase>] ``Serialize / Deserialize JSON object``() =
     |> Request.send
     |> Response.deserializeJson<Person>
     |> shouldEqual person
+
+let [<TestCase>] ``Serialize / Deserialize JSON object with Tarmil``() =
+    use server = returnBody()
+
+    let person1 = { name = "John Doe"; age = 34; address = Some "Whereever" }
+    let person2 = { name = "Bryan Adams"; age = 55; address = None }
+    let payload = [ person1; person2 ]
+
+    FsHttp.GlobalConfig.Json.defaultJsonSerializerOptions <-
+        let options = JsonSerializerOptions()
+        options.Converters.Add(JsonFSharpConverter())
+        options
+    
+    http {
+        POST (url "")
+        body
+        jsonSerialize payload
+    }
+    |> Request.send
+    |> Response.deserializeJson<SuperPerson list>
+    |> shouldEqual payload
 
 let [<TestCase>] ``To JSON and dynamic operator``() =
     use server = returnBody()

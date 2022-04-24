@@ -38,9 +38,39 @@ http {
 
 
 (**
-JSON dynamic processing:
+## JSON dynamic processing:
 *)
+
+http {
+    GET @"https://reqres.in/api/users?page=2&delay=3"
+}
+|> Request.send
+|> Response.toJson
+|> fun json -> json?page.GetInt32()
+
+
+
+(**
+## JsonSerializerOptions / Using Tarmil-FSharp.SystemTextJson
+
+FSharp.SystemTextJson enables JSON (de)serialization of F# types like tuples, DUs and others.
+To do so, use the `JsonSerializeWith` or one of the `Response.toJsonWith` functions and pass
+`JsonSerializerOptions`. Instead, it's also possible to globally configure the `JsonSerializerOptions`
+that will be used as default for any request where JSON (de)serialization is involved:
+*)
+
+#r "nuget: FSharp.SystemTextJson"
+
+// Prepare global configuration
 open System.Text.Json
+open System.Text.Json.Serialization
+
+FsHttp.GlobalConfig.Json.defaultJsonSerializerOptions <-
+    let options = JsonSerializerOptions()
+    options.Converters.Add(JsonFSharpConverter())
+    options
+
+// ...
 
 http {
     GET @"https://reqres.in/api/users?page=2&delay=3"

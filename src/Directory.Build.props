@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>9.1.0</Version>
+    <Version>9.1.1</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
@@ -47,6 +47,9 @@
       v9.1.0
       - Fixed naming inconsistency for 'Response.deserialize...' functions
       - More C# JSON functions
+
+      v9.1.1
+      - Fix: Usiong GlobalConfig.Json.defaultJsonSerializerOptions as default for jsonSerialize
     </PackageReleaseNotes>
   </PropertyGroup>
 
