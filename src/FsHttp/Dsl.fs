@@ -330,7 +330,7 @@ module Body =
         json jsonString context
 
     let jsonSerialize (instance: 'a) (context: IToBodyContext) =
-        jsonSerializeWith (JsonSerializerOptions(JsonSerializerDefaults.Web)) instance context
+        jsonSerializeWith (GlobalConfig.Json.defaultJsonSerializerOptions) instance context
 
     let formUrlEncoded (data: (string * string) list) (context: IToBodyContext) =
         content "application/x-www-form-urlencoded" (FormUrlEncodedContent (Map.ofList data)) context
