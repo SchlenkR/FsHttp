@@ -7,11 +7,6 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp", "FsHttp\FsHttp.fsp
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Tests", "Tests\Tests.fsproj", "{CD6F0C00-72D5-467B-9C18-04EAE6C5D9FB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fiddle", "fiddle", "{8FD9639C-B3E6-47E5-BE90-833586AD3001}"
-	ProjectSection(SolutionItems) = preProject
-		fiddle\scratch.fsx = fiddle\scratch.fsx
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.CSharp", "Test.CSharp\Test.CSharp.csproj", "{C425534B-C569-4BC1-81AD-77BE8F79D91C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationPackages", "IntegrationPackages", "{FD2CA2F0-E5B9-4D04-998B-8C2910E164BA}"
