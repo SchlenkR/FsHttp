@@ -26,9 +26,3 @@ http {
     ]
 }
 |> Request.send
-
-(**
-## Further Readings
-
-> Have a look at the [https://github.com/fsprojects/FsHttp/blob/master/src/Tests/Multipart.fs](multipart tests) for more examples using multipart.
-*)
