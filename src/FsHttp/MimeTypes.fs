@@ -994,7 +994,7 @@ let extToMimeType =
     |]
     |> Array.toList
 
-let guessMineTypeFromPath (path : string) defaultValue =
+let guessMimeTypeFromPath (path : string) defaultValue =
     extToMimeType
     |> List.tryFind (fun (ext,_) -> "." + ext = Path.GetExtension path)
     |> function

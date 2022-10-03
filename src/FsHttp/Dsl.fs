@@ -373,7 +373,7 @@ module Multipart =
         part (StringContent value) None name context
 
     let filePartWithName name (path: string) (context: IToMultipartContext) =
-        let contentType = MimeTypes.guessMineTypeFromPath path MimeTypes.defaultMimeType
+        let contentType = MimeTypes.guessMimeTypeFromPath path MimeTypes.defaultMimeType
         part (FileContent path) (Some contentType) name context
 
     let filePart (path: string) (context: IToMultipartContext) =
