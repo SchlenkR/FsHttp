@@ -43,17 +43,23 @@ let doInit() =
                     | None ->
                         NoFsiObjectFound
                     | Some fsiInstance ->
+                        let addPrinter (f: 'a -> string) =
+                            let t = fsiInstance.GetType()
+                            let addPrinterMethod = t.GetMethod("AddPrinter").MakeGenericMethod([| typeof<'a> |])
+                            addPrinterMethod.Invoke(fsiInstance, [| f |]) |> ignore
+                        ////let addPrintTransformer = t.GetMethod("AddPrintTransformer").MakeGenericMethod([| typeof<Response> |])
                         ////let printTransformer (r: Response) =
                         ////    match r.request.config.printHint.isEnabled with
                         ////    | true -> (PrintableResponse r) :> obj
                         ////    | false -> null
-                        let printer (r: Response) =
-                            try Response.print r
-                            with ex -> ex.ToString()
-                        let t = fsiInstance.GetType()
-                        ////let addPrintTransformer = t.GetMethod("AddPrintTransformer").MakeGenericMethod([| typeof<Response> |])
-                        let addPrinter = t.GetMethod("AddPrinter").MakeGenericMethod([| typeof<Response> |])
-                        addPrinter.Invoke(fsiInstance, [| printer |]) |> ignore
+                        let printSafe f =
+                            try f() with ex -> ex.ToString()
+                        let responsePrinter (r: Response) =
+                            printSafe (fun () -> Response.print r)
+                        let requestPrinter (r: IToRequest) =
+                            printSafe (fun () -> Request.print r)
+                        do addPrinter responsePrinter
+                        do addPrinter requestPrinter
                         ////addPrintTransformer.Invoke(fsiInstance, [| printTransformer |]) |> ignore
                         Initialized
             else IsNotInteractive

@@ -28,7 +28,7 @@ let [<TestCase>] ``Print Config on Request``() =
     resonseLines
     |> List.skipWhile (fun x -> x <> "RESPONSE")
     |> List.skip 1
-    |> List.skipWhile (fun x -> x <> "===content===")
+    |> List.skipWhile (fun x -> x <> FsHttp.Print.contentIndicator)
     |> List.skip 1
     |> List.head
     |> should equal "tes"

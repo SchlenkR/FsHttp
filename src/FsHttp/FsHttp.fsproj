@@ -16,6 +16,7 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp</FsDocsReleaseNotesLink>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="HelperInternal.fs" />
     <Compile Include="Helper.fs" />
     <Compile Include="HelperAutos.fs" />
@@ -24,6 +25,7 @@
     <Compile Include="GlobalConfig.fs" />
     <Compile Include="Response.fs" />
     <Compile Include="Request.fs" />
+    <Compile Include="Print.fs" />
     <Compile Include="FsiInit.fs" />
     <Compile Include="Dsl.fs" />
     <Compile Include="Dsl.CE.fs" />
