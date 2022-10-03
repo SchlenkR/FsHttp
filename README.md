@@ -61,7 +61,7 @@ await "https://reqres.in/api/users".Post()
 Migrating to new versions
 ---
 
-For different upgrade paths, please read the [Migrations section](https://fsprojects.github.io/FsHttp/08_Migrations.html) in the docu.
+For different upgrade paths, please read the [Migrations section](https://fsprojects.github.io/FsHttp/Migrations.html) in the docu.
 
 
 Building
