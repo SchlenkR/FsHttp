@@ -57,7 +57,7 @@ let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
                     content.Headers.ContentDisposition <- contentDispoHeaderValue
                 content :> HttpContent
         if contentType.IsSome then
-            dotnetContent.Headers.ContentType <- MediaTypeHeaderValue contentType.Value
+            dotnetContent.Headers.ContentType <- MediaTypeHeaderValue.Parse contentType.Value
         dotnetContent
     let assignContentHeaders (target: HttpHeaders) (headers: Map<string, string>) =
         for kvp in headers do

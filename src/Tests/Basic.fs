@@ -1,6 +1,7 @@
 ﻿module FsHttp.Tests.Basic
 
 open System
+open System.Text
 open System.Threading
 
 open FsUnit
@@ -90,4 +91,21 @@ let [<TestCase>] ``ContentType override``() =
     |> Request.send
     |> Response.toText
     |> should contain contentType
+
+
+let [<TestCase>] ``ContentType with encoding``() =
+    use server = POST >=> request (header "content-type" >> OK) |> serve
+
+    let contentType = "text/xxx"
+    let expectedContentTypeHeader = $"{contentType}; charset=utf-8"
+
+    http {
+        POST (url @"")
+        body
+        ContentTypeWithEncoding contentType Encoding.UTF8
+        text "hello world"
+    }
+    |> Request.send
+    |> Response.toText
+    |> should contain expectedContentTypeHeader
 
