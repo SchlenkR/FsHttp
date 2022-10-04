@@ -59,6 +59,7 @@
       - Printing:
         - Separate print functions for response and request via Request.print and Response.print
         - Default request (IToRequest) printing in FSI
+      - No more net5.0 target
     </PackageReleaseNotes>
   </PropertyGroup>
 
