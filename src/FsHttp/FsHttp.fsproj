@@ -17,11 +17,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="HelperInternal.fs" />
-    <Compile Include="Helper.fs" />
-    <Compile Include="HelperAutos.fs" />
-    <Compile Include="MimeTypes.fs" />
     <Compile Include="Domain.fs" />
+    <Compile Include="Helper.fs" />
+    <Compile Include="Autos.fs" />
+    <Compile Include="MimeTypes.fs" />
     <Compile Include="GlobalConfig.fs" />
     <Compile Include="Response.fs" />
     <Compile Include="Request.fs" />

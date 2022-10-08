@@ -1,9 +1,32 @@
-module FsHttp.Helper
+namespace FsHttp.Helper
 
 open System
+open System.IO
 open System.Text
-open FsHttp.HelperInternal
-open System
+open System.Runtime.InteropServices
+open FsHttp
+
+module Encoding =
+    let base64 = Encoding.GetEncoding("ISO-8859-1")
+
+[<AutoOpen>]
+module StringBuilderExtensions =
+    type StringBuilder with
+        member sb.append (s:string) = sb.Append s |> ignore
+        member sb.appendLine (s:string) = sb.AppendLine s |> ignore
+        member sb.newLine() = sb.appendLine ""
+        member sb.appendSection (s:string) =
+            sb.appendLine s
+            String([0..s.Length] |> List.map (fun _ -> '-') |> List.toArray) |> sb.appendLine
+
+[<RequireQualifiedAccess>]
+module Map =
+    let union (m1: Map<'k, 'v>) (s: seq<'k * 'v>) =
+        seq {
+            yield! m1 |> Seq.map (fun kvp -> kvp.Key, kvp.Value)
+            yield! s
+        }
+        |> Map.ofSeq
 
 [<RequireQualifiedAccess>]
 module Result =
@@ -18,12 +41,12 @@ module String =
         System.Web.HttpUtility.UrlEncode(s)
     let toBase64 (s: string) =
         s
-        |> base64Encoding.GetBytes
+        |> Encoding.base64.GetBytes
         |> Convert.ToBase64String
     let fromBase64 (s: string) =
         s
         |> Convert.FromBase64String
-        |> base64Encoding.GetString
+        |> Encoding.base64.GetString
     let substring maxLength (s:string) =
         string(s.Substring(0, Math.Min(maxLength, s.Length)))
 
@@ -38,12 +61,8 @@ module Url =
         let b = (norm url2).TrimStart(delTrim).TrimEnd(delTrim)
         a + sdel + b
 
-
 [<RequireQualifiedAccess>]
 module Stream =
-    open System.IO
-    open System.Runtime.InteropServices
-    
     // TODO: Inefficient
     type Utf8StringBufferingStream(baseStream: Stream, readBufferLimit: int option) =
         inherit Stream()
@@ -168,3 +187,20 @@ module Stream =
 
     let saveFileTAsync fileName source =
         saveFileAsync fileName source |> Async.StartAsTask
+
+[<AutoOpen>]
+module FsHttpUrlExtensions =
+    type FsHttpUrl with
+        member this.ToUriString() =
+            let uri = UriBuilder(this.address)
+            let queryParamsString = 
+                this.additionalQueryParams 
+                |> Seq.map (fun kvp -> $"{kvp.Key}={kvp.Value}") 
+                |> String.concat "&"
+            uri.Query <-
+                match uri.Query, queryParamsString with
+                | "", "" -> ""
+                | s, "" -> s
+                | "", q -> $"?{q}"
+                | s, q -> $"{s}&{q}"
+            uri.ToString()

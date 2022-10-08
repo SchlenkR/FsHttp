@@ -55,11 +55,12 @@
       - Fixed #103: FSI response printing and initialization doesn't work out of the box anymore.
 
       v10.0.0
-      - Breaking Change: Corrected typo "guessMineTypeFromPath" -> "guessMimeTypeFromPath"
+      - Corrected typo "guessMineTypeFromPath" -> "guessMimeTypeFromPath"
+      - Module 'Helper', 'HelperInternal' and 'HelperAutos' refactored
       - Printing:
         - Separate print functions for response and request via Request.print and Response.print
         - Default request (IToRequest) printing in FSI
-      - No more net5.0 target
+      - Removed net5.0 targets in all projects
     </PackageReleaseNotes>
   </PropertyGroup>
 
