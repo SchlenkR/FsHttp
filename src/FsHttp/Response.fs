@@ -1,17 +1,14 @@
 module FsHttp.Response
 
 open System
-open System.Collections.Generic
 open System.IO
 open System.Net
-open System.Net.Http
 open System.Text
 open System.Text.Json
 open System.Xml.Linq
 
 open FsHttp
 open FsHttp.GlobalConfig.Json
-open FsHttp.HelperInternal
 open FsHttp.Helper
 
 
@@ -42,7 +39,7 @@ let parseAsync parserName parse response =
             return! parse (bufferingStream :> Stream) ct
         with ex ->
             let errorDisplayContent = bufferingStream.GetUtf8String()
-            let msg = $"Could not parse %s{parserName}: {ex.Message}{br}Content:{br}{errorDisplayContent}"
+            let msg = $"Could not parse %s{parserName}: {ex.Message}{Environment.NewLine}Content:{Environment.NewLine}{errorDisplayContent}"
             return raise (Exception(msg, ex))
     }
 

@@ -4,7 +4,7 @@ if ((Test-Path .\.fsdocs) -eq $true) {
 }
 
 dotnet tool restore
-dotnet build ./src/FsHttp/FsHttp.fsproj -c Release -f net5.0
+dotnet build ./src/FsHttp/FsHttp.fsproj -c Release -f net6.0
 
 if ($args[0] -eq $null) {
 	$mode = "build"

@@ -7,7 +7,6 @@ open System.Net.Http
 open System.Text
 
 open FsHttp
-open FsHttp.HelperInternal
 open FsHttp.Helper
 
 let internal contentIndicator = "===content==="
@@ -126,7 +125,7 @@ let private printResponseOnly (response: Response) =
                     else Response.toText response
                 match maxLength with
                 | Some maxLength when contentText.Length > maxLength ->
-                    (contentText.Substring (0,maxLength)) + $"{br}..."
+                    (contentText.Substring (0,maxLength)) + $"{Environment.NewLine}..."
                 | _ -> contentText
             with ex -> sprintf "ERROR reading response content: %s" (ex.ToString())
         sb.appendLine contentIndicator

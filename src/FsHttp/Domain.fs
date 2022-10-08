@@ -63,20 +63,6 @@ type FsHttpUrl =
     { address: string
       additionalQueryParams: Map<string, obj>
     }
-    member url.ToUriString() =
-        let uri = UriBuilder(url.address)
-        let queryParamsString = 
-            url.additionalQueryParams 
-            |> Seq.map (fun kvp -> $"{kvp.Key}={kvp.Value}") 
-            |> String.concat "&"
-        uri.Query <-
-            match uri.Query, queryParamsString with
-            | "", "" -> ""
-            | s, "" -> s
-            | "", q -> $"?{q}"
-            | s, q -> $"{s}&{q}"
-        uri.ToString()
-
 
 type Header =
     { url: FsHttpUrl

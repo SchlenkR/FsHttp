@@ -8,7 +8,6 @@ open System.Text
 open System.Globalization
 
 open FsHttp
-open FsHttp.HelperInternal
 open FsHttp.Helper
 
 /// Request constructors for RFC 2626 HTTP methods
@@ -279,7 +278,7 @@ module Body =
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
     let contentTypeWithEncoding (contentTypeString) (charset: Encoding) (context: IToBodyContext) =
-        contentType (sprintf "%s; charset=%s" contentTypeString charset.WebName) context
+        contentType $"{contentTypeString}; charset={charset.WebName}" context
 
     // a) MD5 is obsolete. See https://tools.ietf.org/html/rfc7231#appendix-B
     // b) the others are response fields
