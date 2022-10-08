@@ -1,6 +1,6 @@
-ARG VARIANT=7.0-bullseye
+# ARG VARIANT=6.0-bullseye
 # FROM mcr.microsoft.com/vscode/devcontainers/dotnet:0-${VARIANT}
-FROM mcr.microsoft.com/vscode/devcontainers/dotnet:0-${VARIANT}
+FROM mcr.microsoft.com/dotnet/nightly/sdk:7.0
 
 # [Choice] Node.js version: none, lts/*, 18, 16, 14
 ARG NODE_VERSION="lts/*"
