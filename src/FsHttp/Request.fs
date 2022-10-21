@@ -155,7 +155,8 @@ let toAsync (context: IToRequest) =
             request.header.cookies
             |> List.map string
             |> String.concat "; "
-        do finalRequestMessage.Headers.Add("Cookie", cookies)
+        if String.IsNullOrEmpty cookies|>not then
+            do finalRequestMessage.Headers.Add("Cookie", cookies)
         let finalClient = 
             let httpClientTransformer = Option.defaultValue id request.config.httpClientTransformer
             httpClientTransformer client
