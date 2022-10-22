@@ -151,11 +151,13 @@ let toAsync (context: IToRequest) =
             httpMessageTransformer requestMessage
         let! ctok = Async.CancellationToken
         let client = getHttpClient request.config
-        let cookies =
-            request.header.cookies
-            |> List.map string
-            |> String.concat "; "
-        if String.IsNullOrEmpty cookies|>not then
+        match request.header.cookies with
+        | [] -> ()
+        | cookies ->
+            let cookies =
+                cookies
+                |> List.map string
+                |> String.concat "; "
             do finalRequestMessage.Headers.Add("Cookie", cookies)
         let finalClient = 
             let httpClientTransformer = Option.defaultValue id request.config.httpClientTransformer
