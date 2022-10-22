@@ -76,6 +76,30 @@ let [<TestCase>] ``Smoke test for a header``() =
     |> Response.toText
     |> should equal lang
 
+let [<TestCase>] ``Smoke test for headers``() =
+    let headersToString  =
+        List.sort
+        >> List.map (fun (key, value) -> $"{key}={value}".ToLower())
+        >> (fun h -> String.Join("&", h))
+    
+    let headerPrefix = "X-Custom-Value"
+    let customHeaders = [for i in 1..10 -> $"{headerPrefix}{i}", $"{i}"]
+    let expected = headersToString customHeaders
+    use server =
+        GET
+        >=> request (fun r ->
+            let headers = r.headers |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.InvariantCultureIgnoreCase))
+            headersToString headers
+            |> OK)
+        |> serve
+
+    http {
+        GET (url @"")
+        headers customHeaders
+    }
+    |> Request.send
+    |> Response.toText
+    |> should equal expected
 
 let [<TestCase>] ``ContentType override``() =
     use server = POST >=> request (header "content-type" >> OK) |> serve

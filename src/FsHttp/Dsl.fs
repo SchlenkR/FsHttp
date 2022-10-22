@@ -70,13 +70,18 @@ module Header =
             header = { context.header with 
                          headers = Map.union context.header.headers [ name, value ] } }
 
+    /// Adds headers
+    let headers headers (context: HeaderContext) =    
+        { context with 
+            header = { context.header with 
+                         headers = Map.union context.header.headers headers } }
+
     /// Adds a set of query parameters to the URL    
     let query (queryParams: (string * obj) list) (context: HeaderContext) =
         { context with
             header = { context.header with
                          url = { context.header.url with 
                                    additionalQueryParams = queryParams |> Map.ofList } } }
-                         
 
     /// Content-Types that are acceptable for the response
     let accept (contentType: string) (context: HeaderContext) =
