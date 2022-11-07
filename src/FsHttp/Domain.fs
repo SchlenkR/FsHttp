@@ -2,6 +2,7 @@
 module FsHttp.Domain
 
 open System
+open System.Text
 
 type StatusCodeExpectation =
     { expected: System.Net.HttpStatusCode list
@@ -80,19 +81,23 @@ type ContentData =
     | FormUrlEncodedContent of Map<string, string>
     | FileContent of string
 
+type ContentType =
+    { mediaType: string
+      encoding: Encoding option
+    }
+
 type BodyContent =
     { contentData: ContentData
       headers: Map<string, string>
-      contentType: string option
+      contentType: ContentType option
     }
 
 type MultipartContent =
-    { contentData:
+    { parts:
         {| name: string
-           contentType: string option
+           contentType: ContentType option
            content: ContentData |} list
       headers: Map<string, string>
-      contentType: string
     }
 
 type RequestContent =
@@ -160,12 +165,10 @@ and HeaderContext =
             }
     interface IToMultipartContext with
         member this.Transform() =
-            let boundary = Guid.NewGuid().ToString("N")
             { MultipartContext.header = this.header
               content = { 
-                  MultipartContent.contentData = []
+                  MultipartContent.parts = []
                   headers = Map.empty
-                  contentType = $"multipart/form-data; boundary={boundary}"
               }
               currentPartContentType = None
               config = this.config

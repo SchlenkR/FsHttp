@@ -1,6 +1,7 @@
 module FsHttp.Request
 
 open System
+open System.IO
 open System.Net
 open System.Net.Http
 open System.Net.Http.Headers
@@ -34,7 +35,11 @@ let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
     let header = request.header
     let requestMessage = new HttpRequestMessage(header.method, header.url.ToUriString())
     do setRequestMessageProp requestMessage TimeoutPropertyName request.config.timeout
-    let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
+    let buildDotnetContent 
+        (part: ContentData)
+        (contentType: ContentType option)
+        (name: string option)
+        =
         let dotnetContent =
             match part with
             | StringContent s ->
@@ -45,11 +50,8 @@ let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
             | FormUrlEncodedContent data ->
                 new FormUrlEncodedContent(data) :> HttpContent
             | FileContent path ->
-                let content =
-                    let fs = System.IO.File.OpenRead path
-                    new StreamContent(fs)
-                let contentDispoHeaderValue =
-                    ContentDispositionHeaderValue("form-data")
+                let content = new StreamContent(File.OpenRead path)
+                let contentDispoHeaderValue = ContentDispositionHeaderValue "form-data"
                 match name with
                 | Some v -> contentDispoHeaderValue.Name <- v
                 | None -> ()
@@ -57,8 +59,14 @@ let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
                     contentDispoHeaderValue.FileName <- path
                     content.Headers.ContentDisposition <- contentDispoHeaderValue
                 content :> HttpContent
-        if contentType.IsSome then
-            dotnetContent.Headers.ContentType <- MediaTypeHeaderValue.Parse contentType.Value
+        match contentType with
+        | Some contentType -> 
+            let mediaTypeHeaderValue = MediaTypeHeaderValue.Parse contentType.mediaType
+            match contentType.encoding with
+            | Some encoding -> mediaTypeHeaderValue.CharSet <- encoding.WebName
+            | _ -> ()
+            dotnetContent.Headers.ContentType <- mediaTypeHeaderValue
+        | _ -> ()
         dotnetContent
     let assignContentHeaders (target: HttpHeaders) (headers: Map<string, string>) =
         for kvp in headers do
@@ -72,7 +80,7 @@ let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
             dotnetBodyContent
         | Multi multipartContent ->
             let dotnetMultipartContent =
-                match multipartContent.contentData with
+                match multipartContent.part with
                 | [] -> null
                 | contentPart ->
                     let dotnetPart = new MultipartFormDataContent()

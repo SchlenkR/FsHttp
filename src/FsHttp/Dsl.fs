@@ -357,7 +357,7 @@ module Multipart =
                content = content |}
         { context with
             content = { context.content with 
-                          contentData = context.content.contentData @ [ newContentData ] } }
+                          parts = context.content.parts @ [ newContentData ] } }
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (contentType: string) (context: IToMultipartContext) =

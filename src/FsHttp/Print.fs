@@ -9,6 +9,8 @@ open System.Text
 open FsHttp
 open FsHttp.Helper
 
+// We try to get as close to the underlying representation (requestMessage) when printing!
+
 let internal contentIndicator = "===content==="
 
 let private printHeaderCollection (headers: KeyValuePair<string, string seq> seq) =
@@ -23,34 +25,19 @@ let private printHeaderCollection (headers: KeyValuePair<string, string seq> seq
         do sb.appendLine (sprintf "%-*s: %s" (maxHeaderKeyLength + 3) h.Key values)
     sb.ToString()
 
-let private doPrintRequestOnly (httpVersion: string) (request: Request) (requestMessage: HttpRequestMessage) =
+let private doPrintRequestOnly (request: Request) (requestMessage: HttpRequestMessage) =
     let sb = StringBuilder()
     let requestPrintHint = request.config.printHint.requestPrintMode
     
     do sb.appendSection "REQUEST"
-    do sb.appendLine $"{request.header.method} {request.header.url.ToUriString()} HTTP/{httpVersion}"
+    do sb.appendLine $"{requestMessage.Method.Method} {requestMessage.RequestUri} HTTP/{requestMessage.Version}"
 
     let printRequestHeaders () =
-        let contentHeaders,multipartHeaders =
-            if not (isNull requestMessage.Content) then
-                let a = requestMessage.Content.Headers |> Seq.toList
-                let b =
-                    match requestMessage.Content with
-                    | :? MultipartFormDataContent as m ->
-                        // TODO: After having the request invoked, the dotnet multiparts
-                        // have no headers anymore...
-                        m
-                        |> Seq.collect (fun part -> part.Headers)
-                        |> Seq.toList
-                    | _ -> []
-                a,b
-            else
-                [],[]
-        sb.append <|
-            printHeaderCollection (
-                (requestMessage.Headers |> Seq.toList)
-                @ contentHeaders
-                @ multipartHeaders)
+        let contentHeaders =
+            if not (requestMessage.Content = null)
+                then requestMessage.Content.Headers |> Seq.toList
+                else []
+        sb.append <| printHeaderCollection ((requestMessage.Headers |> Seq.toList) @ contentHeaders)
 
     let printRequestBody () =
         let formatContentData contentData =
@@ -70,19 +57,15 @@ let private doPrintRequestOnly (httpVersion: string) (request: Request) (request
             | FileContent fileName ->
                 sprintf "::File (name = %s)" fileName
 
-        let multipartIndicator =
-            match request.content with 
-            | Multi _ -> " :: Multipart"
-            | _ -> ""
-        sb.appendLine (contentIndicator + multipartIndicator)
+        sb.appendLine contentIndicator
         sb.appendLine <|
             match request.content with
             | Empty -> ""
             | Single bodyContent -> formatContentData bodyContent.contentData
             | Multi multipartContent ->
                 [
-                    for contentData in multipartContent.contentData do
-                        yield $"-------- {contentData.name}"
+                    for contentData in multipartContent.part do
+                        yield $"-- {contentData.name}"
                         yield "Part content type: " + (match contentData.contentType with | Some v -> v | _ -> "")
                         yield formatContentData contentData.content
                 ]

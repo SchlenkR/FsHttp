@@ -187,20 +187,3 @@ module Stream =
 
     let saveFileTAsync fileName source =
         saveFileAsync fileName source |> Async.StartAsTask
-
-[<AutoOpen>]
-module FsHttpUrlExtensions =
-    type FsHttpUrl with
-        member this.ToUriString() =
-            let uri = UriBuilder(this.address)
-            let queryParamsString = 
-                this.additionalQueryParams 
-                |> Seq.map (fun kvp -> $"{kvp.Key}={kvp.Value}") 
-                |> String.concat "&"
-            uri.Query <-
-                match uri.Query, queryParamsString with
-                | "", "" -> ""
-                | s, "" -> s
-                | "", q -> $"?{q}"
-                | s, q -> $"{s}&{q}"
-            uri.ToString()
