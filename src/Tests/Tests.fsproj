@@ -19,11 +19,12 @@
     <Compile Include="AlternativeSyntaxes.fs" />
     <Compile Include="Basic.fs" />
     <Compile Include="Body.fs" />
+    <Compile Include="Config.fs" />
+    <Compile Include="Cookies.fs" />
     <Compile Include="BuildersAndSignatures.fs" />
     <Compile Include="DotNetHttp.fs" />
     <Compile Include="Expectations.fs" />
     <Compile Include="ExtendingBuilders.fs" />
-    <Compile Include="GlobalConfig.fs" />
     <Compile Include="Helper.fs" />
     <Compile Include="JsonComparison.fs" />
     <Compile Include="Json.SystemText.fs" />
@@ -32,16 +33,16 @@
     <Compile Include="Multipart.fs" />
     <Compile Include="Printing.fs" />
     <Compile Include="Proxies.fs" />
-    <Compile Include="Others.fs" />
     <Compile Include="UrlsAndQuery.fs" />
+    <Compile Include="Misc.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.SystemTextJson" Version="0.17.4" />
-    <PackageReference Include="FsUnit" Version="4.0.7" />
+    <PackageReference Include="FsUnit" Version="5.1.0" />
     <PackageReference Include="FSharp.Data" Version="4.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.3.0" />
     <PackageReference Include="Suave" Version="2.6.1" />
   </ItemGroup>
   <ItemGroup>
