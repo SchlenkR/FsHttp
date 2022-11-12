@@ -1,5 +1,5 @@
 (*
-shell> dotnet fsi .\issue-109-114.fsx
+shell> dotnet fsi .\issue-109-114-fail.fsx
 
 System.FormatException: The format of value '' is invalid.
    at System.Net.Http.Headers.HttpHeaderParser.ParseValue(String value, Object storeValue, Int32& index)

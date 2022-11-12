@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>10.0.0-preview1</Version>
+    <Version>10.0.0-preview2</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
@@ -55,7 +55,7 @@
       - Fixed #103: FSI response printing and initialization doesn't work out of the box anymore.
 
       v10.0.0
-      - .Net 7 support (thank you @Samuel-Dufour
+      - .Net 7 support (thank you @Samuel-Dufour)
       - Corrected typo "guessMineTypeFromPath" -> "guessMimeTypeFromPath"
       - Module 'Helper', 'HelperInternal' and 'HelperAutos' refactored
       - Printing: Separate print functions for response and request via Request.print and Response.print
