@@ -2,8 +2,7 @@
 shell> dotnet fsi .\issue-109-114-success.fsx
 *)
 
-//#r "nuget: FsHttp, 10.0.0-preview1"
-#r @"C:\Users\ronal\source\repos\github\FsHttp\src\FsHttp\bin\Debug\net6.0\FsHttp.dll"
+#r "nuget: FsHttp, 10.0.0-preview2"
 
 open FsHttp
 
