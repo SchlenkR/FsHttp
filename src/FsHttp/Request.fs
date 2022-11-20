@@ -144,8 +144,7 @@ let private getHttpClient =
 let toAsync (context: IToRequest) =
     async {
         let request,requestMessage = toRequestAndMessage context
-        if request.config.printHint.printDebugMessages then
-            printfn $"Sending request {request.header.method} {request.header.url.ToUriString()} ..."
+        do Fsi.logfn $"Sending request {request.header.method} {request.header.url.ToUriString()} ..."
         use finalRequestMessage = 
             let httpMessageTransformer = Option.defaultValue id request.config.httpMessageTransformer
             httpMessageTransformer requestMessage
@@ -168,8 +167,7 @@ let toAsync (context: IToRequest) =
         if request.config.bufferResponseContent then
             // Task is started immediately, but must not be awaited when running in background.
             response.Content.LoadIntoBufferAsync() |> ignore
-        if request.config.printHint.printDebugMessages then
-            printfn $"{response.StatusCode |> int} ({response.StatusCode}) ({request.header.method} {request.header.url.ToUriString()})"
+        do Fsi.logfn $"{response.StatusCode |> int} ({response.StatusCode}) ({request.header.method} {request.header.url.ToUriString()})"
         let dispose () =
             do finalClient.Dispose()
             do response.Dispose()

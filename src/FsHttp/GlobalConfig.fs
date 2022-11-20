@@ -14,7 +14,6 @@ let mutable internal mutableDefaults =
     { 
         timeout = TimeSpan.FromSeconds 10.0
         printHint = {
-            printDebugMessages = false
             requestPrintMode = HeadersAndBody (defaultHeadersAndBodyPrintMode())
             responsePrintMode = HeadersAndBody (defaultHeadersAndBodyPrintMode())
         }

@@ -56,11 +56,14 @@
 
       v10.0.0
       - .Net 7 support (thank you @Samuel-Dufour)
-      - Corrected typo "guessMineTypeFromPath" -> "guessMimeTypeFromPath"
-      - Module 'Helper', 'HelperInternal' and 'HelperAutos' refactored
+      - Breaking change: Corrected typo "guessMineTypeFromPath" -> "guessMimeTypeFromPath"
+      - Breaking change: Module 'Helper', 'HelperInternal' and 'HelperAutos' refactored
+      - #115: Remove print messages when downloading streams
       - Printing: Separate print functions for response and request via Request.print and Response.print
       - Printing: Default request (IToRequest) printing in FSI
       - Removed net5.0 targets in all projects
+      - PrintHint.printDebugMessages: Moved to FsHttp.Helper.Fsi.logDebugMessages as a global switch
+
     </PackageReleaseNotes>
   </PropertyGroup>
 

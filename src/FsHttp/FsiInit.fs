@@ -43,6 +43,7 @@ let doInit() =
                     | None ->
                         NoFsiObjectFound
                     | Some fsiInstance ->
+                        do Helper.Fsi.logDebugMessages <- true
                         let addPrinter (f: 'a -> string) =
                             let t = fsiInstance.GetType()
                             let addPrinterMethod = t.GetMethod("AddPrinter").MakeGenericMethod([| typeof<'a> |])

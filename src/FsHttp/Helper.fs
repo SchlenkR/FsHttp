@@ -6,6 +6,10 @@ open System.Text
 open System.Runtime.InteropServices
 open FsHttp
 
+module Fsi =
+    let mutable logDebugMessages = false
+    let logfn message = message |> Printf.kprintf (fun s -> if logDebugMessages then printfn "%s" s)
+
 module Encoding =
     let base64 = Encoding.GetEncoding("ISO-8859-1")
 
@@ -148,11 +152,11 @@ module Stream =
         copyToCallbackAsync target callback source |> Async.StartAsTask
         
     let copyToAsync target source = async {
-        printfn "Download response received - starting download..."
+        Fsi.logfn "Download response received - starting download..."
         do! source |> copyToCallbackAsync target (fun read ->
             let mbRead = float read / 1024.0 / 1024.0
-            printfn "%f MB" mbRead)
-        printfn "Download finished."
+            Fsi.logfn "%f MB" mbRead)
+        Fsi.logfn "Download finished."
     }
 
     let copyToTAsync target source =
@@ -179,10 +183,10 @@ module Stream =
         toBytesAsync source |> Async.StartAsTask
 
     let saveFileAsync fileName source = async {
-        printfn "Download response received (file: %s) - starting download..." fileName
+        Fsi.logfn "Download response received (file: %s) - starting download..." fileName
         use fs = File.Open(fileName, FileMode.Create, FileAccess.Write)
         do! source |> copyToAsync fs
-        printfn "Download finished."
+        Fsi.logfn "Download finished."
     }
 
     let saveFileTAsync fileName source =

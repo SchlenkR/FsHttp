@@ -19,8 +19,7 @@ type PrintMode<'bodyPrintMode> =
     | HeadersOnly
     | HeadersAndBody of BodyPrintMode
 type PrintHint = 
-    { printDebugMessages: bool
-      requestPrintMode: PrintMode<unit>
+    { requestPrintMode: PrintMode<unit>
       responsePrintMode: PrintMode<BodyPrintMode>
     }
 
