@@ -8,6 +8,7 @@
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helper\TestHelper.fs" />
     <Compile Include="Helper\Server.fs" />
     <None Include="Resources\uploadFile2.txt">

@@ -18,6 +18,12 @@ open Suave.Filters
 open Suave.Successful
 
 open NUnit.Framework
+open System.Net.Http
+
+let timeoutEquals (config: Config) totalSeconds =
+    config.timeout
+    |> Option.map (fun x -> x.TotalSeconds)
+    |> should equal (Some totalSeconds)
 
 let [<TestCase>] ``Global config snapshot is used in moment of request creation`` () =
 
@@ -29,8 +35,8 @@ let [<TestCase>] ``Global config snapshot is used in moment of request creation`
     let t1 = 11.5
     let t2 = 22.5
 
-    do GlobalConfig.defaults.Config.timeout |> should not' (equal t1)
-    do GlobalConfig.defaults.Config.timeout |> should not' (equal t2)
+    do GlobalConfig.defaults.Config.timeout |> should not' (equal (Some t1))
+    do GlobalConfig.defaults.Config.timeout |> should not' (equal (Some t2))
 
     setTimeout t1
 
@@ -38,80 +44,80 @@ let [<TestCase>] ``Global config snapshot is used in moment of request creation`
         GET (url @"")
     }
 
-    do r1.config.timeout.TotalSeconds |> should equal t1
-
     setTimeout t2
 
     // still t1
-    do r1.config.timeout.TotalSeconds |> should equal t1
+    do timeoutEquals r1.config t1
     
     let r2 = http {
         GET (url @"")
     }
 
-    do r2.config.timeout.TotalSeconds |> should equal t2
+    do timeoutEquals r2.config t2
 
-let private longRunningRequestServer requestTime =
+let private serverWithRequestDuration requestTime =
     GET
     >=> request (fun r ->
         Thread.Sleep (TimeSpan.FromSeconds requestTime)
         "" |> OK)
     |> serve
 
-let [<TestCase>] ``Timeout with Dotnet defaults``() =
-    use server = longRunningRequestServer 60.0
 
-    (fun () ->
-        get (url "")
-        |> Request.send
-        |> ignore
-    )
-    |> should throw (typeof<TaskCanceledException>)
-
-let [<TestCase>] ``Timeout config per request``() =
-    use server = longRunningRequestServer 60.0
-
-    (fun () ->
-        get (url "") {
-            config_timeoutInSeconds 5.0
+let sendRequestWithTimeout timeout =
+    fun () ->
+        let req = get (url "")
+        let req =
+            match timeout with
+            | Some timeout -> 
+                req {
+                    config_timeoutInSeconds timeout
+                }
+            | None -> req
+        req {
+            config_transformHttpClient (fun (client : HttpClient) ->
+                printfn "TIMEOUT: %A" client.Timeout
+                client)
         }
         |> Request.send
         |> ignore
-    )
-    |> should throw (typeof<TaskCanceledException>)
-    
-let [<TestCase>] ``No timeout config per request``() =
-    use server = longRunningRequestServer 60.0
 
-    get (url "") {
-        config_timeoutInSeconds 110.0
-    }
-    |> Request.send
-    |> ignore
 
-let [<TestCase>] ``Timeout config global``() =
-    use server = longRunningRequestServer 60.0
+let [<TestCase>] ``Timeout config per request - success expected``() =
+    use server = serverWithRequestDuration 1.0
 
-    GlobalConfig.defaults
-    |> Config.timeoutInSeconds 5.0
-    |> GlobalConfig.set
+    (sendRequestWithTimeout (Some 20.0))()
 
-    (fun () ->
-        get (url "")
-        |> Request.send
-        |> ignore
-    )
-    |> should throw (typeof<TaskCanceledException>)
-    
 
-let [<TestCase>] ``No timeout config global``() =
-    use server = longRunningRequestServer 60.0
+let [<TestCase>] ``Timeout config per request - timeout expected``() =
+    use server = serverWithRequestDuration 10.0
+
+    sendRequestWithTimeout (Some 1.0)
+    |> should throw typeof<TaskCanceledException>
+
+
+let [<TestCase>] ``Timeout config global - success expected``() =
+    use server = serverWithRequestDuration 1.0
 
     GlobalConfig.defaults
-    |> Config.timeoutInSeconds 110.0
+    |> Config.timeoutInSeconds 20.0
     |> GlobalConfig.set
 
-    get (url "")
-    |> Request.send
-    |> ignore
+    (sendRequestWithTimeout None)()
+
+
+let [<TestCase>] ``Timeout config global - timeout expected``() =
+    use server = serverWithRequestDuration 10.0
+
+    GlobalConfig.defaults
+    |> Config.timeoutInSeconds 20.0
+    |> GlobalConfig.set
+
+    (sendRequestWithTimeout None)()
+
+    GlobalConfig.defaults
+    |> Config.timeoutInSeconds 1.0
+    |> GlobalConfig.set
+
+    sendRequestWithTimeout None
+    |> should throw typeof<TaskCanceledException>
     

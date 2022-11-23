@@ -19,6 +19,9 @@ module Http =
         // FSI init HACK
         FsiInit.init()
 
+        if String.IsNullOrWhiteSpace url then
+            failwith "The given URL is empty."
+
         let formattedUrl =
             url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
             |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
@@ -35,7 +38,7 @@ module Http =
           config = config }
 
     let method (method: string) (url: string) =
-        methodWithConfig GlobalConfig.mutableDefaults method url
+        methodWithConfig GlobalConfig.defaults.Config method url
 
     let internal getWithConfig config (url: string) = methodWithConfig config "GET" url
     let internal putWithConfig config (url: string) = methodWithConfig config "PUT" url
@@ -47,17 +50,15 @@ module Http =
     let internal connectWithConfig config (url: string) = methodWithConfig config "CONNECT" url
     let internal patchWithConfig config (url: string) = methodWithConfig config "PATCH" url
 
-    let internal defaultConfig = GlobalConfig.mutableDefaults
-
-    let get (url: string) = methodWithConfig defaultConfig "GET" url
-    let put (url: string) = methodWithConfig defaultConfig "PUT" url
-    let post (url: string) = methodWithConfig defaultConfig "POST" url
-    let delete (url: string) = methodWithConfig defaultConfig "DELETE" url
-    let options (url: string) = methodWithConfig defaultConfig "OPTIONS" url
-    let head (url: string) = methodWithConfig defaultConfig "HEAD" url
-    let trace (url: string) = methodWithConfig defaultConfig "TRACE" url
-    let connect (url: string) = methodWithConfig defaultConfig "CONNECT" url
-    let patch (url: string) = methodWithConfig defaultConfig "PATCH" url
+    let get (url: string) = methodWithConfig GlobalConfig.defaults.Config "GET" url
+    let put (url: string) = methodWithConfig GlobalConfig.defaults.Config "PUT" url
+    let post (url: string) = methodWithConfig GlobalConfig.defaults.Config "POST" url
+    let delete (url: string) = methodWithConfig GlobalConfig.defaults.Config "DELETE" url
+    let options (url: string) = methodWithConfig GlobalConfig.defaults.Config "OPTIONS" url
+    let head (url: string) = methodWithConfig GlobalConfig.defaults.Config "HEAD" url
+    let trace (url: string) = methodWithConfig GlobalConfig.defaults.Config "TRACE" url
+    let connect (url: string) = methodWithConfig GlobalConfig.defaults.Config "CONNECT" url
+    let patch (url: string) = methodWithConfig GlobalConfig.defaults.Config "PATCH" url
 
     // TODO: RFC 4918 (WebDAV) adds 7 methods
 
@@ -394,7 +395,7 @@ module Config =
             { config with timeout = value }
 
         let inline timeoutInSeconds value config =
-            { config with timeout = TimeSpan.FromSeconds value }
+            { config with timeout = Some (TimeSpan.FromSeconds value) }
 
         let inline setHttpClient (client: HttpClient) config =
             { config with httpClientFactory = Some (fun () -> client) }
@@ -403,13 +404,13 @@ module Config =
             { config with httpClientFactory = Some clientFactory }
 
         let inline transformHttpClient transformer config =
-            { config with httpClientTransformer = Some transformer }
+            { config with httpClientTransformer = transformer }
 
         let inline transformHttpRequestMessage transformer config =
-            { config with httpMessageTransformer = Some transformer }
+            { config with httpMessageTransformer = transformer }
 
         let inline transformHttpClientHandler transformer config =
-            { config with httpClientHandlerTransformer = Some transformer }
+            { config with httpClientHandlerTransformer = transformer }
 
         let inline proxy url config =
             { config with proxy = Some { url = url; credentials = None } }
@@ -427,7 +428,7 @@ module Config =
         context |> update (fun config -> config |> With.ignoreCertIssues)
 
     let inline timeout value context =
-        context |> update (fun config -> config |> With.timeout value)
+        context |> update (fun config -> config |> With.timeout (Some value))
 
     let inline timeoutInSeconds value context =
         context |> update (fun config -> config |> With.timeoutInSeconds value)

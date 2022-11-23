@@ -104,5 +104,5 @@ let [<TestCase>] ``Config of StartingContext is taken`` () =
         GET "http://myservice"
     }
 
-    GlobalConfig.defaults.Config.timeout |> should not' (equal timeout)
-    req.config.timeout |> should equal timeout
+    GlobalConfig.defaults.Config.timeout |> should not' (equal (Some timeout))
+    req.config.timeout |> should equal (Some timeout)

@@ -9,31 +9,11 @@ open System.Threading
 open FsHttp
 open FsHttp.Helper
 
-let private TimeoutPropertyName = "RequestTimeout"
-
-let private setRequestMessageProp (requestMessage: HttpRequestMessage) (propName: string) (value: 'a) =
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-    do requestMessage.Properties.[propName] <- value
-#else
-    do requestMessage.Options.Set(HttpRequestOptionsKey propName, value)
-#endif
-
-let private getRequestMessageProp<'a> (requestMessage: HttpRequestMessage) (propName: string) =
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-    requestMessage.Properties.[propName] :?> 'a
-#else
-    match requestMessage.Options.TryGetValue<'a>(HttpRequestOptionsKey propName) with
-    | true,value -> value
-    | false,_ -> failwith $"HttpRequestOptionsKey '{propName}' not found."
-#endif
-
-
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
     let request = request.Transform()
     let header = request.header
     let requestMessage = new HttpRequestMessage(header.method, header.url.ToUriString())
-    do setRequestMessageProp requestMessage TimeoutPropertyName request.config.timeout
     let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
         let dotnetContent =
             match part with
@@ -90,23 +70,16 @@ let toRequestAndMessage (request: IToRequest): Request * HttpRequestMessage =
 let toRequest request = request |> toRequestAndMessage |> fst
 let toHttpRequestMessage request = request |> toRequestAndMessage |> snd
 
-let private getHttpClient =
-    let timeoutHandler innerHandler =
-        { new DelegatingHandler(InnerHandler = innerHandler) with
-            member _.SendAsync(request: HttpRequestMessage, cancellationToken: CancellationToken) =
-                let cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
-                do cts.CancelAfter(getRequestMessageProp<TimeSpan> request TimeoutPropertyName)
-                base.SendAsync(request, cts.Token)
-        }
+let private getHttpClient config =
 
 #if NETSTANDARD2_0 || NETSTANDARD2_1
-    let getHandler ignoreSslIssues =
+    let getSslHandler ignoreSslIssues =
         let handler = new HttpClientHandler()
         if ignoreSslIssues then
             handler.ServerCertificateCustomValidationCallback <- (fun msg cert chain errors -> true)
         handler
 #else
-    let getHandler ignoreSslIssues =
+    let getSslHandler ignoreSslIssues =
         let handler = new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
         if ignoreSslIssues then
             handler.SslOptions <-
@@ -117,37 +90,35 @@ let private getHttpClient =
         handler
 #endif
 
-    fun (config: Config) ->
-        match config.httpClientFactory with
-        | Some clientFactory -> clientFactory()
-        | None ->
-            let transformHandler = Option.defaultValue id config.httpClientHandlerTransformer
-            let ignoreSslIssues =
-                match config.certErrorStrategy with
-                | Default -> false
-                | AlwaysAccept -> true
-            let handler = getHandler ignoreSslIssues |> transformHandler
-            match config.proxy with
-            | Some proxy ->
-                let webProxy = WebProxy(proxy.url)
-                match proxy.credentials with
-                | Some cred ->
-                    webProxy.UseDefaultCredentials <- false
-                    webProxy.Credentials <- cred
-                | None -> webProxy.UseDefaultCredentials <- true
-                handler.Proxy <- webProxy
-            | None -> ()
+    match config.httpClientFactory with
+    | Some clientFactory -> clientFactory()
+    | None ->
+        let ignoreSslIssues =
+            match config.certErrorStrategy with
+            | Default -> false
+            | AlwaysAccept -> true
+        let handler = config.httpClientHandlerTransformer (getSslHandler ignoreSslIssues)
+        match config.proxy with
+        | Some proxy ->
+            let webProxy = WebProxy(proxy.url)
+            match proxy.credentials with
+            | Some cred ->
+                webProxy.UseDefaultCredentials <- false
+                webProxy.Credentials <- cred
+            | None -> webProxy.UseDefaultCredentials <- true
+            handler.Proxy <- webProxy
+        | None -> ()
 
-            new HttpClient(handler |> timeoutHandler, Timeout = Timeout.InfiniteTimeSpan)
+        let client = new HttpClient(handler)
+        do config.timeout |> Option.iter (fun timeout -> client.Timeout <- timeout)
+        client
 
 /// Builds an asynchronous request, without sending it.
 let toAsync (context: IToRequest) =
     async {
         let request,requestMessage = toRequestAndMessage context
         do Fsi.logfn $"Sending request {request.header.method} {request.header.url.ToUriString()} ..."
-        use finalRequestMessage = 
-            let httpMessageTransformer = Option.defaultValue id request.config.httpMessageTransformer
-            httpMessageTransformer requestMessage
+        use finalRequestMessage = request.config.httpMessageTransformer requestMessage
         let! ctok = Async.CancellationToken
         let client = getHttpClient request.config
         match request.header.cookies with
@@ -158,9 +129,7 @@ let toAsync (context: IToRequest) =
                 |> List.map string
                 |> String.concat "; "
             do finalRequestMessage.Headers.Add("Cookie", cookies)
-        let finalClient = 
-            let httpClientTransformer = Option.defaultValue id request.config.httpClientTransformer
-            httpClientTransformer client
+        let finalClient = request.config.httpClientTransformer client
         let! response =
             finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
             |> Async.AwaitTask

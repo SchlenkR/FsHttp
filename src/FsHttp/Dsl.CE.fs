@@ -15,7 +15,7 @@ type IRequestContext<'self> with
 type StartingContext =
     { config: Config option }
     member this.ActualConfig =
-        this.config |> Option.defaultValue GlobalConfig.mutableDefaults
+        this.config |> Option.defaultValue GlobalConfig.defaults.Config
     interface IRequestContext<StartingContext> with
         member this.Self = this
     interface IConfigure<ConfigTransformer, StartingContext> with

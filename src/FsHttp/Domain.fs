@@ -34,17 +34,17 @@ type Proxy =
 
 type HttpClientHandlerTransformer =
 #if NETSTANDARD2_0 || NETSTANDARD2_1
-    (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler) option
+    (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler)
 #else
-    (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler) option
+    (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler)
 #endif
 
 type Config =
-    { timeout: TimeSpan
+    { timeout: TimeSpan option
       printHint: PrintHint
-      httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage) option
+      httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage)
       httpClientHandlerTransformer: HttpClientHandlerTransformer
-      httpClientTransformer: (System.Net.Http.HttpClient -> System.Net.Http.HttpClient) option
+      httpClientTransformer: (System.Net.Http.HttpClient -> System.Net.Http.HttpClient)
       httpCompletionOption: System.Net.Http.HttpCompletionOption
       proxy: Proxy option
       certErrorStrategy: CertErrorStrategy

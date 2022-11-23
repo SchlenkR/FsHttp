@@ -10,16 +10,16 @@ let inline internal defaultHeadersAndBodyPrintMode() =
         maxLength = Some 7000
     }
 
-let mutable internal mutableDefaults =
+let mutable private mutableDefaults =
     { 
-        timeout = TimeSpan.FromSeconds 10.0
+        timeout = None
         printHint = {
             requestPrintMode = HeadersAndBody (defaultHeadersAndBodyPrintMode())
             responsePrintMode = HeadersAndBody (defaultHeadersAndBodyPrintMode())
         }
-        httpMessageTransformer = None
-        httpClientHandlerTransformer = None
-        httpClientTransformer = None
+        httpMessageTransformer = id
+        httpClientHandlerTransformer = id
+        httpClientTransformer = id
         httpClientFactory = None
         httpCompletionOption  = System.Net.Http.HttpCompletionOption.ResponseHeadersRead
         proxy = None
@@ -27,14 +27,14 @@ let mutable internal mutableDefaults =
         bufferResponseContent = false
     }
 
-type GlobalConfigWrapper(config) =
-    member this.Config = config
+type GlobalConfigWrapper(config: Config option) =
+    member this.Config = config |> Option.defaultValue mutableDefaults
     interface IConfigure<ConfigTransformer, GlobalConfigWrapper> with
-        member this.Configure(t) = GlobalConfigWrapper(t mutableDefaults)
+        member this.Configure(t) = GlobalConfigWrapper(Some (t this.Config))
     interface IConfigure<PrintHintTransformer, GlobalConfigWrapper> with
         member this.Configure(t) = Domain.configPrinter this t
 
-let defaults = GlobalConfigWrapper mutableDefaults
+let defaults = GlobalConfigWrapper(None)
 let set (config: GlobalConfigWrapper) = mutableDefaults <- config.Config
 
 // TODO: Do we need something like this, which is more intuitive, but doesn't

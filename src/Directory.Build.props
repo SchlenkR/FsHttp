@@ -63,6 +63,7 @@
       - Printing: Default request (IToRequest) printing in FSI
       - Removed net5.0 targets in all projects
       - PrintHint.printDebugMessages: Moved to FsHttp.Helper.Fsi.logDebugMessages as a global switch
+      - #113 - Config.timeoutInSeconds bug
 
     </PackageReleaseNotes>
   </PropertyGroup>
