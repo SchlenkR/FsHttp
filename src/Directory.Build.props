@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>10.0.0</Version>
+    <Version>10.1.0</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
@@ -65,6 +65,9 @@
       - PrintHint.printDebugMessages: Moved to FsHttp.Helper.Fsi.logDebugMessages as a global switch
       - #113 - Config.timeoutInSeconds bug
 
+      v10.1.0
+      - #117: Escape string for query params values (by @maciej-izak - thank you)
+        (!!) This can be seen as breaking change.
     </PackageReleaseNotes>
   </PropertyGroup>
 
