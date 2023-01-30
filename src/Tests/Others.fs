@@ -48,7 +48,7 @@ let [<TestCase>] ``Custom HTTP method``() =
     |> should equal "flying"
 
 
-let [<TestCase>] ``Custom Header``() =
+let [<TestCase>] ``Custom Headers``() =
     let customHeaderKey = "X-Custom-Value"
 
     use server =
