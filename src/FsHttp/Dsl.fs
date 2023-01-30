@@ -83,7 +83,6 @@ module Header =
                          url = { context.header.url with 
                                    additionalQueryParams = queryParams |> Map.ofList } } }
                          
-
     /// Content-Types that are acceptable for the response
     let accept (contentType: string) (context: HeaderContext) =
         header "Accept" contentType context
