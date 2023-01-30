@@ -1,5 +1,6 @@
 ﻿module FsHttp.Tests.Misc
 
+open System
 open FsUnit
 open FsHttp
 open FsHttp.Tests
@@ -48,6 +49,32 @@ let [<TestCase>] ``Custom Headers``() =
     |> Response.toText
     |> should equal "hello world"
     
+let [<TestCase>] ``Custom Headers``() =
+    let headersToString  =
+        
+        List.sort
+        >> List.map (fun (key, value) -> $"{key}={value}".ToLower())
+        >> (fun h -> String.Join("&", h))
+    
+    let headerPrefix = "X-Custom-Value"
+    let customHeaders = [for i in 1..10 -> $"{headerPrefix}{i}", $"{i}"]
+    let expected = headersToString customHeaders
+
+    use server =
+        GET
+        >=> request (fun r ->
+            let headers = r.headers |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.InvariantCultureIgnoreCase))
+            headersToString headers
+            |> OK)
+        |> serve
+
+    http {
+        GET (url @"")
+        headers customHeaders
+    }
+    |> Request.send
+    |> Response.toText
+    |> should equal expected    
 
 //let [<TestCase>] ``Auto Redirects``() =
 //    http {

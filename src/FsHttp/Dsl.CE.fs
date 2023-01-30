@@ -91,7 +91,11 @@ type IRequestContext<'self> with
     [<CustomOperation("header")>]
     member this.Header(context: IRequestContext<HeaderContext>, key, value) =
         Header.header key value context.Self
-    
+
+    [<CustomOperation("headers")>]
+    member this.Headers(context: IRequestContext<HeaderContext>, headers) =
+        Header.headers headers context.Self
+
     /// Content-Types that are acceptable for the response
     [<CustomOperation("Accept")>]
     member this.Accept(context: IRequestContext<HeaderContext>, contentType) =
