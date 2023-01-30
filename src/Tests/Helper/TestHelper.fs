@@ -7,19 +7,19 @@ open Suave
 open Suave.Utils.Collections
 open FsUnit
 
-let inline raiseExn (msg: string) =
+let inline assertionExn (msg: string) =
     let otype =
         [
             "Xunit.Sdk.XunitException, xunit.assert"
             "NUnit.Framework.AssertionException, nunit.framework"
             "Expecto.AssertException, expecto"
         ]
-        |> List.tryPick(System.Type.GetType >> Option.ofObj)
+        |> List.tryPick (System.Type.GetType >> Option.ofObj)
     match otype with
     | None -> failwith msg
     | Some t ->
         let ctor = t.GetConstructor [| typeof<string> |]
-        ctor.Invoke [| msg |] :?> exn |> raise
+        ctor.Invoke [| msg |] :?> exn
 
 let joinLines lines = String.concat "\n" lines
 let keyNotFoundString = "KEY_NOT_FOUND"

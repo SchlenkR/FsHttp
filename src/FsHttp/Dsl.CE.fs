@@ -86,15 +86,16 @@ type IRequestContext<'self> with
     [<CustomOperation("query")>]
     member this.Query(context: IRequestContext<HeaderContext>, queryParams) =
         Header.query queryParams context.Self
-    
+
+    /// Custom headers
+    [<CustomOperation("headers")>]
+    member this.Headers(context: IRequestContext<HeaderContext>, headers) =
+        Header.headers headers context.Self
+
     /// Custom header
     [<CustomOperation("header")>]
     member this.Header(context: IRequestContext<HeaderContext>, key, value) =
         Header.header key value context.Self
-
-    [<CustomOperation("headers")>]
-    member this.Headers(context: IRequestContext<HeaderContext>, headers) =
-        Header.headers headers context.Self
 
     /// Content-Types that are acceptable for the response
     [<CustomOperation("Accept")>]

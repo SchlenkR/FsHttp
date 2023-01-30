@@ -65,17 +65,15 @@ module Http =
 
 module Header =
 
-    /// Adds a header
-    let header name value (context: HeaderContext) =
-        { context with 
-            header = { context.header with 
-                         headers = Map.union context.header.headers [ name, value ] } }
-
     /// Adds headers
     let headers headers (context: HeaderContext) =    
         { context with 
             header = { context.header with 
                          headers = Map.union context.header.headers headers } }
+
+    /// Adds a header
+    let header name value (context: HeaderContext) =
+        headers [name,value] context
 
     /// Adds a set of query parameters to the URL    
     let query (queryParams: (string * obj) list) (context: HeaderContext) =

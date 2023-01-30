@@ -28,7 +28,7 @@ let [<TestCase>] ``Custom HTTP method``() =
     |> should equal "flying"
 
 
-let [<TestCase>] ``Custom Headers``() =
+let [<TestCase>] ``Custom Header``() =
     let customHeaderKey = "X-Custom-Value"
 
     use server =
@@ -37,7 +37,7 @@ let [<TestCase>] ``Custom Headers``() =
             r.header customHeaderKey
             |> function 
                 | Choice1Of2 v -> v 
-                | Choice2Of2 e -> raise (TestHelper.raiseExn $"Failed {e}")
+                | Choice2Of2 e -> raise (assertionExn $"Failed {e}")
             |> OK)
         |> serve
 
@@ -51,7 +51,6 @@ let [<TestCase>] ``Custom Headers``() =
     
 let [<TestCase>] ``Custom Headers``() =
     let headersToString  =
-        
         List.sort
         >> List.map (fun (key, value) -> $"{key}={value}".ToLower())
         >> (fun h -> String.Join("&", h))
@@ -63,9 +62,11 @@ let [<TestCase>] ``Custom Headers``() =
     use server =
         GET
         >=> request (fun r ->
-            let headers = r.headers |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.InvariantCultureIgnoreCase))
-            headersToString headers
-            |> OK)
+            r.headers 
+            |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.InvariantCultureIgnoreCase))
+            |> headersToString
+            |> OK
+        )
         |> serve
 
     http {

@@ -67,7 +67,8 @@
 
       v10.1.0
       - #117: Escape string for query params values (by @maciej-izak - thank you)
-        (!!) This can be seen as breaking change.
+      (!!) This can be seen as breaking change.
+      - #112: Allow to add (multiple) headers (by @Samuel-Dufour - thank you)
     </PackageReleaseNotes>
   </PropertyGroup>
 
