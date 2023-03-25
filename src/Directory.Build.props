@@ -71,7 +71,7 @@
       - #112: Allow to add (multiple) headers (by @Samuel-Dufour - thank you)
 
       v11.0.0
-      - #121: Turning off debug logs in FSI
+      - #121: Turning off debug logs in FSI (breaking change in signature / namespace)
     </PackageReleaseNotes>
   </PropertyGroup>
 
