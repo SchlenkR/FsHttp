@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>10.1.0</Version>
+    <Version>11.0.0-preview01</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
@@ -69,6 +69,9 @@
       - #117: Escape string for query params values (by @maciej-izak - thank you)
       (!!) This can be seen as breaking change.
       - #112: Allow to add (multiple) headers (by @Samuel-Dufour - thank you)
+
+      v11.0.0
+      - #121: Turning off debug logs in FSI
     </PackageReleaseNotes>
   </PropertyGroup>
 

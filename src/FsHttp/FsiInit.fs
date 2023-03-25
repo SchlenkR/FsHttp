@@ -43,7 +43,12 @@ let doInit() =
                     | None ->
                         NoFsiObjectFound
                     | Some fsiInstance ->
-                        do Helper.Fsi.logDebugMessages <- true
+                        do
+                            // see #121: It's important to not touch the logDebugMessages
+                            // value when it was already set before this init function was called.
+                            match Fsi.logDebugMessages with
+                            | None -> Fsi.enableDebugLogs()
+                            | _ -> ()
                         let addPrinter (f: 'a -> string) =
                             let t = fsiInstance.GetType()
                             let addPrinterMethod = t.GetMethod("AddPrinter").MakeGenericMethod([| typeof<'a> |])

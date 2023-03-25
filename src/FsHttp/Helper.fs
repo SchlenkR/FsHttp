@@ -6,10 +6,6 @@ open System.Text
 open System.Runtime.InteropServices
 open FsHttp
 
-module Fsi =
-    let mutable logDebugMessages = false
-    let logfn message = message |> Printf.kprintf (fun s -> if logDebugMessages then printfn "%s" s)
-
 module Encoding =
     let base64 = Encoding.GetEncoding("ISO-8859-1")
 
