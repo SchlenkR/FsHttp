@@ -11,16 +11,17 @@ open Suave.Filters
 
 // TODO: exactMatch = true
 
-let [<TestCase>] ``Expect status code``() =
+[<TestCase>]
+let ``Expect status code`` () =
     use server = GET >=> BAD_GATEWAY "" |> serve
 
-    http { GET (url @"") }
+    http { GET(url @"") }
     |> Request.send
     |> Response.assertHttpStatusCode System.Net.HttpStatusCode.BadGateway
     |> ignore
 
-    Assert.Throws<StatusCodeExpectedxception>(fun() ->
-        http { GET (url @"") }
+    Assert.Throws<StatusCodeExpectedxception>(fun () ->
+        http { GET(url @"") }
         |> Request.send
         |> Response.assertHttpStatusCode System.Net.HttpStatusCode.Ambiguous
         |> ignore
