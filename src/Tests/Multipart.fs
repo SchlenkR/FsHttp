@@ -15,23 +15,23 @@ open Suave.Filters
 open Suave.Successful
 
 
-let [<TestCase>] ``POST Multipart form data``() =
+[<TestCase>]
+let ``POST Multipart form data`` () =
     use server =
-        POST 
+        POST
         >=> request (fun r ->
             let fileContents =
-                r.files
-                |> List.map (fun f -> File.ReadAllText f.tempFilePath)
-                |> joinLines
+                r.files |> List.map (fun f -> File.ReadAllText f.tempFilePath) |> joinLines
+
             let multipartContents =
-                r.multiPartFields
-                |> List.map (fun (k,v) -> k + "=" + v)
-                |> joinLines
-            [ fileContents; multipartContents ] |> joinLines |> OK)
+                r.multiPartFields |> List.map (fun (k, v) -> k + "=" + v) |> joinLines
+
+            [ fileContents; multipartContents ] |> joinLines |> OK
+        )
         |> serve
 
     http {
-        POST (url @"")
+        POST(url @"")
         multipart
         filePart "Resources/uploadFile.txt"
         filePart "Resources/uploadFile2.txt"
@@ -41,36 +41,35 @@ let [<TestCase>] ``POST Multipart form data``() =
     }
     |> Request.send
     |> Response.toText
-    |> should equal (joinLines [
-        "I'm a chicken and I can fly!"
-        "Lemonade was a popular drink, and it still is."
-        "hurz1=das"
-        "hurz2=Lamm"
-        "hurz3=schrie"
-    ])
+    |> should
+        equal
+        (joinLines [
+            "I'm a chicken and I can fly!"
+            "Lemonade was a popular drink, and it still is."
+            "hurz1=das"
+            "hurz2=Lamm"
+            "hurz3=schrie"
+        ])
 
 
-let [<TestCase>] ``Explicitly specified content type part is dominant``() =
-    
+[<TestCase>]
+let ``Explicitly specified content type part is dominant`` () =
+
     let explicitContentType1 = "text/whatever1"
     let explicitContentType2 = "text/whatever2"
 
     use server =
-        POST 
-        >=> request (fun r ->
-            r.files
-            |> List.map (fun f -> f.mimeType)
-            |> String.concat ","
-            |> OK)
+        POST
+        >=> request (fun r -> r.files |> List.map (fun f -> f.mimeType) |> String.concat "," |> OK)
         |> serve
 
     http {
-        POST (url @"")
+        POST(url @"")
         multipart
 
         ContentTypeForPart explicitContentType1
         filePart "Resources/uploadFile.txt"
-        
+
         ContentTypeForPart explicitContentType2
         filePart "Resources/uploadFile2.txt"
     }

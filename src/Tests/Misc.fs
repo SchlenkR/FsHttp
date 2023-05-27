@@ -14,55 +14,55 @@ open Suave.Filters
 open Suave.Successful
 
 
-let [<TestCase>] ``Custom HTTP method``() =
+[<TestCase>]
+let ``Custom HTTP method`` () =
     use server =
-        ``method`` (HttpMethod.parse "FLY")
-        >=> request (fun r -> OK "flying")
-        |> serve
+        ``method`` (HttpMethod.parse "FLY") >=> request (fun r -> OK "flying") |> serve
 
-    http {
-        Method "FLY" (url @"")
-    }
+    http { Method "FLY" (url @"") }
     |> Request.send
     |> Response.toText
     |> should equal "flying"
 
 
-let [<TestCase>] ``Custom Header``() =
+[<TestCase>]
+let ``Custom Header`` () =
     let customHeaderKey = "X-Custom-Value"
 
     use server =
         GET
         >=> request (fun r ->
             r.header customHeaderKey
-            |> function 
-                | Choice1Of2 v -> v 
+            |> function
+                | Choice1Of2 v -> v
                 | Choice2Of2 e -> raise (assertionExn $"Failed {e}")
-            |> OK)
+            |> OK
+        )
         |> serve
 
     http {
-        GET (url @"")
+        GET(url @"")
         header customHeaderKey "hello world"
     }
     |> Request.send
     |> Response.toText
     |> should equal "hello world"
-    
-let [<TestCase>] ``Custom Headers``() =
-    let headersToString  =
+
+[<TestCase>]
+let ``Custom Headers`` () =
+    let headersToString =
         List.sort
         >> List.map (fun (key, value) -> $"{key}={value}".ToLower())
         >> (fun h -> String.Join("&", h))
-    
+
     let headerPrefix = "X-Custom-Value"
-    let customHeaders = [for i in 1..10 -> $"{headerPrefix}{i}", $"{i}"]
+    let customHeaders = [ for i in 1..10 -> $"{headerPrefix}{i}", $"{i}" ]
     let expected = headersToString customHeaders
 
     use server =
         GET
         >=> request (fun r ->
-            r.headers 
+            r.headers
             |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.InvariantCultureIgnoreCase))
             |> headersToString
             |> OK
@@ -70,12 +70,12 @@ let [<TestCase>] ``Custom Headers``() =
         |> serve
 
     http {
-        GET (url @"")
+        GET(url @"")
         headers customHeaders
     }
     |> Request.send
     |> Response.toText
-    |> should equal expected    
+    |> should equal expected
 
 //let [<TestCase>] ``Auto Redirects``() =
 //    http {
@@ -87,14 +87,14 @@ let [<TestCase>] ``Custom Headers``() =
 //    }
 //    |> Response.toText
 //    |> should equal "hello world"
-    
 
 
-// TODO: 
+
+// TODO:
 
 // let [<TestCase>] ``Http reauest message can be modified``() =
 //     use server = GET >=> request (header "accept-language" >> OK) |> serve
-    
+
 //     let lang = "fr"
 //     http {
 //         GET (url @"")
@@ -110,4 +110,3 @@ let [<TestCase>] ``Custom Headers``() =
 // TODO: transformHttpRequestMessage
 // TODO: transformHttpClient
 // TODO: Cookie tests (test the overloads)
-

@@ -79,7 +79,7 @@ let pack = "pack", fun () ->
     )
 
 let format = "format", fun () ->
-    Shell.ExecSuccess ("dotnet", $"fantomas .\src\FsHttp\ .\src\FsHttp.Testing\ .\src\Tests\ --recurse")
+    Shell.ExecSuccess ("dotnet", $"fantomas ./src/FsHttp/ ./src/FsHttp.Testing/ ./src/Tests/")
 
 // TODO: git tag + release
 let publish = "publish", fun () ->

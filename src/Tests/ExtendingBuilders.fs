@@ -20,8 +20,9 @@ type IRequestContext<'self> with
         FsHttp.Dsl.Body.content superBodyContentType (StringContent csvContent) context.Self
 
 
-let [<TestCase>] ``Extending builder with custom content``() =
-    
+[<TestCase>]
+let ``Extending builder with custom content`` () =
+
     let dummyContent = "Hello"
 
     use server =
@@ -31,11 +32,12 @@ let [<TestCase>] ``Extending builder with custom content``() =
                 let header = header "content-type" r
                 let content = contentText r
                 $"{header} - {content}"
-            >> OK)
+            >> OK
+        )
         |> serve
-    
+
     http {
-        POST (url @"")
+        POST(url @"")
         body
         superBody dummyContent
     }

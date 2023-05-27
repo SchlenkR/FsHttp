@@ -10,20 +10,23 @@ open FsHttp.Tests
 
 open NUnit.Framework
 
-let [<TestCase>] ``URL combine``() =
+[<TestCase>]
+let ``URL combine`` () =
     let a = "http://xxx.com"
     let b = "sub"
     let expectedUrl = $"{a}/{b}"
-    
+
     Url.combine $"{a}" $"{b}" |> should equal expectedUrl
     Url.combine $"{a}/" $"{b}" |> should equal expectedUrl
     Url.combine $"{a}" $"/{b}" |> should equal expectedUrl
     Url.combine $"{a}/" $"/{b}" |> should equal expectedUrl
     Url.combine $"{a}/" $"/{b}/" |> should equal expectedUrl
 
-let [<TestCase>] ``Stream ReadUtf8StringAsync``() =
+[<TestCase>]
+let ``Stream ReadUtf8StringAsync`` () =
 
     let text = "a😉b🙁🙂d"
+
     let read len =
         new MemoryStream(Encoding.UTF8.GetBytes(text))
         |> Stream.readUtf8StringAsync len
@@ -43,18 +46,24 @@ let [<TestCase>] ``Stream ReadUtf8StringAsync``() =
 
 let private testUtf8StringBufferingStream limit =
     let text = "abcdefghijklmnop"
-    let bs = new Stream.Utf8StringBufferingStream(
-        new MemoryStream(Encoding.UTF8.GetBytes(text)),
-        limit)
+
+    let bs =
+        new Stream.Utf8StringBufferingStream(new MemoryStream(Encoding.UTF8.GetBytes(text)), limit)
+
     let sr = new StreamReader(bs)
     do sr.ReadToEnd() |> ignore
-    let expectation = match limit with Some limit -> text.Substring(0, limit) | _ -> text
+
+    let expectation =
+        match limit with
+        | Some limit -> text.Substring(0, limit)
+        | _ -> text
+
     bs.GetUtf8String() |> shouldEqual expectation
 
-let [<TestCase>] ``Stream Utf8StringBufferingStream with limit``() =
-    testUtf8StringBufferingStream (Some 2)
+[<TestCase>]
+let ``Stream Utf8StringBufferingStream with limit`` () = testUtf8StringBufferingStream (Some 2)
 
-let [<TestCase>] ``Stream Utf8StringBufferingStream no limit``() =
-    testUtf8StringBufferingStream None
+[<TestCase>]
+let ``Stream Utf8StringBufferingStream no limit`` () = testUtf8StringBufferingStream None
 
 // TODO: Test other helper functions

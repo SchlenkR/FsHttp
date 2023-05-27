@@ -15,6 +15,7 @@ let inline assertionExn (msg: string) =
             "Expecto.AssertException, expecto"
         ]
         |> List.tryPick (System.Type.GetType >> Option.ofObj)
+
     match otype with
     | None -> failwith msg
     | Some t ->
