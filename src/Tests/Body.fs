@@ -13,13 +13,14 @@ open Suave.Filters
 open Suave.Successful
 
 
-let [<TestCase>] ``POST string data``() =
+[<TestCase>]
+let ``POST string data`` () =
     use server = POST >=> request (contentText >> OK) |> serve
 
     let data = "hello world"
 
     http {
-        POST (url @"")
+        POST(url @"")
         body
         text data
     }
@@ -28,16 +29,14 @@ let [<TestCase>] ``POST string data``() =
     |> should equal data
 
 
-let [<TestCase>] ``POST binary data``() =
-    use server =
-        POST 
-        >=> request (fun r -> r.rawForm |> Suave.Successful.ok)
-        |> serve
+[<TestCase>]
+let ``POST binary data`` () =
+    use server = POST >=> request (fun r -> r.rawForm |> Suave.Successful.ok) |> serve
 
     let data = [| 12uy; 22uy; 99uy |]
 
     http {
-        POST (url @"")
+        POST(url @"")
         body
         binary data
     }
@@ -46,35 +45,29 @@ let [<TestCase>] ``POST binary data``() =
     |> should equal data
 
 
-let [<TestCase>] ``POST Form url encoded data``() =
+[<TestCase>]
+let ``POST Form url encoded data`` () =
     use server =
-        POST 
-        >=> request (fun r -> (form "q1" r) + "_" + (form "q2" r) |> OK) 
-        |> serve
+        POST >=> request (fun r -> (form "q1" r) + "_" + (form "q2" r) |> OK) |> serve
 
     http {
-        POST (url @"")
+        POST(url @"")
         body
-        formUrlEncoded [
-            "q1","Query1"
-            "q2","Query2"
-        ]
+        formUrlEncoded [ "q1", "Query1"; "q2", "Query2" ]
     }
     |> Request.send
     |> Response.toText
     |> should equal ("Query1_Query2")
 
 
-let [<TestCase>] ``Specify content type explicitly``() =
-    use server =
-        POST
-        >=> request (header "content-type" >> OK)
-        |> serve
+[<TestCase>]
+let ``Specify content type explicitly`` () =
+    use server = POST >=> request (header "content-type" >> OK) |> serve
 
     let contentType = "text/whatever"
-    
+
     http {
-        POST (url @"")
+        POST(url @"")
         body
         ContentType contentType
     }
@@ -83,11 +76,12 @@ let [<TestCase>] ``Specify content type explicitly``() =
     |> should equal contentType
 
 
-let [<TestCase>] ``Default content type for JSON is specified correctly``() =
+[<TestCase>]
+let ``Default content type for JSON is specified correctly`` () =
     use server = POST >=> request (header "content-type" >> OK) |> serve
 
     http {
-        POST (url @"")
+        POST(url @"")
         body
         json " [] "
     }
@@ -96,13 +90,14 @@ let [<TestCase>] ``Default content type for JSON is specified correctly``() =
     |> should equal MimeTypes.applicationJson
 
 
-let [<TestCase>] ``Explicitly specified content type is dominant``() =
+[<TestCase>]
+let ``Explicitly specified content type is dominant`` () =
     use server = POST >=> request (header "content-type" >> OK) |> serve
 
     let explicitContentType = "text/whatever"
 
     http {
-        POST (url @"")
+        POST(url @"")
         body
         ContentType explicitContentType
         json " [] "
@@ -112,12 +107,14 @@ let [<TestCase>] ``Explicitly specified content type is dominant``() =
     |> should equal explicitContentType
 
 
-let [<TestCase>] ``Content length automatically set``() =
+[<TestCase>]
+let ``Content length automatically set`` () =
     use server = POST >=> request (header "content-length" >> OK) |> serve
 
     let contentData = " [] "
+
     http {
-        POST (url @"")
+        POST(url @"")
         body
         json contentData
     }
@@ -127,4 +124,3 @@ let [<TestCase>] ``Content length automatically set``() =
 
 // TODO: Post single file
 // TODO: POST stream
-

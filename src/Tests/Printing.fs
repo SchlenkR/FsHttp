@@ -11,18 +11,20 @@ open Suave.Operators
 open Suave.Filters
 open Suave.Successful
 
-let [<TestCase>] ``Print Config on Request``() =
+[<TestCase>]
+let ``Print Config on Request`` () =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
     let resonseLines =
         http {
-            GET (url @"?test=Hallo")
+            GET(url @"?test=Hallo")
             print_withResponseBodyLength 3
         }
         |> Request.send
         |> Response.print
         |> String.replace "\r" ""
         |> String.split '\n'
+
     printfn "%A" resonseLines
 
     resonseLines

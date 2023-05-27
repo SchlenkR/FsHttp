@@ -13,53 +13,53 @@ let internal contentIndicator = "===content==="
 
 let private printHeaderCollection (headers: KeyValuePair<string, string seq> seq) =
     let sb = StringBuilder()
+
     let maxHeaderKeyLength =
         let lengths = headers |> Seq.map (fun h -> h.Key.Length) |> Seq.toList
+
         match lengths with
         | [] -> 0
         | list -> list |> Seq.max
+
     for h in headers do
         let values = String.Join(", ", h.Value)
         do sb.appendLine (sprintf "%-*s: %s" (maxHeaderKeyLength + 3) h.Key values)
+
     sb.ToString()
 
 let private doPrintRequestOnly (httpVersion: string) (request: Request) (requestMessage: HttpRequestMessage) =
     let sb = StringBuilder()
     let requestPrintHint = request.config.printHint.requestPrintMode
-    
+
     do sb.appendSection "REQUEST"
     do sb.appendLine $"{request.header.method} {request.header.url.ToUriString()} HTTP/{httpVersion}"
 
     let printRequestHeaders () =
-        let contentHeaders,multipartHeaders =
+        let contentHeaders, multipartHeaders =
             if not (isNull requestMessage.Content) then
                 let a = requestMessage.Content.Headers |> Seq.toList
+
                 let b =
                     match requestMessage.Content with
                     | :? MultipartFormDataContent as m ->
                         // TODO: After having the request invoked, the dotnet multiparts
                         // have no headers anymore...
-                        m
-                        |> Seq.collect (fun part -> part.Headers)
-                        |> Seq.toList
+                        m |> Seq.collect (fun part -> part.Headers) |> Seq.toList
                     | _ -> []
-                a,b
+
+                a, b
             else
-                [],[]
-        sb.append <|
-            printHeaderCollection (
-                (requestMessage.Headers |> Seq.toList)
-                @ contentHeaders
-                @ multipartHeaders)
+                [], []
+
+        sb.append
+        <| printHeaderCollection ((requestMessage.Headers |> Seq.toList) @ contentHeaders @ multipartHeaders)
 
     let printRequestBody () =
         let formatContentData contentData =
             match contentData with
             | StringContent s -> s
-            | ByteArrayContent bytes ->
-                sprintf "::ByteArray (length = %d)" bytes.Length
-            | StreamContent stream ->
-                sprintf "::Stream (length = %s)" (if stream.CanSeek then stream.Length.ToString() else "?")
+            | ByteArrayContent bytes -> sprintf "::ByteArray (length = %d)" bytes.Length
+            | StreamContent stream -> sprintf "::Stream (length = %s)" (if stream.CanSeek then stream.Length.ToString() else "?")
             | FormUrlEncodedContent formDataList ->
                 [
                     yield "::FormUrlEncoded"
@@ -67,42 +67,49 @@ let private doPrintRequestOnly (httpVersion: string) (request: Request) (request
                         yield sprintf "    %s = %s" kvp.Key kvp.Value
                 ]
                 |> String.concat "\n"
-            | FileContent fileName ->
-                sprintf "::File (name = %s)" fileName
+            | FileContent fileName -> sprintf "::File (name = %s)" fileName
 
         let multipartIndicator =
-            match request.content with 
+            match request.content with
             | Multi _ -> " :: Multipart"
             | _ -> ""
+
         sb.appendLine (contentIndicator + multipartIndicator)
-        sb.appendLine <|
-            match request.content with
-            | Empty -> ""
-            | Single bodyContent -> formatContentData bodyContent.contentData
-            | Multi multipartContent ->
-                [
-                    for contentData in multipartContent.contentData do
-                        yield $"-------- {contentData.name}"
-                        yield "Part content type: " + (match contentData.contentType with | Some v -> v | _ -> "")
-                        yield formatContentData contentData.content
-                ]
-                |> String.concat "\n"
-    
+
+        sb.appendLine
+        <| match request.content with
+           | Empty -> ""
+           | Single bodyContent -> formatContentData bodyContent.contentData
+           | Multi multipartContent ->
+               [
+                   for contentData in multipartContent.contentData do
+                       yield $"-------- {contentData.name}"
+
+                       yield
+                           "Part content type: "
+                           + (
+                               match contentData.contentType with
+                               | Some v -> v
+                               | _ -> ""
+                           )
+
+                       yield formatContentData contentData.content
+               ]
+               |> String.concat "\n"
+
     // TODO: bodyConfig
     match requestPrintHint with
-    | AsObject ->
-        sb.appendLine (sprintf "%A" request)
-    | HeadersOnly ->
-        printRequestHeaders()
+    | AsObject -> sb.appendLine (sprintf "%A" request)
+    | HeadersOnly -> printRequestHeaders ()
     | HeadersAndBody bodyConfig ->
-        printRequestHeaders()
-        printRequestBody()
-    
-    sb.newLine()
+        printRequestHeaders ()
+        printRequestBody ()
+
+    sb.newLine ()
     sb.ToString()
 
 let private printRequestOnly (request: IToRequest) =
-    let request,requestMessage = request |> Request.toRequestAndMessage
+    let request, requestMessage = request |> Request.toRequestAndMessage
     doPrintRequestOnly "?" request requestMessage
 
 let private printResponseOnly (response: Response) =
@@ -113,7 +120,9 @@ let private printResponseOnly (response: Response) =
 
     //if r.request.config.printHint.responsePrintMode.printHeader then
     let printResponseHeaders () =
-        let allHeaders = (response.headers |> Seq.toList) @ (response.content.Headers |> Seq.toList)
+        let allHeaders =
+            (response.headers |> Seq.toList) @ (response.content.Headers |> Seq.toList)
+
         sb.appendLine (printHeaderCollection allHeaders)
 
     //if r.request.config.printHint.responsePrintMode.printContent.isEnabled then
@@ -121,26 +130,28 @@ let private printResponseOnly (response: Response) =
         let trimmedContentText =
             try
                 let contentText =
-                    if format then Response.toFormattedText response
-                    else Response.toText response
+                    if format then
+                        Response.toFormattedText response
+                    else
+                        Response.toText response
+
                 match maxLength with
-                | Some maxLength when contentText.Length > maxLength ->
-                    (contentText.Substring (0,maxLength)) + $"{Environment.NewLine}..."
+                | Some maxLength when contentText.Length > maxLength -> (contentText.Substring(0, maxLength)) + $"{Environment.NewLine}..."
                 | _ -> contentText
-            with ex -> sprintf "ERROR reading response content: %s" (ex.ToString())
+            with ex ->
+                sprintf "ERROR reading response content: %s" (ex.ToString())
+
         sb.appendLine contentIndicator
         sb.append trimmedContentText
-        
+
     match response.request.config.printHint.responsePrintMode with
-    | AsObject ->
-        sb.appendLine (sprintf "%A" response)
-    | HeadersOnly ->
-        printResponseHeaders()
+    | AsObject -> sb.appendLine (sprintf "%A" response)
+    | HeadersOnly -> printResponseHeaders ()
     | HeadersAndBody bodyConfig ->
-        printResponseHeaders()
+        printResponseHeaders ()
         printResponseBody bodyConfig.format bodyConfig.maxLength
-        
-    sb.newLine()
+
+    sb.newLine ()
     sb.ToString()
 
 let private printRequestAndResponse (response: Response) =

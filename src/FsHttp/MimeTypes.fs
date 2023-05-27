@@ -994,9 +994,9 @@ let extToMimeType =
     |]
     |> Array.toList
 
-let guessMimeTypeFromPath (path : string) defaultValue =
+let guessMimeTypeFromPath (path: string) defaultValue =
     extToMimeType
-    |> List.tryFind (fun (ext,_) -> "." + ext = Path.GetExtension path)
+    |> List.tryFind (fun (ext, _) -> "." + ext = Path.GetExtension path)
     |> function
         | None -> defaultValue
-        | Some (_,value) -> value
+        | Some(_, value) -> value

@@ -17,7 +17,8 @@ open Suave.Response
 open Suave.Writers
 
 
-let [<TestCase>] ``Proxy usage works`` () =
+[<TestCase>]
+let ``Proxy usage works`` () =
     use server = GET >=> OK "proxified" |> serve
 
     http {
@@ -28,17 +29,21 @@ let [<TestCase>] ``Proxy usage works`` () =
     |> Response.toText
     |> should equal "proxified"
 
-let [<TestCase>] ``Proxy usage with credentials works`` () =
+[<TestCase>]
+let ``Proxy usage with credentials works`` () =
     use server =
-        GET >=> request (fun r ->
+        GET
+        >=> request (fun r ->
             printfn "Headers: %A" r.headers
-            
+
             match r.header "Proxy-Authorization" with
             | Choice1Of2 cred -> cred |> OK
             | _ ->
                 response HTTP_407 (Text.Encoding.UTF8.GetBytes "No credentials")
-                >=> setHeader "Proxy-Authenticate" "Basic")
+                >=> setHeader "Proxy-Authenticate" "Basic"
+        )
         |> serve
+
     let credentials = NetworkCredential("test", "password")
 
     http {
@@ -47,5 +52,7 @@ let [<TestCase>] ``Proxy usage with credentials works`` () =
     }
     |> Request.send
     |> Response.toText
-    |> should equal ("Basic " + ("test:password" |> Text.Encoding.UTF8.GetBytes |> Convert.ToBase64String))
-
+    |> should
+        equal
+        ("Basic "
+         + ("test:password" |> Text.Encoding.UTF8.GetBytes |> Convert.ToBase64String))

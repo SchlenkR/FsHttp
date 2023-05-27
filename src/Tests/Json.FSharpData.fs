@@ -7,19 +7,13 @@ open FsUnit
 open NUnit.Framework
 
 
-let [<TestCase>] ``To JSON``() =
-    
+[<TestCase>]
+let ``To JSON`` () =
+
     let referenceJson = """ { "a": "aValue", "b": 12 } """
-    let expectedJson  = """ { "a": "aValue" } """
+    let expectedJson = """ { "a": "aValue" } """
 
-    referenceJson
-    |> JsonValue.Parse
-    |> Json.expectJsonSubset expectedJson
-    |> ignore
+    referenceJson |> JsonValue.Parse |> Json.expectJsonSubset expectedJson |> ignore
 
-    (fun () -> 
-        referenceJson
-        |> JsonValue.Parse
-        |> Json.expectJsonExact expectedJson
-        |> ignore)
+    (fun () -> referenceJson |> JsonValue.Parse |> Json.expectJsonExact expectedJson |> ignore)
     |> should throw typeof<Exception>

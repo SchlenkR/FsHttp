@@ -43,13 +43,13 @@ let ``General configuration is possible on all builder contextx`` () =
         GET "http://myService.com"
     }
     |> ignore
-   
+
     http {
         GET "http://myService.com"
         config_timeoutInSeconds 1.0
     }
     |> ignore
-   
+
     http {
         GET "http://myService.com"
         body
@@ -57,8 +57,8 @@ let ``General configuration is possible on all builder contextx`` () =
         config_timeoutInSeconds 1.0
     }
     |> ignore
-   
-   
+
+
     http {
         GET "http://myService.com"
         multipart
@@ -66,20 +66,20 @@ let ``General configuration is possible on all builder contextx`` () =
         config_timeoutInSeconds 1.0
     }
     |> ignore
-   
+
 let ``Print configuration is possible on all builder contextx`` () =
     http {
         print_headerOnly
         GET "http://myService.com"
     }
     |> ignore
-   
+
     http {
         GET "http://myService.com"
         print_headerOnly
     }
     |> ignore
-   
+
     http {
         GET "http://myService.com"
         body
@@ -87,7 +87,7 @@ let ``Print configuration is possible on all builder contextx`` () =
         print_headerOnly
     }
     |> ignore
-   
+
     http {
         GET "http://myService.com"
         multipart
@@ -96,13 +96,15 @@ let ``Print configuration is possible on all builder contextx`` () =
     }
     |> ignore
 
-let [<TestCase>] ``Config of StartingContext is taken`` () =
+[<TestCase>]
+let ``Config of StartingContext is taken`` () =
     let timeout = TimeSpan.FromSeconds 22.2
 
-    let req = http {
-        config_timeout timeout
-        GET "http://myservice"
-    }
+    let req =
+        http {
+            config_timeout timeout
+            GET "http://myservice"
+        }
 
     GlobalConfig.defaults.Config.timeout |> should not' (equal (Some timeout))
     req.config.timeout |> should equal (Some timeout)

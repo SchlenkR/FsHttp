@@ -17,7 +17,8 @@ open Suave.Filters
 open Suave.Successful
 
 
-let [<TestCase>] ``Synchronous calls are invoked immediately``() =
+[<TestCase>]
+let ``Synchronous calls are invoked immediately`` () =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
     get (url @"?test=Hallo")
@@ -26,7 +27,8 @@ let [<TestCase>] ``Synchronous calls are invoked immediately``() =
     |> should equal "test=Hallo"
 
 
-let [<TestCase>] ``Asynchronous calls are sent immediately``() =
+[<TestCase>]
+let ``Asynchronous calls are sent immediately`` () =
 
     let mutable time = DateTime.MaxValue
 
@@ -34,80 +36,88 @@ let [<TestCase>] ``Asynchronous calls are sent immediately``() =
         GET
         >=> request (fun r ->
             time <- DateTime.Now
-            r.rawQuery |> OK)
+            r.rawQuery |> OK
+        )
         |> serve
 
-    let req =
-        get (url "?test=Hallo")
-        |> Request.sendAsync
-    
+    let req = get (url "?test=Hallo") |> Request.sendAsync
+
     Thread.Sleep 3000
 
-    req
-    |> Async.RunSynchronously
-    |> Response.toText
-    |> should equal "test=Hallo"
+    req |> Async.RunSynchronously |> Response.toText |> should equal "test=Hallo"
 
     (DateTime.Now - time > TimeSpan.FromSeconds 2.0) |> should equal true
 
 
-let [<TestCase>] ``Split URL are interpreted correctly``() =
+[<TestCase>]
+let ``Split URL are interpreted correctly`` () =
     use server = GET >=> request (fun r -> r.rawQuery |> OK) |> serve
 
-    http { GET (url @"
+    http {
+        GET(
+            url
+                @"
                     ?test=Hallo
-                    &test2=Welt")
+                    &test2=Welt"
+        )
     }
     |> Request.send
     |> Response.toText
     |> should equal "test=Hallo&test2=Welt"
 
 
-let [<TestCase>] ``Smoke test for a header``() =
+[<TestCase>]
+let ``Smoke test for a header`` () =
     use server = GET >=> request (header "accept-language" >> OK) |> serve
 
     let lang = "zh-Hans"
-    
+
     http {
-        GET (url @"")
+        GET(url @"")
         AcceptLanguage lang
     }
     |> Request.send
     |> Response.toText
     |> should equal lang
 
-let [<TestCase>] ``Smoke test for headers``() =
-    let headersToString  =
+[<TestCase>]
+let ``Smoke test for headers`` () =
+    let headersToString =
         List.sort
         >> List.map (fun (key, value) -> $"{key}={value}".ToLower())
         >> (fun h -> String.Join("&", h))
-    
+
     let headerPrefix = "X-Custom-Value"
-    let customHeaders = [for i in 1..10 -> $"{headerPrefix}{i}", $"{i}"]
+    let customHeaders = [ for i in 1..10 -> $"{headerPrefix}{i}", $"{i}" ]
     let expected = headersToString customHeaders
+
     use server =
         GET
         >=> request (fun r ->
-            let headers = r.headers |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.InvariantCultureIgnoreCase))
-            headersToString headers
-            |> OK)
+            let headers =
+                r.headers
+                |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.InvariantCultureIgnoreCase))
+
+            headersToString headers |> OK
+        )
         |> serve
 
     http {
-        GET (url @"")
+        GET(url @"")
         headers customHeaders
     }
     |> Request.send
     |> Response.toText
     |> should equal expected
 
-let [<TestCase>] ``ContentType override``() =
+[<TestCase>]
+let ``ContentType override`` () =
     use server = POST >=> request (header "content-type" >> OK) |> serve
 
     let contentType = "text/xxx"
 
     http {
-        POST (url @"")
+        POST(url @"")
         body
         ContentType contentType
         text "hello world"
@@ -117,14 +127,15 @@ let [<TestCase>] ``ContentType override``() =
     |> should contain contentType
 
 
-let [<TestCase>] ``ContentType with encoding``() =
+[<TestCase>]
+let ``ContentType with encoding`` () =
     use server = POST >=> request (header "content-type" >> OK) |> serve
 
     let contentType = "text/xxx"
     let expectedContentTypeHeader = $"{contentType}; charset=utf-8"
 
     http {
-        POST (url @"")
+        POST(url @"")
         body
         ContentTypeWithEncoding contentType Encoding.UTF8
         text "hello world"
@@ -132,4 +143,3 @@ let [<TestCase>] ``ContentType with encoding``() =
     |> Request.send
     |> Response.toText
     |> should contain expectedContentTypeHeader
-

@@ -14,17 +14,24 @@ open Suave.Operators
 open Suave.Filters
 open Suave.Successful
 
-type Person = { name: string; age: int }
+type Person = {
+    name: string
+    age: int
+}
 
 let returnBody () = POST >=> request (contentText >> OK) |> serve
 
-let [<TestCase>] ``Serialize / Deserialize JSON object``() =
-    use server = returnBody()
+[<TestCase>]
+let ``Serialize / Deserialize JSON object`` () =
+    use server = returnBody ()
 
-    let person = { name = "John Doe"; age = 34 }
+    let person = {
+        name = "John Doe"
+        age = 34
+    }
 
     http {
-        POST (url "")
+        POST(url "")
         body
         jsonSerialize person
     }
@@ -32,10 +39,12 @@ let [<TestCase>] ``Serialize / Deserialize JSON object``() =
     |> Response.deserializeJson<Person>
     |> shouldEqual person
 
-let [<TestCase>] ``To JSON and dynamic operator``() =
-    use server = returnBody()
+[<TestCase>]
+let ``To JSON and dynamic operator`` () =
+    use server = returnBody ()
 
-    let jsonString = """
+    let jsonString =
+        """
     {
         "name": "John Doe",
         "age": 34
@@ -44,19 +53,22 @@ let [<TestCase>] ``To JSON and dynamic operator``() =
 
     let json =
         http {
-            POST (url "")
+            POST(url "")
             body
             json jsonString
         }
         |> Request.send
         |> Response.toJson
+
     json?name.ToObject<string>() |> should equal "John Doe"
     json?age.ToObject<int>() |> should equal 34
 
-let [<TestCase>] ``To JSON array``() =
-    use server = returnBody()
+[<TestCase>]
+let ``To JSON array`` () =
+    use server = returnBody ()
 
-    let jsonString = """
+    let jsonString =
+        """
     [
         {
             "name": "John Doe",
@@ -70,7 +82,7 @@ let [<TestCase>] ``To JSON array``() =
     """
 
     http {
-        POST (url "")
+        POST(url "")
         body
         json jsonString
     }
@@ -80,19 +92,25 @@ let [<TestCase>] ``To JSON array``() =
     |> Seq.toList
     |> shouldEqual [ "John Doe"; "Foo Bar" ]
 
-let [<TestCase>] ``Unicode chars``() =
-    use server = returnBody()
+[<TestCase>]
+let ``Unicode chars`` () =
+    use server = returnBody ()
 
     let name = "John+Doe"
 
     http {
-        POST (url "")
+        POST(url "")
         body
-        json (sprintf """
+
+        json (
+            sprintf
+                """
             {
                 "name": "%s"
             }
-        """ name)
+        """
+                name
+        )
     }
     |> Request.send
     |> Response.toJson

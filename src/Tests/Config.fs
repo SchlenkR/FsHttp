@@ -25,13 +25,11 @@ let timeoutEquals (config: Config) totalSeconds =
     |> Option.map (fun x -> x.TotalSeconds)
     |> should equal (Some totalSeconds)
 
-let [<TestCase>] ``Global config snapshot is used in moment of request creation`` () =
+[<TestCase>]
+let ``Global config snapshot is used in moment of request creation`` () =
 
-    let setTimeout t =
-        GlobalConfig.defaults
-        |> Config.timeoutInSeconds t
-        |> GlobalConfig.set
-    
+    let setTimeout t = GlobalConfig.defaults |> Config.timeoutInSeconds t |> GlobalConfig.set
+
     let t1 = 11.5
     let t2 = 22.5
 
@@ -40,84 +38,76 @@ let [<TestCase>] ``Global config snapshot is used in moment of request creation`
 
     setTimeout t1
 
-    let r1 = http {
-        GET (url @"")
-    }
+    let r1 = http { GET(url @"") }
 
     setTimeout t2
 
     // still t1
     do timeoutEquals r1.config t1
-    
-    let r2 = http {
-        GET (url @"")
-    }
+
+    let r2 = http { GET(url @"") }
 
     do timeoutEquals r2.config t2
 
 let private serverWithRequestDuration requestTime =
     GET
     >=> request (fun r ->
-        Thread.Sleep (TimeSpan.FromSeconds requestTime)
-        "" |> OK)
+        Thread.Sleep(TimeSpan.FromSeconds requestTime)
+        "" |> OK
+    )
     |> serve
 
 
 let sendRequestWithTimeout timeout =
     fun () ->
         let req = get (url "")
+
         let req =
             match timeout with
-            | Some timeout -> 
-                req {
-                    config_timeoutInSeconds timeout
-                }
+            | Some timeout -> req { config_timeoutInSeconds timeout }
             | None -> req
+
         req {
-            config_transformHttpClient (fun (client : HttpClient) ->
+            config_transformHttpClient (fun (client: HttpClient) ->
                 printfn "TIMEOUT: %A" client.Timeout
-                client)
+                client
+            )
         }
         |> Request.send
         |> ignore
 
 
-let [<TestCase>] ``Timeout config per request - success expected``() =
+[<TestCase>]
+let ``Timeout config per request - success expected`` () =
     use server = serverWithRequestDuration 1.0
 
-    (sendRequestWithTimeout (Some 20.0))()
+    (sendRequestWithTimeout (Some 20.0)) ()
 
 
-let [<TestCase>] ``Timeout config per request - timeout expected``() =
+[<TestCase>]
+let ``Timeout config per request - timeout expected`` () =
     use server = serverWithRequestDuration 10.0
 
-    sendRequestWithTimeout (Some 1.0)
-    |> should throw typeof<TaskCanceledException>
+    sendRequestWithTimeout (Some 1.0) |> should throw typeof<TaskCanceledException>
 
 
-let [<TestCase>] ``Timeout config global - success expected``() =
+[<TestCase>]
+let ``Timeout config global - success expected`` () =
     use server = serverWithRequestDuration 1.0
 
-    GlobalConfig.defaults
-    |> Config.timeoutInSeconds 20.0
-    |> GlobalConfig.set
+    GlobalConfig.defaults |> Config.timeoutInSeconds 20.0 |> GlobalConfig.set
 
-    (sendRequestWithTimeout None)()
+    (sendRequestWithTimeout None) ()
 
 
-let [<TestCase>] ``Timeout config global - timeout expected``() =
+[<TestCase>]
+let ``Timeout config global - timeout expected`` () =
     use server = serverWithRequestDuration 10.0
 
-    GlobalConfig.defaults
-    |> Config.timeoutInSeconds 20.0
-    |> GlobalConfig.set
+    GlobalConfig.defaults |> Config.timeoutInSeconds 20.0 |> GlobalConfig.set
 
-    (sendRequestWithTimeout None)()
+    (sendRequestWithTimeout None) ()
 
-    GlobalConfig.defaults
-    |> Config.timeoutInSeconds 1.0
-    |> GlobalConfig.set
+    GlobalConfig.defaults |> Config.timeoutInSeconds 1.0 |> GlobalConfig.set
 
-    sendRequestWithTimeout None
-    |> should throw typeof<TaskCanceledException>
-    
+    sendRequestWithTimeout None |> should throw typeof<TaskCanceledException>
