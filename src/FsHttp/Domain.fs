@@ -62,7 +62,7 @@ type PrintHintTransformer = PrintHint -> PrintHint
 
 type FsHttpUrl = {
     address: string
-    additionalQueryParams: Map<string, obj>
+    additionalQueryParams: List<string * obj>
 }
 
 type Header = {
