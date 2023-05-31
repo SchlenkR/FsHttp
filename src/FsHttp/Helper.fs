@@ -222,7 +222,7 @@ module FsHttpUrlExtensions =
 
             let queryParamsString =
                 this.additionalQueryParams
-                |> Seq.map (fun kvp -> $"""{kvp.Key}={Uri.EscapeDataString $"{kvp.Value}"}""")
+                |> Seq.map (fun (k, v) -> $"""{k}={Uri.EscapeDataString $"{v}"}""")
                 |> String.concat "&"
 
             uri.Query <-
