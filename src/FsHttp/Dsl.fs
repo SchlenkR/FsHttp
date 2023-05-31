@@ -32,7 +32,7 @@ module Http =
             header = {
                 url = {
                     address = formattedUrl
-                    additionalQueryParams = Map.empty
+                    additionalQueryParams = []
                 }
                 method = HttpMethod(method)
                 headers = Map.empty
@@ -80,9 +80,8 @@ module Header =
     /// Adds a set of query parameters to the URL
     let query (queryParams: (string * obj) list) (context: HeaderContext) = {
         context with
-            header = { context.header with url = { context.header.url with additionalQueryParams = queryParams |> Map.ofList } }
+            header = { context.header with url = { context.header.url with additionalQueryParams = queryParams } }
     }
-
 
     /// Content-Types that are acceptable for the response
     let accept (contentType: string) (context: HeaderContext) = header "Accept" contentType context

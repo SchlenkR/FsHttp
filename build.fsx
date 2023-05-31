@@ -64,12 +64,15 @@ let clean = "clean", fun () ->
     |> Shell.cleanDirs 
 
 let slnPath = "./src/FsHttp.sln"
-
 let build = "build", fun () ->
     Shell.ExecSuccess ("dotnet", $"build {slnPath}")
 
+
+let CsTestProjectPath = "./src/Test.CSharp/Test.CSharp.csproj"
+let FsharpTestProjectPath = "./src/Tests/Tests.fsproj"
 let test = "test", fun () ->
-    Shell.ExecSuccess ("dotnet", $"test {slnPath}")
+    Shell.ExecSuccess ("dotnet", $"test {FsharpTestProjectPath}")
+    Shell.ExecSuccess ("dotnet", $"test {CsTestProjectPath}")
 
 let pack = "pack", fun () ->
     !! "src/**/FsHttp*.fsproj"
