@@ -72,6 +72,7 @@
 
       v11.0.0
       - #121: Turning off debug logs in FSI (breaking change in signature / namespace)
+      - #124: Support Repeating Query Parameters (thanks @DaveJohnson8080)
     </PackageReleaseNotes>
   </PropertyGroup>
 
