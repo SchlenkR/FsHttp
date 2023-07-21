@@ -76,10 +76,18 @@ type Header = {
 
 type ContentData =
     | StringContent of string
-    | ByteArrayContent of byte array
+    | ByteArrayContent of
+        {|
+            data: byte array
+            fileName: string option
+        |}
     | StreamContent of System.IO.Stream
     | FormUrlEncodedContent of Map<string, string>
-    | FileContent of string
+    | FileContent of
+        {|
+            path: string
+            fileName: string option
+        |}
 
 type BodyContent = {
     contentData: ContentData
@@ -91,7 +99,7 @@ type MultipartContent = {
     contentData:
         {|
             name: string
-            fileName: string option
+
             contentType: string option
             content: ContentData
         |} list
@@ -158,7 +166,11 @@ and HeaderContext = {
         member this.Transform() = {
             header = this.header
             content = {
-                BodyContent.contentData = ByteArrayContent [||]
+                BodyContent.contentData =
+                    ByteArrayContent {|
+                        data = [||]
+                        fileName = None
+                    |}
                 headers = Map.empty
                 contentType = None
             }

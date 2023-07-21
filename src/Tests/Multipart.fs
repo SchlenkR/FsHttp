@@ -53,6 +53,42 @@ let ``POST Multipart form data`` () =
 
 
 [<TestCase>]
+let ``POST Multipart bytearray with optional filename`` () =
+    let fileName1 = "fileName1"
+    let fileName2 = "fileName2"
+    let fileName3 = "fileName3"
+
+    use server =
+        POST
+        >=> request (fun r ->
+            let fileNames = r.files |> List.map (fun f -> f.fileName) |> joinLines
+
+            fileNames |> OK
+        )
+        |> serve
+
+    http {
+        POST(url @"")
+        multipart
+
+        ContentTypeForPart "application/json"
+        byteArrayPart "theFieldName" [| byte 0xff |] fileName1
+
+        ContentTypeForPart "application/json"
+        byteArrayPart "theFieldName" [| byte 0xff |] fileName2
+
+        ContentTypeForPart "application/json"
+        byteArrayPart "theFieldName" [| byte 0xff |] fileName3
+
+        ContentTypeForPart "application/json"
+        byteArrayPart "theFieldName" [| byte 0xff |]
+    }
+    |> Request.send
+    |> Response.toText
+    |> should equal (joinLines [ fileName1; fileName2; fileName3 ])
+
+
+[<TestCase>]
 let ``Explicitly specified content type part is dominant`` () =
 
     let explicitContentType1 = "text/whatever1"

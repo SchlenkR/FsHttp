@@ -58,7 +58,7 @@ let private doPrintRequestOnly (httpVersion: string) (request: Request) (request
         let formatContentData contentData =
             match contentData with
             | StringContent s -> s
-            | ByteArrayContent bytes -> sprintf "::ByteArray (length = %d)" bytes.Length
+            | ByteArrayContent baContent -> sprintf "::ByteArray (length = %d)" baContent.data.Length
             | StreamContent stream -> sprintf "::Stream (length = %s)" (if stream.CanSeek then stream.Length.ToString() else "?")
             | FormUrlEncodedContent formDataList ->
                 [
@@ -67,7 +67,7 @@ let private doPrintRequestOnly (httpVersion: string) (request: Request) (request
                         yield sprintf "    %s = %s" kvp.Key kvp.Value
                 ]
                 |> String.concat "\n"
-            | FileContent fileName -> sprintf "::File (name = %s)" fileName
+            | FileContent fsContent -> sprintf "::File (path = %s)" fsContent.path
 
         let multipartIndicator =
             match request.content with

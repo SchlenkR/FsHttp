@@ -15,7 +15,7 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
     let header = request.header
     let requestMessage = new HttpRequestMessage(header.method, header.url.ToUriString())
 
-    let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option)  (fileName: string option) =
+    let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
 
         let addDispoHeader (content: HttpContent) (name: string option) (fileName: string option) =
             let contentDispoHeaderValue = ContentDispositionHeaderValue("form-data")
@@ -36,22 +36,23 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
             | StringContent s ->
                 // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header.
                 new StringContent(s) :> HttpContent
-            | ByteArrayContent data ->
-                let content = new ByteArrayContent(data) :> HttpContent
+            | ByteArrayContent baContent ->
+                let content = new ByteArrayContent(baContent.data) :> HttpContent
+
                 match request.content with
-                | Multi _ -> addDispoHeader content name fileName
+                | Multi _ -> addDispoHeader content name baContent.fileName
                 | _ -> ()
+
                 content
 
             | StreamContent s -> new StreamContent(s) :> HttpContent
             | FormUrlEncodedContent data -> new FormUrlEncodedContent(data) :> HttpContent
-            | FileContent path ->
+            | FileContent c ->
                 let content =
-                    let fs = System.IO.File.OpenRead path
+                    let fs = System.IO.File.OpenRead c.path
                     new StreamContent(fs)
 
-                let path =
-                    fileName |> Option.defaultValue path
+                let path = c.fileName |> Option.defaultValue c.path
                 let path = System.IO.Path.GetFileNameWithoutExtension path
                 addDispoHeader content name (Some path)
                 content
@@ -70,7 +71,7 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
         | Empty -> null
         | Single bodyContent ->
             let dotnetBodyContent =
-                buildDotnetContent bodyContent.contentData bodyContent.contentType None None
+                buildDotnetContent bodyContent.contentData bodyContent.contentType None
 
             do assignContentHeaders dotnetBodyContent.Headers bodyContent.headers
             dotnetBodyContent
@@ -82,7 +83,7 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
                     let dotnetPart = new MultipartFormDataContent()
 
                     for x in contentPart do
-                        let dotnetContent = buildDotnetContent x.content x.contentType (Some x.name) x.fileName
+                        let dotnetContent = buildDotnetContent x.content x.contentType (Some x.name)
                         dotnetPart.Add(dotnetContent, x.name)
 
                     dotnetPart :> HttpContent
