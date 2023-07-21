@@ -308,7 +308,13 @@ module Body =
 
 module Multipart =
 
-    let part (content: ContentData) (defaultContentType: string option) (name: string) (context: IToMultipartContext) =
+    let part
+        (content: ContentData)
+        (defaultContentType: string option)
+        (name: string)
+        (fileName: string option)
+        (context: IToMultipartContext)
+        =
         let context = context.Transform()
 
         let contentType =
@@ -318,6 +324,7 @@ module Multipart =
 
         let newContentData = {|
             name = name
+            fileName = fileName
             contentType = contentType
             content = content
         |}
@@ -333,18 +340,24 @@ module Multipart =
     // PARTS
     // -----
 
-    let stringPart name (value: string) (context: IToMultipartContext) = part (StringContent value) None name context
+    let stringPart name (fileName: string option) (value: string) (context: IToMultipartContext) =
+        part (StringContent value) None name fileName context
 
-    let filePartWithName name (path: string) (context: IToMultipartContext) =
+    let filePart (name: string option) (fileName: string option) (path: string) (context: IToMultipartContext) =
+        let fileNameWithFallback =
+            fileName
+            |> Option.defaultWith (fun () -> System.IO.Path.GetFileNameWithoutExtension path)
+
+        let nameWithFallback = name |> Option.defaultValue fileNameWithFallback
+
         let contentType = MimeTypes.guessMimeTypeFromPath path MimeTypes.defaultMimeType
-        part (FileContent path) (Some contentType) name context
+        part (FileContent path) (Some contentType) nameWithFallback (Some fileNameWithFallback) context
 
-    let filePart (path: string) (context: IToMultipartContext) =
-        filePartWithName (System.IO.Path.GetFileNameWithoutExtension path) path context
+    let byteArrayPart name fileName (value: byte[]) (context: IToMultipartContext) =
+        part (ByteArrayContent value) None name fileName context
 
-    let byteArrayPart name (value: byte[]) (context: IToMultipartContext) = part (ByteArrayContent value) None name context
-
-    let streamPart name (value: System.IO.Stream) (context: IToMultipartContext) = part (StreamContent value) None name context
+    let streamPart name fileName (value: System.IO.Stream) (context: IToMultipartContext) =
+        part (StreamContent value) None name fileName context
 
 
 module Config =
