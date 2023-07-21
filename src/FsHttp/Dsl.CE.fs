@@ -336,8 +336,8 @@ type IRequestContext<'self> with
     member this.Multipart(context: IRequestContext<#IToMultipartContext>) = context.Self.Transform()
 
     [<CustomOperation("part")>]
-    member this.Part(context: IRequestContext<MultipartContext>, content, defaultContentType, name) =
-        Multipart.part content defaultContentType name context.Self
+    member this.Part(context: IRequestContext<MultipartContext>, content, defaultContentType, name, ?fileName) =
+        Multipart.part content defaultContentType name fileName context.Self
 
     [<CustomOperation("stringPart")>]
     member this.StringPart(context: IRequestContext<MultipartContext>, name, value) = Multipart.stringPart name value context.Self

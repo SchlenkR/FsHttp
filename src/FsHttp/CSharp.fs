@@ -336,8 +336,8 @@ type Multipart =
     static member Multipart(context: IRequestContext<#IToMultipartContext>) = context.Self.Transform()
 
     [<Extension>]
-    static member Part(context: IRequestContext<MultipartContext>, content, defaultContentType, name) =
-        Multipart.part content defaultContentType name context.Self
+    static member Part(context: IRequestContext<MultipartContext>, content, defaultContentType, name, ?fileName) =
+        Multipart.part content defaultContentType name fileName context.Self
 
     [<Extension>]
     static member StringPart(context: IRequestContext<MultipartContext>, name, value) = Multipart.stringPart name value context.Self

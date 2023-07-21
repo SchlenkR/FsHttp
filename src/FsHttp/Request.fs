@@ -15,13 +15,34 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
     let header = request.header
     let requestMessage = new HttpRequestMessage(header.method, header.url.ToUriString())
 
-    let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
+    let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option)  (fileName: string option) =
+
+        let addDispoHeader (content: HttpContent) (name: string option) (fileName: string option) =
+            let contentDispoHeaderValue = ContentDispositionHeaderValue("form-data")
+
+            match name with
+            | Some v -> contentDispoHeaderValue.Name <- v
+            | None -> ()
+
+            match fileName with
+            | Some v -> contentDispoHeaderValue.FileName <- v
+            | None -> ()
+
+            content.Headers.ContentDisposition <- contentDispoHeaderValue
+            ()
+
         let dotnetContent =
             match part with
             | StringContent s ->
                 // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header.
                 new StringContent(s) :> HttpContent
-            | ByteArrayContent data -> new ByteArrayContent(data) :> HttpContent
+            | ByteArrayContent data ->
+                let content = new ByteArrayContent(data) :> HttpContent
+                match request.content with
+                | Multi _ -> addDispoHeader content name fileName
+                | _ -> ()
+                content
+
             | StreamContent s -> new StreamContent(s) :> HttpContent
             | FormUrlEncodedContent data -> new FormUrlEncodedContent(data) :> HttpContent
             | FileContent path ->
@@ -29,17 +50,11 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
                     let fs = System.IO.File.OpenRead path
                     new StreamContent(fs)
 
-                let contentDispoHeaderValue = ContentDispositionHeaderValue("form-data")
-
-                match name with
-                | Some v -> contentDispoHeaderValue.Name <- v
-                | None -> ()
-
-                do
-                    contentDispoHeaderValue.FileName <- path
-                    content.Headers.ContentDisposition <- contentDispoHeaderValue
-
-                content :> HttpContent
+                let path =
+                    fileName |> Option.defaultValue path
+                let path = System.IO.Path.GetFileNameWithoutExtension path
+                addDispoHeader content name (Some path)
+                content
 
         if contentType.IsSome then
             dotnetContent.Headers.ContentType <- MediaTypeHeaderValue.Parse contentType.Value
@@ -55,7 +70,7 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
         | Empty -> null
         | Single bodyContent ->
             let dotnetBodyContent =
-                buildDotnetContent bodyContent.contentData bodyContent.contentType None
+                buildDotnetContent bodyContent.contentData bodyContent.contentType None None
 
             do assignContentHeaders dotnetBodyContent.Headers bodyContent.headers
             dotnetBodyContent
@@ -67,7 +82,7 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
                     let dotnetPart = new MultipartFormDataContent()
 
                     for x in contentPart do
-                        let dotnetContent = buildDotnetContent x.content x.contentType (Some x.name)
+                        let dotnetContent = buildDotnetContent x.content x.contentType (Some x.name) x.fileName
                         dotnetPart.Add(dotnetContent, x.name)
 
                     dotnetPart :> HttpContent

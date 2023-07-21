@@ -308,7 +308,7 @@ module Body =
 
 module Multipart =
 
-    let part (content: ContentData) (defaultContentType: string option) (name: string) (context: IToMultipartContext) =
+    let part (content: ContentData) (defaultContentType: string option) (name: string) (fileName: string option) (context: IToMultipartContext) =
         let context = context.Transform()
 
         let contentType =
@@ -318,6 +318,7 @@ module Multipart =
 
         let newContentData = {|
             name = name
+            fileName = fileName
             contentType = contentType
             content = content
         |}
@@ -333,18 +334,18 @@ module Multipart =
     // PARTS
     // -----
 
-    let stringPart name (value: string) (context: IToMultipartContext) = part (StringContent value) None name context
+    let stringPart name (value: string) (context: IToMultipartContext) = part (StringContent value) None name None context
 
     let filePartWithName name (path: string) (context: IToMultipartContext) =
         let contentType = MimeTypes.guessMimeTypeFromPath path MimeTypes.defaultMimeType
-        part (FileContent path) (Some contentType) name context
+        part (FileContent path) (Some contentType) name None context
 
     let filePart (path: string) (context: IToMultipartContext) =
         filePartWithName (System.IO.Path.GetFileNameWithoutExtension path) path context
 
-    let byteArrayPart name (value: byte[]) (context: IToMultipartContext) = part (ByteArrayContent value) None name context
+    let byteArrayPart name (value: byte[]) (context: IToMultipartContext) = part (ByteArrayContent value) None name None context
 
-    let streamPart name (value: System.IO.Stream) (context: IToMultipartContext) = part (StreamContent value) None name context
+    let streamPart name (value: System.IO.Stream) (context: IToMultipartContext) = part (StreamContent value) None name None context
 
 
 module Config =
