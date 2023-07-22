@@ -78,7 +78,8 @@ type Header =
 
     /// Append query params
     [<Extension>]
-    static member Query(context: IRequestContext<HeaderContext>, queryParams) = Header.query (queryParams |> Seq.toList) context.Self
+    static member Query(context: IRequestContext<HeaderContext>, queryParams) =
+        Header.query (queryParams |> Seq.toList) context.Self
 
     /// Custom header
     [<Extension>]
@@ -90,27 +91,33 @@ type Header =
 
     /// Character sets that are acceptable
     [<Extension>]
-    static member AcceptCharset(context: IRequestContext<HeaderContext>, characterSets) = Header.acceptCharset characterSets context.Self
+    static member AcceptCharset(context: IRequestContext<HeaderContext>, characterSets) =
+        Header.acceptCharset characterSets context.Self
 
     /// Acceptable version in time
     [<Extension>]
-    static member AcceptDatetime(context: IRequestContext<HeaderContext>, dateTime) = Header.acceptDatetime dateTime context.Self
+    static member AcceptDatetime(context: IRequestContext<HeaderContext>, dateTime) =
+        Header.acceptDatetime dateTime context.Self
 
     /// List of acceptable encodings. See HTTP compression.
     [<Extension>]
-    static member AcceptEncoding(context: IRequestContext<HeaderContext>, encoding) = Header.acceptEncoding encoding context.Self
+    static member AcceptEncoding(context: IRequestContext<HeaderContext>, encoding) =
+        Header.acceptEncoding encoding context.Self
 
     /// List of acceptable human languages for response
     [<Extension>]
-    static member AcceptLanguage(context: IRequestContext<HeaderContext>, language) = Header.acceptLanguage language context.Self
+    static member AcceptLanguage(context: IRequestContext<HeaderContext>, language) =
+        Header.acceptLanguage language context.Self
 
     /// Authorization credentials for HTTP authorization
     [<Extension>]
-    static member Authorization(context: IRequestContext<HeaderContext>, credentials) = Header.authorization credentials context.Self
+    static member Authorization(context: IRequestContext<HeaderContext>, credentials) =
+        Header.authorization credentials context.Self
 
     /// Authorization header using Bearer authorization token
     [<Extension>]
-    static member AuthorizationBearer(context: IRequestContext<HeaderContext>, token) = Header.authorizationBearer token context.Self
+    static member AuthorizationBearer(context: IRequestContext<HeaderContext>, token) =
+        Header.authorizationBearer token context.Self
 
     /// Authorization header using Basic (User/Password) authorization
     [<Extension>]
@@ -119,15 +126,18 @@ type Header =
 
     /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
     [<Extension>]
-    static member CacheControl(context: IRequestContext<HeaderContext>, control) = Header.cacheControl control context.Self
+    static member CacheControl(context: IRequestContext<HeaderContext>, control) =
+        Header.cacheControl control context.Self
 
     /// What type of connection the user-agent would prefer
     [<Extension>]
-    static member Connection(context: IRequestContext<HeaderContext>, connection) = Header.connection connection context.Self
+    static member Connection(context: IRequestContext<HeaderContext>, connection) =
+        Header.connection connection context.Self
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie'.
     [<Extension>]
-    static member SetCookie(context: IRequestContext<HeaderContext>, name, value) = Header.cookie name value context.Self
+    static member SetCookie(context: IRequestContext<HeaderContext>, name, value) =
+        Header.cookie name value context.Self
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
     /// the subset of URIs on the origin server to which this Cookie applies.
@@ -170,7 +180,8 @@ type Header =
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
     [<Extension>]
-    static member IfModifiedSince(context: IRequestContext<HeaderContext>, dateTime) = Header.ifModifiedSince dateTime context.Self
+    static member IfModifiedSince(context: IRequestContext<HeaderContext>, dateTime) =
+        Header.ifModifiedSince dateTime context.Self
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
     [<Extension>]
@@ -182,15 +193,18 @@ type Header =
 
     /// Only send the response if the entity has not been modified since a specific time
     [<Extension>]
-    static member IfUnmodifiedSince(context: IRequestContext<HeaderContext>, dateTime) = Header.ifUnmodifiedSince dateTime context.Self
+    static member IfUnmodifiedSince(context: IRequestContext<HeaderContext>, dateTime) =
+        Header.ifUnmodifiedSince dateTime context.Self
 
     /// Specifies a parameter used into order to maintain a persistent connection
     [<Extension>]
-    static member KeepAlive(context: IRequestContext<HeaderContext>, keepAlive) = Header.keepAlive keepAlive context.Self
+    static member KeepAlive(context: IRequestContext<HeaderContext>, keepAlive) =
+        Header.keepAlive keepAlive context.Self
 
     /// Specifies the date and time at which the accompanying body data was last modified
     [<Extension>]
-    static member LastModified(context: IRequestContext<HeaderContext>, dateTime) = Header.lastModified dateTime context.Self
+    static member LastModified(context: IRequestContext<HeaderContext>, dateTime) =
+        Header.lastModified dateTime context.Self
 
     /// Limit the number of times the message can be forwarded through proxies or gateways
     [<Extension>]
@@ -235,11 +249,13 @@ type Header =
     /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.
     /// The valid directives are one of: chunked, compress, deflate, gzip, orentity.
     [<Extension>]
-    static member TransferEncoding(context: IRequestContext<HeaderContext>, directive) = Header.transferEncoding directive context.Self
+    static member TransferEncoding(context: IRequestContext<HeaderContext>, directive) =
+        Header.transferEncoding directive context.Self
 
     /// Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
     [<Extension>]
-    static member Translate(context: IRequestContext<HeaderContext>, translate) = Header.translate translate context.Self
+    static member Translate(context: IRequestContext<HeaderContext>, translate) =
+        Header.translate translate context.Self
 
     /// Specifies additional communications protocols that the client supports.
     [<Extension>]
@@ -247,7 +263,8 @@ type Header =
 
     /// The user agent string of the user agent
     [<Extension>]
-    static member UserAgent(context: IRequestContext<HeaderContext>, userAgent) = Header.userAgent userAgent context.Self
+    static member UserAgent(context: IRequestContext<HeaderContext>, userAgent) =
+        Header.userAgent userAgent context.Self
 
     /// Informs the server of proxies through which the request was sent
     [<Extension>]
@@ -275,7 +292,8 @@ type Body =
     static member Body(context: IRequestContext<#IToBodyContext>) = context.Self.Transform()
 
     [<Extension>]
-    static member Content(context: IRequestContext<BodyContext>, contentType, data) = Body.content contentType data context.Self
+    static member Content(context: IRequestContext<BodyContext>, contentType, data) =
+        Body.content contentType data context.Self
 
     [<Extension>]
     static member Binary(context: IRequestContext<BodyContext>, data) = Body.binary data context.Self
@@ -290,7 +308,8 @@ type Body =
     static member Json(context: IRequestContext<BodyContext>, json) = Body.json json context.Self
 
     [<Extension>]
-    static member JsonSerializeWith(context: IRequestContext<BodyContext>, options, json) = Body.jsonSerializeWith options json context.Self
+    static member JsonSerializeWith(context: IRequestContext<BodyContext>, options, json) =
+        Body.jsonSerializeWith options json context.Self
 
     [<Extension>]
     static member JsonSerialize(context: IRequestContext<BodyContext>, json) = Body.jsonSerialize json context.Self
@@ -303,11 +322,13 @@ type Body =
 
     /// The type of encoding used on the data
     [<Extension>]
-    static member ContentEncoding(context: IRequestContext<BodyContext>, encoding) = Body.contentEncoding encoding context.Self
+    static member ContentEncoding(context: IRequestContext<BodyContext>, encoding) =
+        Body.contentEncoding encoding context.Self
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     [<Extension>]
-    static member ContentType(context: IRequestContext<BodyContext>, contentType) = Body.contentType contentType context.Self
+    static member ContentType(context: IRequestContext<BodyContext>, contentType) =
+        Body.contentType contentType context.Self
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
     [<Extension>]
@@ -362,10 +383,12 @@ type ConfigTransformer = Func<Domain.Config, Domain.Config>
 type Config =
 
     [<Extension>]
-    static member Configure(context: HeaderContext, configTransformer: ConfigTransformer) = Config.update configTransformer.Invoke context
+    static member Configure(context: HeaderContext, configTransformer: ConfigTransformer) =
+        Config.update configTransformer.Invoke context
 
     [<Extension>]
-    static member Configure(context: BodyContext, configTransformer: ConfigTransformer) = Config.update configTransformer.Invoke context
+    static member Configure(context: BodyContext, configTransformer: ConfigTransformer) =
+        Config.update configTransformer.Invoke context
 
     [<Extension>]
     static member Configure(context: MultipartContext, configTransformer: ConfigTransformer) =
@@ -386,23 +409,27 @@ type Config =
     static member SetHttpClient(config: Domain.Config, httpClient) = Config.With.setHttpClient httpClient config
 
     [<Extension>]
-    static member SetHttpClientFactory(config: Domain.Config, httpClientFactory) = Config.With.setHttpClientFactory httpClientFactory config
+    static member SetHttpClientFactory(config: Domain.Config, httpClientFactory) =
+        Config.With.setHttpClientFactory httpClientFactory config
 
     [<Extension>]
-    static member TransformHttpClient(config: Domain.Config, transformer) = Config.With.transformHttpClient transformer config
+    static member TransformHttpClient(config: Domain.Config, transformer) =
+        Config.With.transformHttpClient transformer config
 
     [<Extension>]
     static member TransformHttpRequestMessage(config: Domain.Config, transformer) =
         Config.With.transformHttpRequestMessage transformer config
 
     [<Extension>]
-    static member TransformHttpClientHandler(config: Domain.Config, transformer) = Config.With.transformHttpClientHandler transformer config
+    static member TransformHttpClientHandler(config: Domain.Config, transformer) =
+        Config.With.transformHttpClientHandler transformer config
 
     [<Extension>]
     static member Proxy(config: Domain.Config, url) = Config.With.proxy url config
 
     [<Extension>]
-    static member ProxyWithCredentials(config: Domain.Config, url, credentials) = Config.With.proxyWithCredentials url credentials config
+    static member ProxyWithCredentials(config: Domain.Config, url, credentials) =
+        Config.With.proxyWithCredentials url credentials config
 
 
 // ---------
@@ -442,7 +469,8 @@ type Response =
     static member ToXmlAsync(response: Domain.Response) = Response.toXmlTAsync response
 
     [<Extension>]
-    static member ToJsonDocumentWithAsync(response: Domain.Response, options) = Response.toJsonDocumentWithTAsync options response
+    static member ToJsonDocumentWithAsync(response: Domain.Response, options) =
+        Response.toJsonDocumentWithTAsync options response
 
     [<Extension>]
     static member ToJsonDocumentAsync(response: Domain.Response) = Response.toJsonDocumentTAsync response
@@ -454,13 +482,15 @@ type Response =
     static member ToJsonAsync(response: Domain.Response) = Response.toJsonTAsync response
 
     [<Extension>]
-    static member ToJsonEnumerableWithAsync(response: Domain.Response, options) = Response.toJsonSeqWithTAsync options response
+    static member ToJsonEnumerableWithAsync(response: Domain.Response, options) =
+        Response.toJsonSeqWithTAsync options response
 
     [<Extension>]
     static member ToJsonEnumerableAsync(response: Domain.Response) = Response.toJsonSeqTAsync response
 
     [<Extension>]
-    static member DeserializeJsonWithAsync<'T>(response: Domain.Response, options) = Response.deserializeJsonWithTAsync options response
+    static member DeserializeJsonWithAsync<'T>(response: Domain.Response, options) =
+        Response.deserializeJsonWithTAsync options response
 
     [<Extension>]
     static member DeserializeJsonAsync(response: Domain.Response) = Response.deserializeJsonTAsync response
@@ -476,7 +506,8 @@ type Response =
         Response.assertStatusCodes (statusCodes |> Seq.toList) response
 
     [<Extension>]
-    static member AssertStatusCode(response: Domain.Response, statusCode) = Response.assertStatusCode statusCode response
+    static member AssertStatusCode(response: Domain.Response, statusCode) =
+        Response.assertStatusCode statusCode response
 
     [<Extension>]
     static member AssertOk(response: Domain.Response) = Response.assertOk response

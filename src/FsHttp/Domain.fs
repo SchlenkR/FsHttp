@@ -246,7 +246,10 @@ type Response = {
             this with
                 request = {
                     this.request with
-                        config = { this.request.config with printHint = transformPrintHint this.request.config.printHint }
+                        config = {
+                            this.request.config with
+                                printHint = transformPrintHint this.request.config.printHint
+                        }
                 }
         }
 

@@ -99,13 +99,13 @@ let ``POST Multipart part bytearray with optional filename`` () =
 
         ContentTypeForPart "image/jpeg"
         byteArrayPart [| byte 0xff |] "photo" fileName1
-        
+
         ContentTypeForPart "image/jpeg"
         byteArrayPart [| byte 0xff |] "photo" fileName2
-        
+
         ContentTypeForPart "image/jpeg"
         byteArrayPart [| byte 0xff |] "photo" fileName3
-        
+
         ContentTypeForPart "image/jpeg"
         byteArrayPart [| byte 0xff |] "photo"
     }

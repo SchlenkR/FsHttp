@@ -164,7 +164,8 @@ module Stream =
             callback overallBytesCount
         }
 
-    let copyToCallbackTAsync (target: Stream) callback (source: Stream) = copyToCallbackAsync target callback source |> Async.StartAsTask
+    let copyToCallbackTAsync (target: Stream) callback (source: Stream) =
+        copyToCallbackAsync target callback source |> Async.StartAsTask
 
     let copyToAsync target source =
         async {

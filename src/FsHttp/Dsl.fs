@@ -138,7 +138,8 @@ module Header =
         cookieDotnet (Cookie(name, value, path, domain)) context
 
     /// The date and time that the message was sent
-    let date (date: DateTime) (context: HeaderContext) = header "Date" (date.ToString("R", CultureInfo.InvariantCulture)) context
+    let date (date: DateTime) (context: HeaderContext) =
+        header "Date" (date.ToString("R", CultureInfo.InvariantCulture)) context
 
     /// Indicates that particular server behaviors are required by the client
     let expect (behaviors: string) (context: HeaderContext) = header "Expect" behaviors context
@@ -194,10 +195,12 @@ module Header =
     let prefer (prefer: string) (context: HeaderContext) = header "Prefer" prefer context
 
     /// Authorization credentials for connecting to a proxy.
-    let proxyAuthorization (credentials: string) (context: HeaderContext) = header "Proxy-Authorization" credentials context
+    let proxyAuthorization (credentials: string) (context: HeaderContext) =
+        header "Proxy-Authorization" credentials context
 
     /// Request only part of an entity. Bytes are numbered from 0
-    let range (start: int64) (finish: int64) (context: HeaderContext) = header "Range" (sprintf "bytes=%d-%d" start finish) context
+    let range (start: int64) (finish: int64) (context: HeaderContext) =
+        header "Range" (sprintf "bytes=%d-%d" start finish) context
 
     /// This is the address of the previous web page from which a link to the currently requested page was followed. (The word "referrer" is misspelled in the RFC as well as in most implementations.)
     let referer (referer: string) (context: HeaderContext) = header "Referer" referer context
@@ -229,7 +232,8 @@ module Header =
     let warning (message: string) (context: HeaderContext) = header "Warning" message context
 
     /// Override HTTP method.
-    let xhttpMethodOverride (httpMethod: string) (context: HeaderContext) = header "X-HTTP-Method-Override" httpMethod context
+    let xhttpMethodOverride (httpMethod: string) (context: HeaderContext) =
+        header "X-HTTP-Method-Override" httpMethod context
 
 
 module Body =
@@ -281,9 +285,11 @@ module Body =
                 }
         }
 
-    let binary (data: byte array) (context: IToBodyContext) = content MimeTypes.octetStream (ByteArrayContent data) context
+    let binary (data: byte array) (context: IToBodyContext) =
+        content MimeTypes.octetStream (ByteArrayContent data) context
 
-    let stream (stream: System.IO.Stream) (context: IToBodyContext) = content MimeTypes.octetStream (StreamContent stream) context
+    let stream (stream: System.IO.Stream) (context: IToBodyContext) =
+        content MimeTypes.octetStream (StreamContent stream) context
 
     let text (text: string) (context: IToBodyContext) = content MimeTypes.textPlain (StringContent text) context
 
@@ -329,7 +335,10 @@ module Multipart =
             content = content
         |}
 
-        { context with content = { context.content with contentData = context.content.contentData @ [ newContentData ] } }
+        {
+            context with
+                content = { context.content with contentData = context.content.contentData @ [ newContentData ] }
+        }
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     let contentType (contentType: string) (context: IToMultipartContext) =
@@ -347,6 +356,7 @@ module Multipart =
         let fileNameWithFallback =
             fileName
             |> Option.defaultWith (fun () -> System.IO.Path.GetFileNameWithoutExtension path)
+
         let nameWithFallback = name |> Option.defaultValue fileNameWithFallback
         let contentType = MimeTypes.guessMimeTypeFromPath path MimeTypes.defaultMimeType
         part (FileContent path) (Some contentType) nameWithFallback (Some fileNameWithFallback) context
@@ -366,15 +376,24 @@ module Config =
 
         let inline timeoutInSeconds value config = { config with timeout = Some(TimeSpan.FromSeconds value) }
 
-        let inline setHttpClient (client: HttpClient) config = { config with httpClientFactory = Some(fun () -> client) }
+        let inline setHttpClient (client: HttpClient) config = {
+            config with
+                httpClientFactory = Some(fun () -> client)
+        }
 
-        let inline setHttpClientFactory (clientFactory: unit -> HttpClient) config = { config with httpClientFactory = Some clientFactory }
+        let inline setHttpClientFactory (clientFactory: unit -> HttpClient) config = {
+            config with
+                httpClientFactory = Some clientFactory
+        }
 
         let inline transformHttpClient transformer config = { config with httpClientTransformer = transformer }
 
         let inline transformHttpRequestMessage transformer config = { config with httpMessageTransformer = transformer }
 
-        let inline transformHttpClientHandler transformer config = { config with httpClientHandlerTransformer = transformer }
+        let inline transformHttpClientHandler transformer config = {
+            config with
+                httpClientHandlerTransformer = transformer
+        }
 
         let inline proxy url config = {
             config with
@@ -404,7 +423,8 @@ module Config =
 
     let inline timeoutInSeconds value context = context |> update (fun config -> config |> With.timeoutInSeconds value)
 
-    let inline setHttpClient (client: HttpClient) context = context |> update (fun config -> config |> With.setHttpClient client)
+    let inline setHttpClient (client: HttpClient) context =
+        context |> update (fun config -> config |> With.setHttpClient client)
 
     let inline setHttpClientFactory (clientFactory: unit -> HttpClient) context =
         context
@@ -434,11 +454,17 @@ module Print =
 
     let inline withRequestPrintMode updatePrintMode context =
         context
-        |> withConfig (fun printHint -> { printHint with requestPrintMode = updatePrintMode printHint.requestPrintMode })
+        |> withConfig (fun printHint -> {
+            printHint with
+                requestPrintMode = updatePrintMode printHint.requestPrintMode
+        })
 
     let inline withResponsePrintMode updatePrintMode context =
         context
-        |> withConfig (fun printHint -> { printHint with responsePrintMode = updatePrintMode printHint.responsePrintMode })
+        |> withConfig (fun printHint -> {
+            printHint with
+                responsePrintMode = updatePrintMode printHint.responsePrintMode
+        })
 
     let inline withResponseBody updateBodyPrintMode context =
         context

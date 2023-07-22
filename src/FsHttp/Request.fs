@@ -15,7 +15,12 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
     let header = request.header
     let requestMessage = new HttpRequestMessage(header.method, header.url.ToUriString())
 
-    let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) (fileName: string option) =
+    let buildDotnetContent
+        (part: ContentData)
+        (contentType: string option)
+        (name: string option)
+        (fileName: string option)
+        =
 
         let addDispoHeaderIfNeeded (content: HttpContent) =
             match request.content with
@@ -183,7 +188,9 @@ let toAsync (context: IToRequest) =
             // Task is started immediately, but must not be awaited when running in background.
             response.Content.LoadIntoBufferAsync() |> ignore
 
-        do Fsi.logfn $"{response.StatusCode |> int} ({response.StatusCode}) ({request.header.method} {request.header.url.ToUriString()})"
+        do
+            Fsi.logfn
+                $"{response.StatusCode |> int} ({response.StatusCode}) ({request.header.method} {request.header.url.ToUriString()})"
 
         let dispose () =
             do finalClient.Dispose()

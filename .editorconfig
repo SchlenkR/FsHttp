@@ -1,6 +1,6 @@
 [*.fs]
 indent_size=4
-max_line_length=140
+max_line_length=120
 fsharp_space_before_parameter=true
 fsharp_space_before_lowercase_invocation=true
 fsharp_space_before_uppercase_invocation=false

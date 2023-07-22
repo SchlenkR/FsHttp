@@ -59,7 +59,8 @@ let private doPrintRequestOnly (httpVersion: string) (request: Request) (request
             match contentData with
             | StringContent s -> s
             | ByteArrayContent bytes -> sprintf "::ByteArray (length = %d)" bytes.Length
-            | StreamContent stream -> sprintf "::Stream (length = %s)" (if stream.CanSeek then stream.Length.ToString() else "?")
+            | StreamContent stream ->
+                sprintf "::Stream (length = %s)" (if stream.CanSeek then stream.Length.ToString() else "?")
             | FormUrlEncodedContent formDataList ->
                 [
                     yield "::FormUrlEncoded"
@@ -116,7 +117,10 @@ let private printResponseOnly (response: Response) =
     let sb = StringBuilder()
 
     sb.appendSection "RESPONSE"
-    sb.appendLine (sprintf "HTTP/%s %d %s" (response.version.ToString()) (int response.statusCode) (string response.statusCode))
+
+    sb.appendLine (
+        sprintf "HTTP/%s %d %s" (response.version.ToString()) (int response.statusCode) (string response.statusCode)
+    )
 
     //if r.request.config.printHint.responsePrintMode.printHeader then
     let printResponseHeaders () =
@@ -136,7 +140,8 @@ let private printResponseOnly (response: Response) =
                         Response.toText response
 
                 match maxLength with
-                | Some maxLength when contentText.Length > maxLength -> (contentText.Substring(0, maxLength)) + $"{Environment.NewLine}..."
+                | Some maxLength when contentText.Length > maxLength ->
+                    (contentText.Substring(0, maxLength)) + $"{Environment.NewLine}..."
                 | _ -> contentText
             with ex ->
                 sprintf "ERROR reading response content: %s" (ex.ToString())

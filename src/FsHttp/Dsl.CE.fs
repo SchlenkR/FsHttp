@@ -53,7 +53,8 @@ type IRequestContext<'self> with
     member this.Delete(context: IRequestContext<StartingContext>, url) = deleteWithConfig context.Self.ActualConfig url
 
     [<CustomOperation("OPTIONS")>]
-    member this.Options(context: IRequestContext<StartingContext>, url) = optionsWithConfig context.Self.ActualConfig url
+    member this.Options(context: IRequestContext<StartingContext>, url) =
+        optionsWithConfig context.Self.ActualConfig url
 
     [<CustomOperation("HEAD")>]
     member this.Head(context: IRequestContext<StartingContext>, url) = headWithConfig context.Self.ActualConfig url
@@ -62,7 +63,8 @@ type IRequestContext<'self> with
     member this.Trace(context: IRequestContext<StartingContext>, url) = traceWithConfig context.Self.ActualConfig url
 
     [<CustomOperation("CONNECT")>]
-    member this.Connect(context: IRequestContext<StartingContext>, url) = connectWithConfig context.Self.ActualConfig url
+    member this.Connect(context: IRequestContext<StartingContext>, url) =
+        connectWithConfig context.Self.ActualConfig url
 
     [<CustomOperation("PATCH")>]
     member this.Patch(context: IRequestContext<StartingContext>, url) = patchWithConfig context.Self.ActualConfig url
@@ -92,27 +94,33 @@ type IRequestContext<'self> with
 
     /// Character sets that are acceptable
     [<CustomOperation("AcceptCharset")>]
-    member this.AcceptCharset(context: IRequestContext<HeaderContext>, characterSets) = Header.acceptCharset characterSets context.Self
+    member this.AcceptCharset(context: IRequestContext<HeaderContext>, characterSets) =
+        Header.acceptCharset characterSets context.Self
 
     /// Acceptable version in time
     [<CustomOperation("AcceptDatetime")>]
-    member this.AcceptDatetime(context: IRequestContext<HeaderContext>, dateTime) = Header.acceptDatetime dateTime context.Self
+    member this.AcceptDatetime(context: IRequestContext<HeaderContext>, dateTime) =
+        Header.acceptDatetime dateTime context.Self
 
     /// List of acceptable encodings. See HTTP compression.
     [<CustomOperation("AcceptEncoding")>]
-    member this.AcceptEncoding(context: IRequestContext<HeaderContext>, encoding) = Header.acceptEncoding encoding context.Self
+    member this.AcceptEncoding(context: IRequestContext<HeaderContext>, encoding) =
+        Header.acceptEncoding encoding context.Self
 
     /// List of acceptable human languages for response
     [<CustomOperation("AcceptLanguage")>]
-    member this.AcceptLanguage(context: IRequestContext<HeaderContext>, language) = Header.acceptLanguage language context.Self
+    member this.AcceptLanguage(context: IRequestContext<HeaderContext>, language) =
+        Header.acceptLanguage language context.Self
 
     /// Authorization credentials for HTTP authorization
     [<CustomOperation("Authorization")>]
-    member this.Authorization(context: IRequestContext<HeaderContext>, credentials) = Header.authorization credentials context.Self
+    member this.Authorization(context: IRequestContext<HeaderContext>, credentials) =
+        Header.authorization credentials context.Self
 
     /// Authorization header using Bearer authorization token
     [<CustomOperation("AuthorizationBearer")>]
-    member this.AuthorizationBearer(context: IRequestContext<HeaderContext>, token) = Header.authorizationBearer token context.Self
+    member this.AuthorizationBearer(context: IRequestContext<HeaderContext>, token) =
+        Header.authorizationBearer token context.Self
 
     /// Authorization header using Basic (User/Password) authorization
     [<CustomOperation("AuthorizationUserPw")>]
@@ -121,11 +129,13 @@ type IRequestContext<'self> with
 
     /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
     [<CustomOperation("CacheControl")>]
-    member this.CacheControl(context: IRequestContext<HeaderContext>, control) = Header.cacheControl control context.Self
+    member this.CacheControl(context: IRequestContext<HeaderContext>, control) =
+        Header.cacheControl control context.Self
 
     /// What type of connection the user-agent would prefer
     [<CustomOperation("Connection")>]
-    member this.Connection(context: IRequestContext<HeaderContext>, connection) = Header.connection connection context.Self
+    member this.Connection(context: IRequestContext<HeaderContext>, connection) =
+        Header.connection connection context.Self
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie'.
     [<CustomOperation("Cookie")>]
@@ -172,7 +182,8 @@ type IRequestContext<'self> with
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
     [<CustomOperation("IfModifiedSince")>]
-    member this.IfModifiedSince(context: IRequestContext<HeaderContext>, dateTime) = Header.ifModifiedSince dateTime context.Self
+    member this.IfModifiedSince(context: IRequestContext<HeaderContext>, dateTime) =
+        Header.ifModifiedSince dateTime context.Self
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
     [<CustomOperation("IfNoneMatch")>]
@@ -184,7 +195,8 @@ type IRequestContext<'self> with
 
     /// Only send the response if the entity has not been modified since a specific time
     [<CustomOperation("IfUnmodifiedSince")>]
-    member this.IfUnmodifiedSince(context: IRequestContext<HeaderContext>, dateTime) = Header.ifUnmodifiedSince dateTime context.Self
+    member this.IfUnmodifiedSince(context: IRequestContext<HeaderContext>, dateTime) =
+        Header.ifUnmodifiedSince dateTime context.Self
 
     /// Specifies a parameter used into order to maintain a persistent connection
     [<CustomOperation("KeepAlive")>]
@@ -192,7 +204,8 @@ type IRequestContext<'self> with
 
     /// Specifies the date and time at which the accompanying body data was last modified
     [<CustomOperation("LastModified")>]
-    member this.LastModified(context: IRequestContext<HeaderContext>, dateTime) = Header.lastModified dateTime context.Self
+    member this.LastModified(context: IRequestContext<HeaderContext>, dateTime) =
+        Header.lastModified dateTime context.Self
 
     /// Limit the number of times the message can be forwarded through proxies or gateways
     [<CustomOperation("MaxForwards")>]
@@ -237,7 +250,8 @@ type IRequestContext<'self> with
     /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.
     /// The valid directives are one of: chunked, compress, deflate, gzip, orentity.
     [<CustomOperation("TransferEncoding")>]
-    member this.TransferEncoding(context: IRequestContext<HeaderContext>, directive) = Header.transferEncoding directive context.Self
+    member this.TransferEncoding(context: IRequestContext<HeaderContext>, directive) =
+        Header.transferEncoding directive context.Self
 
     /// Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
     [<CustomOperation("Translate")>]
@@ -276,7 +290,8 @@ type IRequestContext<'self> with
     member this.Body(context: IRequestContext<#IToBodyContext>) = context.Self.Transform()
 
     [<CustomOperation("content")>]
-    member this.Content(context: IRequestContext<BodyContext>, contentType, data) = Body.content contentType data context.Self
+    member this.Content(context: IRequestContext<BodyContext>, contentType, data) =
+        Body.content contentType data context.Self
 
     [<CustomOperation("binary")>]
     member this.Binary(context: IRequestContext<BodyContext>, data) = Body.binary data context.Self
@@ -295,7 +310,8 @@ type IRequestContext<'self> with
         Body.jsonSerializeWith options instance context.Self
 
     [<CustomOperation("jsonSerialize")>]
-    member this.JsonSerialize(context: IRequestContext<BodyContext>, instance) = Body.jsonSerialize instance context.Self
+    member this.JsonSerialize(context: IRequestContext<BodyContext>, instance) =
+        Body.jsonSerialize instance context.Self
 
     [<CustomOperation("formUrlEncoded")>]
     member this.FormUrlEncoded(context: IRequestContext<BodyContext>, data) = Body.formUrlEncoded data context.Self
@@ -305,11 +321,13 @@ type IRequestContext<'self> with
 
     /// The type of encoding used on the data
     [<CustomOperation("ContentEncoding")>]
-    member this.ContentEncoding(context: IRequestContext<BodyContext>, encoding) = Body.contentEncoding encoding context.Self
+    member this.ContentEncoding(context: IRequestContext<BodyContext>, encoding) =
+        Body.contentEncoding encoding context.Self
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     [<CustomOperation("ContentType")>]
-    member this.ContentType(context: IRequestContext<BodyContext>, contentType) = Body.contentType contentType context.Self
+    member this.ContentType(context: IRequestContext<BodyContext>, contentType) =
+        Body.contentType contentType context.Self
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
     [<CustomOperation("ContentTypeWithEncoding")>]
@@ -325,7 +343,8 @@ type IRequestContext<'self> with
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     [<CustomOperation("ContentTypeForPart")>]
-    member this.ContentTypeForPart(context: IRequestContext<MultipartContext>, contentType) = Multipart.contentType contentType context.Self
+    member this.ContentTypeForPart(context: IRequestContext<MultipartContext>, contentType) =
+        Multipart.contentType contentType context.Self
 
     // -----
     // PARTS
@@ -368,10 +387,12 @@ type IRequestContext<'self> with
 
     // TODO: Provide certStrategy configs
     [<CustomOperation("config_ignoreCertIssues")>]
-    member inline this.IgnoreCertIssues(context: IRequestContext<#IConfigure<ConfigTransformer, _>>) = Config.ignoreCertIssues context.Self
+    member inline this.IgnoreCertIssues(context: IRequestContext<#IConfigure<ConfigTransformer, _>>) =
+        Config.ignoreCertIssues context.Self
 
     [<CustomOperation("config_timeout")>]
-    member inline this.Timeout(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, value) = Config.timeout value context.Self
+    member inline this.Timeout(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, value) =
+        Config.timeout value context.Self
 
     [<CustomOperation("config_timeoutInSeconds")>]
     member inline this.TimeoutInSeconds(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, value) =
@@ -382,7 +403,11 @@ type IRequestContext<'self> with
         Config.setHttpClient httpClient context.Self
 
     [<CustomOperation("config_setHttpClientFactory")>]
-    member inline this.SetHttpClientFactory(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, httpClientFactory) =
+    member inline this.SetHttpClientFactory
+        (
+            context: IRequestContext<#IConfigure<ConfigTransformer, _>>,
+            httpClientFactory
+        ) =
         Config.setHttpClientFactory httpClientFactory context.Self
 
     [<CustomOperation("config_transformHttpClient")>]
@@ -390,18 +415,32 @@ type IRequestContext<'self> with
         Config.transformHttpClient transformer context.Self
 
     [<CustomOperation("config_transformHttpRequestMessage")>]
-    member inline this.TransformHttpRequestMessage(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, transformer) =
+    member inline this.TransformHttpRequestMessage
+        (
+            context: IRequestContext<#IConfigure<ConfigTransformer, _>>,
+            transformer
+        ) =
         Config.transformHttpRequestMessage transformer context.Self
 
     [<CustomOperation("config_transformHttpClientHandler")>]
-    member inline this.TransformHttpClientHandler(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, transformer) =
+    member inline this.TransformHttpClientHandler
+        (
+            context: IRequestContext<#IConfigure<ConfigTransformer, _>>,
+            transformer
+        ) =
         Config.transformHttpClientHandler transformer context.Self
 
     [<CustomOperation("config_proxy")>]
-    member inline this.Proxy(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, url) = Config.proxy url context.Self
+    member inline this.Proxy(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, url) =
+        Config.proxy url context.Self
 
     [<CustomOperation("config_proxyWithCredentials")>]
-    member inline this.ProxyWithCredentials(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, url, credentials) =
+    member inline this.ProxyWithCredentials
+        (
+            context: IRequestContext<#IConfigure<ConfigTransformer, _>>,
+            url,
+            credentials
+        ) =
         Config.proxyWithCredentials url credentials context.Self
 
 
@@ -416,15 +455,27 @@ type IRequestContext<'self> with
         Print.withConfig updatePrintHint context.Self
 
     [<CustomOperation("print_withRequestPrintMode")>]
-    member inline this.WithRequestPrintMode(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, updatePrintMode) =
+    member inline this.WithRequestPrintMode
+        (
+            context: IRequestContext<#IConfigure<PrintHintTransformer, _>>,
+            updatePrintMode
+        ) =
         Print.withRequestPrintMode updatePrintMode context.Self
 
     [<CustomOperation("print_withResponsePrintMode")>]
-    member inline this.WithResponsePrintMode(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, updatePrintMode) =
+    member inline this.WithResponsePrintMode
+        (
+            context: IRequestContext<#IConfigure<PrintHintTransformer, _>>,
+            updatePrintMode
+        ) =
         Print.withResponsePrintMode updatePrintMode context.Self
 
     [<CustomOperation("print_withResponseBody")>]
-    member inline this.WithResponseBody(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, updateBodyPrintMode) =
+    member inline this.WithResponseBody
+        (
+            context: IRequestContext<#IConfigure<PrintHintTransformer, _>>,
+            updateBodyPrintMode
+        ) =
         Print.withResponseBody updateBodyPrintMode context.Self
 
     [<CustomOperation("print_useObjectFormatting")>]
@@ -432,10 +483,15 @@ type IRequestContext<'self> with
         Print.useObjectFormatting context.Self
 
     [<CustomOperation("print_headerOnly")>]
-    member inline this.HeaderOnly(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>) = Print.headerOnly context.Self
+    member inline this.HeaderOnly(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>) =
+        Print.headerOnly context.Self
 
     [<CustomOperation("print_withResponseBodyLength")>]
-    member inline this.WithResponseBodyLength(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, maxLength) =
+    member inline this.WithResponseBodyLength
+        (
+            context: IRequestContext<#IConfigure<PrintHintTransformer, _>>,
+            maxLength
+        ) =
         Print.withResponseBodyLength maxLength context.Self
 
     [<CustomOperation("print_withResponseBodyFormat")>]
