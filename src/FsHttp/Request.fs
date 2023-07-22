@@ -15,31 +15,48 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
     let header = request.header
     let requestMessage = new HttpRequestMessage(header.method, header.url.ToUriString())
 
-    let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) =
-        let dotnetContent =
-            match part with
-            | StringContent s ->
-                // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header.
-                new StringContent(s) :> HttpContent
-            | ByteArrayContent data -> new ByteArrayContent(data) :> HttpContent
-            | StreamContent s -> new StreamContent(s) :> HttpContent
-            | FormUrlEncodedContent data -> new FormUrlEncodedContent(data) :> HttpContent
-            | FileContent path ->
-                let content =
-                    let fs = System.IO.File.OpenRead path
-                    new StreamContent(fs)
+    let buildDotnetContent (part: ContentData) (contentType: string option) (name: string option) (fileName: string option) =
 
+        let addDispoHeaderIfNeeded (content: HttpContent) =
+            match request.content with
+            | Multi _ ->
                 let contentDispoHeaderValue = ContentDispositionHeaderValue("form-data")
 
                 match name with
                 | Some v -> contentDispoHeaderValue.Name <- v
                 | None -> ()
 
-                do
-                    contentDispoHeaderValue.FileName <- path
-                    content.Headers.ContentDisposition <- contentDispoHeaderValue
+                match fileName with
+                | Some v -> contentDispoHeaderValue.FileName <- v
+                | None -> ()
 
-                content :> HttpContent
+                content.Headers.ContentDisposition <- contentDispoHeaderValue
+                ()
+            | _ -> ()
+
+        let dotnetContent =
+            match part with
+            | StringContent s ->
+                // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header.
+                let content = new StringContent(s) :> HttpContent
+                addDispoHeaderIfNeeded content
+                content
+            | ByteArrayContent data ->
+                let content = new ByteArrayContent(data) :> HttpContent
+                addDispoHeaderIfNeeded content
+                content
+            | StreamContent s ->
+                let content = new StreamContent(s) :> HttpContent
+                addDispoHeaderIfNeeded content
+                content
+            | FormUrlEncodedContent data -> new FormUrlEncodedContent(data) :> HttpContent
+            | FileContent path ->
+                let content =
+                    let fs = System.IO.File.OpenRead path
+                    new StreamContent(fs)
+
+                addDispoHeaderIfNeeded content
+                content
 
         if contentType.IsSome then
             dotnetContent.Headers.ContentType <- MediaTypeHeaderValue.Parse contentType.Value
@@ -55,7 +72,7 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
         | Empty -> null
         | Single bodyContent ->
             let dotnetBodyContent =
-                buildDotnetContent bodyContent.contentData bodyContent.contentType None
+                buildDotnetContent bodyContent.contentData bodyContent.contentType None None
 
             do assignContentHeaders dotnetBodyContent.Headers bodyContent.headers
             dotnetBodyContent
@@ -67,7 +84,9 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
                     let dotnetPart = new MultipartFormDataContent()
 
                     for x in contentPart do
-                        let dotnetContent = buildDotnetContent x.content x.contentType (Some x.name)
+                        let dotnetContent =
+                            buildDotnetContent x.content x.contentType (Some x.name) x.fileName
+
                         dotnetPart.Add(dotnetContent, x.name)
 
                     dotnetPart :> HttpContent

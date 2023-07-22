@@ -91,6 +91,7 @@ type MultipartContent = {
     contentData:
         {|
             name: string
+            fileName: string option
             contentType: string option
             content: ContentData
         |} list

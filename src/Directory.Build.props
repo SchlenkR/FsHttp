@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>11.0.0-preview01</Version>
+    <Version>11.0.0-preview02</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
@@ -71,8 +71,12 @@
       - #112: Allow to add (multiple) headers (by @Samuel-Dufour - thank you)
 
       v11.0.0
-      - #121: Turning off debug logs in FSI (breaking change in signature / namespace)
+      - Breaking change: #121: Turning off debug logs in FSI (breaking change in signature / namespace)
       - #124: Support Repeating Query Parameters (thanks @DaveJohnson8080)
+      - Breaking change: #106: Allow filename metadata with other "parts" (thanks @dawedawe)
+        BEWARE: Look at the "stringPpart" when specifying multipart content:
+                The signature has changed (reordering value and name) so that
+                breaking change cannot be detected by the compiler!
     </PackageReleaseNotes>
   </PropertyGroup>
 
