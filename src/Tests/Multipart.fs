@@ -35,9 +35,9 @@ let ``POST Multipart form data`` () =
         multipart
         filePart "Resources/uploadFile.txt"
         filePart "Resources/uploadFile2.txt"
-        stringPart "hurz1" "das"
-        stringPart "hurz2" "Lamm"
-        stringPart "hurz3" "schrie"
+        stringPart "das" "hurz1"
+        stringPart "Lamm" "hurz2"
+        stringPart "schrie" "hurz3"
     }
     |> Request.send
     |> Response.toText
@@ -97,10 +97,17 @@ let ``POST Multipart part bytearray with optional filename`` () =
         POST(url @"")
         multipart
 
-        part (ContentData.ByteArrayContent [| byte 0xff |]) (Some "image/jpeg") "photo" fileName1
-        part (ContentData.ByteArrayContent [| byte 0xff |]) (Some "image/jpeg") "photo" fileName2
-        part (ContentData.ByteArrayContent [| byte 0xff |]) (Some "image/jpeg") "photo" fileName3
-        part (ContentData.ByteArrayContent [| byte 0xff |]) (Some "image/jpeg") "photo"
+        ContentTypeForPart "image/jpeg"
+        byteArrayPart [| byte 0xff |] "photo" fileName1
+        
+        ContentTypeForPart "image/jpeg"
+        byteArrayPart [| byte 0xff |] "photo" fileName2
+        
+        ContentTypeForPart "image/jpeg"
+        byteArrayPart [| byte 0xff |] "photo" fileName3
+        
+        ContentTypeForPart "image/jpeg"
+        byteArrayPart [| byte 0xff |] "photo"
     }
     |> Request.send
     |> Response.toText
@@ -127,13 +134,13 @@ let ``POST Multipart stringPart with optional filename`` () =
         multipart
 
         ContentTypeForPart "application/json"
-        stringPart "the_name" "the_value" fileName1
+        stringPart "the_value" "the_name" fileName1
 
         ContentTypeForPart "application/json"
-        filePart "Resources/uploadFile.txt" fileName2 "theName"
+        filePart "Resources/uploadFile.txt" "theName" fileName2
 
         ContentTypeForPart "application/json"
-        byteArrayPart "theName" [| byte 0xff |] fileName3
+        byteArrayPart [| byte 0xff |] "theName" fileName3
     }
     |> Request.send
     |> Response.toText

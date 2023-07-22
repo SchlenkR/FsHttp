@@ -335,25 +335,21 @@ type IRequestContext<'self> with
     [<CustomOperation("multipart")>]
     member this.Multipart(context: IRequestContext<#IToMultipartContext>) = context.Self.Transform()
 
-    [<CustomOperation("part")>]
-    member this.Part(context: IRequestContext<MultipartContext>, content, defaultContentType, name, ?fileName) =
-        Multipart.part content defaultContentType name fileName context.Self
-
     [<CustomOperation("stringPart")>]
-    member this.StringPart(context: IRequestContext<MultipartContext>, name, value, ?fileName) =
-        Multipart.stringPart name fileName value context.Self
+    member this.StringPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
+        Multipart.stringPart value name fileName context.Self
 
     [<CustomOperation("filePart")>]
-    member this.FilePart(context: IRequestContext<MultipartContext>, path, ?fileName, ?name) =
-        Multipart.filePart name fileName path context.Self
+    member this.FilePart(context: IRequestContext<MultipartContext>, path, ?name, ?fileName) =
+        Multipart.filePart path name fileName context.Self
 
     [<CustomOperation("byteArrayPart")>]
-    member this.ByteArrayPart(context: IRequestContext<MultipartContext>, name, value, ?fileName) =
-        Multipart.byteArrayPart name fileName value context.Self
+    member this.ByteArrayPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
+        Multipart.byteArrayPart value name fileName context.Self
 
     [<CustomOperation("streamPart")>]
-    member this.StreamPart(context: IRequestContext<MultipartContext>, name, value, ?fileName) =
-        Multipart.streamPart name fileName value context.Self
+    member this.StreamPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
+        Multipart.streamPart value name fileName context.Self
 
 
 // ---------

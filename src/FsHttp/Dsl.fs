@@ -308,7 +308,7 @@ module Body =
 
 module Multipart =
 
-    let part
+    let private part
         (content: ContentData)
         (defaultContentType: string option)
         (name: string)
@@ -340,23 +340,21 @@ module Multipart =
     // PARTS
     // -----
 
-    let stringPart name (fileName: string option) (value: string) (context: IToMultipartContext) =
+    let stringPart (value: string) name (fileName: string option) (context: IToMultipartContext) =
         part (StringContent value) None name fileName context
 
-    let filePart (name: string option) (fileName: string option) (path: string) (context: IToMultipartContext) =
+    let filePart (path: string) (name: string option) (fileName: string option) (context: IToMultipartContext) =
         let fileNameWithFallback =
             fileName
             |> Option.defaultWith (fun () -> System.IO.Path.GetFileNameWithoutExtension path)
-
         let nameWithFallback = name |> Option.defaultValue fileNameWithFallback
-
         let contentType = MimeTypes.guessMimeTypeFromPath path MimeTypes.defaultMimeType
         part (FileContent path) (Some contentType) nameWithFallback (Some fileNameWithFallback) context
 
-    let byteArrayPart name fileName (value: byte[]) (context: IToMultipartContext) =
+    let byteArrayPart (value: byte[]) name fileName (context: IToMultipartContext) =
         part (ByteArrayContent value) None name fileName context
 
-    let streamPart name fileName (value: System.IO.Stream) (context: IToMultipartContext) =
+    let streamPart (value: System.IO.Stream) name fileName (context: IToMultipartContext) =
         part (StreamContent value) None name fileName context
 
 
