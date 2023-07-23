@@ -137,7 +137,7 @@ let ``ContentType with encoding`` () =
     http {
         POST(url @"")
         body
-        ContentTypeWithEncoding contentType Encoding.UTF8
+        ContentType contentType Encoding.UTF8
         text "hello world"
     }
     |> Request.send

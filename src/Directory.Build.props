@@ -74,9 +74,12 @@
       - Breaking change: #121: Turning off debug logs in FSI (breaking change in signature / namespace)
       - #124: Support Repeating Query Parameters (thanks @DaveJohnson8080)
       - Breaking change: #106: Allow filename metadata with other "parts" (thanks @dawedawe)
-        BEWARE: Look at the "stringPpart" when specifying multipart content:
-                The signature has changed (reordering value and name) so that
-                breaking change cannot be detected by the compiler!
+      - Breaking change: ContentTypeForPart custom operations should come after part definition
+      - Breaking changes
+        - Removed `ContentTypeWithEncoding` and used optional `charset` parameter in `ContentType` overloads.
+        - Renamed `byteArray` to `binary` in Dsl, DslCE and CSharp.
+        - Caution (!!): Renamed `stringPart` to `textPart` and changed argument order for `name` and `value` in Dsl and DslCE.
+        - Restructured types in Domain
     </PackageReleaseNotes>
   </PropertyGroup>
 

@@ -17,11 +17,10 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
 
     let buildDotnetContent
         (part: ContentData)
-        (contentType: string option)
+        (contentType: ContentType option)
         (name: string option)
         (fileName: string option)
         =
-
         let addDispoHeaderIfNeeded (content: HttpContent) =
             match request.content with
             | Multi _ ->
@@ -41,12 +40,12 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
 
         let dotnetContent =
             match part with
-            | StringContent s ->
+            | TextContent s ->
                 // TODO: Encoding is set hard to UTF8 - but the HTTP request has it's own encoding header.
                 let content = new StringContent(s) :> HttpContent
                 addDispoHeaderIfNeeded content
                 content
-            | ByteArrayContent data ->
+            | BinaryContent data ->
                 let content = new ByteArrayContent(data) :> HttpContent
                 addDispoHeaderIfNeeded content
                 content
@@ -63,8 +62,9 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
                 addDispoHeaderIfNeeded content
                 content
 
-        if contentType.IsSome then
-            dotnetContent.Headers.ContentType <- MediaTypeHeaderValue.Parse contentType.Value
+        match contentType with
+        | Some contentType -> do dotnetContent.Headers.ContentType <- contentType.ToMediaHeaderValue()
+        | _ -> ()
 
         dotnetContent
 
@@ -77,22 +77,30 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
         | Empty -> null
         | Single bodyContent ->
             let dotnetBodyContent =
-                buildDotnetContent bodyContent.contentData bodyContent.contentType None None
+                buildDotnetContent
+                    bodyContent.contentElement.contentData
+                    bodyContent.contentElement.explicitContentType
+                    None
+                    None
 
             do assignContentHeaders dotnetBodyContent.Headers bodyContent.headers
             dotnetBodyContent
         | Multi multipartContent ->
             let dotnetMultipartContent =
-                match multipartContent.contentData with
+                match multipartContent.partElements with
                 | [] -> null
-                | contentPart ->
+                | parts ->
                     let dotnetPart = new MultipartFormDataContent()
 
-                    for x in contentPart do
+                    for part in parts do
                         let dotnetContent =
-                            buildDotnetContent x.content x.contentType (Some x.name) x.fileName
+                            buildDotnetContent
+                                part.content.contentData
+                                part.content.explicitContentType
+                                (Some part.name)
+                                part.fileName
 
-                        dotnetPart.Add(dotnetContent, x.name)
+                        dotnetPart.Add(dotnetContent, part.name)
 
                     dotnetPart :> HttpContent
 

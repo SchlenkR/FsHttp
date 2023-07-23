@@ -8,6 +8,6 @@ http {
     POST $"https://api.telegram.org/bot_apiTelegramKey/sendPhoto"
 
     multipart
-    part (ContentData.ByteArrayContent weather) (Some "image/jpeg") "photo"
+    part (ContentData.BinaryContent weather) (Some "image/jpeg") "photo"
 }
 |> Request.send

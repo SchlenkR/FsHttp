@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Overview</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Ronald Schlenker">
+    <meta name="author" content="">
 
     <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -51,9 +51,9 @@
             <!-- END SEARCH BOX: this adds support for the search box -->
             <ul class="navbar-nav">
                 <li class="nav-header">Links</li>
-                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/blob/master/LICENSE">License</a></li>
-                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://www.nuget.org/packages/FsHttp">Release Notes</a></li>
-                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/">Source Repository</a></li>
+                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="{{fsdocs-license-link}}">License</a></li>
+                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="{{fsdocs-release-notes-link}}">Release Notes</a></li>
+                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="{{fsdocs-repository-link}}">Source Repository</a></li>
                 <li class="nav-header">
   Documentation
 </li>             
@@ -107,14 +107,7 @@
     Configuration
   </a>
 </li>
-                <li class="nav-header">
-  API Reference
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
-    All Namespaces
-  </a>
-</li>
+                {{fsdocs-list-of-namespaces}}
             </ul>
         </div>
     </nav>
@@ -188,41 +181,45 @@
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs16', 36)" onmouseover="showTip(event, 'fs16', 36)" class="m">GlobalConfig</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 37)" onmouseover="showTip(event, 'fs20', 37)" class="id">set</span>
 </code></pre>
 
-            <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
+            <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
 <div class="fsdocs-tip" id="fs2">val http : StartingContext</div>
-<div class="fsdocs-tip" id="fs3">Benutzerdefinierter Vorgang: GET (string)
+<div class="fsdocs-tip" id="fs3">custom operation: GET (string)
 
-Aufrufe IRequestContext.Get</div>
-<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: AcceptLanguage (string)
+Calls IRequestContext.Get</div>
+<div class="fsdocs-tip" id="fs4">custom operation: AcceptLanguage (string)
 
-Aufrufe IRequestContext.AcceptLanguage<br /><em>&lt;summary&gt;
+Calls IRequestContext.AcceptLanguage<br /><em>&lt;summary&gt;
  List of acceptable human languages for response
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs5">Multiple items<br />Modul Request
+<div class="fsdocs-tip" id="fs5">Multiple items<br />module Request
 
-aus FsHttp<br /><br />--------------------<br />type Request =
+from FsHttp.Print<br /><br />--------------------<br />module Request
+
+from FsHttp<br /><br />--------------------<br />type Request =
   { header: Header
     content: RequestContent
     config: Config }</div>
 <div class="fsdocs-tip" id="fs6">val send : context:IToRequest -&gt; Response<br /><em>&lt;summary&gt;
  Sends a request synchronously.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs7">Benutzerdefinierter Vorgang: POST (string)
+<div class="fsdocs-tip" id="fs7">custom operation: POST (string)
 
-Aufrufe IRequestContext.Post</div>
-<div class="fsdocs-tip" id="fs8">Benutzerdefinierter Vorgang: body
+Calls IRequestContext.Post</div>
+<div class="fsdocs-tip" id="fs8">custom operation: body
 
-Aufrufe IRequestContext.Body<br /><em>&lt;summary&gt;
+Calls IRequestContext.Body<br /><em>&lt;summary&gt;
  An explicit transformation from a previous context to allow for describing the request body.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs9">Benutzerdefinierter Vorgang: jsonSerialize (&#39;a)
+<div class="fsdocs-tip" id="fs9">custom operation: jsonSerialize (&#39;a)
 
-Aufrufe IRequestContext.JsonSerialize</div>
+Calls IRequestContext.JsonSerialize</div>
 <div class="fsdocs-tip" id="fs10">val name : string</div>
 <div class="fsdocs-tip" id="fs11">val age : int</div>
-<div class="fsdocs-tip" id="fs12">Multiple items<br />Modul Response
+<div class="fsdocs-tip" id="fs12">Multiple items<br />module Response
 
-aus FsHttp<br /><br />--------------------<br />type Response =
+from FsHttp.Print<br /><br />--------------------<br />module Response
+
+from FsHttp<br /><br />--------------------<br />type Response =
   { request: Request
     requestMessage: HttpRequestMessage
     content: HttpContent
@@ -237,21 +234,21 @@ aus FsHttp<br /><br />--------------------<br />type Response =
     interface IConfigure&lt;PrintHintTransformer,Response&gt;</div>
 <div class="fsdocs-tip" id="fs13">val toJson : response:Response -&gt; System.Text.Json.JsonElement</div>
 <div class="fsdocs-tip" id="fs14">val json : System.Text.Json.JsonElement</div>
-<div class="fsdocs-tip" id="fs15">Benutzerdefinierter Vorgang: config_timeoutInSeconds (float)
+<div class="fsdocs-tip" id="fs15">custom operation: config_timeoutInSeconds (float)
 
-Aufrufe IRequestContext.TimeoutInSeconds</div>
-<div class="fsdocs-tip" id="fs16">Modul GlobalConfig
+Calls IRequestContext.TimeoutInSeconds</div>
+<div class="fsdocs-tip" id="fs16">module GlobalConfig
 
-aus FsHttp</div>
+from FsHttp</div>
 <div class="fsdocs-tip" id="fs17">val defaults : GlobalConfig.GlobalConfigWrapper</div>
-<div class="fsdocs-tip" id="fs18">Multiple items<br />Modul Config
+<div class="fsdocs-tip" id="fs18">Multiple items<br />module Config
 
-aus FsHttp.Dsl<br /><br />--------------------<br />type Config =
-  { timeout: TimeSpan
+from FsHttp.Dsl<br /><br />--------------------<br />type Config =
+  { timeout: TimeSpan option
     printHint: PrintHint
-    httpMessageTransformer: (HttpRequestMessage -&gt; HttpRequestMessage) option
+    httpMessageTransformer: HttpRequestMessage -&gt; HttpRequestMessage
     httpClientHandlerTransformer: HttpClientHandlerTransformer
-    httpClientTransformer: (HttpClient -&gt; HttpClient) option
+    httpClientTransformer: HttpClient -&gt; HttpClient
     httpCompletionOption: HttpCompletionOption
     proxy: Proxy option
     certErrorStrategy: CertErrorStrategy

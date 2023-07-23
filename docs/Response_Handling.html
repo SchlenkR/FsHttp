@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Response Handling</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Ronald Schlenker">
+    <meta name="author" content="">
 
     <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -51,9 +51,9 @@
             <!-- END SEARCH BOX: this adds support for the search box -->
             <ul class="navbar-nav">
                 <li class="nav-header">Links</li>
-                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/blob/master/LICENSE">License</a></li>
-                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://www.nuget.org/packages/FsHttp">Release Notes</a></li>
-                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/">Source Repository</a></li>
+                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="{{fsdocs-license-link}}">License</a></li>
+                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="{{fsdocs-release-notes-link}}">Release Notes</a></li>
+                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="{{fsdocs-repository-link}}">Source Repository</a></li>
                 <li class="nav-header">
   Documentation
 </li>             
@@ -107,14 +107,7 @@
     Configuration
   </a>
 </li>
-                <li class="nav-header">
-  API Reference
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
-    All Namespaces
-  </a>
-</li>
+                {{fsdocs-list-of-namespaces}}
             </ul>
         </div>
     </nav>
@@ -187,36 +180,40 @@ that will be used as default for any request where JSON (de)serialization is inv
 <span class="o">|&gt;</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs36', 57)" onmouseover="showTip(event, 'fs36', 57)" class="fn">p</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs36', 58)" onmouseover="showTip(event, 'fs36', 58)" class="fn">p</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 59)" onmouseover="showTip(event, 'fs30', 59)" class="id">address</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 60)" onmouseover="showTip(event, 'fs32', 60)" class="id">john</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 61)" onmouseover="showTip(event, 'fs30', 61)" class="id">address</span> <span class="c">// true</span>
 </code></pre>
 
-            <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
+            <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
 <div class="fsdocs-tip" id="fs2">val http : StartingContext</div>
-<div class="fsdocs-tip" id="fs3">Benutzerdefinierter Vorgang: POST (string)
+<div class="fsdocs-tip" id="fs3">custom operation: POST (string)
 
-Aufrufe IRequestContext.Post</div>
-<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: CacheControl (string)
+Calls IRequestContext.Post</div>
+<div class="fsdocs-tip" id="fs4">custom operation: CacheControl (string)
 
-Aufrufe IRequestContext.CacheControl<br /><em>&lt;summary&gt;
+Calls IRequestContext.CacheControl<br /><em>&lt;summary&gt;
  Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs5">Benutzerdefinierter Vorgang: body
+<div class="fsdocs-tip" id="fs5">custom operation: body
 
-Aufrufe IRequestContext.Body<br /><em>&lt;summary&gt;
+Calls IRequestContext.Body<br /><em>&lt;summary&gt;
  An explicit transformation from a previous context to allow for describing the request body.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs6">Benutzerdefinierter Vorgang: json (string)
+<div class="fsdocs-tip" id="fs6">custom operation: json (string)
 
-Aufrufe IRequestContext.Json</div>
-<div class="fsdocs-tip" id="fs7">Multiple items<br />Modul Request
+Calls IRequestContext.Json</div>
+<div class="fsdocs-tip" id="fs7">Multiple items<br />module Request
 
-aus FsHttp<br /><br />--------------------<br />type Request =
+from FsHttp.Print<br /><br />--------------------<br />module Request
+
+from FsHttp<br /><br />--------------------<br />type Request =
   { header: Header
     content: RequestContent
     config: Config }</div>
 <div class="fsdocs-tip" id="fs8">val send : context:IToRequest -&gt; Response<br /><em>&lt;summary&gt;
  Sends a request synchronously.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs9">Multiple items<br />Modul Response
+<div class="fsdocs-tip" id="fs9">Multiple items<br />module Response
 
-aus FsHttp<br /><br />--------------------<br />type Response =
+from FsHttp.Print<br /><br />--------------------<br />module Response
+
+from FsHttp<br /><br />--------------------<br />type Response =
   { request: Request
     requestMessage: HttpRequestMessage
     content: HttpContent
@@ -230,45 +227,54 @@ aus FsHttp<br /><br />--------------------<br />type Response =
     interface IDisposable
     interface IConfigure&lt;PrintHintTransformer,Response&gt;</div>
 <div class="fsdocs-tip" id="fs10">val toJson : response:Response -&gt; System.Text.Json.JsonElement</div>
-<div class="fsdocs-tip" id="fs11">Benutzerdefinierter Vorgang: GET (string)
+<div class="fsdocs-tip" id="fs11">custom operation: GET (string)
 
-Aufrufe IRequestContext.Get</div>
+Calls IRequestContext.Get</div>
 <div class="fsdocs-tip" id="fs12">val json : System.Text.Json.JsonElement</div>
-<div class="fsdocs-tip" id="fs13">Namespace System</div>
-<div class="fsdocs-tip" id="fs14">Namespace System.Text</div>
-<div class="fsdocs-tip" id="fs15">Namespace System.Text.Json</div>
-<div class="fsdocs-tip" id="fs16">Namespace System.Text.Json.Serialization</div>
-<div class="fsdocs-tip" id="fs17">Modul GlobalConfig
+<div class="fsdocs-tip" id="fs13">namespace System</div>
+<div class="fsdocs-tip" id="fs14">namespace System.Text</div>
+<div class="fsdocs-tip" id="fs15">namespace System.Text.Json</div>
+<div class="fsdocs-tip" id="fs16">namespace System.Text.Json.Serialization</div>
+<div class="fsdocs-tip" id="fs17">module GlobalConfig
 
-aus FsHttp</div>
-<div class="fsdocs-tip" id="fs18">Modul Json
+from FsHttp</div>
+<div class="fsdocs-tip" id="fs18">module Json
 
-aus FsHttp.GlobalConfig</div>
+from FsHttp.GlobalConfig</div>
 <div class="fsdocs-tip" id="fs19">val mutable defaultJsonSerializerOptions : JsonSerializerOptions</div>
 <div class="fsdocs-tip" id="fs20">val options : JsonSerializerOptions</div>
 <div class="fsdocs-tip" id="fs21">Multiple items<br />type JsonSerializerOptions =
-  new : unit -&gt; unit + 2 &#220;berladungen
+  new : unit -&gt; unit + 2 overloads
   member AddContext&lt;&#39;TContext (requires default constructor and &#39;TContext :&gt; JsonSerializerContext)&gt; : unit -&gt; unit
   member GetConverter : typeToConvert: Type -&gt; JsonConverter
+  member GetTypeInfo : type: Type -&gt; JsonTypeInfo
   member AllowTrailingCommas : bool
   member Converters : IList&lt;JsonConverter&gt;
   member DefaultBufferSize : int
   member DefaultIgnoreCondition : JsonIgnoreCondition
   member DictionaryKeyPolicy : JsonNamingPolicy
   member Encoder : JavaScriptEncoder
-  member IgnoreNullValues : bool
   ...<br /><em>&lt;summary&gt;Provides options to be used with &lt;see cref=&quot;T:System.Text.Json.JsonSerializer&quot; /&gt;.&lt;/summary&gt;</em><br /><br />--------------------<br />JsonSerializerOptions() : JsonSerializerOptions<br />JsonSerializerOptions(defaults: JsonSerializerDefaults) : JsonSerializerOptions<br />JsonSerializerOptions(options: JsonSerializerOptions) : JsonSerializerOptions</div>
-<div class="fsdocs-tip" id="fs22">Eigenschaft JsonSerializerOptions.Converters: System.Collections.Generic.IList&lt;JsonConverter&gt; with get<br /><em>&lt;summary&gt;Gets the list of user-defined converters that were registered.&lt;/summary&gt;<br />&lt;returns&gt;The list of custom converters.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs22">property JsonSerializerOptions.Converters: System.Collections.Generic.IList&lt;JsonConverter&gt; with get<br /><em>&lt;summary&gt;Gets the list of user-defined converters that were registered.&lt;/summary&gt;<br />&lt;returns&gt;The list of custom converters.&lt;/returns&gt;</em></div>
 <div class="fsdocs-tip" id="fs23">System.Collections.Generic.ICollection.Add(item: JsonConverter) : unit</div>
 <div class="fsdocs-tip" id="fs24">Multiple items<br />type JsonFSharpConverter =
   inherit JsonConverterFactory
-  new : fsOptions:JsonFSharpOptions * overrides:IDictionary&lt;Type,JsonFSharpOptions&gt; -&gt; JsonFSharpConverter + 1 &#220;berladung
+  new : fsOptions:JsonFSharpOptions * overrides:IDictionary&lt;Type,JsonFSharpOptions&gt; -&gt; JsonFSharpConverter + 2 overloads
   override CanConvert : typeToConvert:Type -&gt; bool
-  static member private CreateConverter : typeToConvert:Type * options:JsonSerializerOptions * fsOptions:JsonFSharpOptions * overrides:IDictionary&lt;Type,JsonFSharpOptions&gt; -&gt; JsonConverter + 1 &#220;berladung<br /><br />--------------------<br />type JsonFSharpConverterAttribute =
+  static member private CreateConverter : typeToConvert:Type * options:JsonSerializerOptions * fsOptions:JsonFSharpOptions -&gt; JsonConverter + 1 overload
+  member Options : JsonFSharpOptions
+  member Overrides : (JsonFSharpOptions -&gt; IDictionary&lt;Type,JsonFSharpOptions&gt;)<br /><br />--------------------<br />type JsonFSharpConverterAttribute =
   inherit JsonConverterAttribute
   interface IJsonFSharpConverterAttribute
-  new : unionEncoding:JsonUnionEncoding * unionTagName:JsonUnionTagName * unionFieldsName:JsonUnionFieldsName * unionTagCaseInsensitive:bool * allowNullFields:bool -&gt; JsonFSharpConverterAttribute
-  override CreateConverter : typeToConvert:Type -&gt; JsonConverter<br /><br />--------------------<br />new : fsOptions:JsonFSharpOptions * overrides:System.Collections.Generic.IDictionary&lt;System.Type,JsonFSharpOptions&gt; -&gt; JsonFSharpConverter<br />new : unionEncoding:JsonUnionEncoding * unionTagName:JsonUnionTagName * unionFieldsName:JsonUnionFieldsName * unionTagNamingPolicy:JsonNamingPolicy * unionTagCaseInsensitive:bool * allowNullFields:bool * allowOverride:bool * overrides:System.Collections.Generic.IDictionary&lt;System.Type,JsonFSharpOptions&gt; -&gt; JsonFSharpConverter<br /><br />--------------------<br />new : unionEncoding:JsonUnionEncoding * unionTagName:JsonUnionTagName * unionFieldsName:JsonUnionFieldsName * unionTagCaseInsensitive:bool * allowNullFields:bool -&gt; JsonFSharpConverterAttribute</div>
+  new : fsOptions:JsonFSharpOptions -&gt; JsonFSharpConverterAttribute + 2 overloads
+  override CreateConverter : typeToConvert:Type -&gt; JsonConverter
+  member AllowNullFields : bool with set
+  member BaseUnionEncoding : JsonUnionEncoding with set
+  member IncludeRecordProperties : bool with set
+  member SkippableOptionFields : bool with set
+  member Types : JsonFSharpTypes with set
+  member UnionAllowUnorderedTag : bool with set
+  ...<br /><br />--------------------<br />new : unit -&gt; JsonFSharpConverter<br />new : fsOptions:JsonFSharpOptions * overrides:System.Collections.Generic.IDictionary&lt;System.Type,JsonFSharpOptions&gt; -&gt; JsonFSharpConverter<br />new : unionEncoding:JsonUnionEncoding * unionTagName:JsonUnionTagName * unionFieldsName:JsonUnionFieldsName * unionTagNamingPolicy:JsonNamingPolicy * unionFieldNamingPolicy:JsonNamingPolicy * unionTagCaseInsensitive:bool * allowNullFields:bool * includeRecordProperties:bool * types:JsonFSharpTypes * allowOverride:bool * overrides:System.Collections.Generic.IDictionary&lt;System.Type,JsonFSharpOptions&gt; -&gt; JsonFSharpConverter<br /><br />--------------------<br />new : unit -&gt; JsonFSharpConverterAttribute<br />new : fsOptions:JsonFSharpOptions -&gt; JsonFSharpConverterAttribute<br />new : unionEncoding:JsonUnionEncoding * unionTagName:JsonUnionTagName * unionFieldsName:JsonUnionFieldsName * unionTagNamingPolicy:JsonKnownNamingPolicy * unionFieldNamingPolicy:JsonKnownNamingPolicy * unionTagCaseInsensitive:bool * allowNullFields:bool * includeRecordProperties:bool * types:JsonFSharpTypes -&gt; JsonFSharpConverterAttribute</div>
 <div class="fsdocs-tip" id="fs25">type Person =
   { name: string
     age: int
@@ -295,10 +301,10 @@ type int = int32<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;se
  Instance methods on this type will appear as static methods to other CLI languages
  due to the use of &lt;c&gt;null&lt;/c&gt; as a value representation.&lt;/remarks&gt;<br />&lt;category index=&quot;3&quot;&gt;Options&lt;/category&gt;</em></div>
 <div class="fsdocs-tip" id="fs32">val john : Person</div>
-<div class="fsdocs-tip" id="fs33">Union-Fall Option.Some: Value: &#39;T -&gt; Option&lt;&#39;T&gt;<br /><em>&lt;summary&gt;The representation of &quot;Value of type &#39;T&quot;&lt;/summary&gt;<br />&lt;param name=&quot;Value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;An option representing the value.&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs34">Benutzerdefinierter Vorgang: jsonSerialize (&#39;a)
+<div class="fsdocs-tip" id="fs33">union case Option.Some: Value: &#39;T -&gt; Option&lt;&#39;T&gt;<br /><em>&lt;summary&gt;The representation of &quot;Value of type &#39;T&quot;&lt;/summary&gt;<br />&lt;param name=&quot;Value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;An option representing the value.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs34">custom operation: jsonSerialize (&#39;a)
 
-Aufrufe IRequestContext.JsonSerialize</div>
+Calls IRequestContext.JsonSerialize</div>
 <div class="fsdocs-tip" id="fs35">val deserializeJson : response:Response -&gt; &#39;a</div>
 <div class="fsdocs-tip" id="fs36">val p : Person</div>
 

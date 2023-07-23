@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>HttpClient And HttpMessage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Ronald Schlenker">
+    <meta name="author" content="">
 
     <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -51,9 +51,9 @@
             <!-- END SEARCH BOX: this adds support for the search box -->
             <ul class="navbar-nav">
                 <li class="nav-header">Links</li>
-                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/blob/master/LICENSE">License</a></li>
-                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://www.nuget.org/packages/FsHttp">Release Notes</a></li>
-                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/">Source Repository</a></li>
+                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="{{fsdocs-license-link}}">License</a></li>
+                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="{{fsdocs-release-notes-link}}">Release Notes</a></li>
+                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="{{fsdocs-repository-link}}">Source Repository</a></li>
                 <li class="nav-header">
   Documentation
 </li>             
@@ -107,14 +107,7 @@
     Configuration
   </a>
 </li>
-                <li class="nav-header">
-  API Reference
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="/FsHttp/reference/index.html">
-    All Namespaces
-  </a>
-</li>
+                {{fsdocs-list-of-namespaces}}
             </ul>
         </div>
     </nav>
@@ -144,34 +137,34 @@
 <span class="pn">}</span>
 </code></pre>
 
-            <div class="fsdocs-tip" id="fs1">Namespace FsHttp</div>
+            <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
 <div class="fsdocs-tip" id="fs2">val http : StartingContext</div>
-<div class="fsdocs-tip" id="fs3">Benutzerdefinierter Vorgang: GET (string)
+<div class="fsdocs-tip" id="fs3">custom operation: GET (string)
 
-Aufrufe IRequestContext.Get</div>
-<div class="fsdocs-tip" id="fs4">Benutzerdefinierter Vorgang: config_transformHttpClient (System.Net.Http.HttpClient -&gt; System.Net.Http.HttpClient)
+Calls IRequestContext.Get</div>
+<div class="fsdocs-tip" id="fs4">custom operation: config_transformHttpClient (System.Net.Http.HttpClient -&gt; System.Net.Http.HttpClient)
 
-Aufrufe IRequestContext.TransformHttpClient</div>
+Calls IRequestContext.TransformHttpClient</div>
 <div class="fsdocs-tip" id="fs5">val httpClient : System.Net.Http.HttpClient</div>
-<div class="fsdocs-tip" id="fs6">Eigenschaft System.Net.Http.HttpClient.Timeout: System.TimeSpan with get, set<br /><em>&lt;summary&gt;Gets or sets the timespan to wait before the request times out.&lt;/summary&gt;<br />&lt;exception cref=&quot;T:System.ArgumentOutOfRangeException&quot;&gt;The timeout specified is less than or equal to zero and is not &lt;see cref=&quot;F:System.Threading.Timeout.InfiniteTimeSpan&quot; /&gt;.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.InvalidOperationException&quot;&gt;An operation has already been started on the current instance.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.ObjectDisposedException&quot;&gt;The current instance has been disposed.&lt;/exception&gt;<br />&lt;returns&gt;The timespan to wait before the request times out.&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs7">Namespace System</div>
+<div class="fsdocs-tip" id="fs6">property System.Net.Http.HttpClient.Timeout: System.TimeSpan with get, set<br /><em>&lt;summary&gt;Gets or sets the timespan to wait before the request times out.&lt;/summary&gt;<br />&lt;exception cref=&quot;T:System.ArgumentOutOfRangeException&quot;&gt;The timeout specified is less than or equal to zero and is not &lt;see cref=&quot;F:System.Threading.Timeout.InfiniteTimeSpan&quot; /&gt;.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.InvalidOperationException&quot;&gt;An operation has already been started on the current instance.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.ObjectDisposedException&quot;&gt;The current instance has been disposed.&lt;/exception&gt;<br />&lt;returns&gt;The timespan to wait before the request times out.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs7">namespace System</div>
 <div class="fsdocs-tip" id="fs8">Multiple items<br />[&lt;Struct&gt;]
 type TimeSpan =
-  new : hours: int * minutes: int * seconds: int -&gt; unit + 3 &#220;berladungen
+  new : hours: int * minutes: int * seconds: int -&gt; unit + 4 overloads
   member Add : ts: TimeSpan -&gt; TimeSpan
-  member CompareTo : value: obj -&gt; int + 1 &#220;berladung
-  member Divide : divisor: float -&gt; TimeSpan + 1 &#220;berladung
+  member CompareTo : value: obj -&gt; int + 1 overload
+  member Divide : divisor: float -&gt; TimeSpan + 1 overload
   member Duration : unit -&gt; TimeSpan
-  member Equals : value: obj -&gt; bool + 2 &#220;berladungen
+  member Equals : value: obj -&gt; bool + 2 overloads
   member GetHashCode : unit -&gt; int
   member Multiply : factor: float -&gt; TimeSpan
   member Negate : unit -&gt; TimeSpan
   member Subtract : ts: TimeSpan -&gt; TimeSpan
-  ...<br /><em>&lt;summary&gt;Represents a time interval.&lt;/summary&gt;</em><br /><br />--------------------<br />System.TimeSpan ()<br />System.TimeSpan(ticks: int64) : System.TimeSpan<br />System.TimeSpan(hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int, milliseconds: int) : System.TimeSpan</div>
+  ...<br /><em>&lt;summary&gt;Represents a time interval.&lt;/summary&gt;</em><br /><br />--------------------<br />System.TimeSpan ()<br />System.TimeSpan(ticks: int64) : System.TimeSpan<br />System.TimeSpan(hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int, milliseconds: int) : System.TimeSpan<br />System.TimeSpan(days: int, hours: int, minutes: int, seconds: int, milliseconds: int, microseconds: int) : System.TimeSpan</div>
 <div class="fsdocs-tip" id="fs9">System.TimeSpan.FromMilliseconds(value: float) : System.TimeSpan</div>
-<div class="fsdocs-tip" id="fs10">Benutzerdefinierter Vorgang: config_transformHttpRequestMessage (System.Net.Http.HttpRequestMessage -&gt; System.Net.Http.HttpRequestMessage)
+<div class="fsdocs-tip" id="fs10">custom operation: config_transformHttpRequestMessage (System.Net.Http.HttpRequestMessage -&gt; System.Net.Http.HttpRequestMessage)
 
-Aufrufe IRequestContext.TransformHttpRequestMessage</div>
+Calls IRequestContext.TransformHttpRequestMessage</div>
 <div class="fsdocs-tip" id="fs11">val msg : System.Net.Http.HttpRequestMessage</div>
 <div class="fsdocs-tip" id="fs12">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Print to &lt;c&gt;stdout&lt;/c&gt; using the given format, and add a newline.&lt;/summary&gt;<br />&lt;param name=&quot;format&quot;&gt;The formatter.&lt;/param&gt;<br />&lt;returns&gt;The formatted result.&lt;/returns&gt;</em></div>
 

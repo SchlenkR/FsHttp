@@ -57,8 +57,8 @@ let private doPrintRequestOnly (httpVersion: string) (request: Request) (request
     let printRequestBody () =
         let formatContentData contentData =
             match contentData with
-            | StringContent s -> s
-            | ByteArrayContent bytes -> sprintf "::ByteArray (length = %d)" bytes.Length
+            | TextContent s -> s
+            | BinaryContent bytes -> sprintf "::Binary (length = %d)" bytes.Length
             | StreamContent stream ->
                 sprintf "::Stream (length = %s)" (if stream.CanSeek then stream.Length.ToString() else "?")
             | FormUrlEncodedContent formDataList ->
@@ -77,26 +77,23 @@ let private doPrintRequestOnly (httpVersion: string) (request: Request) (request
 
         sb.appendLine (contentIndicator + multipartIndicator)
 
-        sb.appendLine
-        <| match request.content with
-           | Empty -> ""
-           | Single bodyContent -> formatContentData bodyContent.contentData
-           | Multi multipartContent ->
-               [
-                   for contentData in multipartContent.contentData do
-                       yield $"-------- {contentData.name}"
+        match request.content with
+        | Empty -> ""
+        | Single bodyContent -> formatContentData bodyContent.contentElement.contentData
+        | Multi multipartContent ->
+            [
+                for part in multipartContent.partElements do
+                    yield $"-------- {part.name}"
 
-                       yield
-                           "Part content type: "
-                           + (
-                               match contentData.contentType with
-                               | Some v -> v
-                               | _ -> ""
-                           )
+                    match part.content.explicitContentType with
+                    | Some x -> yield $"Part content type: {x.ToMediaHeaderValue().ToString()}"
+                    | _ -> ()
 
-                       yield formatContentData contentData.content
-               ]
-               |> String.concat "\n"
+                    yield formatContentData part.content.contentData
+            ]
+            |> String.concat "\n"
+        |> sb.appendLine
+
 
     // TODO: bodyConfig
     match requestPrintHint with

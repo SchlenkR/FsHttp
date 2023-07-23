@@ -82,12 +82,12 @@ let a' = get "https://www.google.de" :> IBuilder<HeaderContext>
 
 let x = a' {
     multipart
-    stringPart "" ""
+    textPart "" ""
 }
 
 get "https://www.google.de" {
     multipart
-    stringPart "" ""
+    textPart "" ""
 }
 |> Request.send
 
@@ -95,7 +95,7 @@ get "https://www.google.de" {
 http {
     GET "https://www.google.de"
     multipart
-    stringPart "" ""
+    textPart "" ""
 }
 |> Request.send
 

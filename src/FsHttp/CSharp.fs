@@ -327,13 +327,21 @@ type Body =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     [<Extension>]
-    static member ContentType(context: IRequestContext<BodyContext>, contentType) =
-        Body.contentType contentType context.Self
+    static member ContentType(context: IRequestContext<BodyContext>, contentType, ?charset) =
+        Body.contentType contentType charset context.Self
 
-    /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
+
+// -----------------
+// Multipart Element
+// -----------------
+
+[<Extension>]
+type MultipartElement =
+
+    /// The MIME type of the body of the request (used with POST and PUT requests)
     [<Extension>]
-    static member ContentTypeWithEncoding(context: IRequestContext<BodyContext>, contentType, charset) =
-        Body.contentTypeWithEncoding contentType charset context.Self
+    static member ContentType(context: IRequestContext<MultipartElementContext>, contentType, ?charset) =
+        MultipartElement.contentType contentType charset context.Self
 
 
 // ---------
@@ -343,30 +351,21 @@ type Body =
 [<Extension>]
 type Multipart =
 
-    /// The MIME type of the body of the request (used with POST and PUT requests)
-    [<Extension>]
-    static member ContentTypeForPart(context: IRequestContext<MultipartContext>, contentType) =
-        Multipart.contentType contentType context.Self
-
-    // -----
-    // PARTS
-    // -----
-
     /// An explicit transformation from a previous context to allow for describing the request multiparts.
     [<Extension>]
     static member Multipart(context: IRequestContext<#IToMultipartContext>) = context.Self.Transform()
 
     [<Extension>]
-    static member StringPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
-        Multipart.stringPart value name fileName context.Self
+    static member TextPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
+        Multipart.textPart value name fileName context.Self
 
     [<Extension>]
     static member FilePart(context: IRequestContext<MultipartContext>, path, ?name, ?fileName) =
         Multipart.filePart path name fileName context.Self
 
     [<Extension>]
-    static member ByteArrayPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
-        Multipart.byteArrayPart value name fileName context.Self
+    static member BinaryPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
+        Multipart.binaryPart value name fileName context.Self
 
     [<Extension>]
     static member StreamPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =

@@ -1,8 +1,6 @@
 [<AutoOpen>]
 module FsHttp.Domain
 
-open System
-
 type StatusCodeExpectation = {
     expected: System.Net.HttpStatusCode list
     actual: System.Net.HttpStatusCode
@@ -42,7 +40,7 @@ type HttpClientHandlerTransformer =
 #endif
 
 type Config = {
-    timeout: TimeSpan option
+    timeout: System.TimeSpan option
     printHint: PrintHint
     httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage)
     httpClientHandlerTransformer: HttpClientHandlerTransformer
@@ -51,8 +49,7 @@ type Config = {
     proxy: Proxy option
     certErrorStrategy: CertErrorStrategy
     httpClientFactory: (unit -> System.Net.Http.HttpClient) option
-
-    /// Calls `LoadIntoBufferAsync` of the response's HttpContent immediately after receiving.
+    // Calls `LoadIntoBufferAsync` of the response's HttpContent immediately after receiving.
     bufferResponseContent: bool
 }
 
@@ -75,34 +72,42 @@ type Header = {
 }
 
 type ContentData =
-    | StringContent of string
-    | ByteArrayContent of byte array
+    | TextContent of string
+    | BinaryContent of byte array
     | StreamContent of System.IO.Stream
     | FormUrlEncodedContent of Map<string, string>
     | FileContent of string
 
-type BodyContent = {
-    contentData: ContentData
-    headers: Map<string, string>
-    contentType: string option
+type ContentType = {
+    value: string
+    charset: System.Text.Encoding option
 }
 
-type MultipartContent = {
-    contentData:
-        {|
-            name: string
-            fileName: string option
-            contentType: string option
-            content: ContentData
-        |} list
-    headers: Map<string, string>
-    contentType: string
+type ContentElement = {
+    contentData: ContentData
+    explicitContentType: ContentType option
 }
 
 type RequestContent =
     | Empty
     | Single of BodyContent
     | Multi of MultipartContent
+
+and BodyContent = {
+    contentElement: ContentElement
+    headers: Map<string, string>
+}
+
+and MultipartContent = {
+    partElements: MultipartElement list
+    headers: Map<string, string>
+}
+
+and MultipartElement = {
+    name: string
+    content: ContentElement
+    fileName: string option
+}
 
 type Request = {
     header: Header
@@ -157,32 +162,29 @@ and HeaderContext = {
     interface IToBodyContext with
         member this.Transform() = {
             header = this.header
-            content = {
-                BodyContent.contentData = ByteArrayContent [||]
+            bodyContent = {
+                BodyContent.contentElement = {
+                    contentData = BinaryContent [||]
+                    explicitContentType = None
+                }
                 headers = Map.empty
-                contentType = None
             }
             config = this.config
         }
 
     interface IToMultipartContext with
-        member this.Transform() =
-            let boundary = Guid.NewGuid().ToString("N")
-
-            {
-                MultipartContext.header = this.header
-                content = {
-                    MultipartContent.contentData = []
-                    headers = Map.empty
-                    contentType = $"multipart/form-data; boundary={boundary}"
-                }
-                currentPartContentType = None
-                config = this.config
+        member this.Transform() = {
+            MultipartContext.header = this.header
+            config = this.config
+            multipartContent = {
+                MultipartContent.partElements = []
+                headers = Map.empty
             }
+        }
 
 and BodyContext = {
     header: Header
-    content: BodyContent
+    bodyContent: BodyContent
     config: Config
 } with
     interface IRequestContext<BodyContext> with
@@ -197,7 +199,7 @@ and BodyContext = {
     interface IToRequest with
         member this.Transform() = {
             Request.header = this.header
-            content = Single this.content
+            content = Single this.bodyContent
             config = this.config
         }
 
@@ -206,8 +208,7 @@ and BodyContext = {
 
 and MultipartContext = {
     header: Header
-    content: MultipartContent
-    currentPartContentType: string option
+    multipartContent: MultipartContent
     config: Config
 } with
     interface IRequestContext<MultipartContext> with
@@ -222,12 +223,43 @@ and MultipartContext = {
     interface IToRequest with
         member this.Transform() = {
             Request.header = this.header
-            content = Multi this.content
+            content = Multi this.multipartContent
             config = this.config
         }
 
     interface IToMultipartContext with
         member this.Transform() = this
+
+and MultipartElementContext = {
+    parent: MultipartContext
+    part: MultipartElement
+} with
+
+    interface IRequestContext<MultipartElementContext> with
+        member this.Self = this
+
+    interface IConfigure<ConfigTransformer, MultipartElementContext> with
+        member this.Configure(transformConfig) =
+            let updatedCfg = this.parent.config |> transformConfig
+            { this with parent = { this.parent with config = updatedCfg } }
+
+    interface IConfigure<PrintHintTransformer, MultipartElementContext> with
+        member this.Configure(transformPrintHint) = configPrinter this transformPrintHint
+
+    interface IToRequest with
+        member this.Transform() =
+            let parentWithSelf = (this :> IToMultipartContext).Transform()
+            (parentWithSelf :> IToRequest).Transform()
+
+    interface IToMultipartContext with
+        member this.Transform() =
+            let parentElementsAndSelf =
+                this.parent.multipartContent.partElements @ [ this.part ]
+
+            {
+                this.parent with
+                    multipartContent = { this.parent.multipartContent with partElements = parentElementsAndSelf }
+            }
 
 type Response = {
     request: Request
@@ -236,7 +268,7 @@ type Response = {
     headers: System.Net.Http.Headers.HttpResponseHeaders
     reasonPhrase: string
     statusCode: System.Net.HttpStatusCode
-    version: Version
+    version: System.Version
     originalHttpRequestMessage: System.Net.Http.HttpRequestMessage
     originalHttpResponseMessage: System.Net.Http.HttpResponseMessage
     dispose: unit -> unit
@@ -253,5 +285,5 @@ type Response = {
                 }
         }
 
-    interface IDisposable with
+    interface System.IDisposable with
         member this.Dispose() = this.dispose ()

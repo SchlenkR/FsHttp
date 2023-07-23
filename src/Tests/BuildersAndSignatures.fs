@@ -18,7 +18,7 @@ let signatures () =
 let ``Shortcuts work - had problems with resolution before`` () =
     get "https://myService" {
         multipart
-        stringPart "" ""
+        textPart "" ""
     }
 
 (*
@@ -33,7 +33,7 @@ let ``Explicit 'body' keyword is needed for describing request body`` () =
 let ``Explicit 'multibody' keyword is needed for describing request body`` () =
     http {
         GET ""
-        stringPart ""
+        textPart ""
     }
 *)
 
@@ -62,7 +62,7 @@ let ``General configuration is possible on all builder contextx`` () =
     http {
         GET "http://myService.com"
         multipart
-        stringPart "" ""
+        textPart "" ""
         config_timeoutInSeconds 1.0
     }
     |> ignore
@@ -91,7 +91,7 @@ let ``Print configuration is possible on all builder contextx`` () =
     http {
         GET "http://myService.com"
         multipart
-        stringPart "" ""
+        textPart "" ""
         print_headerOnly
     }
     |> ignore

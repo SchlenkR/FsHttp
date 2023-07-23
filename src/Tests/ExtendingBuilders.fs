@@ -12,18 +12,21 @@ open Suave.Operators
 open Suave.Filters
 open Suave.Successful
 
-let superBodyContentType = "text/superString"
+let superBodyContentType = {
+    ContentType.value = "text/superCsv"
+    charset = Some System.Text.Encoding.UTF32
+}
 
 type IRequestContext<'self> with
     [<CustomOperation("superBody")>]
     member this.SuperBody(context: IRequestContext<BodyContext>, csvContent: string) =
-        FsHttp.Dsl.Body.content superBodyContentType (StringContent csvContent) context.Self
+        FsHttp.Dsl.Body.content superBodyContentType (TextContent csvContent) context.Self
 
 
 [<TestCase>]
 let ``Extending builder with custom content`` () =
 
-    let dummyContent = "Hello"
+    let dummyContent = "Hello;World"
 
     use server =
         POST
@@ -43,4 +46,4 @@ let ``Extending builder with custom content`` () =
     }
     |> Request.send
     |> Response.toText
-    |> should equal $"{superBodyContentType} - {dummyContent}"
+    |> should equal $"{superBodyContentType.value}; charset=utf-32 - {dummyContent}"

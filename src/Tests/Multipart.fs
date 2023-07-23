@@ -35,9 +35,9 @@ let ``POST Multipart form data`` () =
         multipart
         filePart "Resources/uploadFile.txt"
         filePart "Resources/uploadFile2.txt"
-        stringPart "das" "hurz1"
-        stringPart "Lamm" "hurz2"
-        stringPart "schrie" "hurz3"
+        textPart "das" "hurz1"
+        textPart "Lamm" "hurz2"
+        textPart "schrie" "hurz3"
     }
     |> Request.send
     |> Response.toText
@@ -67,11 +67,11 @@ let ``Explicitly specified content type part is dominant`` () =
         POST(url @"")
         multipart
 
-        ContentTypeForPart explicitContentType1
         filePart "Resources/uploadFile.txt"
+        ContentType explicitContentType1
 
-        ContentTypeForPart explicitContentType2
         filePart "Resources/uploadFile2.txt"
+        ContentType explicitContentType2
     }
     |> Request.send
     |> Response.toText
@@ -79,7 +79,7 @@ let ``Explicitly specified content type part is dominant`` () =
 
 
 [<TestCase>]
-let ``POST Multipart part bytearray with optional filename`` () =
+let ``POST Multipart part binary with optional filename`` () =
     let fileName1 = "fileName1"
     let fileName2 = "fileName2"
     let fileName3 = "fileName3"
@@ -97,17 +97,17 @@ let ``POST Multipart part bytearray with optional filename`` () =
         POST(url @"")
         multipart
 
-        ContentTypeForPart "image/jpeg"
-        byteArrayPart [| byte 0xff |] "photo" fileName1
+        binaryPart [| byte 0xff |] "photo" fileName1
+        ContentType "image/jpeg"
 
-        ContentTypeForPart "image/jpeg"
-        byteArrayPart [| byte 0xff |] "photo" fileName2
+        binaryPart [| byte 0xff |] "photo" fileName2
+        ContentType "image/jpeg"
 
-        ContentTypeForPart "image/jpeg"
-        byteArrayPart [| byte 0xff |] "photo" fileName3
+        binaryPart [| byte 0xff |] "photo" fileName3
+        ContentType "image/jpeg"
 
-        ContentTypeForPart "image/jpeg"
-        byteArrayPart [| byte 0xff |] "photo"
+        binaryPart [| byte 0xff |] "photo"
+        ContentType "image/jpeg"
     }
     |> Request.send
     |> Response.toText
@@ -115,7 +115,7 @@ let ``POST Multipart part bytearray with optional filename`` () =
 
 
 [<TestCase>]
-let ``POST Multipart stringPart with optional filename`` () =
+let ``POST Multipart textPart with optional filename`` () =
     let fileName1 = "fileName1"
     let fileName2 = "fileName2"
     let fileName3 = "fileName3"
@@ -133,14 +133,14 @@ let ``POST Multipart stringPart with optional filename`` () =
         POST(url @"")
         multipart
 
-        ContentTypeForPart "application/json"
-        stringPart "the_value" "the_name" fileName1
+        textPart "the_value" "the_name" fileName1
+        ContentType "application/json"
 
-        ContentTypeForPart "application/json"
         filePart "Resources/uploadFile.txt" "theName" fileName2
+        ContentType "application/json"
 
-        ContentTypeForPart "application/json"
-        byteArrayPart [| byte 0xff |] "theName" fileName3
+        binaryPart [| byte 0xff |] "theName" fileName3
+        ContentType "application/json"
     }
     |> Request.send
     |> Response.toText

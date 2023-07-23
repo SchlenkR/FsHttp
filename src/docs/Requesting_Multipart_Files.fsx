@@ -24,9 +24,9 @@ http {
 
     // use "multipart" keyword (instead of 'body') to start specifying parts
     multipart
-    stringPart "user" "morpheus"
-    stringPart "secret" "redpill"
-    filePartWithName "super.txt" "F# rocks!"
+    textPart "the-actual-value_1" "the-part-name_1"
+    textPart "the-actual-value_2" "the-part-name_2"
+    filePart "super.txt" "F# rocks!"
 }
 |> Request.send
 

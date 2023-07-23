@@ -324,15 +324,22 @@ type IRequestContext<'self> with
     member this.ContentEncoding(context: IRequestContext<BodyContext>, encoding) =
         Body.contentEncoding encoding context.Self
 
-    /// The MIME type of the body of the request (used with POST and PUT requests)
+    /// The MIME type of the body of the request (used with POST and PUT requests) with an optional encoding
     [<CustomOperation("ContentType")>]
-    member this.ContentType(context: IRequestContext<BodyContext>, contentType) =
-        Body.contentType contentType context.Self
+    member this.ContentType(context: IRequestContext<BodyContext>, contentType, ?charset) =
+        Body.contentType contentType charset context.Self
 
-    /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
-    [<CustomOperation("ContentTypeWithEncoding")>]
-    member this.ContentTypeWithEncoding(context: IRequestContext<BodyContext>, contentType, charset) =
-        Body.contentTypeWithEncoding contentType charset context.Self
+
+// -----------------
+// Multipart Element
+// -----------------
+
+type IRequestContext<'self> with
+
+    /// The MIME type of the body of the request (used with POST and PUT requests) with an optional encoding
+    [<CustomOperation("ContentType")>]
+    member this.ContentType(context: IRequestContext<MultipartElementContext>, contentType, ?charset) =
+        MultipartElement.contentType contentType charset context.Self
 
 
 // ---------
@@ -341,33 +348,24 @@ type IRequestContext<'self> with
 
 type IRequestContext<'self> with
 
-    /// The MIME type of the body of the request (used with POST and PUT requests)
-    [<CustomOperation("ContentTypeForPart")>]
-    member this.ContentTypeForPart(context: IRequestContext<MultipartContext>, contentType) =
-        Multipart.contentType contentType context.Self
-
-    // -----
-    // PARTS
-    // -----
-
     /// An explicit transformation from a previous context to allow for describing the request multiparts.
     [<CustomOperation("multipart")>]
     member this.Multipart(context: IRequestContext<#IToMultipartContext>) = context.Self.Transform()
 
-    [<CustomOperation("stringPart")>]
-    member this.StringPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
-        Multipart.stringPart value name fileName context.Self
+    [<CustomOperation("textPart")>]
+    member this.TextPart(context: IRequestContext<#IToMultipartContext>, value, name, ?fileName) =
+        Multipart.textPart value name fileName context.Self
 
     [<CustomOperation("filePart")>]
-    member this.FilePart(context: IRequestContext<MultipartContext>, path, ?name, ?fileName) =
+    member this.FilePart(context: IRequestContext<#IToMultipartContext>, path, ?name, ?fileName) =
         Multipart.filePart path name fileName context.Self
 
-    [<CustomOperation("byteArrayPart")>]
-    member this.ByteArrayPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
-        Multipart.byteArrayPart value name fileName context.Self
+    [<CustomOperation("binaryPart")>]
+    member this.BinaryPart(context: IRequestContext<#IToMultipartContext>, value, name, ?fileName) =
+        Multipart.binaryPart value name fileName context.Self
 
     [<CustomOperation("streamPart")>]
-    member this.StreamPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
+    member this.StreamPart(context: IRequestContext<#IToMultipartContext>, value, name, ?fileName) =
         Multipart.streamPart value name fileName context.Self
 
 

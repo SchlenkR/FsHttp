@@ -32,4 +32,8 @@ index: 9
 * Dropped support for .Net Standard 2.0
 * Smaller breaking changes
 
+### To > v10
+
+See README.md
+
 *)

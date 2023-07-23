@@ -242,19 +242,33 @@ module Body =
     /// Adds a header
     let header name value (context: IToBodyContext) =
         let context = context.Transform()
-        { context with content = { context.content with headers = Map.union context.header.headers [ name, value ] } }
+
+        {
+            context with
+                bodyContent = { context.bodyContent with headers = Map.union context.header.headers [ name, value ] }
+        }
 
     /// The type of encoding used on the data
     let contentEncoding (encoding: string) (context: IToBodyContext) = header "Content-Encoding" encoding context
 
-    /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType (contentType: string) (context: IToBodyContext) =
+    /// The MIME type of the body of the request (used with POST and PUT requests) with an optional encoding
+    let contentType (contentType: string) (charset: Encoding option) (context: IToBodyContext) =
         let context = context.Transform()
-        { context with content = { context.content with contentType = Some contentType } }
 
-    /// The MIME type of the body of the request (used with POST and PUT requests) with an explicit encoding
-    let contentTypeWithEncoding (contentTypeString) (charset: Encoding) (context: IToBodyContext) =
-        contentType $"{contentTypeString}; charset={charset.WebName}" context
+        {
+            context with
+                bodyContent = {
+                    context.bodyContent with
+                        contentElement = {
+                            context.bodyContent.contentElement with
+                                explicitContentType =
+                                    Some {
+                                        value = contentType
+                                        charset = charset
+                                    }
+                        }
+                }
+        }
 
     // a) MD5 is obsolete. See https://tools.ietf.org/html/rfc7231#appendix-B
     // b) the others are response fields
@@ -273,30 +287,67 @@ module Body =
 
     let content defaultContentType (data: ContentData) (context: IToBodyContext) =
         let context = context.Transform()
-        let content = context.content
-        let contentType = content.contentType |> Option.defaultValue defaultContentType
+
+        let contentType =
+            context.bodyContent.contentElement.explicitContentType
+            |> Option.defaultValue defaultContentType
 
         {
             context with
-                content = {
-                    content with
-                        contentData = data
-                        contentType = Some contentType
+                bodyContent = {
+                    context.bodyContent with
+                        contentElement = {
+                            context.bodyContent.contentElement with
+                                contentData = data
+                                explicitContentType = Some contentType
+                        }
                 }
         }
 
     let binary (data: byte array) (context: IToBodyContext) =
-        content MimeTypes.octetStream (ByteArrayContent data) context
+        content
+            {
+                value = MimeTypes.octetStream
+                charset = None
+            }
+            (BinaryContent data)
+            context
 
     let stream (stream: System.IO.Stream) (context: IToBodyContext) =
-        content MimeTypes.octetStream (StreamContent stream) context
+        content
+            {
+                value = MimeTypes.octetStream
+                charset = None
+            }
+            (StreamContent stream)
+            context
 
-    let text (text: string) (context: IToBodyContext) = content MimeTypes.textPlain (StringContent text) context
+    let text (text: string) (context: IToBodyContext) =
+        content
+            {
+                value = MimeTypes.textPlain
+                charset = None
+            }
+            (TextContent text)
+            context
 
     let base64 (base64: byte[]) (context: IToBodyContext) =
-        content MimeTypes.octetStream (StringContent(Convert.ToBase64String base64)) context
+        content
+            {
+                value = MimeTypes.octetStream
+                charset = None
+            }
+            (TextContent(Convert.ToBase64String base64))
+            context
 
-    let json (json: string) (context: IToBodyContext) = content MimeTypes.applicationJson (StringContent json) context
+    let json (json: string) (context: IToBodyContext) =
+        content
+            {
+                value = MimeTypes.applicationJson
+                charset = None
+            }
+            (TextContent json)
+            context
 
     let jsonSerializeWith options (instance: 'a) (context: IToBodyContext) =
         // TODO: Use async / stream
@@ -307,50 +358,68 @@ module Body =
         jsonSerializeWith (GlobalConfig.Json.defaultJsonSerializerOptions) instance context
 
     let formUrlEncoded (data: (string * string) list) (context: IToBodyContext) =
-        content "application/x-www-form-urlencoded" (FormUrlEncodedContent(Map.ofList data)) context
+        content
+            {
+                value = "application/x-www-form-urlencoded"
+                charset = None
+            }
+            (FormUrlEncodedContent(Map.ofList data))
+            context
 
-    let file (path: string) (context: IToBodyContext) = content MimeTypes.octetStream (FileContent path) context
+    let file (path: string) (context: IToBodyContext) =
+        content
+            {
+                value = MimeTypes.octetStream
+                charset = None
+            }
+            (FileContent path)
+            context
+
+
+module MultipartElement =
+
+    /// The MIME type of the body of the request (used with POST and PUT requests)
+    let contentType contentType charset (context: MultipartElementContext) = {
+        context with
+            part = {
+                context.part with
+                    content = {
+                        context.part.content with
+                            explicitContentType =
+                                Some {
+                                    value = contentType
+                                    charset = charset
+                                }
+                    }
+            }
+    }
 
 
 module Multipart =
 
-    let private part
-        (content: ContentData)
-        (defaultContentType: string option)
-        (name: string)
-        (fileName: string option)
-        (context: IToMultipartContext)
-        =
+    let private part (content: ContentData) (name: string) (fileName: string option) (context: IToMultipartContext) =
         let context = context.Transform()
 
-        let contentType =
-            match context.currentPartContentType with
-            | None -> defaultContentType
-            | Some v -> Some v
-
-        let newContentData = {|
-            name = name
+        let multipartElement = {
+            MultipartElement.name = name
             fileName = fileName
-            contentType = contentType
-            content = content
-        |}
-
-        {
-            context with
-                content = { context.content with contentData = context.content.contentData @ [ newContentData ] }
+            content = {
+                ContentElement.contentData = content
+                explicitContentType = None
+            }
         }
 
-    /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType (contentType: string) (context: IToMultipartContext) =
-        let context = context.Transform()
-        { context with currentPartContentType = Some contentType }
+        {
+            MultipartElementContext.parent = context
+            part = multipartElement
+        }
 
     // -----
     // PARTS
     // -----
 
-    let stringPart (value: string) name (fileName: string option) (context: IToMultipartContext) =
-        part (StringContent value) None name fileName context
+    let textPart (value: string) name (fileName: string option) (context: IToMultipartContext) =
+        part (TextContent value) name fileName context
 
     let filePart (path: string) (name: string option) (fileName: string option) (context: IToMultipartContext) =
         let fileNameWithFallback =
@@ -358,14 +427,18 @@ module Multipart =
             |> Option.defaultWith (fun () -> System.IO.Path.GetFileNameWithoutExtension path)
 
         let nameWithFallback = name |> Option.defaultValue fileNameWithFallback
-        let contentType = MimeTypes.guessMimeTypeFromPath path MimeTypes.defaultMimeType
-        part (FileContent path) (Some contentType) nameWithFallback (Some fileNameWithFallback) context
 
-    let byteArrayPart (value: byte[]) name fileName (context: IToMultipartContext) =
-        part (ByteArrayContent value) None name fileName context
+        let partElementCtx =
+            part (FileContent path) nameWithFallback (Some fileNameWithFallback) context
+
+        let contentType = MimeTypes.guessMimeTypeFromPath path MimeTypes.defaultMimeType
+        MultipartElement.contentType contentType None partElementCtx
+
+    let binaryPart (value: byte[]) name fileName (context: IToMultipartContext) =
+        part (BinaryContent value) name fileName context
 
     let streamPart (value: System.IO.Stream) name fileName (context: IToMultipartContext) =
-        part (StreamContent value) None name fileName context
+        part (StreamContent value) name fileName context
 
 
 module Config =
