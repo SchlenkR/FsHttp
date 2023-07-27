@@ -459,14 +459,14 @@ module Config =
                 httpClientFactory = Some clientFactory
         }
 
-        let inline transformHttpClient transformer config = { config with httpClientTransformer = transformer }
+        let inline transformHttpClient transformer config = 
+            { config with httpClientTransformers = config.httpClientTransformers @ [transformer] }
 
-        let inline transformHttpRequestMessage transformer config = { config with httpMessageTransformer = transformer }
+        let inline transformHttpRequestMessage transformer config = 
+            { config with httpMessageTransformers = config.httpMessageTransformers @ [transformer] }
 
-        let inline transformHttpClientHandler transformer config = {
-            config with
-                httpClientHandlerTransformer = transformer
-        }
+        let inline transformHttpClientHandler transformer config = 
+            { config with httpClientHandlerTransformers = config.httpClientHandlerTransformers @ [transformer] }
 
         let inline proxy url config = {
             config with

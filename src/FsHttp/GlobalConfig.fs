@@ -15,9 +15,9 @@ let mutable private mutableDefaults = {
         requestPrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode ())
         responsePrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode ())
     }
-    httpMessageTransformer = id
-    httpClientHandlerTransformer = id
-    httpClientTransformer = id
+    httpMessageTransformers = []
+    httpClientHandlerTransformers = []
+    httpClientTransformers = []
     httpClientFactory = None
     httpCompletionOption = System.Net.Http.HttpCompletionOption.ResponseHeadersRead
     proxy = None

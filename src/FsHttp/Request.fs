@@ -152,7 +152,9 @@ let private getHttpClient config =
             | Default -> false
             | AlwaysAccept -> true
 
-        let handler = config.httpClientHandlerTransformer (getSslHandler ignoreSslIssues)
+        let handler =
+            let initHandler = getSslHandler ignoreSslIssues
+            config.httpClientHandlerTransformers |> List.fold (fun c n -> n c) initHandler
 
         match config.proxy with
         | Some proxy ->
@@ -176,7 +178,7 @@ let toAsync (context: IToRequest) =
     async {
         let request, requestMessage = toRequestAndMessage context
         do Fsi.logfn $"Sending request {request.header.method} {request.header.url.ToUriString()} ..."
-        use finalRequestMessage = request.config.httpMessageTransformer requestMessage
+        use finalRequestMessage = request.config.httpMessageTransformers |> List.fold (fun c n -> n c) requestMessage
         let! ctok = Async.CancellationToken
         let client = getHttpClient request.config
 
@@ -186,7 +188,7 @@ let toAsync (context: IToRequest) =
             let cookies = cookies |> List.map string |> String.concat "; "
             do finalRequestMessage.Headers.Add("Cookie", cookies)
 
-        let finalClient = request.config.httpClientTransformer client
+        let finalClient = request.config.httpClientTransformers |> List.fold (fun c n -> n c) client
 
         let! response =
             finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)

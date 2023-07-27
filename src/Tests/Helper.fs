@@ -48,7 +48,7 @@ let private testUtf8StringBufferingStream limit =
     let text = "abcdefghijklmnop"
 
     let bs =
-        new Stream.Utf8StringBufferingStream(new MemoryStream(Encoding.UTF8.GetBytes(text)), limit)
+        new Utf8StringBufferingStream(new MemoryStream(Encoding.UTF8.GetBytes(text)), limit)
 
     let sr = new StreamReader(bs)
     do sr.ReadToEnd() |> ignore

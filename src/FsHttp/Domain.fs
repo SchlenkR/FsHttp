@@ -42,9 +42,9 @@ type HttpClientHandlerTransformer =
 type Config = {
     timeout: System.TimeSpan option
     printHint: PrintHint
-    httpMessageTransformer: (System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage)
-    httpClientHandlerTransformer: HttpClientHandlerTransformer
-    httpClientTransformer: (System.Net.Http.HttpClient -> System.Net.Http.HttpClient)
+    httpMessageTransformers: list<System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage>
+    httpClientHandlerTransformers: list<HttpClientHandlerTransformer>
+    httpClientTransformers: list<System.Net.Http.HttpClient -> System.Net.Http.HttpClient>
     httpCompletionOption: System.Net.Http.HttpCompletionOption
     proxy: Proxy option
     certErrorStrategy: CertErrorStrategy

@@ -71,15 +71,18 @@
       - #112: Allow to add (multiple) headers (by @Samuel-Dufour - thank you)
 
       v11.0.0
-      - Breaking change: #121: Turning off debug logs in FSI (breaking change in signature / namespace)
+      - #121 (Breaking change): Turning off debug logs in FSI (breaking change in signature / namespace)
       - #124: Support Repeating Query Parameters (thanks @DaveJohnson8080)
-      - Breaking change: #106: Allow filename metadata with other "parts" (thanks @dawedawe)
+      - #106 (Breaking change): Allow filename metadata with other "parts" (thanks @dawedawe)
       - Breaking change: ContentTypeForPart custom operations should come after part definition
-      - Breaking changes
+      - #104 (Breaking change): Automatic GZip response decompression
+      - Other breaking changes:
         - Removed `ContentTypeWithEncoding` and used optional `charset` parameter in `ContentType` overloads.
         - Renamed `byteArray` to `binary` in Dsl, DslCE and CSharp.
         - Caution (!!): Renamed `stringPart` to `textPart` and changed argument order for `name` and `value` in Dsl and DslCE.
         - Restructured types in Domain
+        - `Helper` is a module instead of a namespace, and some things were moved.
+        - All transformers in config are a list of transformers instead of a single item.
     </PackageReleaseNotes>
   </PropertyGroup>
 

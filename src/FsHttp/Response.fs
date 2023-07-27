@@ -33,7 +33,7 @@ let toStream response = (toStreamTAsync response).Result
 let parseAsync parserName parse response =
     async {
         use! contentStream = toStreamAsync response
-        use bufferingStream = new Stream.Utf8StringBufferingStream(contentStream, None)
+        use bufferingStream = new Utf8StringBufferingStream(contentStream, None)
 
         try
             let! ct = Async.CancellationToken

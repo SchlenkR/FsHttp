@@ -1,26 +1,26 @@
-namespace FsHttp.Helper
+module FsHttp.Helper
 
 open System
 open System.IO
 open System.Text
+open System.Net.Http.Headers
 open System.Runtime.InteropServices
 open FsHttp
 
+[<RequireQualifiedAccess>]
 module Encoding =
     let base64 = Encoding.GetEncoding("ISO-8859-1")
 
-[<AutoOpen>]
-module StringBuilderExtensions =
-    type StringBuilder with
-        member sb.append(s: string) = sb.Append s |> ignore
-        member sb.appendLine(s: string) = sb.AppendLine s |> ignore
-        member sb.newLine() = sb.appendLine ""
+type StringBuilder with
+    member sb.append(s: string) = sb.Append s |> ignore
+    member sb.appendLine(s: string) = sb.AppendLine s |> ignore
+    member sb.newLine() = sb.appendLine ""
 
-        member sb.appendSection(s: string) =
-            sb.appendLine s
+    member sb.appendSection(s: string) =
+        sb.appendLine s
 
-            String([ 0 .. s.Length ] |> List.map (fun _ -> '-') |> List.toArray)
-            |> sb.appendLine
+        String([ 0 .. s.Length ] |> List.map (fun _ -> '-') |> List.toArray)
+        |> sb.appendLine
 
 [<RequireQualifiedAccess>]
 module Map =
@@ -56,62 +56,62 @@ module Url =
         let b = (norm url2).TrimStart(delTrim).TrimEnd(delTrim)
         a + sdel + b
 
+// TODO: Inefficient
+type Utf8StringBufferingStream(baseStream: Stream, readBufferLimit: int option) =
+    inherit Stream()
+    let notSeekable () = failwith "Stream is not seekable."
+    let notWritable () = failwith "Stream is not writable."
+    let readBuffer = ResizeArray<byte>()
+    override _.Flush() = baseStream.Flush()
+
+    override _.Read(buffer, offset, count) =
+        let readCount = baseStream.Read(buffer, offset, count)
+
+        match readCount, readBufferLimit with
+        | 0, _ -> ()
+        | readCount, None -> readBuffer.AddRange(buffer[offset .. readCount - 1])
+        | readCount, Some limit ->
+            let remaining = limit - readBuffer.Count
+            let copyCount = min remaining readCount
+
+            if copyCount > 0 then
+                readBuffer.AddRange(buffer[offset .. copyCount - 1])
+
+        readCount
+
+    override _.Seek(_, _) = notSeekable ()
+    override _.SetLength(_) = notWritable ()
+    override _.Write(_, _, _) = notWritable ()
+    override _.CanRead = true
+    override _.CanSeek = false
+    override _.CanWrite = false
+    override _.Length = baseStream.Length
+
+    override _.Position
+        with get () = baseStream.Position
+        and set (_) = notSeekable ()
+
+    member _.GetUtf8String() =
+#if NETSTANDARD2_0 || NETSTANDARD2_1
+        let buffer = readBuffer |> Seq.toArray
+#else
+        let buffer = CollectionsMarshal.AsSpan(readBuffer)
+#endif
+        let s = Encoding.UTF8.GetString(buffer).AsSpan()
+
+        if s.Length = 0 then
+            s.ToString()
+        else
+            let s =
+                if s[s.Length - 1] |> Char.IsHighSurrogate then
+                    s.Slice(0, s.Length - 1)
+                else
+                    s
+
+            s.ToString()
+
 [<RequireQualifiedAccess>]
 module Stream =
-    // TODO: Inefficient
-    type Utf8StringBufferingStream(baseStream: Stream, readBufferLimit: int option) =
-        inherit Stream()
-        let notSeekable () = failwith "Stream is not seekable."
-        let notWritable () = failwith "Stream is not writable."
-        let readBuffer = ResizeArray<byte>()
-        override _.Flush() = baseStream.Flush()
-
-        override _.Read(buffer, offset, count) =
-            let readCount = baseStream.Read(buffer, offset, count)
-
-            match readCount, readBufferLimit with
-            | 0, _ -> ()
-            | readCount, None -> readBuffer.AddRange(buffer[offset .. readCount - 1])
-            | readCount, Some limit ->
-                let remaining = limit - readBuffer.Count
-                let copyCount = min remaining readCount
-
-                if copyCount > 0 then
-                    readBuffer.AddRange(buffer[offset .. copyCount - 1])
-
-            readCount
-
-        override _.Seek(_, _) = notSeekable ()
-        override _.SetLength(_) = notWritable ()
-        override _.Write(_, _, _) = notWritable ()
-        override _.CanRead = true
-        override _.CanSeek = false
-        override _.CanWrite = false
-        override _.Length = baseStream.Length
-
-        override _.Position
-            with get () = baseStream.Position
-            and set (_) = notSeekable ()
-
-        member _.GetUtf8String() =
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-            let buffer = readBuffer |> Seq.toArray
-#else
-            let buffer = CollectionsMarshal.AsSpan(readBuffer)
-#endif
-            let s = Encoding.UTF8.GetString(buffer).AsSpan()
-
-            if s.Length = 0 then
-                s.ToString()
-            else
-                let s =
-                    if s[s.Length - 1] |> Char.IsHighSurrogate then
-                        s.Slice(0, s.Length - 1)
-                    else
-                        s
-
-                s.ToString()
-
     let readUtf8StringAsync maxUtf16CharCount (stream: Stream) =
         let sr = new StreamReader(stream, Encoding.UTF8)
         let sb = StringBuilder()
@@ -214,23 +214,3 @@ module Stream =
         }
 
     let saveFileTAsync fileName source = saveFileAsync fileName source |> Async.StartAsTask
-
-[<AutoOpen>]
-module FsHttpUrlExtensions =
-    type FsHttpUrl with
-        member this.ToUriString() =
-            let uri = UriBuilder(this.address)
-
-            let queryParamsString =
-                this.additionalQueryParams
-                |> Seq.map (fun (k, v) -> $"""{k}={Uri.EscapeDataString $"{v}"}""")
-                |> String.concat "&"
-
-            uri.Query <-
-                match uri.Query, queryParamsString with
-                | "", "" -> ""
-                | s, "" -> s
-                | "", q -> $"?{q}"
-                | s, q -> $"{s}&{q}"
-
-            uri.ToString()
