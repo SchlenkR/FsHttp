@@ -7,7 +7,7 @@ open Suave
 open Suave.Utils.Collections
 open FsUnit
 
-let inline assertionExn (msg: string) =
+let assertionExn (msg: string) =
     let otype =
         [
             "Xunit.Sdk.XunitException, xunit.assert"

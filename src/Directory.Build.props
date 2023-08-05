@@ -84,6 +84,7 @@
         - `Helper` is a module instead of a namespace, and some things were moved.
         - All transformers in config are a list of transformers instead of a single item.
         - Removed `setHttpClient`. Please use `setHttpClientFactory` instead.
+        - `setHttpClientFactory` takes a `Config` as input argument.
     </PackageReleaseNotes>
   </PropertyGroup>
 

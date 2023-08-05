@@ -3,8 +3,6 @@ module FsHttp.Helper
 open System
 open System.IO
 open System.Text
-open System.Net.Http.Headers
-open System.Runtime.InteropServices
 open FsHttp
 
 [<RequireQualifiedAccess>]

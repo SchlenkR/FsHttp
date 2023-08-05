@@ -1,29 +1,8 @@
 module FsHttp.GlobalConfig
 
-open System
-open System.Text.Json
 open FsHttp.Domain
 
-let inline internal defaultHeadersAndBodyPrintMode () = {
-    format = true
-    maxLength = Some 7000
-}
-
-let mutable private mutableDefaults = {
-    timeout = None
-    printHint = {
-        requestPrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode ())
-        responsePrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode ())
-    }
-    httpMessageTransformers = []
-    httpClientHandlerTransformers = []
-    httpClientTransformers = []
-    httpClientFactory = None
-    httpCompletionOption = System.Net.Http.HttpCompletionOption.ResponseHeadersRead
-    proxy = None
-    certErrorStrategy = Default
-    bufferResponseContent = false
-}
+let mutable private mutableDefaults = Defaults.defaultConfig
 
 type GlobalConfigWrapper(config: Config option) =
     member this.Config = config |> Option.defaultValue mutableDefaults
@@ -43,9 +22,7 @@ let set (config: GlobalConfigWrapper) = mutableDefaults <- config.Config
 ////    let get () = mutableDefaults
 ////    let set (config: Config) = mutableDefaults <- config
 
+// TODO: Document this
 module Json =
-    // TODO: Document this
-    let mutable defaultJsonDocumentOptions = JsonDocumentOptions()
-
-    let mutable defaultJsonSerializerOptions =
-        JsonSerializerOptions JsonSerializerDefaults.Web
+    let mutable defaultJsonDocumentOptions = Defaults.defaultJsonDocumentOptions
+    let mutable defaultJsonSerializerOptions = Defaults.defaultJsonSerializerOptions

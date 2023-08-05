@@ -32,7 +32,7 @@ let ``Inject custom HttpClient factory`` () =
     intercepted |> should equal false
 
     http {
-        config_setHttpClientFactory (fun () -> new HttpClient(interceptor))
+        config_setHttpClientFactory (fun _ -> new HttpClient(interceptor))
         GET(url "")
     }
     |> Request.send

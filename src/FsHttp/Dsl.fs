@@ -443,27 +443,30 @@ module Multipart =
 
 module Config =
     module With =
-        let inline ignoreCertIssues config = { config with certErrorStrategy = AlwaysAccept }
+        let ignoreCertIssues config = { config with certErrorStrategy = AlwaysAccept }
 
-        let inline timeout value config = { config with timeout = value }
+        let timeout value config = { config with timeout = value }
 
-        let inline timeoutInSeconds value config = { config with timeout = Some(TimeSpan.FromSeconds value) }
+        let timeoutInSeconds value config = { config with timeout = Some(TimeSpan.FromSeconds value) }
 
-        let inline setHttpClientFactory (clientFactory: unit -> HttpClient) config = {
+        let setHttpClientFactory httpClientFactory config = { config with httpClientFactory = httpClientFactory }
+
+        let transformHttpClient transformer config = {
             config with
-                httpClientFactory = Some clientFactory
+                httpClientTransformers = config.httpClientTransformers @ [ transformer ]
         }
 
-        let inline transformHttpClient transformer config = 
-            { config with httpClientTransformers = config.httpClientTransformers @ [transformer] }
+        let transformHttpRequestMessage transformer config = {
+            config with
+                httpMessageTransformers = config.httpMessageTransformers @ [ transformer ]
+        }
 
-        let inline transformHttpRequestMessage transformer config = 
-            { config with httpMessageTransformers = config.httpMessageTransformers @ [transformer] }
+        let transformHttpClientHandler transformer config = {
+            config with
+                httpClientHandlerTransformers = config.httpClientHandlerTransformers @ [ transformer ]
+        }
 
-        let inline transformHttpClientHandler transformer config = 
-            { config with httpClientHandlerTransformers = config.httpClientHandlerTransformers @ [transformer] }
-
-        let inline proxy url config = {
+        let proxy url config = {
             config with
                 proxy =
                     Some {
@@ -472,7 +475,7 @@ module Config =
                     }
         }
 
-        let inline proxyWithCredentials url credentials config = {
+        let proxyWithCredentials url credentials config = {
             config with
                 proxy =
                     Some {
@@ -481,81 +484,81 @@ module Config =
                     }
         }
 
-    let inline update transformer (context: IConfigure<ConfigTransformer, _>) = context.Configure transformer
+    let update transformer (context: IConfigure<ConfigTransformer, _>) = context.Configure transformer
 
-    let inline set (config: Config) context = context |> update (fun _ -> config)
+    let set (config: Config) context = context |> update (fun _ -> config)
 
-    let inline ignoreCertIssues context = context |> update (fun config -> config |> With.ignoreCertIssues)
+    let ignoreCertIssues context = context |> update (fun config -> config |> With.ignoreCertIssues)
 
-    let inline timeout value context = context |> update (fun config -> config |> With.timeout (Some value))
+    let timeout value context = context |> update (fun config -> config |> With.timeout (Some value))
 
-    let inline timeoutInSeconds value context = context |> update (fun config -> config |> With.timeoutInSeconds value)
+    let timeoutInSeconds value context = context |> update (fun config -> config |> With.timeoutInSeconds value)
 
-    let inline setHttpClientFactory (clientFactory: unit -> HttpClient) context =
+    let setHttpClientFactory httpClientFactory context =
         context
-        |> update (fun config -> config |> With.setHttpClientFactory clientFactory)
+        |> update (fun config -> config |> With.setHttpClientFactory httpClientFactory)
 
-    let inline transformHttpClient transformer context =
+    let transformHttpClient transformer context =
         context |> update (fun config -> config |> With.transformHttpClient transformer)
 
-    let inline transformHttpRequestMessage transformer context =
+    let transformHttpRequestMessage transformer context =
         context
         |> update (fun config -> config |> With.transformHttpRequestMessage transformer)
 
-    let inline transformHttpClientHandler transformer context =
+    let transformHttpClientHandler transformer context =
         context
         |> update (fun config -> config |> With.transformHttpClientHandler transformer)
 
-    let inline proxy url context = context |> update (fun config -> config |> With.proxy url)
+    let proxy url context = context |> update (fun config -> config |> With.proxy url)
 
-    let inline proxyWithCredentials url credentials context =
+    let proxyWithCredentials url credentials context =
         context
         |> update (fun config -> config |> With.proxyWithCredentials url credentials)
 
 
 module Print =
 
-    let inline withConfig transformer (context: IConfigure<PrintHintTransformer, _>) = context.Configure transformer
+    let withConfig transformer (context: IConfigure<PrintHintTransformer, _>) = context.Configure transformer
 
-    let inline withRequestPrintMode updatePrintMode context =
+    let withRequestPrintMode updatePrintMode context =
         context
         |> withConfig (fun printHint -> {
             printHint with
                 requestPrintMode = updatePrintMode printHint.requestPrintMode
         })
 
-    let inline withResponsePrintMode updatePrintMode context =
+    let withResponsePrintMode updatePrintMode context =
         context
         |> withConfig (fun printHint -> {
             printHint with
                 responsePrintMode = updatePrintMode printHint.responsePrintMode
         })
 
-    let inline withResponseBody updateBodyPrintMode context =
+    let withResponseBody updateBodyPrintMode context =
         context
         |> withResponsePrintMode (fun printMode ->
             match printMode with
             | AsObject
-            | HeadersOnly -> updateBodyPrintMode (GlobalConfig.defaultHeadersAndBodyPrintMode ())
+            | HeadersOnly -> updateBodyPrintMode (Defaults.defaultHeadersAndBodyPrintMode)
             | HeadersAndBody x -> updateBodyPrintMode x
             |> HeadersAndBody
         )
 
-    let inline useObjectFormatting context =
+    let useObjectFormatting context =
         context
         |> withRequestPrintMode (fun _ -> AsObject)
         |> withResponsePrintMode (fun _ -> AsObject)
 
-    let inline headerOnly context = context |> withResponsePrintMode (fun _ -> HeadersOnly)
+    let headerOnly context = context |> withResponsePrintMode (fun _ -> HeadersOnly)
 
-    let inline withResponseBodyLength maxLength context =
+    let withResponseBodyLength maxLength context =
         context
         |> withResponseBody (fun bodyPrintMode -> { bodyPrintMode with maxLength = Some maxLength })
 
-    let inline withResponseBodyFormat format context =
+    let withResponseBodyFormat format context =
         context
         |> withResponseBody (fun bodyPrintMode -> { bodyPrintMode with format = format })
 
-    let inline withResponseBodyExpanded context =
+    let withResponseBodyExpanded context =
         context
         |> withResponseBody (fun bodyPrintMode -> { bodyPrintMode with maxLength = None })

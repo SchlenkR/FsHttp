@@ -1,10 +1,8 @@
 module FsHttp.Request
 
 open System
-open System.Net
 open System.Net.Http
 open System.Net.Http.Headers
-open System.Threading
 
 open FsHttp
 open FsHttp.Helper
@@ -116,63 +114,6 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
 let toRequest request = request |> toRequestAndMessage |> fst
 let toHttpRequestMessage request = request |> toRequestAndMessage |> snd
 
-let private getHttpClient config =
-
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-    let getSslHandler ignoreSslIssues =
-        let handler = new HttpClientHandler()
-
-        if ignoreSslIssues then
-            handler.ServerCertificateCustomValidationCallback <- (fun msg cert chain errors -> true)
-
-        handler
-#else
-    let getSslHandler ignoreSslIssues =
-        let handler =
-            new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
-
-        if ignoreSslIssues then
-            handler.SslOptions <-
-                let options = Security.SslClientAuthenticationOptions()
-
-                let callback =
-                    Security.RemoteCertificateValidationCallback(fun sender cert chain errors -> true)
-
-                do options.RemoteCertificateValidationCallback <- callback
-                options
-
-        handler
-#endif
-
-    match config.httpClientFactory with
-    | Some clientFactory -> clientFactory ()
-    | None ->
-        let ignoreSslIssues =
-            match config.certErrorStrategy with
-            | Default -> false
-            | AlwaysAccept -> true
-
-        let handler =
-            let initHandler = getSslHandler ignoreSslIssues
-            config.httpClientHandlerTransformers |> List.fold (fun c n -> n c) initHandler
-
-        match config.proxy with
-        | Some proxy ->
-            let webProxy = WebProxy(proxy.url)
-
-            match proxy.credentials with
-            | Some cred ->
-                webProxy.UseDefaultCredentials <- false
-                webProxy.Credentials <- cred
-            | None -> webProxy.UseDefaultCredentials <- true
-
-            handler.Proxy <- webProxy
-        | None -> ()
-
-        let client = new HttpClient(handler)
-        do config.timeout |> Option.iter (fun timeout -> client.Timeout <- timeout)
-        client
-
 /// Builds an asynchronous request, without sending it.
 let toAsync (context: IToRequest) =
     async {
@@ -180,7 +121,7 @@ let toAsync (context: IToRequest) =
         do Fsi.logfn $"Sending request {request.header.method} {request.header.url.ToUriString()} ..."
         use finalRequestMessage = request.config.httpMessageTransformers |> List.fold (fun c n -> n c) requestMessage
         let! ctok = Async.CancellationToken
-        let client = getHttpClient request.config
+        let client = request.config.httpClientFactory request.config
 
         match request.header.cookies with
         | [] -> ()
@@ -228,4 +169,4 @@ let sendTAsync (context: IToRequest) = context |> toAsync |> Async.StartAsTask
 let sendAsync (context: IToRequest) = sendTAsync context |> Async.AwaitTask
 
 /// Sends a request synchronously.
-let inline send context = context |> toAsync |> Async.RunSynchronously
+let send context = context |> toAsync |> Async.RunSynchronously

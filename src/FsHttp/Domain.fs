@@ -48,7 +48,7 @@ type Config = {
     httpCompletionOption: System.Net.Http.HttpCompletionOption
     proxy: Proxy option
     certErrorStrategy: CertErrorStrategy
-    httpClientFactory: (unit -> System.Net.Http.HttpClient) option
+    httpClientFactory: Config -> System.Net.Http.HttpClient
     // Calls `LoadIntoBufferAsync` of the response's HttpContent immediately after receiving.
     bufferResponseContent: bool
 }
