@@ -67,28 +67,24 @@ For different upgrade paths, please read the [Migrations section](https://fsproj
 Building
 --------
 
-You need to have the latest .Net 5 SDK installed.
+**.Net SDK:**
 
-### Building binaries, publish, and test
+You need to have the latest .Net SDK installed, which is specified in `./global.json`.
 
-There is a F# script that can be used to perform several build tasks from command line. It can be executed in this way:
+**Build Tasks**
 
-`PS> dotnet fsi .\build.fsx [task]`
+There is a F# build script (`./build.fsx`) that can be used to perform several build tasks from command line.
 
-Common tasks are:
+For common tasks, there are powershell files located in the repo root:
 
-* build
-* test
-* publish
-
-### Building the documentation
-
-The documentation in `./docs` is auto-generated from the files in `./src/Docu`. In order to build them, run:
-
-`PS> .\docu.ps1`
-
+* `./test.ps1`: Runs all tests (sources in `./src/Tests`).
+* `./docu.ps1`: Rebuilds the FsHttp documentation site (sources in `./src/docs`; output goes to `./docs`).
+* `./docu-watch.ps1`: Run it if you are working on the documentation sources, and want to see the result in a browser.
+* `./publish.ps1`: Publishes all packages (FsHttp and it's integration packages for Newtonsoft and FSharp.Data) to NuGet.
+  * Always have a look at `./src/Directory.Build.props` and keep the file up-to-date.
 
 Credits
 -------
 
-Parts of the code is taken from the [HTTP utilities of FSharp.Data](https://fsprojects.github.io/FSharp.Data/library/Http.html).
+* Parts of the code is taken from the [HTTP utilities of FSharp.Data](https://fsprojects.github.io/FSharp.Data/library/Http.html).
+* Credits to all critics, supporters, contributors, promoters, users, and friends.
