@@ -44,8 +44,9 @@ let args = Args()
 
 type Shell with
     static member ExecSuccess (cmd: string, ?arg: string) =
-        let args = arg |> Option.defaultValue "" |> fun x -> [| x; yield! args.TaskArgs |] |> String.concat " " |> Some
-        let res = Shell.Exec(cmd, ?args = args)
+        let args = arg |> Option.defaultValue "" |> fun x -> [| x; yield! args.TaskArgs |] |> String.concat " "
+        printfn $"Executing command '{cmd}' with args: {args}"
+        let res = Shell.Exec(cmd, ?args = Some args)
         if res <> 0 then failwith $"Shell execute was not successful: {res}" else ()
 
 let shallBuild = args.IsTask("build")

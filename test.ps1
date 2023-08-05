@@ -1,1 +1,1 @@
-dotnet fsi build.fsx test
+dotnet fsi build.fsx test $Args
