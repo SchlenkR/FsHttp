@@ -27,35 +27,32 @@ module Helper =
     let run targets =
         for t in targets do
             runTarget t
-    
-    type Shell with
-        static member ExecSuccess (cmd: string, ?args: string, ?dir: string) =
-            let res = Shell.Exec(cmd, ?args = args, ?dir = dir)
-            if res <> 0 then failwith $"Shell execute was not successful: {res}" else ()
 
     type Args() =
-        let singleArg = fsi.CommandLineArgs.[1..] |> Array.tryExactlyOne
-        let mutable switches : string list = []
-        member this.hasArg arg =
-            switches <- arg :: switches
-            singleArg |> Option.map (fun a -> a = arg) |> Option.defaultValue false
-        member this.assertArgs() =
-            match singleArg with
-            | None ->
-                let switches = switches |> String.concat "|"
-                let msg = $"USAGE: dotnet fsi build.fsx [{switches}]"
+        let taskName,taskArgs =
+            match fsi.CommandLineArgs |> Array.toList with
+            | fsi :: taskName :: taskArgs -> taskName, taskArgs
+            | _ -> 
+                let msg = $"Wrong args. Expected: fsi :: taskName :: taskArgs"
                 printfn "%s" msg
                 Environment.Exit -1
-            | _ -> ()
+                failwith msg
+        member _.IsTask(arg) = taskName = arg
+        member _.TaskArgs = taskArgs
 
 let args = Args()
-let shallBuild = args.hasArg "build"
-let shallTest = args.hasArg "test"
-let shallPublish = args.hasArg "publish"
-let shallPack = args.hasArg "pack"
-let shallFormat = args.hasArg "format"
 
-do args.assertArgs()
+type Shell with
+    static member ExecSuccess (cmd: string, ?arg: string) =
+        let args = arg |> Option.defaultValue "" |> fun x -> [| x; yield! args.TaskArgs |] |> String.concat " " |> Some
+        let res = Shell.Exec(cmd, ?args = args)
+        if res <> 0 then failwith $"Shell execute was not successful: {res}" else ()
+
+let shallBuild = args.IsTask("build")
+let shallTest = args.IsTask("test")
+let shallPublish = args.IsTask("publish")
+let shallPack = args.IsTask("pack")
+let shallFormat = args.IsTask("format")
 
 let clean = "clean", fun () ->
     !! "src/**/bin"
