@@ -396,10 +396,6 @@ type IRequestContext<'self> with
     member inline this.TimeoutInSeconds(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, value) =
         Config.timeoutInSeconds value context.Self
 
-    [<CustomOperation("config_setHttpClient")>]
-    member inline this.SetHttpClient(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, httpClient) =
-        Config.setHttpClient httpClient context.Self
-
     [<CustomOperation("config_setHttpClientFactory")>]
     member inline this.SetHttpClientFactory
         (

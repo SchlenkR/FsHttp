@@ -75,7 +75,7 @@
       - #124: Support Repeating Query Parameters (thanks @DaveJohnson8080)
       - #106 (Breaking change): Allow filename metadata with other "parts" (thanks @dawedawe)
       - Breaking change: ContentTypeForPart custom operations should come after part definition
-      - #104 (Breaking change): Automatic GZip response decompression
+      - #104 (Breaking change): Automatic GZip response decompression per Default
       - Other breaking changes:
         - Removed `ContentTypeWithEncoding` and used optional `charset` parameter in `ContentType` overloads.
         - Renamed `byteArray` to `binary` in Dsl, DslCE and CSharp.
@@ -83,6 +83,7 @@
         - Restructured types in Domain
         - `Helper` is a module instead of a namespace, and some things were moved.
         - All transformers in config are a list of transformers instead of a single item.
+        - Removed `setHttpClient`. Please use `setHttpClientFactory` instead.
     </PackageReleaseNotes>
   </PropertyGroup>
 

@@ -405,9 +405,6 @@ type Config =
     static member TimeoutInSeconds(config: Domain.Config, value) = Config.With.timeoutInSeconds value config
 
     [<Extension>]
-    static member SetHttpClient(config: Domain.Config, httpClient) = Config.With.setHttpClient httpClient config
-
-    [<Extension>]
     static member SetHttpClientFactory(config: Domain.Config, httpClientFactory) =
         Config.With.setHttpClientFactory httpClientFactory config
 

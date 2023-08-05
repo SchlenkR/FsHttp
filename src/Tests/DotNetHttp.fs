@@ -15,7 +15,7 @@ open Suave.Successful
 
 
 [<TestCase>]
-let ``Inject custom HttpClient`` () =
+let ``Inject custom HttpClient factory`` () =
     let executedFlag = "executed"
 
     use server = GET >=> OK executedFlag |> serve
@@ -29,12 +29,10 @@ let ``Inject custom HttpClient`` () =
                 base.SendAsync(request, cancellationToken)
         }
 
-    let httpClient = new HttpClient(interceptor)
-
     intercepted |> should equal false
 
     http {
-        config_setHttpClient httpClient
+        config_setHttpClientFactory (fun () -> new HttpClient(interceptor))
         GET(url "")
     }
     |> Request.send

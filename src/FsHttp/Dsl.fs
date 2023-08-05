@@ -449,11 +449,6 @@ module Config =
 
         let inline timeoutInSeconds value config = { config with timeout = Some(TimeSpan.FromSeconds value) }
 
-        let inline setHttpClient (client: HttpClient) config = {
-            config with
-                httpClientFactory = Some(fun () -> client)
-        }
-
         let inline setHttpClientFactory (clientFactory: unit -> HttpClient) config = {
             config with
                 httpClientFactory = Some clientFactory
@@ -495,9 +490,6 @@ module Config =
     let inline timeout value context = context |> update (fun config -> config |> With.timeout (Some value))
 
     let inline timeoutInSeconds value context = context |> update (fun config -> config |> With.timeoutInSeconds value)
-
-    let inline setHttpClient (client: HttpClient) context =
-        context |> update (fun config -> config |> With.setHttpClient client)
 
     let inline setHttpClientFactory (clientFactory: unit -> HttpClient) context =
         context
