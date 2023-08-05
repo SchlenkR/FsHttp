@@ -1,6 +1,7 @@
 ﻿module FsHttp.Tests.Misc
 
 open System
+open System.IO
 open FsUnit
 open FsHttp
 open FsHttp.Tests
@@ -12,6 +13,8 @@ open Suave
 open Suave.Operators
 open Suave.Filters
 open Suave.Successful
+open Suave.Response
+open Suave.Writers
 
 
 [<TestCase>]
@@ -76,6 +79,58 @@ let ``Custom Headers`` () =
     |> Request.send
     |> Response.toText
     |> should equal expected
+
+
+[<TestCase>]
+let ``Response Decompression`` () =
+    // Why so many chars? Suave has a configured minimum size for compression of 500 bytes!
+    let responseText =
+        @"
+        Hello World Hello World Hello World Hello World Hello World Hello World
+        Hello World Hello World Hello World Hello World Hello World Hello World
+        Hello World Hello World Hello World Hello World Hello World Hello World
+        Hello World Hello World Hello World Hello World Hello World Hello World
+        Hello World Hello World Hello World Hello World Hello World Hello World
+        Hello World Hello World Hello World Hello World Hello World Hello World
+        Hello World Hello World Hello World Hello World Hello World Hello World
+        Hello World Hello World Hello World Hello World Hello World Hello World
+        Hello World Hello World Hello World Hello World Hello World Hello World
+        Hello World Hello World Hello World Hello World Hello World Hello World
+    "
+
+    use server =
+        GET
+        >=> request (fun r ->
+            // setting the mime type to "text/html" will cause the response to be decompressed:
+            // https://suave.io/files.html
+            responseText |> OK >=> setMimeType "text/html"
+        )
+        |> serve
+
+    let baseRequest =
+        http {
+            GET(url @"")
+            AcceptEncoding "gzip, deflate"
+        }
+
+    // automatic response decompression (default)
+    baseRequest
+    |> Request.send
+    |> Response.toText
+    |> should equal responseText
+
+    // manual decompression
+    baseRequest {
+        config_noDecompression
+    }
+    |> Request.send
+    |> Response.toBytes
+    |> fun responseContent ->
+        use ms = new MemoryStream(responseContent)
+        use gs = new Compression.GZipStream(ms, Compression.CompressionMode.Decompress)
+        use sr = new StreamReader(gs, encoding = Text.Encoding.UTF8)
+        sr.ReadToEnd()
+    |> should equal responseText
 
 //let [<TestCase>] ``Auto Redirects``() =
 //    http {

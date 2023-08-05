@@ -427,6 +427,14 @@ type Config =
     static member ProxyWithCredentials(config: Domain.Config, url, credentials) =
         Config.With.proxyWithCredentials url credentials config
 
+    [<Extension>]
+    static member DecompressionMethods(config: Domain.Config, decompressionMethods) =
+        Config.With.decompressionMethods decompressionMethods config
+
+    [<Extension>]
+    static member NoDecompression(config: Domain.Config) =
+        Config.With.noDecompression config
+
 
 // ---------
 // Request

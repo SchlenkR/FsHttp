@@ -39,8 +39,9 @@ type HttpClientHandlerTransformer =
     (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler)
 #endif
 
-type Config = {
+and Config = {
     timeout: System.TimeSpan option
+    defaultDecompressionMethods: System.Net.DecompressionMethods list
     printHint: PrintHint
     httpMessageTransformers: list<System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage>
     httpClientHandlerTransformers: list<HttpClientHandlerTransformer>

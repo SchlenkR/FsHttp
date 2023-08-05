@@ -484,6 +484,13 @@ module Config =
                     }
         }
 
+        let decompressionMethods decompressionMethods config = {
+            config with
+                defaultDecompressionMethods = decompressionMethods
+        }
+
+        let noDecompression config = { config with defaultDecompressionMethods = [ DecompressionMethods.None ] }
+
     let update transformer (context: IConfigure<ConfigTransformer, _>) = context.Configure transformer
 
     let set (config: Config) context = context |> update (fun _ -> config)
@@ -514,6 +521,12 @@ module Config =
     let proxyWithCredentials url credentials context =
         context
         |> update (fun config -> config |> With.proxyWithCredentials url credentials)
+
+    let decompressionMethods decompressionMethods context =
+        context
+        |> update (fun config -> config |> With.decompressionMethods decompressionMethods)
+
+    let noDecompression context = context |> update (fun config -> config |> With.noDecompression)
 
 
 module Print =

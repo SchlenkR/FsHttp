@@ -11,7 +11,7 @@ let defaultJsonDocumentOptions = JsonDocumentOptions()
 let defaultJsonSerializerOptions = JsonSerializerOptions JsonSerializerDefaults.Web
 
 let defaultHttpClientFactory (config: Config) =
-    let getDefaultSslHandler ignoreSslIssues =
+    let getDefaultClientHandler ignoreSslIssues =
 #if NETSTANDARD2_0 || NETSTANDARD2_1
         let handler = new HttpClientHandler()
 
@@ -42,8 +42,13 @@ let defaultHttpClientFactory (config: Config) =
         | AlwaysAccept -> true
 
     let handler =
-        let initHandler = getDefaultSslHandler ignoreSslIssues
-        config.httpClientHandlerTransformers |> List.fold (fun c n -> n c) initHandler
+        let clientHandler = getDefaultClientHandler ignoreSslIssues
+
+        clientHandler.AutomaticDecompression <-
+            config.defaultDecompressionMethods
+            |> List.fold (fun c n -> c ||| n) DecompressionMethods.None
+
+        config.httpClientHandlerTransformers |> List.fold (fun c n -> n c) clientHandler
 
     match config.proxy with
     | Some proxy ->
@@ -67,8 +72,18 @@ let defaultHeadersAndBodyPrintMode = {
     maxLength = Some 7000
 }
 
+let defaultDecompressionMethods = [
+#if NETSTANDARD2_0 || NETSTANDARD2_1
+    DecompressionMethods.Deflate
+    DecompressionMethods.GZip
+#else
+    DecompressionMethods.All
+#endif
+]
+
 let defaultConfig = {
     timeout = None
+    defaultDecompressionMethods = defaultDecompressionMethods
     printHint = {
         requestPrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
         responsePrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
