@@ -120,7 +120,7 @@ let toAsync (context: IToRequest) =
         let request, requestMessage = toRequestAndMessage context
         do Fsi.logfn $"Sending request {request.header.method} {request.header.url.ToUriString()} ..."
         use finalRequestMessage = request.config.httpMessageTransformers |> List.fold (fun c n -> n c) requestMessage
-        let! ctok = Async.CancellationToken
+        let ctok = request.config.cancellationToken
         let client = request.config.httpClientFactory request.config
 
         match request.header.cookies with

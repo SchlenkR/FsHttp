@@ -54,6 +54,7 @@ and Config = {
     httpClientFactory: Config -> System.Net.Http.HttpClient
     // Calls `LoadIntoBufferAsync` of the response's HttpContent immediately after receiving.
     bufferResponseContent: bool
+    cancellationToken: CancellationToken
 }
 
 type ConfigTransformer = Config -> Config
@@ -116,7 +117,6 @@ type Request = {
     header: Header
     content: RequestContent
     config: Config
-    cancellationToken: System.Threading.CancellationToken
 }
 
 type IToRequest =
@@ -147,7 +147,6 @@ and IToMultipartContext =
 and HeaderContext = {
     header: Header
     config: Config
-    cancellationToken: CancellationToken
 } with
     interface IRequestContext<HeaderContext> with
         member this.Self = this
@@ -163,7 +162,6 @@ and HeaderContext = {
             Request.header = this.header
             content = Empty
             config = this.config
-            cancellationToken = this.cancellationToken
         }
 
     interface IToBodyContext with
@@ -177,7 +175,6 @@ and HeaderContext = {
                 headers = Map.empty
             }
             config = this.config
-            cancellationToken = this.cancellationToken
         }
 
     interface IToMultipartContext with
@@ -188,7 +185,6 @@ and HeaderContext = {
                 MultipartContent.partElements = []
                 headers = Map.empty
             }
-            cancellationToken = this.cancellationToken
         }
 
 // TODO: Convert this to a class.
@@ -196,7 +192,6 @@ and BodyContext = {
     header: Header
     bodyContent: BodyContent
     config: Config
-    cancellationToken: CancellationToken
 } with
     interface IRequestContext<BodyContext> with
         member this.Self = this
@@ -212,7 +207,6 @@ and BodyContext = {
             Request.header = this.header
             content = Single this.bodyContent
             config = this.config
-            cancellationToken = this.cancellationToken
         }
 
     interface IToBodyContext with
@@ -223,7 +217,6 @@ and MultipartContext = {
     header: Header
     multipartContent: MultipartContent
     config: Config
-    cancellationToken: CancellationToken
 } with
     interface IRequestContext<MultipartContext> with
         member this.Self = this
@@ -239,7 +232,6 @@ and MultipartContext = {
             Request.header = this.header
             content = Multi this.multipartContent
             config = this.config
-            cancellationToken = this.cancellationToken
         }
 
     interface IToMultipartContext with

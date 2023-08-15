@@ -96,4 +96,5 @@ let defaultConfig = {
     proxy = None
     certErrorStrategy = Default
     bufferResponseContent = false
+    cancellationToken = Threading.CancellationToken.None
 }
