@@ -39,6 +39,7 @@ module Http =
                 cookies = []
             }
             config = config
+            cancellationToken = Threading.CancellationToken.None
         }
 
     let method (method: string) (url: string) = methodWithConfig GlobalConfig.defaults.Config method url
