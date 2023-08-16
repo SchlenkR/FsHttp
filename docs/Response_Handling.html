@@ -63,8 +63,8 @@
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/Requesting_JSON.html">
-    Sending JSON
+  <a class="nav-link" href="/FsHttp/Sending_Requests.html">
+    Sending Requests
   </a>
 </li>             
 <li class="nav-item">
@@ -271,7 +271,7 @@ from FsHttp.GlobalConfig</div>
   member AllowNullFields : bool with set
   member BaseUnionEncoding : JsonUnionEncoding with set
   member IncludeRecordProperties : bool with set
-  member SkippableOptionFields : bool with set
+  member SkippableOptionFields : SkippableOptionFields with set
   member Types : JsonFSharpTypes with set
   member UnionAllowUnorderedTag : bool with set
   ...<br /><br />--------------------<br />new : unit -&gt; JsonFSharpConverter<br />new : fsOptions:JsonFSharpOptions * overrides:System.Collections.Generic.IDictionary&lt;System.Type,JsonFSharpOptions&gt; -&gt; JsonFSharpConverter<br />new : unionEncoding:JsonUnionEncoding * unionTagName:JsonUnionTagName * unionFieldsName:JsonUnionFieldsName * unionTagNamingPolicy:JsonNamingPolicy * unionFieldNamingPolicy:JsonNamingPolicy * unionTagCaseInsensitive:bool * allowNullFields:bool * includeRecordProperties:bool * types:JsonFSharpTypes * allowOverride:bool * overrides:System.Collections.Generic.IDictionary&lt;System.Type,JsonFSharpOptions&gt; -&gt; JsonFSharpConverter<br /><br />--------------------<br />new : unit -&gt; JsonFSharpConverterAttribute<br />new : fsOptions:JsonFSharpOptions -&gt; JsonFSharpConverterAttribute<br />new : unionEncoding:JsonUnionEncoding * unionTagName:JsonUnionTagName * unionFieldsName:JsonUnionFieldsName * unionTagNamingPolicy:JsonKnownNamingPolicy * unionFieldNamingPolicy:JsonKnownNamingPolicy * unionTagCaseInsensitive:bool * allowNullFields:bool * includeRecordProperties:bool * types:JsonFSharpTypes -&gt; JsonFSharpConverterAttribute</div>

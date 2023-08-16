@@ -427,6 +427,10 @@ type IRequestContext<'self> with
     member this.NoDecompression(context: IRequestContext<#IConfigure<ConfigTransformer, _>>) =
         Config.noDecompression context.Self
 
+    [<CustomOperation("config_cancellationToken")>]
+    member this.CancellationToken(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, cancellationToken) =
+        Config.cancellationToken cancellationToken context.Self
+
 
 // ---------
 // Print
