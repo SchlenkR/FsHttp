@@ -63,8 +63,8 @@
   </a>
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="/FsHttp/Requesting_JSON.html">
-    Sending JSON
+  <a class="nav-link" href="/FsHttp/Sending_Requests.html">
+    Sending Requests
   </a>
 </li>             
 <li class="nav-item">
@@ -245,15 +245,16 @@ from FsHttp</div>
 
 from FsHttp.Dsl<br /><br />--------------------<br />type Config =
   { timeout: TimeSpan option
+    defaultDecompressionMethods: DecompressionMethods list
     printHint: PrintHint
-    httpMessageTransformer: HttpRequestMessage -&gt; HttpRequestMessage
-    httpClientHandlerTransformer: HttpClientHandlerTransformer
-    httpClientTransformer: HttpClient -&gt; HttpClient
+    httpMessageTransformers: (HttpRequestMessage -&gt; HttpRequestMessage) list
+    httpClientHandlerTransformers: HttpClientHandlerTransformer list
+    httpClientTransformers: (HttpClient -&gt; HttpClient) list
     httpCompletionOption: HttpCompletionOption
     proxy: Proxy option
     certErrorStrategy: CertErrorStrategy
-    httpClientFactory: (unit -&gt; HttpClient) option
-    bufferResponseContent: bool }</div>
+    httpClientFactory: Config -&gt; HttpClient
+    ... }</div>
 <div class="fsdocs-tip" id="fs19">val timeoutInSeconds : value:float -&gt; context:IConfigure&lt;ConfigTransformer,&#39;c&gt; -&gt; &#39;c</div>
 <div class="fsdocs-tip" id="fs20">val set : config:GlobalConfig.GlobalConfigWrapper -&gt; unit</div>
 
