@@ -435,6 +435,10 @@ type Config =
     static member NoDecompression(config: Domain.Config) =
         Config.With.noDecompression config
 
+    [<Extension>]
+    static member CancellationToken(config: Domain.Config, cancellationToken) =
+        Config.With.cancellationToken cancellationToken config
+
 
 // ---------
 // Request

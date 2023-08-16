@@ -1,6 +1,6 @@
 ﻿(**
 ---
-title: Sending JSON
+title: Sending Requests
 category: Documentation
 categoryindex: 2
 index: 3
@@ -11,6 +11,7 @@ index: 3
 #nowarn "211"
 #r "../FsHttp/bin/Release/net6.0/FsHttp.dll"
 open FsHttp
+open System.Threading
 
 
 
@@ -89,3 +90,20 @@ http {
 (**
 > It is also possible to pass serializer settings using the `jsonSerializeWith` operation.
 *)
+
+
+(**
+## Request Cancellation
+
+It is possible to pass a cancellation token that will be used for the underlying HTTP request.
+*)
+
+use cs = new CancellationTokenSource()
+
+// ...
+
+http {
+    GET "https://mysite"
+    config_cancellationToken cs.Token
+}
+|> Request.send

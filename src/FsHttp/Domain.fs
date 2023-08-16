@@ -1,6 +1,8 @@
 [<AutoOpen>]
 module FsHttp.Domain
 
+open System.Threading
+
 type StatusCodeExpectation = {
     expected: System.Net.HttpStatusCode list
     actual: System.Net.HttpStatusCode
@@ -52,6 +54,7 @@ and Config = {
     httpClientFactory: Config -> System.Net.Http.HttpClient
     // Calls `LoadIntoBufferAsync` of the response's HttpContent immediately after receiving.
     bufferResponseContent: bool
+    cancellationToken: CancellationToken
 }
 
 type ConfigTransformer = Config -> Config
