@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>11.0.0</Version>
+    <Version>11.1.0</Version>
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
@@ -85,6 +85,9 @@
         - All transformers in config are a list of transformers instead of a single item.
         - Removed `setHttpClient`. Please use `setHttpClientFactory` instead.
         - `setHttpClientFactory` takes a `Config` as input argument.
+      
+      v11.1.0
+      - 130: Add method for user-supplied cancellation token
     </PackageReleaseNotes>
   </PropertyGroup>
 
