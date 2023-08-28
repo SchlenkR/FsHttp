@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <Version>11.1.0</Version>
+    
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
@@ -10,6 +11,10 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/fsprojects/FsHttp</RepositoryUrl>
+    
+    <FsDocsLicenseLink>https://github.com/fsprojects/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp/src/Directory.Build.props</FsDocsReleaseNotesLink>
+
     <PackageReleaseNotes>
       v7.0.0
       - #92: `expect` and `assert` pass through the original response instead of unit.
