@@ -34,6 +34,6 @@ index: 9
 
 ### To > v10
 
-* See [https://github.com/fsprojects/FsHttp/blob/master/src/Directory.Build.props](Directory.Build.props)
+* See [https://www.nuget.org/packages/FsHttp#release-body-tab](Directory.Build.props)
 
 *)

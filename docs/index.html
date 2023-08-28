@@ -52,7 +52,7 @@
             <ul class="navbar-nav">
                 <li class="nav-header">Links</li>
                 <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/blob/master/LICENSE">License</a></li>
-                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/blob/master/src/Directory.Build.props">Release Notes</a></li>
+                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://www.nuget.org/packages/FsHttp#release-body-tab">Release Notes</a></li>
                 <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/">Source Repository</a></li>
                 <li class="nav-header">
   Documentation
@@ -107,7 +107,14 @@
     Configuration
   </a>
 </li>
-                
+                <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="/FsHttp/reference/index.html">
+    All Namespaces
+  </a>
+</li>
             </ul>
         </div>
     </nav>
@@ -125,6 +132,7 @@
 <p>Specify common HTTP requests in a most convenient and readable way, while still being able to access the underlying .Net Http representations for covering unusual cases.</p>
 </blockquote>
 <p><strong>FsHttp</strong> is developed and maintained by <a href="https://github.com/ronaldschlenker">@ronaldschlenker</a> and <a href="https://github.com/dawedawe">@dawedawe</a>. Feel free to leave us a message.</p>
+<p><a href="https://www.nuget.org/packages/FsHttp"><img src="http://img.shields.io/nuget/v/FsHttp.svg?style=flat" alt="NuGet Badge" /></a> <img src="https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push" alt="build status" /></p>
 <h2><a name="Sponsoring" class="anchor" href="#Sponsoring">Sponsoring</a></h2>
 <p>Want to help keep FsHttp alive? Then help keep F# and its ecosystem alive by supporting one of the following developers:</p>
 <ul>
@@ -135,9 +143,6 @@
 <li><a href="https://github.com/sponsors/PawelStadnicki">@PawelStadnicki</a>. Why? E.g. for his attempt to push F# forward in data science.</li>
 </ul>
 <p>For sure, there are many more. If you think someone should appear on that list, leave us a message!</p>
-<p><a href="https://www.nuget.org/packages/FsHttp"><img src="http://img.shields.io/nuget/v/FsHttp.svg?style=flat" alt="NuGet Badge" /></a> <img src="https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push" alt="build status" /></p>
-<h2><a name="Documentation" class="anchor" href="#Documentation">Documentation</a></h2>
-<p>Please see <a href="https://fsprojects.github.io/FsHttp">FsHttp Documentation</a> site for a detailed documentation.</p>
 <h2><a name="A-Simple-Example" class="anchor" href="#A-Simple-Example">A Simple Example</a></h2>
 <p>An example in F#:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="pp">#r</span> <span class="s">&quot;nuget: FsHttp&quot;</span>
@@ -172,10 +177,48 @@ await <span class="s">"https://reqres.in/api/users"</span>.Post()
     )
     .SendAsync();
 </code></pre></td></tr></table>
-<h2><a name="Migrating-to-new-versions" class="anchor" href="#Migrating-to-new-versions">Migrating to new versions</a></h2>
-<p>For different upgrade paths, please read the <a href="https://fsprojects.github.io/FsHttp/Migrations.html">Migrations section</a> in the docu.</p>
-<h2><a name="Further-documentation" class="anchor" href="#Further-documentation">Further documentation</a></h2>
-<p>Have a look at the <a href="https://github.com/fsprojects/FsHttp/tree/master/src/Tests">Integration Tests</a> that show various library details.</p>
+<h2><a name="Documentation" class="anchor" href="#Documentation">Documentation</a></h2>
+<ul>
+<li>:book: Please see <a href="https://fsprojects.github.io/FsHttp">FsHttp Documentation</a> site for a detailed documentation.</li>
+<li>🧪 In addition, have a look at the <a href="https://github.com/fsprojects/FsHttp/tree/master/src/Tests">Integration Tests</a> that show various library details.</li>
+</ul>
+<h2><a name="Release-Notes-Migrating-to-new-versions" class="anchor" href="#Release-Notes-Migrating-to-new-versions">Release Notes / Migrating to new versions</a></h2>
+<ul>
+<li>See <a href="https://www.nuget.org/packages/FsHttp#release-body-tab">https://www.nuget.org/packages/FsHttp#release-body-tab</a></li>
+<li>For different upgrade paths, please read the <a href="https://fsprojects.github.io/FsHttp/Migrations.html">Migrations section</a> in the docu.</li>
+</ul>
+<h2><a name="GitHub" class="anchor" href="#GitHub">GitHub</a></h2>
+<p>Please see <a href="https://github.com/fsprojects/FsHttp">FsHttp on GitHub</a>.</p>
+<h2><a name="Building" class="anchor" href="#Building">Building</a></h2>
+<p>*<em>.Net SDK:*</em></p>
+<p>You need to have the latest .Net SDK installed, which is specified in <code>./global.json</code>.</p>
+<p><strong>Build Tasks</strong></p>
+<p>There is a F# build script (<code>./build.fsx</code>) that can be used to perform several build tasks from command line.</p>
+<p>For common tasks, there are powershell files located in the repo root:</p>
+<ul>
+<li>
+<code>./test.ps1</code>: Runs all tests (sources in <code>./src/Tests</code>).
+<ul>
+<li>
+You can pass args to this task. E.g. for executing only some tests:
+<code>./test.ps1 --filter Name~'Response Decompression'</code>
+</li>
+</ul>
+</li>
+<li><code>./docu.ps1</code>: Rebuilds the FsHttp documentation site (sources in <code>./src/docs</code>; output goes to <code>./docs</code>).</li>
+<li><code>./docu-watch.ps1</code>: Run it if you are working on the documentation sources, and want to see the result in a browser.</li>
+<li>
+<code>./publish.ps1</code>: Publishes all packages (FsHttp and it's integration packages for Newtonsoft and FSharp.Data) to NuGet.
+<ul>
+<li>Always have a look at <code>./src/Directory.Build.props</code> and keep the file up-to-date.</li>
+</ul>
+</li>
+</ul>
+<h2><a name="Credits" class="anchor" href="#Credits">Credits</a></h2>
+<ul>
+<li>Parts of the code is taken from the <a href="https://fsprojects.github.io/FSharp.Data/library/Http.html">HTTP utilities of FSharp.Data</a>.</li>
+<li>Credits to all critics, supporters, contributors, promoters, users, and friends.</li>
+</ul>
 
             <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
 <div class="fsdocs-tip" id="fs2">val http: StartingContext</div>
