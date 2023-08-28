@@ -9,13 +9,14 @@ The design principle behind FsHttp is:
 
 **FsHttp** is developed and maintained by [@ronaldschlenker](https://github.com/ronaldschlenker) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
 
+
 Sponsoring
 ----------
 
 Want to help keep FsHttp alive? Then help keep F# and its ecosystem alive by supporting one of the following developers:
 
 * [@edgarfgp](https://github.com/sponsors/edgarfgp). Why? E.g. for "Amplifying F#", for bringing people together, for his support and his work in the F# community.
-* [@TheAngryByrd](https://github.com/sponsors/TheAngryByrd). Why? E.g. for maintaining Ionidem and many, many more.
+* [@TheAngryByrd](https://github.com/sponsors/TheAngryByrd). Why? E.g. for maintaining Ionide and many, many more.
 * [@AngelMunoz](https://github.com/sponsors/AngelMunoz). Why? E.g. for his work in Fable (The F# to JS compiler), his passion and support.
 * [@dawedawe](https://github.com/sponsors/dawedawe) and [@nojaf](https://github.com/sponsors/nojaf). Why? E.g. for Fantomas and their support in the F# community.
 * [@PawelStadnicki](https://github.com/sponsors/PawelStadnicki). Why? E.g. for his attempt to push F# forward in data science.
@@ -28,7 +29,8 @@ For sure, there are many more. If you think someone should appear on that list, 
 Documentation
 -------------
 
-Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for a detailed documentation.
+* :book: Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for a detailed documentation.
+* 🧪 In addition, have a look at the [Integration Tests](https://github.com/fsprojects/FsHttp/tree/master/src/Tests) that show various library details.
 
 
 A Simple Example
