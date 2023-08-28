@@ -12,8 +12,6 @@
   <PropertyGroup>
     <Description>A .Net HTTP client library for F#, C#, and friends</Description>
     <PackageId>FsHttp</PackageId>
-    <FsDocsLicenseLink>https://github.com/fsprojects/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
-    <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp</FsDocsReleaseNotesLink>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
