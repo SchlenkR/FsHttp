@@ -72,7 +72,7 @@ await "https://reqres.in/api/users".Post()
 Documentation
 -------------
 
-* :book: Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for a detailed documentation.
+* 📖 Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for a detailed documentation.
 * 🧪 In addition, have a look at the [Integration Tests](https://github.com/fsprojects/FsHttp/tree/master/src/Tests) that show various library details.
 
 
