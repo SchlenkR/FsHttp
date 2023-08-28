@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Overview</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="">
+    <meta name="author" content="Ronald Schlenker">
 
     <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -13,7 +13,7 @@
 
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/FsHttp/img/favicon.ico">
     <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
     <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
     <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
@@ -51,9 +51,9 @@
             <!-- END SEARCH BOX: this adds support for the search box -->
             <ul class="navbar-nav">
                 <li class="nav-header">Links</li>
-                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="{{fsdocs-license-link}}">License</a></li>
-                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="{{fsdocs-release-notes-link}}">Release Notes</a></li>
-                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="{{fsdocs-repository-link}}">Source Repository</a></li>
+                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/blob/master/LICENSE">License</a></li>
+                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://www.nuget.org/packages/FsHttp/src/Directory.Build.props">Release Notes</a></li>
+                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/">Source Repository</a></li>
                 <li class="nav-header">
   Documentation
 </li>             
@@ -107,7 +107,7 @@
     Configuration
   </a>
 </li>
-                {{fsdocs-list-of-namespaces}}
+                
             </ul>
         </div>
     </nav>
@@ -182,7 +182,7 @@
 </code></pre>
 
             <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
-<div class="fsdocs-tip" id="fs2">val http : StartingContext</div>
+<div class="fsdocs-tip" id="fs2">val http: StartingContext</div>
 <div class="fsdocs-tip" id="fs3">custom operation: GET (string)
 
 Calls IRequestContext.Get</div>
@@ -196,10 +196,12 @@ Calls IRequestContext.AcceptLanguage<br /><em>&lt;summary&gt;
 from FsHttp.Print<br /><br />--------------------<br />module Request
 
 from FsHttp<br /><br />--------------------<br />type Request =
-  { header: Header
+  {
+    header: Header
     content: RequestContent
-    config: Config }</div>
-<div class="fsdocs-tip" id="fs6">val send : context:IToRequest -&gt; Response<br /><em>&lt;summary&gt;
+    config: Config
+  }</div>
+<div class="fsdocs-tip" id="fs6">val send: context: IToRequest -&gt; Response<br /><em>&lt;summary&gt;
  Sends a request synchronously.
 &lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs7">custom operation: POST (string)
@@ -213,14 +215,15 @@ Calls IRequestContext.Body<br /><em>&lt;summary&gt;
 <div class="fsdocs-tip" id="fs9">custom operation: jsonSerialize (&#39;a)
 
 Calls IRequestContext.JsonSerialize</div>
-<div class="fsdocs-tip" id="fs10">val name : string</div>
-<div class="fsdocs-tip" id="fs11">val age : int</div>
+<div class="fsdocs-tip" id="fs10">val name: string</div>
+<div class="fsdocs-tip" id="fs11">val age: int</div>
 <div class="fsdocs-tip" id="fs12">Multiple items<br />module Response
 
 from FsHttp.Print<br /><br />--------------------<br />module Response
 
 from FsHttp<br /><br />--------------------<br />type Response =
-  { request: Request
+  {
+    request: Request
     requestMessage: HttpRequestMessage
     content: HttpContent
     headers: HttpResponseHeaders
@@ -229,22 +232,24 @@ from FsHttp<br /><br />--------------------<br />type Response =
     version: Version
     originalHttpRequestMessage: HttpRequestMessage
     originalHttpResponseMessage: HttpResponseMessage
-    dispose: unit -&gt; unit }
-    interface IDisposable
-    interface IConfigure&lt;PrintHintTransformer,Response&gt;</div>
-<div class="fsdocs-tip" id="fs13">val toJson : response:Response -&gt; System.Text.Json.JsonElement</div>
-<div class="fsdocs-tip" id="fs14">val json : System.Text.Json.JsonElement</div>
+    dispose: (unit -&gt; unit)
+  }
+  interface IDisposable
+  interface IConfigure&lt;PrintHintTransformer,Response&gt;</div>
+<div class="fsdocs-tip" id="fs13">val toJson: response: Response -&gt; System.Text.Json.JsonElement</div>
+<div class="fsdocs-tip" id="fs14">val json: System.Text.Json.JsonElement</div>
 <div class="fsdocs-tip" id="fs15">custom operation: config_timeoutInSeconds (float)
 
 Calls IRequestContext.TimeoutInSeconds</div>
 <div class="fsdocs-tip" id="fs16">module GlobalConfig
 
 from FsHttp</div>
-<div class="fsdocs-tip" id="fs17">val defaults : GlobalConfig.GlobalConfigWrapper</div>
+<div class="fsdocs-tip" id="fs17">val defaults: GlobalConfig.GlobalConfigWrapper</div>
 <div class="fsdocs-tip" id="fs18">Multiple items<br />module Config
 
 from FsHttp.Dsl<br /><br />--------------------<br />type Config =
-  { timeout: TimeSpan option
+  {
+    timeout: TimeSpan option
     defaultDecompressionMethods: DecompressionMethods list
     printHint: PrintHint
     httpMessageTransformers: (HttpRequestMessage -&gt; HttpRequestMessage) list
@@ -253,10 +258,11 @@ from FsHttp.Dsl<br /><br />--------------------<br />type Config =
     httpCompletionOption: HttpCompletionOption
     proxy: Proxy option
     certErrorStrategy: CertErrorStrategy
-    httpClientFactory: Config -&gt; HttpClient
-    ... }</div>
-<div class="fsdocs-tip" id="fs19">val timeoutInSeconds : value:float -&gt; context:IConfigure&lt;ConfigTransformer,&#39;c&gt; -&gt; &#39;c</div>
-<div class="fsdocs-tip" id="fs20">val set : config:GlobalConfig.GlobalConfigWrapper -&gt; unit</div>
+    httpClientFactory: (Config -&gt; HttpClient)
+    ...
+  }</div>
+<div class="fsdocs-tip" id="fs19">val timeoutInSeconds: value: float -&gt; context: IConfigure&lt;ConfigTransformer,&#39;c&gt; -&gt; &#39;c</div>
+<div class="fsdocs-tip" id="fs20">val set: config: GlobalConfig.GlobalConfigWrapper -&gt; unit</div>
 
         </div>
 

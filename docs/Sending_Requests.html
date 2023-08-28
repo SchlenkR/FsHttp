@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Sending Requests</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="">
+    <meta name="author" content="Ronald Schlenker">
 
     <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -13,7 +13,7 @@
 
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/FsHttp/img/favicon.ico">
     <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
     <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
     <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
@@ -51,9 +51,9 @@
             <!-- END SEARCH BOX: this adds support for the search box -->
             <ul class="navbar-nav">
                 <li class="nav-header">Links</li>
-                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="{{fsdocs-license-link}}">License</a></li>
-                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="{{fsdocs-release-notes-link}}">Release Notes</a></li>
-                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="{{fsdocs-repository-link}}">Source Repository</a></li>
+                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/blob/master/LICENSE">License</a></li>
+                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://www.nuget.org/packages/FsHttp/src/Directory.Build.props">Release Notes</a></li>
+                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/">Source Repository</a></li>
                 <li class="nav-header">
   Documentation
 </li>             
@@ -107,7 +107,7 @@
     Configuration
   </a>
 </li>
-                {{fsdocs-list-of-namespaces}}
+                
             </ul>
         </div>
     </nav>
@@ -198,7 +198,7 @@
             <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
 <div class="fsdocs-tip" id="fs2">namespace System</div>
 <div class="fsdocs-tip" id="fs3">namespace System.Threading</div>
-<div class="fsdocs-tip" id="fs4">val http : StartingContext</div>
+<div class="fsdocs-tip" id="fs4">val http: StartingContext</div>
 <div class="fsdocs-tip" id="fs5">custom operation: POST (string)
 
 Calls IRequestContext.Post</div>
@@ -215,31 +215,33 @@ Calls IRequestContext.Json</div>
 from FsHttp.Print<br /><br />--------------------<br />module Request
 
 from FsHttp<br /><br />--------------------<br />type Request =
-  { header: Header
+  {
+    header: Header
     content: RequestContent
-    config: Config }</div>
-<div class="fsdocs-tip" id="fs9">val send : context:IToRequest -&gt; Response<br /><em>&lt;summary&gt;
+    config: Config
+  }</div>
+<div class="fsdocs-tip" id="fs9">val send: context: IToRequest -&gt; Response<br /><em>&lt;summary&gt;
  Sends a request synchronously.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs10">val sendRequestWithSprintf : age:int -&gt; Response</div>
-<div class="fsdocs-tip" id="fs11">val age : int</div>
-<div class="fsdocs-tip" id="fs12">val sprintf : format:Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Print to a string using the given format.&lt;/summary&gt;<br />&lt;param name=&quot;format&quot;&gt;The formatter.&lt;/param&gt;<br />&lt;returns&gt;The formatted result.&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs13">val sendRequestWithInterpolatedString : age:&#39;a -&gt; Response</div>
-<div class="fsdocs-tip" id="fs14">val age : &#39;a</div>
+<div class="fsdocs-tip" id="fs10">val sendRequestWithSprintf: age: int -&gt; Response</div>
+<div class="fsdocs-tip" id="fs11">val age: int</div>
+<div class="fsdocs-tip" id="fs12">val sprintf: format: Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T</div>
+<div class="fsdocs-tip" id="fs13">val sendRequestWithInterpolatedString: age: &#39;a -&gt; Response</div>
+<div class="fsdocs-tip" id="fs14">val age: &#39;a</div>
 <div class="fsdocs-tip" id="fs15">custom operation: jsonSerialize (&#39;a)
 
 Calls IRequestContext.JsonSerialize</div>
-<div class="fsdocs-tip" id="fs16">val cs : CancellationTokenSource</div>
+<div class="fsdocs-tip" id="fs16">val cs: CancellationTokenSource</div>
 <div class="fsdocs-tip" id="fs17">Multiple items<br />type CancellationTokenSource =
   interface IDisposable
-  new : unit -&gt; unit + 2 overloads
-  member Cancel : unit -&gt; unit + 1 overload
-  member CancelAfter : millisecondsDelay: int -&gt; unit + 1 overload
-  member Dispose : unit -&gt; unit + 1 overload
-  member TryReset : unit -&gt; bool
-  static member CreateLinkedTokenSource : token: CancellationToken -&gt; CancellationTokenSource + 2 overloads
-  member IsCancellationRequested : bool
-  member Token : CancellationToken<br /><em>&lt;summary&gt;Signals to a &lt;see cref=&quot;T:System.Threading.CancellationToken&quot; /&gt; that it should be canceled.&lt;/summary&gt;</em><br /><br />--------------------<br />CancellationTokenSource() : CancellationTokenSource<br />CancellationTokenSource(millisecondsDelay: int) : CancellationTokenSource<br />CancellationTokenSource(delay: System.TimeSpan) : CancellationTokenSource</div>
+  new: unit -&gt; unit + 2 overloads
+  member Cancel: unit -&gt; unit + 1 overload
+  member CancelAfter: millisecondsDelay: int -&gt; unit + 1 overload
+  member Dispose: unit -&gt; unit
+  member TryReset: unit -&gt; bool
+  static member CreateLinkedTokenSource: token: CancellationToken -&gt; CancellationTokenSource + 2 overloads
+  member IsCancellationRequested: bool
+  member Token: CancellationToken<br /><em>&lt;summary&gt;Signals to a &lt;see cref=&quot;T:System.Threading.CancellationToken&quot; /&gt; that it should be canceled.&lt;/summary&gt;</em><br /><br />--------------------<br />CancellationTokenSource() : CancellationTokenSource<br />CancellationTokenSource(millisecondsDelay: int) : CancellationTokenSource<br />CancellationTokenSource(delay: System.TimeSpan) : CancellationTokenSource</div>
 <div class="fsdocs-tip" id="fs18">custom operation: GET (string)
 
 Calls IRequestContext.Get</div>

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>FsHttp Overview</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="">
+    <meta name="author" content="Ronald Schlenker">
 
     <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -13,7 +13,7 @@
 
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/FsHttp/img/favicon.ico">
     <link type="text/css" rel="stylesheet" href="/FsHttp/content/navbar-fixed-left.css" />
     <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-default.css" />
     <link type="text/css" rel="stylesheet" href="/FsHttp/content/fsdocs-custom.css" />
@@ -51,9 +51,9 @@
             <!-- END SEARCH BOX: this adds support for the search box -->
             <ul class="navbar-nav">
                 <li class="nav-header">Links</li>
-                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="{{fsdocs-license-link}}">License</a></li>
-                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="{{fsdocs-release-notes-link}}">Release Notes</a></li>
-                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="{{fsdocs-repository-link}}">Source Repository</a></li>
+                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/blob/master/LICENSE">License</a></li>
+                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://www.nuget.org/packages/FsHttp/src/Directory.Build.props">Release Notes</a></li>
+                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fsprojects/FsHttp/">Source Repository</a></li>
                 <li class="nav-header">
   Documentation
 </li>             
@@ -107,7 +107,7 @@
     Configuration
   </a>
 </li>
-                {{fsdocs-list-of-namespaces}}
+                
             </ul>
         </div>
     </nav>
@@ -120,8 +120,24 @@
             
 <h1><a name="FsHttp" class="anchor" href="#FsHttp">FsHttp</a></h1>
 <p>FsHttp is a .Net HTTP client library for C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.</p>
-<p><strong>FsHttp</strong> is authored by <a href="https://github.com/ronaldschlenker">@ronaldschlenker</a>. Feel free to leave a message.</p>
+<p>The design principle behind FsHttp is:</p>
+<blockquote>
+<p>Specify common HTTP requests in a most convenient and readable way, while still being able to access the underlying .Net Http representations for covering unusual cases.</p>
+</blockquote>
+<p><strong>FsHttp</strong> is developed and maintained by <a href="https://github.com/ronaldschlenker">@ronaldschlenker</a> and <a href="https://github.com/dawedawe">@dawedawe</a>. Feel free to leave us a message.</p>
+<h2><a name="Sponsoring" class="anchor" href="#Sponsoring">Sponsoring</a></h2>
+<p>Want to help keep FsHttp alive? Then help keep F# and its ecosystem alive by supporting one of the following developers:</p>
+<ul>
+<li><a href="https://github.com/sponsors/edgarfgp">@edgarfgp</a>. Why? E.g. for "Amplifying F#", for bringing people together, for his support and his work in the F# community.</li>
+<li><a href="https://github.com/sponsors/TheAngryByrd">@TheAngryByrd</a>. Why? E.g. for maintaining Ionidem and many, many more.</li>
+<li><a href="https://github.com/sponsors/AngelMunoz">@AngelMunoz</a>. Why? E.g. for his work in Fable (The F# to JS compiler), his passion and support.</li>
+<li><a href="https://github.com/sponsors/dawedawe">@dawedawe</a> and <a href="https://github.com/sponsors/nojaf">@nojaf</a>. Why? E.g. for Fantomas and their support in the F# community.</li>
+<li><a href="https://github.com/sponsors/PawelStadnicki">@PawelStadnicki</a>. Why? E.g. for his attempt to push F# forward in data science.</li>
+</ul>
+<p>For sure, there are many more. If you think someone should appear on that list, leave us a message!</p>
 <p><a href="https://www.nuget.org/packages/FsHttp"><img src="http://img.shields.io/nuget/v/FsHttp.svg?style=flat" alt="NuGet Badge" /></a> <img src="https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push" alt="build status" /></p>
+<h2><a name="Documentation" class="anchor" href="#Documentation">Documentation</a></h2>
+<p>Please see <a href="https://fsprojects.github.io/FsHttp">FsHttp Documentation</a> site for a detailed documentation.</p>
 <h2><a name="A-Simple-Example" class="anchor" href="#A-Simple-Example">A Simple Example</a></h2>
 <p>An example in F#:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="pp">#r</span> <span class="s">&quot;nuget: FsHttp&quot;</span>
@@ -132,12 +148,11 @@
     <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="k">POST</span> <span class="s">&quot;https://reqres.in/api/users&quot;</span>
     <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="k">CacheControl</span> <span class="s">&quot;no-cache&quot;</span>
     <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="k">body</span>
-    <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="k">json</span> <span class="s">&quot;&quot;&quot;</span>
-<span class="s">    {</span>
-<span class="s">        &quot;name&quot;: &quot;morpheus&quot;,</span>
-<span class="s">        &quot;job&quot;: &quot;leader&quot;</span>
-<span class="s">    }</span>
-<span class="s">    &quot;&quot;&quot;</span>
+    <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="k">jsonSerialize</span>
+        <span class="pn">{|</span>
+            <span class="prop">name</span> <span class="o">=</span> <span class="s">&quot;morpheus&quot;</span>
+            <span class="prop">job</span> <span class="o">=</span> <span class="s">&quot;leader&quot;</span>
+        <span class="pn">|}</span>
 <span class="pn">}</span>
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="m">Request</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="id">send</span>
 </code></pre>
@@ -149,19 +164,21 @@
 await <span class="s">"https://reqres.in/api/users"</span>.Post()
     .CacheControl(<span class="s">"no-cache"</span>)
     .Body()
-    .Json(<span class="s">@"
+    .JsonSerialize(<span class="k">new</span>
         {
-            "</span><span class="s">"name"</span><span class="s">": "</span><span class="s">"morpheus"</span><span class="s">",
-            "</span><span class="s">"job"</span><span class="s">": "</span><span class="s">"leader"</span><span class="s">"
+            name <span class="o">=</span> <span class="s">"morpheus"</span>,
+            job <span class="o">=</span> <span class="s">"leader"</span>
         }
-    "</span>)
+    )
     .SendAsync();
 </code></pre></td></tr></table>
+<h2><a name="Migrating-to-new-versions" class="anchor" href="#Migrating-to-new-versions">Migrating to new versions</a></h2>
+<p>For different upgrade paths, please read the <a href="https://fsprojects.github.io/FsHttp/Migrations.html">Migrations section</a> in the docu.</p>
 <h2><a name="Further-documentation" class="anchor" href="#Further-documentation">Further documentation</a></h2>
 <p>Have a look at the <a href="https://github.com/fsprojects/FsHttp/tree/master/src/Tests">Integration Tests</a> that show various library details.</p>
 
             <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
-<div class="fsdocs-tip" id="fs2">val http : StartingContext</div>
+<div class="fsdocs-tip" id="fs2">val http: StartingContext</div>
 <div class="fsdocs-tip" id="fs3">custom operation: POST (string)
 
 Calls IRequestContext.Post</div>
@@ -175,18 +192,20 @@ Calls IRequestContext.CacheControl<br /><em>&lt;summary&gt;
 Calls IRequestContext.Body<br /><em>&lt;summary&gt;
  An explicit transformation from a previous context to allow for describing the request body.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs6">custom operation: json (string)
+<div class="fsdocs-tip" id="fs6">custom operation: jsonSerialize (&#39;a)
 
-Calls IRequestContext.Json</div>
+Calls IRequestContext.JsonSerialize</div>
 <div class="fsdocs-tip" id="fs7">Multiple items<br />module Request
 
 from FsHttp.Print<br /><br />--------------------<br />module Request
 
 from FsHttp<br /><br />--------------------<br />type Request =
-  { header: Header
+  {
+    header: Header
     content: RequestContent
-    config: Config }</div>
-<div class="fsdocs-tip" id="fs8">val send : context:IToRequest -&gt; Response<br /><em>&lt;summary&gt;
+    config: Config
+  }</div>
+<div class="fsdocs-tip" id="fs8">val send: context: IToRequest -&gt; Response<br /><em>&lt;summary&gt;
  Sends a request synchronously.
 &lt;/summary&gt;</em></div>
 
