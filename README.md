@@ -76,10 +76,11 @@ await "https://reqres.in/api/users".Post()
 ```
 
 
-Migrating to new versions
+Release Notes / Migrating to new versions
 ---
 
-For different upgrade paths, please read the [Migrations section](https://fsprojects.github.io/FsHttp/Migrations.html) in the docu.
+* See https://www.nuget.org/packages/FsHttp/src/Directory.Build.props
+* For different upgrade paths, please read the [Migrations section](https://fsprojects.github.io/FsHttp/Migrations.html) in the docu.
 
 
 Building

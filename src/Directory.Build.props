@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/fsprojects/FsHttp</RepositoryUrl>
     
     <FsDocsLicenseLink>https://github.com/fsprojects/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
-    <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp/src/Directory.Build.props</FsDocsReleaseNotesLink>
+    <FsDocsReleaseNotesLink>https://github.com/fsprojects/FsHttp/blob/master/src/Directory.Build.props</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
       v7.0.0

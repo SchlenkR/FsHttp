@@ -1,6 +1,6 @@
 (**
 ---
-title: Migrations
+title: Release Notes / Migrations
 category: Documentation
 categoryindex: 1
 index: 9
@@ -34,6 +34,6 @@ index: 9
 
 ### To > v10
 
-See README.md
+* See [https://github.com/fsprojects/FsHttp/blob/master/src/Directory.Build.props](Directory.Build.props)
 
 *)
