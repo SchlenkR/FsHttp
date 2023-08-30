@@ -35,4 +35,3 @@ http {
     CacheControl "no-cache"
     print_withResponseBodyExpanded
 }
-
