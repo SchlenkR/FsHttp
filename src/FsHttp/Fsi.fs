@@ -1,5 +1,6 @@
 module FsHttp.Fsi
 
+// why we have this? -> search for #121
 let mutable internal logDebugMessages = None
 let enableDebugLogs () = logDebugMessages <- Some true
 let disableDebugLogs () = logDebugMessages <- Some false
