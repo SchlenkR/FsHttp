@@ -114,15 +114,10 @@ let ``Response Decompression`` () =
         }
 
     // automatic response decompression (default)
-    baseRequest
-    |> Request.send
-    |> Response.toText
-    |> should equal responseText
+    baseRequest |> Request.send |> Response.toText |> should equal responseText
 
     // manual decompression
-    baseRequest {
-        config_noDecompression
-    }
+    baseRequest { config_noDecompression }
     |> Request.send
     |> Response.toBytes
     |> fun responseContent ->

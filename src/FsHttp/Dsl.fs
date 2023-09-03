@@ -491,10 +491,7 @@ module Config =
 
         let noDecompression config = { config with defaultDecompressionMethods = [ DecompressionMethods.None ] }
 
-        let cancellationToken cancellationToken config = {
-            config with
-                cancellationToken = cancellationToken
-        }
+        let cancellationToken cancellationToken config = { config with cancellationToken = cancellationToken }
 
     let update transformer (context: IConfigure<ConfigTransformer, _>) = context.Configure transformer
 

@@ -3,3 +3,6 @@
 
 # Ignore script files
 *.fsx
+
+# ignore files in obj folders
+src/**/obj/**/*.fs
