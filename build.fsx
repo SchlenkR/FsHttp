@@ -61,6 +61,9 @@ let clean = "clean", fun () ->
     ++ ".pack"
     |> Shell.cleanDirs 
 
+let checkFormat = "checkformat", fun () ->
+    Shell.ExecSuccess ("dotnet", $"fantomas --check ./src/FsHttp/ ./src/Tests/")
+
 let slnPath = "./src/FsHttp.sln"
 let build = "build", fun () ->
     Shell.ExecSuccess ("dotnet", $"build {slnPath}")
@@ -80,7 +83,7 @@ let pack = "pack", fun () ->
     )
 
 let format = "format", fun () ->
-    Shell.ExecSuccess ("dotnet", $"fantomas ./src/FsHttp/ ./src/FsHttp.Testing/ ./src/Tests/")
+    Shell.ExecSuccess ("dotnet", $"fantomas ./src/FsHttp/ ./src/Tests/")
 
 // TODO: git tag + release
 let publish = "publish", fun () ->
@@ -94,12 +97,14 @@ run [
     clean
 
     if shallBuild then
+        checkFormat
         build
     if shallTest then
         test
     if shallPack then
         pack
     if shallPublish then
+        checkFormat
         build
         pack
         publish
