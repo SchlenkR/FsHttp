@@ -95,7 +95,8 @@ http {
 (**
 ## Request Cancellation
 
-It is possible to pass a cancellation token that will be used for the underlying HTTP request.
+It is possible to bind a cancellation token to a request definition,
+that will be used for the underlying HTTP request:
 *)
 
 use cts = new CancellationTokenSource()
