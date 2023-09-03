@@ -119,7 +119,11 @@ let toAsync (context: IToRequest) =
     async {
         let request, requestMessage = toRequestAndMessage context
         do Fsi.logfn $"Sending request {request.header.method} {request.header.url.ToUriString()} ..."
-        use finalRequestMessage = request.config.httpMessageTransformers |> List.fold (fun c n -> n c) requestMessage
+
+        use finalRequestMessage =
+            request.config.httpMessageTransformers
+            |> List.fold (fun c n -> n c) requestMessage
+
         let ctok = request.config.cancellationToken
         let client = request.config.httpClientFactory request.config
 
@@ -129,7 +133,8 @@ let toAsync (context: IToRequest) =
             let cookies = cookies |> List.map string |> String.concat "; "
             do finalRequestMessage.Headers.Add("Cookie", cookies)
 
-        let finalClient = request.config.httpClientTransformers |> List.fold (fun c n -> n c) client
+        let finalClient =
+            request.config.httpClientTransformers |> List.fold (fun c n -> n c) client
 
         let! response =
             finalClient.SendAsync(finalRequestMessage, request.config.httpCompletionOption, ctok)
