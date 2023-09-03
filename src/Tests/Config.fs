@@ -127,20 +127,17 @@ let ``Cancellation token can be supplied by user`` () =
     Thread(fun () ->
         Thread.Sleep clientRequestDuration
         cs.Cancel()
-    ).Start()
+    )
+        .Start()
 
     let requestStartTime = DateTime.Now
 
     let mutable wasCancelled = false
 
     try
-        get (url "") {
-            config_cancellationToken cs.Token
-        }
-        |> Request.send
-        |> ignore
-    with 
-        :? TaskCanceledException -> wasCancelled <- true
+        get (url "") { config_cancellationToken cs.Token } |> Request.send |> ignore
+    with :? TaskCanceledException ->
+        wasCancelled <- true
 
     let requestDuration = DateTime.Now - requestStartTime
 

@@ -420,7 +420,11 @@ type IRequestContext<'self> with
         Config.proxyWithCredentials url credentials context.Self
 
     [<CustomOperation("config_decompressionMethods")>]
-    member this.DecompressionMethods(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, decompressionMethods) =
+    member this.DecompressionMethods
+        (
+            context: IRequestContext<#IConfigure<ConfigTransformer, _>>,
+            decompressionMethods
+        ) =
         Config.decompressionMethods decompressionMethods context.Self
 
     [<CustomOperation("config_noDecompression")>]
