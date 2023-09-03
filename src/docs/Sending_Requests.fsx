@@ -98,12 +98,27 @@ http {
 It is possible to pass a cancellation token that will be used for the underlying HTTP request.
 *)
 
-use cs = new CancellationTokenSource()
+use cts = new CancellationTokenSource()
 
 // ...
 
 http {
     GET "https://mysite"
-    config_cancellationToken cs.Token
+    config_cancellationToken cts.Token
 }
 |> Request.send
+
+
+(**
+See also: https://github.com/fsprojects/FsHttp/issues/105
+
+Instead of binding a cancellation token directly to a request definition (like in the example above),
+it is also possible to pass it on execution-timer, like so:
+*)
+
+http {
+    GET "https://mysite"
+}
+|> Config.cancellationToken cts.Token
+|> Request.send
+
