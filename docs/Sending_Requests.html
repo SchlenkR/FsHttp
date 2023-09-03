@@ -195,16 +195,26 @@
 <p>It is also possible to pass serializer settings using the <code>jsonSerializeWith</code> operation.</p>
 </blockquote>
 <h2><a name="Request-Cancellation" class="anchor" href="#Request-Cancellation">Request Cancellation</a></h2>
-<p>It is possible to pass a cancellation token that will be used for the underlying HTTP request.</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">use</span> <span onmouseout="hideTip(event, 'fs16', 35)" onmouseover="showTip(event, 'fs16', 35)" class="d">cs</span> <span class="o">=</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs17', 36)" onmouseover="showTip(event, 'fs17', 36)" class="d">CancellationTokenSource</span><span class="pn">(</span><span class="pn">)</span>
+<p>It is possible to bind a cancellation token to a request definition,
+that will be used for the underlying HTTP request:</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">use</span> <span onmouseout="hideTip(event, 'fs16', 35)" onmouseover="showTip(event, 'fs16', 35)" class="d">cts</span> <span class="o">=</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs17', 36)" onmouseover="showTip(event, 'fs17', 36)" class="d">CancellationTokenSource</span><span class="pn">(</span><span class="pn">)</span>
 
 <span class="c">// ...</span>
 
 <span onmouseout="hideTip(event, 'fs4', 37)" onmouseover="showTip(event, 'fs4', 37)" class="k">http</span> <span class="pn">{</span>
     <span onmouseout="hideTip(event, 'fs18', 38)" onmouseover="showTip(event, 'fs18', 38)" class="k">GET</span> <span class="s">&quot;https://mysite&quot;</span>
-    <span onmouseout="hideTip(event, 'fs19', 39)" onmouseover="showTip(event, 'fs19', 39)" class="k">config_cancellationToken</span> <span onmouseout="hideTip(event, 'fs16', 40)" onmouseover="showTip(event, 'fs16', 40)" class="d">cs</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 41)" onmouseover="showTip(event, 'fs20', 41)" class="id">Token</span>
+    <span onmouseout="hideTip(event, 'fs19', 39)" onmouseover="showTip(event, 'fs19', 39)" class="k">config_cancellationToken</span> <span onmouseout="hideTip(event, 'fs16', 40)" onmouseover="showTip(event, 'fs16', 40)" class="d">cts</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 41)" onmouseover="showTip(event, 'fs20', 41)" class="id">Token</span>
 <span class="pn">}</span>
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 42)" onmouseover="showTip(event, 'fs8', 42)" class="m">Request</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 43)" onmouseover="showTip(event, 'fs9', 43)" class="id">send</span>
+</code></pre>
+<p>See also: <a href="https://github.com/fsprojects/FsHttp/issues/105">https://github.com/fsprojects/FsHttp/issues/105</a></p>
+<p>Instead of binding a cancellation token directly to a request definition (like in the example above),
+it is also possible to pass it on execution-timer, like so:</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs4', 44)" onmouseover="showTip(event, 'fs4', 44)" class="k">http</span> <span class="pn">{</span>
+    <span onmouseout="hideTip(event, 'fs18', 45)" onmouseover="showTip(event, 'fs18', 45)" class="k">GET</span> <span class="s">&quot;https://mysite&quot;</span>
+<span class="pn">}</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 46)" onmouseover="showTip(event, 'fs21', 46)" class="m">Config</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 47)" onmouseover="showTip(event, 'fs22', 47)" class="id">cancellationToken</span> <span onmouseout="hideTip(event, 'fs16', 48)" onmouseover="showTip(event, 'fs16', 48)" class="d">cts</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 49)" onmouseover="showTip(event, 'fs20', 49)" class="id">Token</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 50)" onmouseover="showTip(event, 'fs8', 50)" class="m">Request</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 51)" onmouseover="showTip(event, 'fs9', 51)" class="id">send</span>
 </code></pre>
 
             <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
@@ -243,7 +253,7 @@ from FsHttp<br /><br />--------------------<br />type Request =
 <div class="fsdocs-tip" id="fs15">custom operation: jsonSerialize (&#39;a)
 
 Calls IRequestContext.JsonSerialize</div>
-<div class="fsdocs-tip" id="fs16">val cs: CancellationTokenSource</div>
+<div class="fsdocs-tip" id="fs16">val cts: CancellationTokenSource</div>
 <div class="fsdocs-tip" id="fs17">Multiple items<br />type CancellationTokenSource =
   interface IDisposable
   new: unit -&gt; unit + 2 overloads
@@ -261,6 +271,23 @@ Calls IRequestContext.Get</div>
 
 Calls IRequestContext.CancellationToken</div>
 <div class="fsdocs-tip" id="fs20">property CancellationTokenSource.Token: CancellationToken with get<br /><em>&lt;summary&gt;Gets the &lt;see cref=&quot;T:System.Threading.CancellationToken&quot; /&gt; associated with this &lt;see cref=&quot;T:System.Threading.CancellationTokenSource&quot; /&gt;.&lt;/summary&gt;<br />&lt;exception cref=&quot;T:System.ObjectDisposedException&quot;&gt;The token source has been disposed.&lt;/exception&gt;<br />&lt;returns&gt;The &lt;see cref=&quot;T:System.Threading.CancellationToken&quot; /&gt; associated with this &lt;see cref=&quot;T:System.Threading.CancellationTokenSource&quot; /&gt;.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs21">Multiple items<br />module Config
+
+from FsHttp.Dsl<br /><br />--------------------<br />type Config =
+  {
+    timeout: TimeSpan option
+    defaultDecompressionMethods: DecompressionMethods list
+    printHint: PrintHint
+    httpMessageTransformers: (HttpRequestMessage -&gt; HttpRequestMessage) list
+    httpClientHandlerTransformers: HttpClientHandlerTransformer list
+    httpClientTransformers: (HttpClient -&gt; HttpClient) list
+    httpCompletionOption: HttpCompletionOption
+    proxy: Proxy option
+    certErrorStrategy: CertErrorStrategy
+    httpClientFactory: (Config -&gt; HttpClient)
+    ...
+  }</div>
+<div class="fsdocs-tip" id="fs22">val cancellationToken: cancellationToken: CancellationToken -&gt; context: IConfigure&lt;ConfigTransformer,&#39;a&gt; -&gt; &#39;a</div>
 
         </div>
 
