@@ -15,7 +15,30 @@
     <FsDocsLicenseLink>https://github.com/fsprojects/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
-    <PackageReleaseNotes>
+    <PackageReleaseNotes>      
+      v11.1.0
+      - 130: Add method for user-supplied cancellation token
+
+      v11.0.0
+      - #121 (Breaking change): Turning off debug logs in FSI (breaking change in signature / namespace)
+      - #124: Support Repeating Query Parameters (thanks @DaveJohnson8080)
+      - #106 (Breaking change): Allow filename metadata with other "parts" (thanks @dawedawe)
+      - Breaking change: ContentTypeForPart custom operations should come after part definition
+      - #104 (Breaking change): Automatic GZip response decompression per Default
+      - Other breaking changes:
+        - Removed `ContentTypeWithEncoding` and used optional `charset` parameter in `ContentType` overloads.
+        - Renamed `byteArray` to `binary` in Dsl, DslCE and CSharp.
+        - Caution (!!): Renamed `stringPart` to `textPart` and changed argument order for `name` and `value` in Dsl and DslCE.
+        - Restructured types in Domain
+        - `Helper` is a module instead of a namespace, and some things were moved.
+        - All transformers in config are a list of transformers instead of a single item.
+        - Removed `setHttpClient`. Please use `setHttpClientFactory` instead.
+        - `setHttpClientFactory` takes a `Config` as input argument.
+
+      -----------------------------
+      -- Old release notes below --
+      -----------------------------
+      
       v7.0.0
       - #92: `expect` and `assert` pass through the original response instead of unit.
 
@@ -74,25 +97,6 @@
       - #117: Escape string for query params values (by @maciej-izak - thank you)
       (!!) This can be seen as breaking change.
       - #112: Allow to add (multiple) headers (by @Samuel-Dufour - thank you)
-
-      v11.0.0
-      - #121 (Breaking change): Turning off debug logs in FSI (breaking change in signature / namespace)
-      - #124: Support Repeating Query Parameters (thanks @DaveJohnson8080)
-      - #106 (Breaking change): Allow filename metadata with other "parts" (thanks @dawedawe)
-      - Breaking change: ContentTypeForPart custom operations should come after part definition
-      - #104 (Breaking change): Automatic GZip response decompression per Default
-      - Other breaking changes:
-        - Removed `ContentTypeWithEncoding` and used optional `charset` parameter in `ContentType` overloads.
-        - Renamed `byteArray` to `binary` in Dsl, DslCE and CSharp.
-        - Caution (!!): Renamed `stringPart` to `textPart` and changed argument order for `name` and `value` in Dsl and DslCE.
-        - Restructured types in Domain
-        - `Helper` is a module instead of a namespace, and some things were moved.
-        - All transformers in config are a list of transformers instead of a single item.
-        - Removed `setHttpClient`. Please use `setHttpClientFactory` instead.
-        - `setHttpClientFactory` takes a `Config` as input argument.
-      
-      v11.1.0
-      - 130: Add method for user-supplied cancellation token
     </PackageReleaseNotes>
   </PropertyGroup>
 
