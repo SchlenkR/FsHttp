@@ -19,8 +19,6 @@ open FsHttp.Helper
 // TODO: For all functions that serialize response content, it should be checked that content-length
 //       header is set, and if not, a "maxSerContentLength" should be used or an exception thrown.
 
-// TODO: Cancellation token passing in all content based async method calls
-
 /// Starts serializing the content stream into a buffer as a background task.
 let loadContent (response: Response) =
     response.content.LoadIntoBufferAsync() |> ignore
