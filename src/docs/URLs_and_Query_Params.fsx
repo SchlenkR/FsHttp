@@ -38,7 +38,7 @@ It's also possible to specify query params in a list:
 http {
     GET "https://mysite"
     query [
-        "page", 2
+        "page", "2"
         "name", "Hans"
     ]
 }
