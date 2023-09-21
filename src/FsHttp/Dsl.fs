@@ -78,7 +78,7 @@ module Header =
     let header name value (context: HeaderContext) = headers [ name, value ] context
 
     /// Adds a set of query parameters to the URL
-    let query (queryParams: (string * obj) list) (context: HeaderContext) = {
+    let query (queryParams: (string * string) list) (context: HeaderContext) = {
         context with
             header = { context.header with url = { context.header.url with additionalQueryParams = queryParams } }
     }
