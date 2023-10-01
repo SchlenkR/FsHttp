@@ -145,7 +145,7 @@
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs2', 6)" onmouseover="showTip(event, 'fs2', 6)" class="k">http</span> <span class="pn">{</span>
     <span onmouseout="hideTip(event, 'fs3', 7)" onmouseover="showTip(event, 'fs3', 7)" class="k">GET</span> <span class="s">&quot;https://mysite&quot;</span>
     <span onmouseout="hideTip(event, 'fs6', 8)" onmouseover="showTip(event, 'fs6', 8)" class="k">query</span> <span class="pn">[</span>
-        <span class="s">&quot;page&quot;</span><span class="pn">,</span> <span class="n">2</span>
+        <span class="s">&quot;page&quot;</span><span class="pn">,</span> <span class="s">&quot;2&quot;</span>
         <span class="s">&quot;name&quot;</span><span class="pn">,</span> <span class="s">&quot;Hans&quot;</span>
     <span class="pn">]</span>
 <span class="pn">}</span>
@@ -171,7 +171,7 @@ from FsHttp<br /><br />--------------------<br />type Request =
 <div class="fsdocs-tip" id="fs5">val send: context: IToRequest -&gt; Response<br /><em>&lt;summary&gt;
  Sends a request synchronously.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs6">custom operation: query ((string * obj) list)
+<div class="fsdocs-tip" id="fs6">custom operation: query ((string * string) list)
 
 Calls IRequestContext.Query<br /><em>&lt;summary&gt;
  Append query params
