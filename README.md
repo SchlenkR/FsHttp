@@ -1,6 +1,3 @@
-FsHttp
-======
-
 <p align="center">
     <img src='./docs/img/logo_big.png' alt='logo' width='300' />
 </p>
