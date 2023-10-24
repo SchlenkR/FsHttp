@@ -88,3 +88,14 @@ http {
 |> Request.send
 |> Response.deserializeJson<Person>
 |> fun p -> p.address = john.address // true
+
+(**
+## Download a file
+
+You can easily save the response content as file: 
+*)
+
+// Downloads the nupkg file as zip
+get "https://www.nuget.org/api/v2/package/G-Research.FSharp.Analyzers/0.1.5" 
+|> Request.send
+|> Response.saveFile @"C:\Downloads\analyzers.zip"
