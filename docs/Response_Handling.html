@@ -191,6 +191,13 @@ that will be used as default for any request where JSON (de)serialization is inv
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs9', 54)" onmouseover="showTip(event, 'fs9', 54)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 55)" onmouseover="showTip(event, 'fs35', 55)" class="id">deserializeJson</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs25', 56)" onmouseover="showTip(event, 'fs25', 56)" class="rt">Person</span><span class="pn">&gt;</span>
 <span class="o">|&gt;</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs36', 57)" onmouseover="showTip(event, 'fs36', 57)" class="fn">p</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs36', 58)" onmouseover="showTip(event, 'fs36', 58)" class="fn">p</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 59)" onmouseover="showTip(event, 'fs30', 59)" class="id">address</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 60)" onmouseover="showTip(event, 'fs32', 60)" class="id">john</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 61)" onmouseover="showTip(event, 'fs30', 61)" class="id">address</span> <span class="c">// true</span>
 </code></pre>
+<h2><a name="Download-a-file" class="anchor" href="#Download-a-file">Download a file</a></h2>
+<p>You can easily save the response content as file:</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Downloads the nupkg file as zip</span>
+<span onmouseout="hideTip(event, 'fs37', 62)" onmouseover="showTip(event, 'fs37', 62)" class="fn">get</span> <span class="s">&quot;https://www.nuget.org/api/v2/package/G-Research.FSharp.Analyzers/0.1.5&quot;</span> 
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs7', 63)" onmouseover="showTip(event, 'fs7', 63)" class="m">Request</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 64)" onmouseover="showTip(event, 'fs8', 64)" class="id">send</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs9', 65)" onmouseover="showTip(event, 'fs9', 65)" class="m">Response</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 66)" onmouseover="showTip(event, 'fs38', 66)" class="id">saveFile</span> <span class="s">@&quot;C:\Downloads\analyzers.zip&quot;</span>
+</code></pre>
 
             <div class="fsdocs-tip" id="fs1">namespace FsHttp</div>
 <div class="fsdocs-tip" id="fs2">val http: StartingContext</div>
@@ -311,6 +318,8 @@ from FsHttp.GlobalConfig</div>
 Calls IRequestContext.JsonSerialize</div>
 <div class="fsdocs-tip" id="fs35">val deserializeJson: response: Response -&gt; &#39;a</div>
 <div class="fsdocs-tip" id="fs36">val p: Person</div>
+<div class="fsdocs-tip" id="fs37">val get: url: string -&gt; HeaderContext</div>
+<div class="fsdocs-tip" id="fs38">val saveFile: fileName: string -&gt; response: Response -&gt; unit</div>
 
         </div>
 
