@@ -28,5 +28,14 @@ jobs:
         with:
           dotnet-version: 7.x
 
-      - name: Run Tests
+      - name: Build and run tests
         run: dotnet fsi build.fsx test
+
+      - name: Build docu
+        shell: pwsh
+        run: ./docu.ps1
+
+      - name: Upload docs artifact to GH pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./docs
