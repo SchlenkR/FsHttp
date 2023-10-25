@@ -8,7 +8,7 @@ index: 15
 *)
 
 (**
-## Turn on/off logging
+## Turn on/off Logging
 
 How does logging work in FsHttp:
 
