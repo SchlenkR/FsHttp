@@ -3,6 +3,7 @@ module FsHttp.NewtonsoftJson.Response
 open System.IO
 
 open FsHttp
+open FsHttp.Helper
 open FsHttp.NewtonsoftJson.GlobalConfig.Json
 
 open Newtonsoft.Json
