@@ -24,31 +24,3 @@ module SystemTextJsonExtensions =
 
     type JsonProperty with
         member this.ObjValue = this.Value.ObjValue
-
-module Async =
-    let map f x =
-        async {
-            let! x = x
-            return f x
-        }
-
-    let await f x =
-        async {
-            let! x = x
-            return! f x
-        }
-
-// TODO: F# 6 task comp switch
-module Task =
-    let map f x =
-        async {
-            let! x = x |> Async.AwaitTask
-            return f x
-        }
-        |> Async.StartAsTask
-
-    let await f x =
-        async {
-            let! x = x |> Async.AwaitTask
-            return! f x |> Async.AwaitTask
-        }

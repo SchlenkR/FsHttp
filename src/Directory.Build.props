@@ -1,10 +1,10 @@
 <Project>
 
   <PropertyGroup>
-    <Version>11.1.0</Version>
+    <Version>12.0.0</Version>
     
     <Authors>Ronald Schlenker</Authors>
-    <Copyright>Copyright 2022 Ronald Schlenker</Copyright>
+    <Copyright>Copyright 2023 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIcon>logo_small.png</PackageIcon>
@@ -16,6 +16,11 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>      
+      v12.0.0
+      - 137: Change the type for FsHttpUrl.additionalQueryParams from obj to string
+      - Removed (auto opened) Async.await and Task.map/await
+      - Moved (auto opened) Async.map to FsHttp.Helper.Async.map
+
       v11.1.0
       - 130: Add method for user-supplied cancellation token
 

@@ -1,0 +1,49 @@
+name: Build and Publish Docs
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup .NET 7
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.x
+
+      - name: Build docu
+        shell: pwsh
+        run: ./docu.ps1
+
+      - name: Upload docs artifact to GH pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./docs
+
+  deploy:   
+    runs-on: ubuntu-latest
+    
+    needs: build
+    
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

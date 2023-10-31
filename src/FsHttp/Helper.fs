@@ -11,6 +11,14 @@ open FsHttp
 module Encoding =
     let base64 = Encoding.GetEncoding("ISO-8859-1")
 
+[<RequireQualifiedAccess>]
+module Async =
+    let map f x =
+        async {
+            let! x = x
+            return f x
+        }
+
 type StringBuilder with
     member sb.append(s: string) = sb.Append s |> ignore
     member sb.appendLine(s: string) = sb.AppendLine s |> ignore
