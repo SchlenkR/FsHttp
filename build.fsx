@@ -55,6 +55,9 @@ let shallPublish = args.IsTask("publish")
 let shallPack = args.IsTask("pack")
 let shallFormat = args.IsTask("format")
 
+let toolRestore = "toolRestore", fun () ->
+    Shell.ExecSuccess ("dotnet", "tool restore")
+
 let clean = "clean", fun () ->
     !! "src/**/bin"
     ++ "src/**/obj"
