@@ -98,6 +98,7 @@ let publish = "publish", fun () ->
 
 run [
     clean
+    toolRestore
 
     if shallBuild then
         checkFormat
