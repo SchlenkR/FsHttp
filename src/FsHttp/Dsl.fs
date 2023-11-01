@@ -25,7 +25,7 @@ module Http =
         let formattedUrl =
             url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
             |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
-            |> Seq.filter (fun x -> not (x.StartsWith("//")))
+            |> Seq.filter (fun x -> not (x.StartsWith("//", StringComparison.Ordinal)))
             |> Seq.reduce (+)
 
         {

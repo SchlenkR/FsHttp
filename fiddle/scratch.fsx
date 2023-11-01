@@ -279,7 +279,7 @@ open System.Reflection
 
 let isInteractive =
     let asm = Assembly.GetExecutingAssembly()
-    asm.IsDynamic && asm.GetName().Name.StartsWith("FSI-ASSEMBLY")
+    asm.IsDynamic && asm.GetName().Name.StartsWith("FSI-ASSEMBLY", StringComparison.Ordinal)
 
 AppDomain.CurrentDomain.GetAssemblies()
 |> Array.tryFind (fun x -> x.GetName().Name = "FSharp.Compiler.Interactive.Settings")
