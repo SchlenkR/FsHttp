@@ -28,6 +28,7 @@ Here's an example that fetches the issues of the vide-collabo/vide repository on
 
 http {
     GET "https://api.github.com/repos/vide-collabo/vide/issues"
+
     AuthorizationBearer "**************"
     Accept "application/vnd.github.v3+json"
     UserAgent "FsHttp"
