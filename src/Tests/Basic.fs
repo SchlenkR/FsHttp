@@ -96,7 +96,7 @@ let ``Smoke test for headers`` () =
         >=> request (fun r ->
             let headers =
                 r.headers
-                |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.InvariantCultureIgnoreCase))
+                |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.OrdinalIgnoreCase))
 
             headersToString headers |> OK
         )

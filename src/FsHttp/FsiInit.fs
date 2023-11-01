@@ -24,7 +24,9 @@ let doInit () =
         let isInteractive =
             // This hack is indeed one (see https://fsharp.github.io/fsharp-compiler-docs/fsi-emit.html)
             AppDomain.CurrentDomain.GetAssemblies()
-            |> Array.exists (fun asm -> (*asm.IsDynamic &&*) asm.GetName().Name.StartsWith(fsiAssemblyName))
+            |> Array.exists (fun asm -> (*asm.IsDynamic &&*)
+                asm.GetName().Name.StartsWith(fsiAssemblyName, StringComparison.Ordinal)
+            )
 
         state <-
             try

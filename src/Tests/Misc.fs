@@ -66,7 +66,7 @@ let ``Custom Headers`` () =
         GET
         >=> request (fun r ->
             r.headers
-            |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.InvariantCultureIgnoreCase))
+            |> List.filter (fun (k, _) -> k.StartsWith(headerPrefix, StringComparison.OrdinalIgnoreCase))
             |> headersToString
             |> OK
         )
