@@ -3,7 +3,7 @@
 title: URLs and Query Params
 category: Documentation
 categoryindex: 1
-index: 7
+index: 3
 ---
 *)
 
