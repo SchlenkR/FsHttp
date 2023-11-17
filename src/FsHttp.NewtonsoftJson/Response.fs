@@ -14,14 +14,17 @@ open Newtonsoft.Json.Linq
 // -----------------------------
 
 let private loadJsonAsync loader response =
-    response |> Response.parseAsync "JSON" (fun stream ct ->
-        // Don't dispose sr and jr - the incoming stream is owned externally!
-        let sr = new StreamReader(stream)
-        let jr = new JsonTextReader(sr)
-        loader jr ct |> Async.AwaitTask)
+    response
+    |> Response.parseAsync
+        "JSON"
+        (fun stream ct ->
+            // Don't dispose sr and jr - the incoming stream is owned externally!
+            let sr = new StreamReader(stream)
+            let jr = new JsonTextReader(sr)
+            loader jr ct |> Async.AwaitTask
+        )
 
-let toJsonWithAsync settings response =
-    response |> loadJsonAsync (fun jr ct -> JObject.LoadAsync(jr, settings, ct))
+let toJsonWithAsync settings response = response |> loadJsonAsync (fun jr ct -> JObject.LoadAsync(jr, settings, ct))
 let toJsonWithTAsync settings response = toJsonWithAsync settings response |> Async.StartAsTask
 let toJsonWith settings response = toJsonWithAsync settings response |> Async.RunSynchronously
 
@@ -33,6 +36,7 @@ let toJsonSeqWithAsync settings response =
     response
     |> loadJsonAsync (fun jr ct -> JArray.LoadAsync(jr, settings, ct))
     |> Async.map (fun jarr -> jarr :> JToken seq)
+
 let toJsonSeqWithTAsync settings response = toJsonSeqWithAsync settings response |> Async.StartAsTask
 let toJsonSeqWith settings response = toJsonSeqWithAsync settings response |> Async.RunSynchronously
 
@@ -53,7 +57,10 @@ let deserializeJsonWithAsync<'a> (settings: JsonSerializerSettings) response =
         let json = Response.toText response
         return JsonConvert.DeserializeObject<'a>(json, settings)
     }
-let deserializeWithJsonTAsync<'a> settings response = deserializeJsonWithAsync<'a> settings response |> Async.StartAsTask
+
+let deserializeWithJsonTAsync<'a> settings response =
+    deserializeJsonWithAsync<'a> settings response |> Async.StartAsTask
+
 let deserializeWithJson<'a> settings response = deserializeJsonWithAsync<'a> settings response |> Async.RunSynchronously
 
 let deserializeJsonAsync<'a> response = deserializeJsonWithAsync<'a> defaultJsonSerializerSettings response
