@@ -22,7 +22,7 @@ jobs:
           dotnet-version: 7.x
 
       - name: Build solution
-        run: dotnet build
+        run: dotnet build -c Release
 
       - name: Build docu
         shell: pwsh
