@@ -6,8 +6,6 @@
 .ionide
 symbolCache.db
 .paket/load
-.fsdocs
-/docs
 
 # User-specific files
 *.suo
