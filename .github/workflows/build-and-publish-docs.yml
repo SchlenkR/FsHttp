@@ -21,6 +21,9 @@ jobs:
         with:
           dotnet-version: 7.x
 
+      - name: Build solution
+        run: dotnet build
+
       - name: Build docu
         shell: pwsh
         run: ./docu.ps1
