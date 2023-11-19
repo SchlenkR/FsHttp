@@ -6,8 +6,6 @@
 .ionide
 symbolCache.db
 .paket/load
-.fsdocs
-/docs
 
 # User-specific files
 *.suo
@@ -337,3 +335,8 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# fsdocs
+tmp/
+output/
+.fsdocs/

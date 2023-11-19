@@ -9,7 +9,7 @@ index: 1
 
 '@
 $readmeContent = Get-Content ./README.md -Raw
-($docuIndexYamlHeader + $readmeContent) | Out-File ./src/docs/index.md
+($docuIndexYamlHeader + $readmeContent) | Out-File ./docs/index.md
 
 
 
@@ -32,8 +32,7 @@ dotnet fsdocs `
     $mode `
     --clean `
     --sourcefolder ./src `
-    --input ./src/docs `
-    --output ./docs `
     --properties Configuration=Release `
     --sourcerepo https://github.com/fsprojects/FsHttp/blob/master/src `
-    --parameters root /FsHttp/ 
+    --parameters root /FsHttp/ `
+    --strict
