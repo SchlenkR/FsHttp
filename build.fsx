@@ -67,7 +67,7 @@ let clean = "clean", fun () ->
 let checkFormat = "checkformat", fun () ->
     Shell.ExecSuccess ("dotnet", $"fantomas --check ./src/FsHttp/ ./src/Tests/")
 
-let slnPath = "./src/FsHttp.sln"
+let slnPath = "./FsHttp.sln"
 let build = "build", fun () ->
     Shell.ExecSuccess ("dotnet", $"build {slnPath}")
 
