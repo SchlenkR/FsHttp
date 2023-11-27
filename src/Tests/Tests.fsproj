@@ -42,7 +42,7 @@
     <PackageReference Include="FsUnit" Version="5.1.0" />
     <PackageReference Include="FSharp.Data" Version="4.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit" Version="4.0.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.3.0" />
     <PackageReference Include="Suave" Version="2.6.1" />
   </ItemGroup>
