@@ -19,7 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
-    <None Include="..\docs\img\logo_small.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\docs\img\logo_small.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />

@@ -53,7 +53,6 @@ let shallBuild = args.IsTask("build")
 let shallTest = args.IsTask("test")
 let shallPublish = args.IsTask("publish")
 let shallPack = args.IsTask("pack")
-let shallFormat = args.IsTask("format")
 
 let toolRestore = "toolRestore", fun () ->
     Shell.ExecSuccess ("dotnet", "tool restore")
@@ -63,9 +62,6 @@ let clean = "clean", fun () ->
     ++ "src/**/obj"
     ++ ".pack"
     |> Shell.cleanDirs 
-
-let checkFormat = "checkformat", fun () ->
-    Shell.ExecSuccess ("dotnet", $"fantomas --check ./src/FsHttp/ ./src/Tests/")
 
 let slnPath = "./FsHttp.sln"
 let build = "build", fun () ->
@@ -85,9 +81,6 @@ let pack = "pack", fun () ->
         Shell.ExecSuccess ("dotnet", sprintf "pack %s -o %s -c Release" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))
     )
 
-let format = "format", fun () ->
-    Shell.ExecSuccess ("dotnet", $"fantomas ./src/FsHttp/ ./src/Tests/")
-
 // TODO: git tag + release
 let publish = "publish", fun () ->
     let nugetApiKey = Environment.environVar Properties.nugetPushEnvVarName
@@ -101,19 +94,15 @@ run [
     toolRestore
 
     if shallBuild then
-        checkFormat
         build
     if shallTest then
         test
     if shallPack then
         pack
     if shallPublish then
-        checkFormat
         build
         pack
         publish
-    if shallFormat then
-        format
 ]
 
 Trace.trace $"Finished script..."
