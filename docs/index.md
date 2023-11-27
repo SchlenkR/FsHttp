@@ -5,7 +5,7 @@ title: FsHttp Overview
 index: 1
 ---
 <p align="center">
-    <img src='./src/docs/img/logo_big.png' alt='logo' width='300' />
+    <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo_big.png' alt='logo' width='300' />
 </p>
 
 FsHttp is a .Net HTTP client library for C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.

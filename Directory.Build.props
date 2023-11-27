@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>12.0.0</Version>
+    <Version>12.1.0</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2023 Ronald Schlenker</Copyright>
@@ -15,7 +15,10 @@
     <FsDocsLicenseLink>https://github.com/fsprojects/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
-    <PackageReleaseNotes>      
+    <PackageReleaseNotes>
+      v12.1.0
+      - net8.0
+
       v12.0.0
       - 137: Change the type for FsHttpUrl.additionalQueryParams from obj to string
       - Removed (auto opened) Async.await and Task.map/await

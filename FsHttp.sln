@@ -5,15 +5,17 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{13B4B071-F3F1-4E38-93E4-CFA72611A84F}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsHttp", "src\FsHttp\FsHttp.fsproj", "{D1AD2123-678B-4DC9-9DBA-3D6FF2E30F61}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp", "src\FsHttp\FsHttp.fsproj", "{D1AD2123-678B-4DC9-9DBA-3D6FF2E30F61}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsHttp.FSharpData", "src\FsHttp.FSharpData\FsHttp.FSharpData.fsproj", "{07320ED5-9E4A-452E-80C3-007C3303735F}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp.FSharpData", "src\FsHttp.FSharpData\FsHttp.FSharpData.fsproj", "{07320ED5-9E4A-452E-80C3-007C3303735F}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsHttp.NewtonsoftJson", "src\FsHttp.NewtonsoftJson\FsHttp.NewtonsoftJson.fsproj", "{CB577E4F-F4F0-4ADA-BD90-036B5ECF17AD}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp.NewtonsoftJson", "src\FsHttp.NewtonsoftJson\FsHttp.NewtonsoftJson.fsproj", "{CB577E4F-F4F0-4ADA-BD90-036B5ECF17AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CSharp", "src\Test.CSharp\Test.CSharp.csproj", "{1163EF7E-1845-4D2A-8C3F-8691618500DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.CSharp", "src\Test.CSharp\Test.CSharp.csproj", "{1163EF7E-1845-4D2A-8C3F-8691618500DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebServer", "src\TestWebServer\TestWebServer.csproj", "{E7E326FD-1D66-4DBD-AB60-D006D3B77244}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebServer", "src\TestWebServer\TestWebServer.csproj", "{E7E326FD-1D66-4DBD-AB60-D006D3B77244}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Tests", "src\Tests\Tests.fsproj", "{63A6AF47-CB3F-4DBA-A16E-B66D6EFA3573}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{E7E326FD-1D66-4DBD-AB60-D006D3B77244}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7E326FD-1D66-4DBD-AB60-D006D3B77244}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7E326FD-1D66-4DBD-AB60-D006D3B77244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63A6AF47-CB3F-4DBA-A16E-B66D6EFA3573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63A6AF47-CB3F-4DBA-A16E-B66D6EFA3573}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63A6AF47-CB3F-4DBA-A16E-B66D6EFA3573}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63A6AF47-CB3F-4DBA-A16E-B66D6EFA3573}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{CB577E4F-F4F0-4ADA-BD90-036B5ECF17AD} = {13B4B071-F3F1-4E38-93E4-CFA72611A84F}
 		{1163EF7E-1845-4D2A-8C3F-8691618500DF} = {13B4B071-F3F1-4E38-93E4-CFA72611A84F}
 		{E7E326FD-1D66-4DBD-AB60-D006D3B77244} = {13B4B071-F3F1-4E38-93E4-CFA72611A84F}
+		{63A6AF47-CB3F-4DBA-A16E-B66D6EFA3573} = {13B4B071-F3F1-4E38-93E4-CFA72611A84F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {490D0829-D4E3-4267-8132-14A5B0C9D347}

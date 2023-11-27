@@ -43,7 +43,7 @@ bstream.Read(buffer, 0, 2000)
 bstream.Position <- 0
 
 
-#r "../FsHttp/bin/Debug/net6.0/FsHttp.dll"
+#r "../FsHttp/bin/Debug/net8.0/FsHttp.dll"
 
 open FsHttp
 

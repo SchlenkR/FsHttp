@@ -3,7 +3,7 @@ open System.IO
 open System.Reflection
 open FSharp.Reflection
 
-let path = Path.Combine(__SOURCE_DIRECTORY__, "../FsHttp/bin/Debug/net6.0/FsHttp.dll")
+let path = Path.Combine(__SOURCE_DIRECTORY__, "../FsHttp/bin/Debug/net8.0/FsHttp.dll")
 let asm = Assembly.LoadFile(path)
 
 //let dslHeaderType = asm.GetExportedTypes() |> Array.map (fun t -> t.FullName)
