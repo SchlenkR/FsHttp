@@ -55,25 +55,25 @@ module Http =
 
     let method (method: string) (url: string) = methodWithConfig GlobalConfig.defaults.Config method url
 
-    let internal getWithConfig config (url: string) = methodWithConfig config Methods.GET url
-    let internal putWithConfig config (url: string) = methodWithConfig config Methods.PUT url
-    let internal postWithConfig config (url: string) = methodWithConfig config Methods.POST url
-    let internal deleteWithConfig config (url: string) = methodWithConfig config Methods.DELETE url
-    let internal optionsWithConfig config (url: string) = methodWithConfig config Methods.OPTIONS url
-    let internal headWithConfig config (url: string) = methodWithConfig config Methods.HEAD url
-    let internal traceWithConfig config (url: string) = methodWithConfig config Methods.TRACE url
-    let internal connectWithConfig config (url: string) = methodWithConfig config Methods.CONNECT url
-    let internal patchWithConfig config (url: string) = methodWithConfig config Methods.PATCH url
+    let internal getWithConfig config (url: string) = methodWithConfig config HttpMethods.GET url
+    let internal putWithConfig config (url: string) = methodWithConfig config HttpMethods.PUT url
+    let internal postWithConfig config (url: string) = methodWithConfig config HttpMethods.POST url
+    let internal deleteWithConfig config (url: string) = methodWithConfig config HttpMethods.DELETE url
+    let internal optionsWithConfig config (url: string) = methodWithConfig config HttpMethods.OPTIONS url
+    let internal headWithConfig config (url: string) = methodWithConfig config HttpMethods.HEAD url
+    let internal traceWithConfig config (url: string) = methodWithConfig config HttpMethods.TRACE url
+    let internal connectWithConfig config (url: string) = methodWithConfig config HttpMethods.CONNECT url
+    let internal patchWithConfig config (url: string) = methodWithConfig config HttpMethods.PATCH url
 
-    let get (url: string) = methodWithConfig GlobalConfig.defaults.Config Methods.GET url
-    let put (url: string) = methodWithConfig GlobalConfig.defaults.Config Methods.PUT url
-    let post (url: string) = methodWithConfig GlobalConfig.defaults.Config Methods.POST url
-    let delete (url: string) = methodWithConfig GlobalConfig.defaults.Config Methods.DELETE url
-    let options (url: string) = methodWithConfig GlobalConfig.defaults.Config Methods.OPTIONS url
-    let head (url: string) = methodWithConfig GlobalConfig.defaults.Config Methods.HEAD url
-    let trace (url: string) = methodWithConfig GlobalConfig.defaults.Config Methods.TRACE url
-    let connect (url: string) = methodWithConfig GlobalConfig.defaults.Config Methods.CONNECT url
-    let patch (url: string) = methodWithConfig GlobalConfig.defaults.Config Methods.PATCH url
+    let get (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.GET url
+    let put (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.PUT url
+    let post (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.POST url
+    let delete (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.DELETE url
+    let options (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.OPTIONS url
+    let head (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.HEAD url
+    let trace (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.TRACE url
+    let connect (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.CONNECT url
+    let patch (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.PATCH url
 
 // TODO: RFC 4918 (WebDAV) adds 7 methods
 
