@@ -23,7 +23,6 @@ simply build a request, pass it around and send it later or to warp it in async.
 
 Chaining builders together: First, use a httpLazy to create a 'HeaderContext'
 
-*Hint:* ```httpLazy { ... }``` is just a shortcut for ```httpRequest StartingContext { ... }```
 *)
 let postOnly =
     httpLazy {

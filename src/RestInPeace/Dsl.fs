@@ -31,14 +31,16 @@ module Http =
         // FSI init HACK
         FsiInit.init ()
 
-        if String.IsNullOrWhiteSpace url then
-            failwith "The given URL is empty."
-
+        // Yeah - we give up a little bit of safety here, for the sake of pre-configuring HTTP requests
+        // without specifying the URL. This is a trade-off we are willing to take.
         let formattedUrl =
-            url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
-            |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
-            |> Seq.filter (fun x -> not (x.StartsWith("//", StringComparison.Ordinal)))
-            |> Seq.reduce (+)
+            if String.IsNullOrWhiteSpace(url) then 
+                ""
+            else
+                url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
+                |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
+                |> Seq.filter (fun x -> not (x.StartsWith("//", StringComparison.Ordinal)))
+                |> Seq.reduce (+)
 
         {
             url = {
