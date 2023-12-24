@@ -9,8 +9,8 @@ index: 8
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../src/FsHttp/bin/Release/net8.0/FsHttp.dll"
-open FsHttp
+#r "../src/RestInPeace/bin/Release/net8.0/RestInPeace.dll"
+open RestInPeace
 
 
 (**
@@ -19,7 +19,7 @@ open FsHttp
 There are several ways transforming the content of the returned response to
 something like text or JSON:
 
-See also: [Response](reference/fshttp-response.html)
+See also: [Response](reference/RestInPeace-response.html)
 *)
 http {
     POST "https://reqres.in/api/users"
@@ -68,7 +68,7 @@ that will be used as default for any request where JSON (de)serialization is inv
 open System.Text.Json
 open System.Text.Json.Serialization
 
-FsHttp.GlobalConfig.Json.defaultJsonSerializerOptions <-
+RestInPeace.GlobalConfig.Json.defaultJsonSerializerOptions <-
     let options = JsonSerializerOptions()
     options.Converters.Add(JsonFSharpConverter())
     options

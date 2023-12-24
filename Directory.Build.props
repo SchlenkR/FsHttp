@@ -1,19 +1,19 @@
 <Project>
 
   <PropertyGroup>
-    <Version>12.2.0-preview02</Version>
+    <Version>12.2.0</Version>
     
     <Authors>Ronald Schlenker</Authors>
-    <Copyright>Copyright 2023 Ronald Schlenker</Copyright>
+    <Copyright>Copyright 2024 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageIcon>logo_small.png</PackageIcon>
+    <PackageIcon>logo.png</PackageIcon>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/fsprojects/FsHttp</RepositoryUrl>
+    <RepositoryUrl>https://github.com/SchlenkR/RestInPeace</RepositoryUrl>
     
-    <FsDocsLicenseLink>https://github.com/fsprojects/FsHttp/blob/master/LICENSE</FsDocsLicenseLink>
-    <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
+    <FsDocsLicenseLink>https://github.com/SchlenkR/RestInPeace/blob/master/LICENSE</FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink>https://www.nuget.org/packages/RestInPeace#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
       v12.2.0
@@ -23,9 +23,9 @@
       - net8.0
 
       v12.0.0
-      - #137 / #102: Change the type for FsHttpUrl.additionalQueryParams from obj to string
+      - #137 / #102: Change the type for RestInPeaceUrl.additionalQueryParams from obj to string
       - Removed (auto opened) Async.await and Task.map/await
-      - Moved (auto opened) Async.map to FsHttp.Helper.Async.map
+      - Moved (auto opened) Async.map to RestInPeace.Helper.Async.map
 
       v11.1.0
       - #130 / #105: Add method for user-supplied cancellation token
@@ -77,7 +77,7 @@
 
       v9.0.5
       - Support for netstandard2.0.
-      - New 'FsHttp.NewtonsoftJson' integration package.
+      - New 'RestInPeace.NewtonsoftJson' integration package.
       - More JSON functions and defaults config.
 
       v9.0.6
@@ -101,7 +101,7 @@
       - Printing: Separate print functions for response and request via Request.print and Response.print
       - Printing: Default request (IToRequest) printing in FSI
       - Removed net5.0 targets in all projects
-      - PrintHint.printDebugMessages: Moved to FsHttp.Helper.Fsi.logDebugMessages as a global switch
+      - PrintHint.printDebugMessages: Moved to RestInPeace.Helper.Fsi.logDebugMessages as a global switch
       - #113 - Config.timeoutInSeconds bug
 
       v10.1.0

@@ -1,11 +1,11 @@
 
-#r "../src/FsHttp/bin/debug/net7.0/fshttp.dll"
-#r "nuget: FsHttp"
+#r "../src/RestInPeace/bin/debug/net7.0/RestInPeace.dll"
+#r "nuget: RestInPeace"
 
 open System
 open System.Net.Http
-open FsHttp
-open FsHttp.Operators
+open RestInPeace
+open RestInPeace.Operators
 
 do Fsi.disableDebugLogs()
 
@@ -31,7 +31,7 @@ get "https://www.wikipedia.de" {
 // F# Interactive
 // -----------------
 
-open FsHttp.Operators
+open RestInPeace.Operators
 
 % get "https://www.wikipedia.de" {
     AcceptCharset ""

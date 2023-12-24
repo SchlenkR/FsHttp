@@ -9,8 +9,8 @@ index: 4
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../src/FsHttp/bin/Release/net8.0/FsHttp.dll"
-open FsHttp
+#r "../src/RestInPeace/bin/Release/net8.0/RestInPeace.dll"
+open RestInPeace
 
 
 (**
@@ -31,7 +31,7 @@ http {
 
     AuthorizationBearer "**************"
     Accept "application/vnd.github.v3+json"
-    UserAgent "FsHttp"
+    UserAgent "RestInPeace"
     header "X-GitHub-Api-Version" "2022-11-28"
 }
 |> Request.send

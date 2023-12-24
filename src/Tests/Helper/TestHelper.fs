@@ -1,5 +1,5 @@
 ﻿[<AutoOpen>]
-module FsHttp.Tests.TestHelper
+module RestInPeace.Tests.TestHelper
 
 open System.Text
 

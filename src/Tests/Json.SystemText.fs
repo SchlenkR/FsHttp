@@ -1,9 +1,9 @@
-﻿module FsHttp.Tests.Json.SystemText
+﻿module RestInPeace.Tests.Json.SystemText
 
 open FsUnit
-open FsHttp
-open FsHttp.Tests.TestHelper
-open FsHttp.Tests.Server
+open RestInPeace
+open RestInPeace.Tests.TestHelper
+open RestInPeace.Tests.Server
 
 open NUnit.Framework
 
@@ -50,7 +50,7 @@ let ``Serialize / Deserialize JSON object`` () =
 let ``Serialize / Deserialize JSON object with Tarmil`` () =
     use server = returnBody ()
 
-    FsHttp.GlobalConfig.Json.defaultJsonSerializerOptions <-
+    RestInPeace.GlobalConfig.Json.defaultJsonSerializerOptions <-
         let options = JsonSerializerOptions()
         options.Converters.Add(JsonFSharpConverter())
         options

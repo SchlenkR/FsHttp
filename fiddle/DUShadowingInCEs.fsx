@@ -1,7 +1,7 @@
-#r "../src/FsHttp/bin/debug/net7.0/fshttp.dll"
+#r "../src/RestInPeace/bin/debug/net7.0/RestInPeace.dll"
 
 open System
-open FsHttp
+open RestInPeace
 
 type ArgA =
     | FileName of string

@@ -1,6 +1,6 @@
-#r "../FsHttp/bin/Debug/net8.0/FsHttp.dll"
+#r "../RestInPeace/bin/Debug/net8.0/RestInPeace.dll"
 
-open FsHttp
+open RestInPeace
 
 let weather = [||]
 

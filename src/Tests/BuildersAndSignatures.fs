@@ -1,8 +1,8 @@
-﻿module FsHttp.Tests.``Builders and Signatures``
+﻿module RestInPeace.Tests.``Builders and Signatures``
 
 open System
 open System.Net.Http
-open FsHttp
+open RestInPeace
 open NUnit.Framework
 open FsUnit
 

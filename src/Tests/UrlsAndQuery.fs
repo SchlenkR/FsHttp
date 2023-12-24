@@ -1,9 +1,9 @@
-﻿module FsHttp.Tests.``Urls and Query``
+﻿module RestInPeace.Tests.``Urls and Query``
 
 open FsUnit
-open FsHttp
-open FsHttp.Tests.TestHelper
-open FsHttp.Tests.Server
+open RestInPeace
+open RestInPeace.Tests.TestHelper
+open RestInPeace.Tests.Server
 
 open NUnit.Framework
 

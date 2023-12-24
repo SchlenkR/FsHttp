@@ -1,8 +1,8 @@
-﻿module FsHttp.Tests.Cookies
+﻿module RestInPeace.Tests.Cookies
 
 open FsUnit
-open FsHttp
-open FsHttp.Tests.Server
+open RestInPeace
+open RestInPeace.Tests.Server
 
 open NUnit.Framework
 

@@ -9,8 +9,8 @@ index: 11
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../src/FsHttp/bin/Release/net8.0/FsHttp.dll"
-open FsHttp
+#r "../src/RestInPeace/bin/Release/net8.0/RestInPeace.dll"
+open RestInPeace
 
 
 (**

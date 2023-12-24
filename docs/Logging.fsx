@@ -10,7 +10,7 @@ index: 14
 (**
 ## Turn on/off Logging
 
-How does logging work in FsHttp:
+How does logging work in RestInPeace:
 
 - In F# interactive, console logging (via logfn) are enabled per default.
 - It's then possible to deactivate logging globally, using `Fsi.disableDebugLogs()`

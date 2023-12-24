@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Configurations>Debug;Release</Configurations>
+    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <LangVersion>8</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Description>A .Net HTTP client library for F#, C#, and friends</Description>
+    <PackageId>RestInPeace</PackageId>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\RestInPeace.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Domain.fs" />
+    <Compile Include="Defaults.fs" />
+    <Compile Include="Fsi.fs" />
+    <Compile Include="DomainExtensions.fs" />
+    <Compile Include="Helper.fs" />
+    <Compile Include="Autos.fs" />
+    <Compile Include="MimeTypes.fs" />
+    <Compile Include="GlobalConfig.fs" />
+    <Compile Include="Response.fs" />
+    <Compile Include="Request.fs" />
+    <Compile Include="Print.fs" />
+    <Compile Include="FsiInit.fs" />
+    <Compile Include="Dsl.fs" />
+    <Compile Include="Dsl.CE.fs" />
+    <Compile Include="Operators.fs" />
+    <Compile Include="CSharp.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.0" Condition="'$(TargetFramework)' == 'netstandard2.1' Or '$(TargetFramework)' == 'netstandard2.0'" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

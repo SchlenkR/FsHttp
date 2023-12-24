@@ -46,8 +46,8 @@
     <PackageReference Include="Suave" Version="2.6.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FsHttp.FSharpData\FsHttp.FSharpData.fsproj" />
-    <ProjectReference Include="..\FsHttp.NewtonsoftJson\FsHttp.NewtonsoftJson.fsproj" />
-    <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
+    <ProjectReference Include="..\RestInPeace.FSharpData\RestInPeace.FSharpData.fsproj" />
+    <ProjectReference Include="..\RestInPeace.NewtonsoftJson\RestInPeace.NewtonsoftJson.fsproj" />
+    <ProjectReference Include="..\RestInPeace\RestInPeace.fsproj" />
   </ItemGroup>
 </Project>

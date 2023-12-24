@@ -9,14 +9,14 @@ index: 6
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../FsHttp/bin/Release/net8.0/FsHttp.dll"
-open FsHttp
+#r "../RestInPeace/bin/Release/net8.0/RestInPeace.dll"
+open RestInPeace
 
 
 (**
 ## Lazy Evaluation / Chaining Builders
 
-*Hint:* Have a look at: ```./src/FsHttp/DslCE.fs, module Fsi'```
+*Hint:* Have a look at: ```./src/RestInPeace/DslCE.fs, module Fsi'```
 
 There is not only the immediate + synchronous way of specifying requests. It's also possible to
 simply build a request, pass it around and send it later or to warp it in async.
@@ -79,7 +79,7 @@ let pageAsync =
     }
 
 
-// TODO Document naming conventions according to: https://github.com/fsprojects/FsHttp/issues/48
+// TODO Document naming conventions according to: https://github.com/SchlenkR/RestInPeace/issues/48
 
 (**
 ## Naming Conventions

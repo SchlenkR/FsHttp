@@ -1,11 +1,11 @@
-﻿module FsHttp.Tests.Misc
+﻿module RestInPeace.Tests.Misc
 
 open System
 open System.IO
 open FsUnit
-open FsHttp
-open FsHttp.Tests
-open FsHttp.Tests.Server
+open RestInPeace
+open RestInPeace.Tests
+open RestInPeace.Tests.Server
 
 open NUnit.Framework
 

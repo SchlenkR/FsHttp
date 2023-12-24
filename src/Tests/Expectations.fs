@@ -1,9 +1,9 @@
-﻿module FsHttp.Tests.Expectations
+﻿module RestInPeace.Tests.Expectations
 
 open NUnit.Framework
 
-open FsHttp
-open FsHttp.Tests.Server
+open RestInPeace
+open RestInPeace.Tests.Server
 
 open Suave.ServerErrors
 open Suave.Operators

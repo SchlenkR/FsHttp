@@ -9,16 +9,16 @@ index: 9
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../FsHttp/bin/Release/net8.0/FsHttp.dll"
-open FsHttp
+#r "../RestInPeace/bin/Release/net8.0/RestInPeace.dll"
+open RestInPeace
 
 
 (**
 ## FSI Setup
 *)
 
-#r @"nuget: FsHttp"
-open FsHttp
+#r @"nuget: RestInPeace"
+open RestInPeace
 
 
 (**
@@ -26,7 +26,7 @@ open FsHttp
 
 When you work in FSI, you can control the output formatting with special keywords.
 
-Some predefined printers are defined in ```./src/FsHttp/DslCE.fs, module Fsi```
+Some predefined printers are defined in ```./src/RestInPeace/DslCE.fs, module Fsi```
 
 *)
 

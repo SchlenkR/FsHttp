@@ -3,7 +3,7 @@ open System.IO
 open System.Reflection
 open FSharp.Reflection
 
-let path = Path.Combine(__SOURCE_DIRECTORY__, "../FsHttp/bin/Debug/net8.0/FsHttp.dll")
+let path = Path.Combine(__SOURCE_DIRECTORY__, "../RestInPeace/bin/Debug/net8.0/RestInPeace.dll")
 let asm = Assembly.LoadFile(path)
 
 //let dslHeaderType = asm.GetExportedTypes() |> Array.map (fun t -> t.FullName)
@@ -34,5 +34,5 @@ let getDslCEMethods typeName =
 
     
 
-let dslHeaderMethods = getDslFunctions "FsHttp.Dsl+Header"
-let dslCeHeaderMethods = getDslCEMethods "FsHttp.DslCE+Header"
+let dslHeaderMethods = getDslFunctions "RestInPeace.Dsl+Header"
+let dslCeHeaderMethods = getDslCEMethods "RestInPeace.DslCE+Header"

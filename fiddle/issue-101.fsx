@@ -1,9 +1,9 @@
-#r "nuget: FsHttp"
-open FsHttp
+#r "nuget: RestInPeace"
+open RestInPeace
 
 let getString url rjson = async {
     let! response =
-        // See also: https://fsprojects.github.io/FsHttp/Migrations.html
+        // See also: https://schlenkr.github.io/RestInPeace/Migrations.html
         // 'httpAsync' is replaced by 'http { ... } |> Request.sendAsync'
         http {
             POST url

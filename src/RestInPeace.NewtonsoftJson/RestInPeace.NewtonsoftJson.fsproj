@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Configurations>Debug;Release</Configurations>
+    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Description>JSON.Net (Newtonsoft.Json) integration package for RestInPeace</Description>
+    <PackageId>RestInPeace.NewtonsoftJson</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="GlobalConfig.fs" />
+    <Compile Include="Response.fs" />
+    <Compile Include="Operators.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RestInPeace\RestInPeace.fsproj" />
+  </ItemGroup>
+</Project>

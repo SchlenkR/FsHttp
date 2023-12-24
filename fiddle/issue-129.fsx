@@ -1,17 +1,17 @@
 
-#r "../src/FsHttp/bin/debug/net7.0/fshttp.dll"
+#r "../src/RestInPeace/bin/debug/net7.0/RestInPeace.dll"
 
 open System.IO
 open System.Net.Http
 open System.Net.Http.Headers
-open FsHttp
+open RestInPeace
 
 let superBodyContentType = { ContentType.value = "superBody"; charset = None }
 
 type IRequestContext<'self> with
     [<CustomOperation("superBody")>]
     member this.SuperBody(context: IRequestContext<BodyContext>, csvContent: string) =
-        FsHttp.Dsl.Body.content superBodyContentType (TextContent csvContent) context.Self
+        RestInPeace.Dsl.Body.content superBodyContentType (TextContent csvContent) context.Self
 
 MediaTypeHeaderValue.Parse("text/xxx; charset=utf-8")
 

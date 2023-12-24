@@ -1,6 +1,6 @@
-#r "nuget: FsHttp"
+#r "nuget: RestInPeace"
 
-open FsHttp
+open RestInPeace
 
 http {
     POST "https://reqres.in/api/users"

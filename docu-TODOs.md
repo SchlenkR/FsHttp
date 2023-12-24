@@ -11,7 +11,7 @@ Configuration
 JSON
 - System.Text.JSON
 	- ? Operator: Working with Json
-- FsHttp.FSharpData package
+- RestInPeace.FSharpData package
 
 CSharp
 
@@ -45,7 +45,7 @@ Working in F# Interactive or notebooks, a short form for sending requests can be
 > Note: Since the `%` operator send a synchronous request (blocking the caller thread),
 > it is only recommended for using in an interactive environment.
 *)
-open FsHttp.Operators
+open RestInPeace.Operators
 
 % http {
     GET "https://mysite"

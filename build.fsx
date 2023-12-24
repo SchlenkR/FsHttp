@@ -63,7 +63,7 @@ let clean = "clean", fun () ->
     ++ ".pack"
     |> Shell.cleanDirs 
 
-let slnPath = "./FsHttp.sln"
+let slnPath = "./RestInPeace.sln"
 let build = "build", fun () ->
     Shell.ExecSuccess ("dotnet", $"build {slnPath}")
 
@@ -75,7 +75,7 @@ let test = "test", fun () ->
     Shell.ExecSuccess ("dotnet", $"test {CsTestProjectPath}")
 
 let pack = "pack", fun () ->
-    !! "src/**/FsHttp*.fsproj"
+    !! "src/**/RestInPeace*.fsproj"
     |> Seq.iter (fun p ->
         Trace.trace $"SourceDir is: {__SOURCE_DIRECTORY__}"
         Shell.ExecSuccess ("dotnet", sprintf "pack %s -o %s -c Release" p (Path.combine __SOURCE_DIRECTORY__ ".pack"))

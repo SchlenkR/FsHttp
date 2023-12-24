@@ -1,7 +1,7 @@
 
-#r "nuget: FsHttp"
+#r "nuget: RestInPeace"
 
-open FsHttp
+open RestInPeace
 
 http {
     POST "https://reqres.in/api/users"
@@ -22,9 +22,9 @@ let x = JObject.Parse """ { "name": "Hans", "age": 23.4 }  """
 
 
 open System.IO
-open FsHttp
-open FsHttp.DslCE
-open FsHttp.Operators
+open RestInPeace
+open RestInPeace.DslCE
+open RestInPeace.Operators
 
 let resp =
     % get "https://www.google.de"
@@ -43,9 +43,9 @@ bstream.Read(buffer, 0, 2000)
 bstream.Position <- 0
 
 
-#r "../FsHttp/bin/Debug/net8.0/FsHttp.dll"
+#r "../RestInPeace/bin/Debug/net8.0/RestInPeace.dll"
 
-open FsHttp
+open RestInPeace
 
 
 // Pre-Config
@@ -117,7 +117,7 @@ module Dsl =
     |> Header.accept "text"
 
 
-open FsHttp.Operators
+open RestInPeace.Operators
 
 % get "https://www.wikipedia.de"
 |> Response.asOriginalHttpResponseMessage
