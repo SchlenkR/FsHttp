@@ -8,7 +8,7 @@ The design principle behind FsHttp is:
 
 > Specify common HTTP requests in a most convenient and readable way, while still being able to access the underlying .Net Http representations for covering unusual cases.
 
-**FsHttp** is developed and maintained by [@ronaldschlenker](https://github.com/ronaldschlenker) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
+**FsHttp** is developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
 
 [![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) ![build status](https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
 
