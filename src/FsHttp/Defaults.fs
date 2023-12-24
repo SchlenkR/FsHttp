@@ -1,4 +1,4 @@
-module internal FsHttp.Defaults
+module FsHttp.Defaults
 
 open System
 open System.Net
