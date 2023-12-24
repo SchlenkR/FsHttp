@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>12.1.0</Version>
+    <Version>12.2.0-preview01</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2023 Ronald Schlenker</Copyright>
@@ -16,16 +16,19 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
+      v12.2.0
+      - added HttpMethods for better composability
+
       v12.1.0
       - net8.0
 
       v12.0.0
-      - 137: Change the type for FsHttpUrl.additionalQueryParams from obj to string
+      - #137 / #102: Change the type for FsHttpUrl.additionalQueryParams from obj to string
       - Removed (auto opened) Async.await and Task.map/await
       - Moved (auto opened) Async.map to FsHttp.Helper.Async.map
 
       v11.1.0
-      - 130: Add method for user-supplied cancellation token
+      - #130 / #105: Add method for user-supplied cancellation token
 
       v11.0.0
       - #121 (Breaking change): Turning off debug logs in FSI (breaking change in signature / namespace)
