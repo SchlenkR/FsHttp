@@ -69,6 +69,8 @@ let name,age =
 
 (**
 
+Use the `?` operator to access JSON properties. The `GetString()`, `GetInt32()` and similar methods are used to convert the JSON values to the desired type. They are defined as extension methods in `System.Text.Json.JsonElement`.
+
 **FSharp.Data and Newtonsoft.Json**
 
 Per default, `System.Text.Json` is used as backend for dealing with JSON responses. If prefer `FSharp.Data` or `Newtonsoft.Json`, you can use the extension packages (see here(TODO)).
