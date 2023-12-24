@@ -22,7 +22,7 @@ type StartingContext = {
         member this.Self = this
 
     interface IConfigure<ConfigTransformer, StartingContext> with
-        member this.Configure(transformConfig) = { this with config = Some(transformConfig this.ActualConfig) }
+        member this.Configure(transformConfig) = { this with config = Some (transformConfig this.ActualConfig) }
 
     interface IConfigure<PrintHintTransformer, StartingContext> with
         member this.Configure(transformPrintHint) = configPrinter this transformPrintHint

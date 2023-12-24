@@ -67,7 +67,6 @@ type FsHttpUrl = {
 }
 
 type Header = {
-    url: FsHttpUrl
     method: System.Net.Http.HttpMethod
     headers: Map<string, string>
     // We use a .Net type here, which we never do in other places.
@@ -114,6 +113,7 @@ and MultipartElement = {
 }
 
 type Request = {
+    url: FsHttpUrl
     header: Header
     content: RequestContent
     config: Config
@@ -145,6 +145,7 @@ and IToMultipartContext =
 
 // TODO: Convert this to a class.
 and HeaderContext = {
+    url: FsHttpUrl
     header: Header
     config: Config
 } with
@@ -159,16 +160,18 @@ and HeaderContext = {
 
     interface IToRequest with
         member this.Transform() = {
-            Request.header = this.header
+            url = this.url
+            header = this.header
             content = Empty
             config = this.config
         }
 
     interface IToBodyContext with
         member this.Transform() = {
+            url = this.url
             header = this.header
             bodyContent = {
-                BodyContent.contentElement = {
+                contentElement = {
                     contentData = BinaryContent [||]
                     explicitContentType = None
                 }
@@ -179,16 +182,18 @@ and HeaderContext = {
 
     interface IToMultipartContext with
         member this.Transform() = {
-            MultipartContext.header = this.header
+            url = this.url
+            header = this.header
             config = this.config
             multipartContent = {
-                MultipartContent.partElements = []
+                partElements = []
                 headers = Map.empty
             }
         }
 
 // TODO: Convert this to a class.
 and BodyContext = {
+    url: FsHttpUrl
     header: Header
     bodyContent: BodyContent
     config: Config
@@ -204,7 +209,8 @@ and BodyContext = {
 
     interface IToRequest with
         member this.Transform() = {
-            Request.header = this.header
+            url = this.url
+            header = this.header
             content = Single this.bodyContent
             config = this.config
         }
@@ -214,6 +220,7 @@ and BodyContext = {
 
 // TODO: Convert this to a class.
 and MultipartContext = {
+    url: FsHttpUrl
     header: Header
     multipartContent: MultipartContent
     config: Config
@@ -229,7 +236,8 @@ and MultipartContext = {
 
     interface IToRequest with
         member this.Transform() = {
-            Request.header = this.header
+            url = this.url
+            header = this.header
             content = Multi this.multipartContent
             config = this.config
         }
@@ -249,7 +257,7 @@ and MultipartElementContext = {
     interface IConfigure<ConfigTransformer, MultipartElementContext> with
         member this.Configure(transformConfig) =
             let updatedCfg = this.parent.config |> transformConfig
-            { this with parent = { this.parent with config = updatedCfg } }
+            { this with parent.config = updatedCfg }
 
     interface IConfigure<PrintHintTransformer, MultipartElementContext> with
         member this.Configure(transformPrintHint) = configPrinter this transformPrintHint
@@ -261,13 +269,8 @@ and MultipartElementContext = {
 
     interface IToMultipartContext with
         member this.Transform() =
-            let parentElementsAndSelf =
-                this.parent.multipartContent.partElements @ [ this.part ]
-
-            {
-                this.parent with
-                    multipartContent = { this.parent.multipartContent with partElements = parentElementsAndSelf }
-            }
+            let parentElementsAndSelf = this.parent.multipartContent.partElements @ [ this.part ]
+            { this with parent.multipartContent.partElements = parentElementsAndSelf }.parent
 
 type Response = {
     request: Request
@@ -282,16 +285,8 @@ type Response = {
     dispose: unit -> unit
 } with
     interface IConfigure<PrintHintTransformer, Response> with
-        member this.Configure(transformPrintHint) = {
-            this with
-                request = {
-                    this.request with
-                        config = {
-                            this.request.config with
-                                printHint = transformPrintHint this.request.config.printHint
-                        }
-                }
-        }
+        member this.Configure(transformPrintHint) = 
+            { this with request.config.printHint = transformPrintHint this.request.config.printHint }
 
     interface System.IDisposable with
         member this.Dispose() = this.dispose ()

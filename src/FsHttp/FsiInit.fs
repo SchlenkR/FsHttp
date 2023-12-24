@@ -64,10 +64,8 @@ let doInit () =
                             ////    | true -> (PrintableResponse r) :> obj
                             ////    | false -> null
                             let printSafe f =
-                                try
-                                    f ()
-                                with ex ->
-                                    ex.ToString()
+                                try f ()
+                                with ex -> ex.ToString()
 
                             let responsePrinter (r: Response) = printSafe (fun () -> Response.print r)
                             let requestPrinter (r: IToRequest) = printSafe (fun () -> Request.print r)

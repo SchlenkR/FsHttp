@@ -29,11 +29,11 @@ module Http =
             |> Seq.reduce (+)
 
         {
+            url = {
+                address = formattedUrl
+                additionalQueryParams = []
+            }
             header = {
-                url = {
-                    address = formattedUrl
-                    additionalQueryParams = []
-                }
                 method = HttpMethod(method)
                 headers = Map.empty
                 cookies = []
@@ -69,19 +69,15 @@ module Http =
 module Header =
 
     /// Adds headers
-    let headers headers (context: HeaderContext) = {
-        context with
-            header = { context.header with headers = Map.union context.header.headers headers }
-    }
+    let headers headers (context: HeaderContext) =
+        { context with header.headers = Map.union context.header.headers headers }
 
     /// Adds a header
     let header name value (context: HeaderContext) = headers [ name, value ] context
 
     /// Adds a set of query parameters to the URL
-    let query (queryParams: (string * string) list) (context: HeaderContext) = {
-        context with
-            header = { context.header with url = { context.header.url with additionalQueryParams = queryParams } }
-    }
+    let query (queryParams: (string * string) list) (context: HeaderContext) =
+        { context with url.additionalQueryParams = context.url.additionalQueryParams @ queryParams }
 
     /// Content-Types that are acceptable for the response
     let accept (contentType: string) (context: HeaderContext) = 
@@ -125,10 +121,8 @@ module Header =
     let connection (connection: string) (context: HeaderContext) = 
         header "Connection" connection context
 
-    let private cookieDotnet (cookie: Cookie) (context: HeaderContext) = {
-        context with
-            header = { context.header with cookies = context.header.cookies @ [ cookie ] }
-    }
+    let private cookieDotnet (cookie: Cookie) (context: HeaderContext) =
+        { context with header.cookies = context.header.cookies @ [ cookie ] }
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie'.
     let cookie (name: string) (value: string) (context: HeaderContext) = 
@@ -270,11 +264,7 @@ module Body =
     /// Adds a header
     let header name value (context: IToBodyContext) =
         let context = context.Transform()
-
-        {
-            context with
-                bodyContent = { context.bodyContent with headers = Map.union context.header.headers [ name, value ] }
-        }
+        { context with bodyContent.headers = Map.union context.header.headers [ name, value ] }
 
     /// The type of encoding used on the data
     let contentEncoding (encoding: string) (context: IToBodyContext) = 
@@ -283,21 +273,7 @@ module Body =
     /// The MIME type of the body of the request (used with POST and PUT requests) with an optional encoding
     let contentType (contentType: string) (charset: Encoding option) (context: IToBodyContext) =
         let context = context.Transform()
-
-        {
-            context with
-                bodyContent = {
-                    context.bodyContent with
-                        contentElement = {
-                            context.bodyContent.contentElement with
-                                explicitContentType =
-                                    Some {
-                                        value = contentType
-                                        charset = charset
-                                    }
-                        }
-                }
-        }
+        { context with bodyContent.contentElement.explicitContentType = Some { value = contentType; charset = charset } }
 
     // a) MD5 is obsolete. See https://tools.ietf.org/html/rfc7231#appendix-B
     // b) the others are response fields
@@ -320,21 +296,13 @@ module Body =
 
     let content defaultContentType (data: ContentData) (context: IToBodyContext) =
         let context = context.Transform()
-
         let contentType =
             context.bodyContent.contentElement.explicitContentType
             |> Option.defaultValue defaultContentType
-
         {
-            context with
-                bodyContent = {
-                    context.bodyContent with
-                        contentElement = {
-                            context.bodyContent.contentElement with
-                                contentData = data
-                                explicitContentType = Some contentType
-                        }
-                }
+            context with 
+                bodyContent.contentElement.contentData = data
+                bodyContent.contentElement.explicitContentType = Some contentType
         }
 
     let binary (data: byte array) (context: IToBodyContext) =
@@ -412,20 +380,8 @@ module Body =
 module MultipartElement =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
-    let contentType contentType charset (context: MultipartElementContext) = {
-        context with
-            part = {
-                context.part with
-                    content = {
-                        context.part.content with
-                            explicitContentType =
-                                Some {
-                                    value = contentType
-                                    charset = charset
-                                }
-                    }
-            }
-    }
+    let contentType contentType charset (context: MultipartElementContext) = 
+        { context with part.content.explicitContentType = Some { value = contentType; charset = charset } }
 
 
 module Multipart =
@@ -484,111 +440,88 @@ module Config =
 
         let setHttpClientFactory httpClientFactory config = { config with httpClientFactory = httpClientFactory }
 
-        let transformHttpClient transformer config = {
-            config with
-                httpClientTransformers = config.httpClientTransformers @ [ transformer ]
-        }
+        let transformHttpClient transformer config = 
+            { config with httpClientTransformers = config.httpClientTransformers @ [ transformer ] }
 
-        let transformHttpRequestMessage transformer config = {
-            config with
-                httpMessageTransformers = config.httpMessageTransformers @ [ transformer ]
-        }
+        let transformHttpRequestMessage transformer config = 
+            { config with httpMessageTransformers = config.httpMessageTransformers @ [ transformer ] }
 
-        let transformHttpClientHandler transformer config = {
-            config with
-                httpClientHandlerTransformers = config.httpClientHandlerTransformers @ [ transformer ]
-        }
+        let transformHttpClientHandler transformer config = 
+            { config with httpClientHandlerTransformers = config.httpClientHandlerTransformers @ [ transformer ] }
 
-        let proxy url config = {
-            config with
-                proxy =
-                    Some {
-                        url = url
-                        credentials = None
-                    }
-        }
+        let proxy url config = 
+            { config with proxy = Some { url = url; credentials = None } }
 
-        let proxyWithCredentials url credentials config = {
-            config with
-                proxy =
-                    Some {
-                        url = url
-                        credentials = Some credentials
-                    }
-        }
+        let proxyWithCredentials url credentials config = 
+            { config with proxy = Some { url = url; credentials = Some credentials } }
 
-        let decompressionMethods decompressionMethods config = {
-            config with
-                defaultDecompressionMethods = decompressionMethods
-        }
+        let decompressionMethods decompressionMethods config = 
+            { config with defaultDecompressionMethods = decompressionMethods }
 
-        let noDecompression config = { config with defaultDecompressionMethods = [ DecompressionMethods.None ] }
+        let noDecompression config = 
+            { config with defaultDecompressionMethods = [ DecompressionMethods.None ] }
 
-        let cancellationToken cancellationToken config = { config with cancellationToken = cancellationToken }
+        let cancellationToken cancellationToken config =
+            { config with cancellationToken = cancellationToken }
 
-    let update transformer (context: IConfigure<ConfigTransformer, _>) = context.Configure transformer
+    let update transformer (context: IConfigure<ConfigTransformer, _>) = 
+        context.Configure transformer
 
-    let set (config: Config) context = context |> update (fun _ -> config)
+    let set (config: Config) context = 
+        context |> update (fun _ -> config)
 
-    let ignoreCertIssues context = context |> update (fun config -> config |> With.ignoreCertIssues)
+    let ignoreCertIssues context = 
+        context |> update (fun config -> config |> With.ignoreCertIssues)
 
-    let timeout value context = context |> update (fun config -> config |> With.timeout (Some value))
+    let timeout value context = 
+        context |> update (fun config -> config |> With.timeout (Some value))
 
-    let timeoutInSeconds value context = context |> update (fun config -> config |> With.timeoutInSeconds value)
+    let timeoutInSeconds value context = 
+        context |> update (fun config -> config |> With.timeoutInSeconds value)
 
     let setHttpClientFactory httpClientFactory context =
-        context
-        |> update (fun config -> config |> With.setHttpClientFactory httpClientFactory)
+        context |> update (fun config -> config |> With.setHttpClientFactory httpClientFactory)
 
     let transformHttpClient transformer context =
         context |> update (fun config -> config |> With.transformHttpClient transformer)
 
     let transformHttpRequestMessage transformer context =
-        context
-        |> update (fun config -> config |> With.transformHttpRequestMessage transformer)
+        context |> update (fun config -> config |> With.transformHttpRequestMessage transformer)
 
     let transformHttpClientHandler transformer context =
-        context
-        |> update (fun config -> config |> With.transformHttpClientHandler transformer)
+        context |> update (fun config -> config |> With.transformHttpClientHandler transformer)
 
-    let proxy url context = context |> update (fun config -> config |> With.proxy url)
+    let proxy url context = 
+        context |> update (fun config -> config |> With.proxy url)
 
     let proxyWithCredentials url credentials context =
-        context
-        |> update (fun config -> config |> With.proxyWithCredentials url credentials)
+        context |> update (fun config -> config |> With.proxyWithCredentials url credentials)
 
     let decompressionMethods decompressionMethods context =
-        context
-        |> update (fun config -> config |> With.decompressionMethods decompressionMethods)
+        context |> update (fun config -> config |> With.decompressionMethods decompressionMethods)
 
-    let noDecompression context = context |> update (fun config -> config |> With.noDecompression)
+    let noDecompression context = 
+        context |> update (fun config -> config |> With.noDecompression)
 
     let cancellationToken cancellationToken context =
-        context
-        |> update (fun config -> config |> With.cancellationToken cancellationToken)
+        context |> update (fun config -> config |> With.cancellationToken cancellationToken)
 
 
 module Print =
 
-    let withConfig transformer (context: IConfigure<PrintHintTransformer, _>) = context.Configure transformer
+    let withConfig transformer (context: IConfigure<PrintHintTransformer, _>) = 
+        context.Configure transformer
 
     let withRequestPrintMode updatePrintMode context =
-        context
-        |> withConfig (fun printHint -> {
-            printHint with
-                requestPrintMode = updatePrintMode printHint.requestPrintMode
-        })
+        context |> withConfig (fun printHint -> 
+            { printHint with requestPrintMode = updatePrintMode printHint.requestPrintMode })
 
     let withResponsePrintMode updatePrintMode context =
-        context
-        |> withConfig (fun printHint -> {
-            printHint with
-                responsePrintMode = updatePrintMode printHint.responsePrintMode
-        })
+        context |> withConfig (fun printHint -> 
+            { printHint with responsePrintMode = updatePrintMode printHint.responsePrintMode })
 
     let withResponseBody updateBodyPrintMode context =
-        context
-        |> withResponsePrintMode (fun printMode ->
+        context |> withResponsePrintMode (fun printMode ->
             match printMode with
             | AsObject
             | HeadersOnly -> updateBodyPrintMode (Defaults.defaultHeadersAndBodyPrintMode)
@@ -601,16 +534,17 @@ module Print =
         |> withRequestPrintMode (fun _ -> AsObject)
         |> withResponsePrintMode (fun _ -> AsObject)
 
-    let headerOnly context = context |> withResponsePrintMode (fun _ -> HeadersOnly)
+    let headerOnly context = 
+        context |> withResponsePrintMode (fun _ -> HeadersOnly)
 
     let withResponseBodyLength maxLength context =
-        context
-        |> withResponseBody (fun bodyPrintMode -> { bodyPrintMode with maxLength = Some maxLength })
+        context |> withResponseBody (fun bodyPrintMode -> 
+            { bodyPrintMode with maxLength = Some maxLength })
 
     let withResponseBodyFormat format context =
-        context
-        |> withResponseBody (fun bodyPrintMode -> { bodyPrintMode with format = format })
+        context |> withResponseBody (fun bodyPrintMode -> 
+            { bodyPrintMode with format = format })
 
     let withResponseBodyExpanded context =
-        context
-        |> withResponseBody (fun bodyPrintMode -> { bodyPrintMode with maxLength = None })
+        context |> withResponseBody (fun bodyPrintMode -> 
+            { bodyPrintMode with maxLength = None })

@@ -10,8 +10,7 @@ open FsHttp.Helper
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
     let request = request.Transform()
-    let header = request.header
-    let requestMessage = new HttpRequestMessage(header.method, header.url.ToUriString())
+    let requestMessage = new HttpRequestMessage(request.header.method, request.url.ToUriString())
 
     let buildDotnetContent
         (part: ContentData)
@@ -107,7 +106,7 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
 
     do
         requestMessage.Content <- dotnetContent
-        assignContentHeaders requestMessage.Headers header.headers
+        assignContentHeaders requestMessage.Headers request.header.headers
 
     request, requestMessage
 
@@ -118,7 +117,7 @@ let toHttpRequestMessage request = request |> toRequestAndMessage |> snd
 let toAsync (context: IToRequest) =
     async {
         let request, requestMessage = toRequestAndMessage context
-        do Fsi.logfn $"Sending request {request.header.method} {request.header.url.ToUriString()} ..."
+        do Fsi.logfn $"Sending request {request.header.method} {request.url.ToUriString()} ..."
 
         use finalRequestMessage =
             request.config.httpMessageTransformers
@@ -146,7 +145,7 @@ let toAsync (context: IToRequest) =
 
         do
             Fsi.logfn
-                $"{response.StatusCode |> int} ({response.StatusCode}) ({request.header.method} {request.header.url.ToUriString()})"
+                $"{response.StatusCode |> int} ({response.StatusCode}) ({request.header.method} {request.url.ToUriString()})"
 
         let dispose () =
             do finalClient.Dispose()

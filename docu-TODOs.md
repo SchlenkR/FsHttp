@@ -29,7 +29,7 @@ File Upload
 
 
 (**
-An alternative way: Verb-first functions
+An alternative way: HTTP method-first functions
 *)
 get "https://mysite" {
     AcceptLanguage "en-US"

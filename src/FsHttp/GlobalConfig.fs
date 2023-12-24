@@ -11,7 +11,7 @@ type GlobalConfigWrapper(config: Config option) =
         member this.Configure(t) = GlobalConfigWrapper(Some(t this.Config))
 
     interface IConfigure<PrintHintTransformer, GlobalConfigWrapper> with
-        member this.Configure(t) = Domain.configPrinter this t
+        member this.Configure(t) = configPrinter this t
 
 let defaults = GlobalConfigWrapper(None)
 let set (config: GlobalConfigWrapper) = mutableDefaults <- config.Config

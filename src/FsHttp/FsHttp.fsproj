@@ -4,6 +4,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Description>A .Net HTTP client library for F#, C#, and friends</Description>
