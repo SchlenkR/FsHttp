@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>12.2.0-preview01</Version>
+    <Version>12.2.0-preview02</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2023 Ronald Schlenker</Copyright>
