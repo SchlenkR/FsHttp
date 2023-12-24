@@ -31,7 +31,7 @@ jobs:
       - name: Upload docs artifact to GH pages
         uses: actions/upload-pages-artifact@v2
         with:
-          path: ./output
+          path: ./.docsOutput
 
   deploy:   
     runs-on: ubuntu-latest

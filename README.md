@@ -92,7 +92,7 @@ For common tasks, there are powershell files located in the repo root:
 * `./test.ps1`: Runs all tests (sources in `./src/Tests`).
   * You can pass args to this task. E.g. for executing only some tests:
     `./test.ps1 --filter Name~'Response Decompression'`
-* `./docu.ps1`: Rebuilds the FsHttp documentation site (sources in `./src/docs`; output goes to `./docs`).
+* `./docu.ps1`: Rebuilds the FsHttp documentation site (sources in `./src/docs`).
 * `./docu-watch.ps1`: Run it if you are working on the documentation sources, and want to see the result in a browser.
 * `./publish.ps1`: Publishes all packages (FsHttp and it's integration packages for Newtonsoft and FSharp.Data) to NuGet.
   * Always have a look at `./src/Directory.Build.props` and keep the file up-to-date.
