@@ -93,15 +93,9 @@ let toTextTAsync cancellationToken response =
 let toText response = 
     toTextAsync response |> Async.RunSynchronously
 
-#if NETSTANDARD2_0
-let toXmlAsync response =
-    response
-    |> parseAsync "XML" (fun stream ct -> async { return XDocument.Load(stream, LoadOptions.SetLineInfo) })
-#else
 let toXmlAsync response =
     response
     |> parseAsync "XML" (fun stream ct -> XDocument.LoadAsync(stream, LoadOptions.SetLineInfo, ct) |> Async.AwaitTask)
-#endif
 let toXmlTAsync cancellationToken response = 
     Async.StartAsTask(
         toXmlAsync response,

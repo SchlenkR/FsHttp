@@ -34,12 +34,7 @@ type Proxy = {
     credentials: System.Net.ICredentials option
 }
 
-type HttpClientHandlerTransformer =
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-    (System.Net.Http.HttpClientHandler -> System.Net.Http.HttpClientHandler)
-#else
-    (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler)
-#endif
+type HttpClientHandlerTransformer = (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler)
 
 and Config = {
     timeout: System.TimeSpan option
