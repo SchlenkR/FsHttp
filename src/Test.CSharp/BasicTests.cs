@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using RestInPeace.CSharp;
+using RestInPeace;
 using RestInPeace.Tests;
 using NUnit.Framework;
 

@@ -10,7 +10,7 @@ let signatures () =
     let _: IToRequest = http { GET "" }
     let _: Request = http { GET "" } |> Request.toRequest
     let _: HttpRequestMessage = http { GET "" } |> Request.toHttpRequestMessage
-    let _: Async<Response> = http { GET "" } |> Request.toAsync
+    let _: Async<Response> = http { GET "" } |> Request.toAsync None
     let _: Async<Response> = http { GET "" } |> Request.sendAsync
     let _: Response = http { GET "" } |> Request.send
     ()

@@ -17,8 +17,12 @@ let toJsonAsync response =
             }
         )
 
-let toJsonTAsync response = toJsonAsync response |> Async.StartAsTask
-let toJson response = toJsonAsync response |> Async.RunSynchronously
+let toJsonTAsync cancellationToken response =
+    Async.StartAsTask(
+        toJsonAsync response,
+        cancellationToken = cancellationToken)
+let toJson response =
+    toJsonAsync response |> Async.RunSynchronously
 
 let toJsonArrayAsync response =
     async {
@@ -26,5 +30,9 @@ let toJsonArrayAsync response =
         return res.AsArray()
     }
 
-let toJsonArrayTAsync response = toJsonArrayAsync response |> Async.StartAsTask
-let toJsonArray response = toJsonArrayAsync response |> Async.RunSynchronously
+let toJsonArrayTAsync cancellationToken response = 
+    Async.StartAsTask(
+        toJsonArrayAsync response,
+        cancellationToken = cancellationToken)
+let toJsonArray response = 
+    toJsonArrayAsync response |> Async.RunSynchronously

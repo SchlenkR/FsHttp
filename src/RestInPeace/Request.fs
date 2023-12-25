@@ -114,7 +114,7 @@ let toRequest request = request |> toRequestAndMessage |> fst
 let toHttpRequestMessage request = request |> toRequestAndMessage |> snd
 
 /// Builds an asynchronous request, without sending it.
-let toAsync (context: IToRequest) =
+let toAsync cancellationTokenOverride (context: IToRequest) =
     async {
         let request, requestMessage = toRequestAndMessage context
         do Fsi.logfn $"Sending request {request.header.method} {request.url.ToUriString()} ..."
@@ -123,7 +123,11 @@ let toAsync (context: IToRequest) =
             request.config.httpMessageTransformers
             |> List.fold (fun c n -> n c) requestMessage
 
-        let ctok = request.config.cancellationToken
+        // cancellationTokenOverride: Because of C# interop (see Extensions)
+        let ctok =
+            match cancellationTokenOverride with
+            | Some ctok -> ctok 
+            | None -> request.config.cancellationToken
         let client = request.config.httpClientFactory request.config
 
         match request.header.cookies with
@@ -167,10 +171,10 @@ let toAsync (context: IToRequest) =
     }
 
 /// Sends a request asynchronously.
-let sendTAsync (context: IToRequest) = context |> toAsync |> Async.StartAsTask
+let sendTAsync (request: IToRequest) = request |> toAsync None |> Async.StartAsTask
 
 /// Sends a request asynchronously.
-let sendAsync (context: IToRequest) = sendTAsync context |> Async.AwaitTask
+let sendAsync (request: IToRequest) = request |> sendTAsync |> Async.AwaitTask
 
 /// Sends a request synchronously.
-let send context = context |> toAsync |> Async.RunSynchronously
+let send request = request |> toAsync None |> Async.RunSynchronously
