@@ -1,4 +1,4 @@
-﻿namespace RestInPeace.CSharp
+﻿namespace RestInPeace
 
 open System
 open System.Runtime.CompilerServices
@@ -9,8 +9,8 @@ open RestInPeace
 // Methods
 // ---------
 
-[<Extension>]
 type Http =
+
     [<Extension>]
     static member Method(url, method) = Http.method method url
 
@@ -73,7 +73,6 @@ type Http =
 // Headers
 // ---------
 
-[<Extension>]
 type Header =
 
     /// Append query params
@@ -284,7 +283,6 @@ type Header =
 // Body
 // ---------
 
-[<Extension>]
 type Body =
 
     /// An explicit transformation from a previous context to allow for describing the request body.
@@ -335,7 +333,6 @@ type Body =
 // Multipart Element
 // -----------------
 
-[<Extension>]
 type MultipartElement =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
@@ -348,7 +345,6 @@ type MultipartElement =
 // Multipart
 // ---------
 
-[<Extension>]
 type Multipart =
 
     /// An explicit transformation from a previous context to allow for describing the request multiparts.
@@ -378,7 +374,6 @@ type Multipart =
 
 type ConfigTransformer = Func<Domain.Config, Domain.Config>
 
-[<Extension>]
 type Config =
 
     [<Extension>]
@@ -443,7 +438,6 @@ type Config =
 // Request
 // ---------
 
-[<Extension>]
 type Request =
 
     [<Extension>]
@@ -457,7 +451,6 @@ type Request =
 // Request
 // ---------
 
-[<Extension>]
 type Response =
 
     [<Extension>]
