@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RestInPeace\RestInPeace.fsproj" />
     <ProjectReference Include="..\Tests\Tests.fsproj" />
   </ItemGroup>
