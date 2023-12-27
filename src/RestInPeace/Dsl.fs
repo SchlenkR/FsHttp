@@ -26,12 +26,31 @@ module HttpMethods =
 [<AutoOpen>]
 module Http =
 
-    let methodWithConfig config (method: string) (url: string) =
-
+    let createHeaderContext address method config =
         // FSI init HACK
         FsiInit.init ()
 
-        // Yeah - we give up a little bit of safety here, for the sake of pre-configuring HTTP requests
+        {
+            url = {
+                address = address
+                additionalQueryParams = []
+            }
+            header = {
+                method = method
+                headers = Map.empty
+                cookies = []
+            }
+            config = config
+        }
+
+    let methodWithConfig config (method: string) (url: string) =
+        if String.IsNullOrWhiteSpace(method) then
+            failwith "Method must not be empty"
+        if String.IsNullOrWhiteSpace(url) then
+            failwith "URL must not be empty"
+
+        // TODO: See comment for type level safety
+        // We give up a little bit of safety here, for the sake of pre-configuring HTTP requests
         // without specifying the URL. This is a trade-off we are willing to take.
         let formattedUrl =
             if String.IsNullOrWhiteSpace(url) then 
@@ -41,19 +60,7 @@ module Http =
                 |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
                 |> Seq.filter (fun x -> not (x.StartsWith("//", StringComparison.Ordinal)))
                 |> Seq.reduce (+)
-
-        {
-            url = {
-                address = formattedUrl
-                additionalQueryParams = []
-            }
-            header = {
-                method = HttpMethod(method)
-                headers = Map.empty
-                cookies = []
-            }
-            config = config
-        }
+        createHeaderContext (Some formattedUrl) (Some (HttpMethod(method))) config
 
     let method (method: string) (url: string) = methodWithConfig GlobalConfig.defaults.Config method url
 

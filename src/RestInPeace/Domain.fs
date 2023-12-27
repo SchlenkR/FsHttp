@@ -57,12 +57,12 @@ type ConfigTransformer = Config -> Config
 type PrintHintTransformer = PrintHint -> PrintHint
 
 type RestInPeaceUrl = {
-    address: string
+    address: string option
     additionalQueryParams: List<string * string>
 }
 
 type Header = {
-    method: System.Net.Http.HttpMethod
+    method: System.Net.Http.HttpMethod option
     headers: Map<string, string>
     // We use a .Net type here, which we never do in other places.
     // Since Cookie is record style, I see no problem here.

@@ -10,7 +10,18 @@ open RestInPeace.Helper
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
     let request = request.Transform()
-    let requestMessage = new HttpRequestMessage(request.header.method, request.url.ToUriString())
+
+    // TODO: Try to encode URL / HTTP method presence or absence on type level.
+    let uri =
+        match request.url.ToUriString() with
+        | Ok x -> x
+        | Error _ -> ""
+    let method =
+        match request.header.method with
+        | Some x -> x
+        | None -> HttpMethod.Get
+
+    let requestMessage = new HttpRequestMessage(method, uri)
 
     let buildDotnetContent
         (part: ContentData)

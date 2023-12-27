@@ -25,7 +25,7 @@ namespace Test.CSharp
                     .SendAsync())
                 .ToTextAsync();
 
-            Assert.AreEqual(Content, response);
+            Assert.That(Content, Is.EqualTo(response));
         }
 
         public record Person(string Name, string Job);
@@ -44,7 +44,7 @@ namespace Test.CSharp
                     .SendAsync())
                 .DeserializeJsonAsync<Person>();
 
-            Assert.AreEqual(jsonObj, response);
+            Assert.That(jsonObj, Is.EqualTo(response));
         }
 
         [Test]

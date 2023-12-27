@@ -16,7 +16,7 @@ type IRequestContext<'self> with
 type HttpBuilder =
     // This is important to always have a new instance of the builder
     // that uses the config present at the time of the call.
-    static member http = method GET ""
+    static member http = createHeaderContext None None GlobalConfig.defaults.Config
 
 // ---------
 // Methods
