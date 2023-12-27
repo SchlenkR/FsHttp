@@ -6,16 +6,15 @@ open System.Net.Http.Headers
 open RestInPeace
 
 type RestInPeaceUrl with
-    member this.ToUriString() =
+    member this.ToUriStringWithDefault(defaultValue) =
         let queryParamsString =
             this.additionalQueryParams
             |> Seq.map (fun (k, v) -> $"""{k}={Uri.EscapeDataString $"{v}"}""")
             |> String.concat "&"
 
         match this.address with
-        | None -> Error {| queryParamsString = queryParamsString |}
+        | None -> defaultValue
         | Some address -> 
-            printfn "address: %s" address
             let uri = UriBuilder(address)
             uri.Query <-
                 match uri.Query, queryParamsString with
@@ -23,7 +22,7 @@ type RestInPeaceUrl with
                 | s, "" -> s
                 | "", q -> $"?{q}"
                 | s, q -> $"{s}&{q}"
-            Ok (uri.ToString())
+            uri.ToString()
 
 type ContentType with
     member this.ToMediaHeaderValue() =

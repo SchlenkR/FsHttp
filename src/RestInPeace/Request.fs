@@ -7,19 +7,22 @@ open System.Net.Http.Headers
 open RestInPeace
 open RestInPeace.Helper
 
+// TODO: Remove this
+let getAddressDefaults (request: Request) =
+    let uri = request.url.ToUriStringWithDefault("")
+    let method = request.header.method |> Option.defaultValue HttpMethod.Get
+    uri, method
+
+let addressToString (request: Request) =
+    let uri, method = getAddressDefaults request
+    $"{method} {uri}"
+
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
     let request = request.Transform()
 
     // TODO: Try to encode URL / HTTP method presence or absence on type level.
-    let uri =
-        match request.url.ToUriString() with
-        | Ok x -> x
-        | Error _ -> ""
-    let method =
-        match request.header.method with
-        | Some x -> x
-        | None -> HttpMethod.Get
+    let uri, method = getAddressDefaults request
 
     let requestMessage = new HttpRequestMessage(method, uri)
 
@@ -128,7 +131,7 @@ let toHttpRequestMessage request = request |> toRequestAndMessage |> snd
 let toAsync cancellationTokenOverride (context: IToRequest) =
     async {
         let request, requestMessage = toRequestAndMessage context
-        do Fsi.logfn $"Sending request {request.header.method} {request.url.ToUriString()} ..."
+        do Fsi.logfn $"Sending request {addressToString request} ..."
 
         use finalRequestMessage =
             request.config.httpMessageTransformers
@@ -158,9 +161,7 @@ let toAsync cancellationTokenOverride (context: IToRequest) =
             // Task is started immediately, but must not be awaited when running in background.
             response.Content.LoadIntoBufferAsync() |> ignore
 
-        do
-            Fsi.logfn
-                $"{response.StatusCode |> int} ({response.StatusCode}) ({request.header.method} {request.url.ToUriString()})"
+        do Fsi.logfn $"{response.StatusCode |> int} ({response.StatusCode}) ({addressToString request})"
 
         let dispose () =
             do finalClient.Dispose()
