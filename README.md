@@ -41,9 +41,10 @@ An example in C#:
 ```csharp
 #r "nuget: FsHttp"
 
-using FsHttp.CSharp;
+using FsHttp;
 
-await "https://reqres.in/api/users".Post()
+await "https://reqres.in/api/users"
+    .Post()
     .CacheControl("no-cache")
     .Body()
     .JsonSerialize(new
