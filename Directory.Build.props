@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>13.1.1</Version>
+    <Version>13.2.0</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2024 Ronald Schlenker</Copyright>
