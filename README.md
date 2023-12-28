@@ -2,11 +2,12 @@
     <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo.png' alt='logo' width='300' />
 </p>
 
-FsHttp is a .Net HTTP client library for C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
+FsHttp ("Full Stack HTTP") is a "hackable HTTP client". It's purposes are:
 
-The design principle behind FsHttp is:
+* Use it as a replacement for `.http` files, *VSCode's REST client*, *Postman*, and other tools as an **interactive and programmable playground** for HTTP requests.
+* Usable as a **production-ready HTTP client** for applications powered by .Net (C#, VB, F#).
 
-> Specify common HTTP requests in a most convenient and readable way, while still being able to access the underlying .Net Http representations for covering unusual cases.
+The design principle behind FsHttp is to specify HTTP requests in a most convenient and readable way, while still being able to access the underlying Http representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
 
 **FsHttp** is developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
 
