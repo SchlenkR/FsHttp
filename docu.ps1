@@ -33,7 +33,7 @@ dotnet fsdocs `
     --clean `
     --sourcefolder ./src `
     --properties Configuration=Release TargetFramework=net8.0 `
-    --sourcerepo https://github.com/SchlenkR/FsHttp/blob/master/src `
+    --sourcerepo https://github.com/fsprojects/FsHttp/blob/master/src `
     --parameters root /FsHttp/ `
     --strict `
     --output ./.docsOutput

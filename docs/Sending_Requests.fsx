@@ -111,7 +111,7 @@ http {
 
 
 (**
-See also: https://github.com/SchlenkR/FsHttp/issues/105
+See also: https://github.com/fsprojects/FsHttp/issues/105
 
 Instead of binding a cancellation token directly to a request definition (like in the example above),
 it is also possible to pass it on execution-timer, like so:

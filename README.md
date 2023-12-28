@@ -1,5 +1,5 @@
 <p align="center">
-    <img src='https://raw.githubusercontent.com/schlenkr/FsHttp/master/docs/img/logo.png' alt='logo' width='300' />
+    <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo.png' alt='logo' width='300' />
 </p>
 
 FsHttp is a .Net HTTP client library for C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
@@ -10,7 +10,7 @@ The design principle behind FsHttp is:
 
 **FsHttp** is developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
 
-[![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) ![build status](https://github.com/SchlenkR/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
+[![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) ![build status](https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
 
 
 A Simple Example
@@ -60,8 +60,8 @@ await "https://reqres.in/api/users"
 Documentation
 -------------
 
-* 📖 Please see [FsHttp Documentation](https://schlenkr.github.io/FsHttp) site for a detailed documentation.
-* 🧪 In addition, have a look at the [Integration Tests](https://github.com/SchlenkR/FsHttp/tree/master/src/Tests) that show various library details.
+* 📖 Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for a detailed documentation.
+* 🧪 In addition, have a look at the [Integration Tests](https://github.com/fsprojects/FsHttp/tree/master/src/Tests) that show various library details.
 
 
 Release Notes / Migrating to new versions
@@ -74,7 +74,7 @@ Release Notes / Migrating to new versions
 GitHub
 -------------
 
-Please see [FsHttp on GitHub](https://github.com/SchlenkR/FsHttp).
+Please see [FsHttp on GitHub](https://github.com/fsprojects/FsHttp).
 
 
 Building

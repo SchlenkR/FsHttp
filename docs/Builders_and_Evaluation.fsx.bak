@@ -78,7 +78,7 @@ let pageAsync =
     }
 
 
-// TODO Document naming conventions according to: https://github.com/SchlenkR/FsHttp/issues/48
+// TODO Document naming conventions according to: https://github.com/fsprojects/FsHttp/issues/48
 
 (**
 ## Naming Conventions
