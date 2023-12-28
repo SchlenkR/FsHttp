@@ -1,10 +1,10 @@
-﻿module RestInPeace.Tests.Json.NewtonsoftJson
+﻿module FsHttp.Tests.Json.NewtonsoftJson
 
 open FsUnit
-open RestInPeace
-open RestInPeace.Tests.TestHelper
-open RestInPeace.Tests.Server
-open RestInPeace.NewtonsoftJson
+open FsHttp
+open FsHttp.Tests.TestHelper
+open FsHttp.Tests.Server
+open FsHttp.NewtonsoftJson
 
 open Newtonsoft.Json.Linq
 open NUnit.Framework

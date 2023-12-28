@@ -1,11 +1,11 @@
-﻿module RestInPeace.Tests.DotNetHttp
+﻿module FsHttp.Tests.DotNetHttp
 
 open System.Net.Http
 open System.Threading
 
 open FsUnit
-open RestInPeace
-open RestInPeace.Tests.Server
+open FsHttp
+open FsHttp.Tests.Server
 
 open NUnit.Framework
 

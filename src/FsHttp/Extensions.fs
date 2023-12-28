@@ -1,9 +1,9 @@
-﻿namespace RestInPeace
+﻿namespace FsHttp
 
 open System
 open System.Runtime.CompilerServices
 open System.Threading
-open RestInPeace
+open FsHttp
 
 
 // ---------

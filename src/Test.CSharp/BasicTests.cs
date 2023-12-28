@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using RestInPeace;
-using RestInPeace.Tests;
+using FsHttp;
+using FsHttp.Tests;
 using NUnit.Framework;
 
 namespace Test.CSharp

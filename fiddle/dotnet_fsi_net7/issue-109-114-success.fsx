@@ -2,9 +2,9 @@
 shell> dotnet fsi .\issue-109-114-success.fsx
 *)
 
-#r "nuget: RestInPeace, 10.0.0-preview2"
+#r "nuget: FsHttp, 10.0.0-preview2"
 
-open RestInPeace
+open FsHttp
 
 let req = http {
     GET "http://google.com"

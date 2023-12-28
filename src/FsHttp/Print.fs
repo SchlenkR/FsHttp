@@ -1,13 +1,13 @@
 ﻿[<AutoOpen>]
-module RestInPeace.Print
+module FsHttp.Print
 
 open System
 open System.Collections.Generic
 open System.Net.Http
 open System.Text
 
-open RestInPeace
-open RestInPeace.Helper
+open FsHttp
+open FsHttp.Helper
 
 let internal contentIndicator = "===content==="
 

@@ -1,4 +1,4 @@
-namespace RestInPeace
+namespace FsHttp
 
 open System.Text.Json
 

@@ -1,5 +1,5 @@
 [<AutoOpen>]
-module RestInPeace.Dsl
+module FsHttp.Dsl
 
 open System
 open System.Net
@@ -7,8 +7,8 @@ open System.Net.Http
 open System.Text
 open System.Globalization
 
-open RestInPeace
-open RestInPeace.Helper
+open FsHttp
+open FsHttp.Helper
 
 [<RequireQualifiedAccess>]
 module HttpMethods =

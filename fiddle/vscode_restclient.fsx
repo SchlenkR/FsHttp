@@ -1,8 +1,8 @@
-#r "nuget: RestInPeace"
+#r "nuget: FsHttp"
 
 open System
-open RestInPeace
-open RestInPeace.Operators
+open FsHttp
+open FsHttp.Operators
 
 type Issue = {
     url: string
@@ -56,7 +56,7 @@ let githubGet route =
         GET ("https://api.github.com" </> route)
         AuthorizationBearer "**************"
         Accept "application/vnd.github.v3+json"
-        UserAgent "RestInPeace"
+        UserAgent "FsHttp"
         header "X-GitHub-Api-Version" "2022-11-28"
     }
     

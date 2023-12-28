@@ -1,10 +1,10 @@
-module RestInPeace.NewtonsoftJson.Response
+module FsHttp.NewtonsoftJson.Response
 
 open System.IO
 
-open RestInPeace
-open RestInPeace.Helper
-open RestInPeace.NewtonsoftJson.GlobalConfig.Json
+open FsHttp
+open FsHttp.Helper
+open FsHttp.NewtonsoftJson.GlobalConfig.Json
 
 open Newtonsoft.Json
 open Newtonsoft.Json.Linq

@@ -1,7 +1,7 @@
-﻿namespace RestInPeace.FSharpData
+﻿namespace FsHttp.FSharpData
 
 open System
-open RestInPeace.Helper
+open FsHttp.Helper
 open FSharp.Data
 
 [<AutoOpen>]

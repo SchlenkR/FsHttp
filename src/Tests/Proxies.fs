@@ -1,11 +1,11 @@
-﻿module RestInPeace.Tests.Proxies
+﻿module FsHttp.Tests.Proxies
 
 open System
 open System.Net
 
 open FsUnit
-open RestInPeace
-open RestInPeace.Tests.Server
+open FsHttp
+open FsHttp.Tests.Server
 
 open NUnit.Framework
 

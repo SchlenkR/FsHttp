@@ -1,10 +1,10 @@
-module internal RestInPeace.Defaults
+module internal FsHttp.Defaults
 
 open System
 open System.Net
 open System.Net.Http
 
-open RestInPeace
+open FsHttp
 open System.Text.Json
 
 let defaultJsonDocumentOptions = JsonDocumentOptions()

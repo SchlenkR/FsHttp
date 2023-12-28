@@ -1,4 +1,4 @@
-﻿namespace RestInPeace.FSharpData
+﻿namespace FsHttp.FSharpData
 
 open FSharp.Data
 

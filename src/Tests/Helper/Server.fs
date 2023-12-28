@@ -1,4 +1,4 @@
-﻿module RestInPeace.Tests.Server
+﻿module FsHttp.Tests.Server
 
 open System.Threading
 open Suave
@@ -40,6 +40,6 @@ module Predefined =
     open Suave.Filters
     open Suave.Successful
 
-    open RestInPeace.Tests.TestHelper
+    open FsHttp.Tests.TestHelper
 
     let postReturnsBody () = POST >=> request (contentText >> OK) |> serve

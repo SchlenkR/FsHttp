@@ -1,6 +1,6 @@
-#r "nuget: RestInPeace"
+#r "nuget: FsHttp"
 
-open RestInPeace
+open FsHttp
 
 http {
     POST "https://api.jspm.io/generate"

@@ -1,4 +1,4 @@
-module RestInPeace.Fsi
+module FsHttp.Fsi
 
 // why we have this? -> search for #121
 let mutable internal logDebugMessages = None

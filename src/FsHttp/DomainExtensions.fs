@@ -1,11 +1,11 @@
 [<AutoOpen>]
-module RestInPeace.DomainExtensions
+module FsHttp.DomainExtensions
 
 open System
 open System.Net.Http.Headers
-open RestInPeace
+open FsHttp
 
-type RestInPeaceUrl with
+type FsHttpUrl with
     member this.ToUriStringWithDefault(defaultValue) =
         let queryParamsString =
             this.additionalQueryParams

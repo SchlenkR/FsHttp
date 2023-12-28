@@ -1,8 +1,8 @@
-module RestInPeace.FSharpData.Response
+module FsHttp.FSharpData.Response
 
 open System.IO
-open RestInPeace
-open RestInPeace.Helper
+open FsHttp
+open FsHttp.Helper
 open FSharp.Data
 
 let toJsonAsync response =

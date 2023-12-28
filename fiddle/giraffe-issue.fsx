@@ -1,9 +1,9 @@
-#r "nuget: RestInPeace, 11.0.0"
+#r "nuget: FsHttp, 11.0.0"
 
 open System
-open RestInPeace
+open FsHttp
 
-// Uncomment if you don't want RestInPeace debug logs
+// Uncomment if you don't want FsHttp debug logs
 // Fsi.disableDebugLogs()
 
 type QueryParams = (string * obj) list

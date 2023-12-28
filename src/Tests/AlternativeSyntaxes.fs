@@ -1,8 +1,8 @@
-﻿module RestInPeace.Tests.``Alternative Syntaxes``
+﻿module FsHttp.Tests.``Alternative Syntaxes``
 
 open FsUnit
-open RestInPeace
-open RestInPeace.Tests.Server
+open FsHttp
+open FsHttp.Tests.Server
 
 open NUnit.Framework
 

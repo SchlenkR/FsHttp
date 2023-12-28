@@ -1,4 +1,4 @@
-module RestInPeace.NewtonsoftJson.GlobalConfig
+module FsHttp.NewtonsoftJson.GlobalConfig
 
 open Newtonsoft.Json
 open Newtonsoft.Json.Linq

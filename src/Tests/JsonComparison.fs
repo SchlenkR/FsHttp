@@ -1,8 +1,8 @@
-﻿module RestInPeace.Tests.``Json Comparison``
+﻿module FsHttp.Tests.``Json Comparison``
 
 open System
 open FSharp.Data
-open RestInPeace.FSharpData
+open FsHttp.FSharpData
 open FsUnit
 open NUnit.Framework
 

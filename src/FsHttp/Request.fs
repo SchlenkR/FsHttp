@@ -1,11 +1,11 @@
-module RestInPeace.Request
+module FsHttp.Request
 
 open System
 open System.Net.Http
 open System.Net.Http.Headers
 
-open RestInPeace
-open RestInPeace.Helper
+open FsHttp
+open FsHttp.Helper
 
 // TODO: Remove this
 let getAddressDefaults (request: Request) =

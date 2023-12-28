@@ -1,16 +1,16 @@
 <p align="center">
-    <img src='https://raw.githubusercontent.com/schlenkr/RestInPeace/master/docs/img/logo.png' alt='logo' width='300' />
+    <img src='https://raw.githubusercontent.com/schlenkr/FsHttp/master/docs/img/logo.png' alt='logo' width='300' />
 </p>
 
-RestInPeace is a .Net HTTP client library for C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
+FsHttp is a .Net HTTP client library for C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
 
-The design principle behind RestInPeace is:
+The design principle behind FsHttp is:
 
 > Specify common HTTP requests in a most convenient and readable way, while still being able to access the underlying .Net Http representations for covering unusual cases.
 
-**RestInPeace** is developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
+**FsHttp** is developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
 
-[![NuGet Badge](http://img.shields.io/nuget/v/RestInPeace.svg?style=flat)](https://www.nuget.org/packages/RestInPeace) ![build status](https://github.com/SchlenkR/RestInPeace/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
+[![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) ![build status](https://github.com/SchlenkR/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
 
 
 A Simple Example
@@ -19,9 +19,9 @@ A Simple Example
 An example in F#:
 
 ```fsharp
-#r "nuget: RestInPeace"
+#r "nuget: FsHttp"
 
-open RestInPeace
+open FsHttp
 
 http {
     POST "https://reqres.in/api/users"
@@ -39,9 +39,9 @@ http {
 An example in C#:
 
 ```csharp
-#r "nuget: RestInPeace"
+#r "nuget: FsHttp"
 
-using RestInPeace.CSharp;
+using FsHttp.CSharp;
 
 await "https://reqres.in/api/users".Post()
     .CacheControl("no-cache")
@@ -59,21 +59,21 @@ await "https://reqres.in/api/users".Post()
 Documentation
 -------------
 
-* 📖 Please see [RestInPeace Documentation](https://schlenkr.github.io/RestInPeace) site for a detailed documentation.
-* 🧪 In addition, have a look at the [Integration Tests](https://github.com/SchlenkR/RestInPeace/tree/master/src/Tests) that show various library details.
+* 📖 Please see [FsHttp Documentation](https://schlenkr.github.io/FsHttp) site for a detailed documentation.
+* 🧪 In addition, have a look at the [Integration Tests](https://github.com/SchlenkR/FsHttp/tree/master/src/Tests) that show various library details.
 
 
 Release Notes / Migrating to new versions
 ---
 
-* See https://www.nuget.org/packages/RestInPeace#release-body-tab
-* For different upgrade paths, please read the [Migrations section](https://schlenkr.github.io/RestInPeace/Migrations.html) in the docu.
+* See https://www.nuget.org/packages/FsHttp#release-body-tab
+* For different upgrade paths, please read the [Migrations section](https://schlenkr.github.io/FsHttp/Migrations.html) in the docu.
 
 
 GitHub
 -------------
 
-Please see [RestInPeace on GitHub](https://github.com/SchlenkR/RestInPeace).
+Please see [FsHttp on GitHub](https://github.com/SchlenkR/FsHttp).
 
 
 Building
@@ -92,9 +92,9 @@ For common tasks, there are powershell files located in the repo root:
 * `./test.ps1`: Runs all tests (sources in `./src/Tests`).
   * You can pass args to this task. E.g. for executing only some tests:
     `./test.ps1 --filter Name~'Response Decompression'`
-* `./docu.ps1`: Rebuilds the RestInPeace documentation site (sources in `./src/docs`).
+* `./docu.ps1`: Rebuilds the FsHttp documentation site (sources in `./src/docs`).
 * `./docu-watch.ps1`: Run it if you are working on the documentation sources, and want to see the result in a browser.
-* `./publish.ps1`: Publishes all packages (RestInPeace and it's integration packages for Newtonsoft and FSharp.Data) to NuGet.
+* `./publish.ps1`: Publishes all packages (FsHttp and it's integration packages for Newtonsoft and FSharp.Data) to NuGet.
   * Always have a look at `./src/Directory.Build.props` and keep the file up-to-date.
 
 

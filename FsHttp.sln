@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RestInPeace", "src\RestInPeace\RestInPeace.fsproj", "{D1AD2123-678B-4DC9-9DBA-3D6FF2E30F61}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp", "src\FsHttp\FsHttp.fsproj", "{D1AD2123-678B-4DC9-9DBA-3D6FF2E30F61}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RestInPeace.FSharpData", "src\RestInPeace.FSharpData\RestInPeace.FSharpData.fsproj", "{07320ED5-9E4A-452E-80C3-007C3303735F}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp.FSharpData", "src\FsHttp.FSharpData\FsHttp.FSharpData.fsproj", "{07320ED5-9E4A-452E-80C3-007C3303735F}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RestInPeace.NewtonsoftJson", "src\RestInPeace.NewtonsoftJson\RestInPeace.NewtonsoftJson.fsproj", "{CB577E4F-F4F0-4ADA-BD90-036B5ECF17AD}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsHttp.NewtonsoftJson", "src\FsHttp.NewtonsoftJson\FsHttp.NewtonsoftJson.fsproj", "{CB577E4F-F4F0-4ADA-BD90-036B5ECF17AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.CSharp", "src\Test.CSharp\Test.CSharp.csproj", "{1163EF7E-1845-4D2A-8C3F-8691618500DF}"
 EndProject

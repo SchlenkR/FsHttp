@@ -6,22 +6,23 @@
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
   </PropertyGroup>
   <PropertyGroup>
-    <Description>JSON.Net (Newtonsoft.Json) integration package for RestInPeace</Description>
-    <PackageId>RestInPeace.NewtonsoftJson</PackageId>
+    <Description>FSharp.Data (JSON) integration package for FsHttp</Description>
+    <PackageId>FsHttp.FSharpData</PackageId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GlobalConfig.fs" />
+    <Compile Include="JsonComparison.fs" />
+    <Compile Include="JsonExtensions.fs" />
     <Compile Include="Response.fs" />
-    <Compile Include="Operators.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="FSharp.Data" Version="6.3.0" />
+    <PackageReference Include="FSharp.Core" Version="8.0.100" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RestInPeace\RestInPeace.fsproj" />
+    <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
 </Project>

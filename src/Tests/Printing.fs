@@ -1,8 +1,8 @@
-﻿module RestInPeace.Tests.Printing
+﻿module FsHttp.Tests.Printing
 
 open FsUnit
-open RestInPeace
-open RestInPeace.Tests.Server
+open FsHttp
+open FsHttp.Tests.Server
 
 open NUnit.Framework
 
@@ -30,7 +30,7 @@ let ``Print Config on Request`` () =
     resonseLines
     |> List.skipWhile (fun x -> x <> "RESPONSE")
     |> List.skip 1
-    |> List.skipWhile (fun x -> x <> RestInPeace.Print.contentIndicator)
+    |> List.skipWhile (fun x -> x <> FsHttp.Print.contentIndicator)
     |> List.skip 1
     |> List.head
     |> should equal "tes"

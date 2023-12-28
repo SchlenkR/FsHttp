@@ -1,7 +1,7 @@
-﻿module RestInPeace.FsiInit
+﻿module FsHttp.FsiInit
 
 open System
-open RestInPeace.Domain
+open FsHttp.Domain
 
 type InitResult =
     | Uninitialized

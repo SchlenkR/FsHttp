@@ -1,4 +1,4 @@
-module RestInPeace.Response
+module FsHttp.Response
 
 open System
 open System.IO
@@ -8,9 +8,9 @@ open System.Text.Json
 open System.Threading
 open System.Xml.Linq
 
-open RestInPeace
-open RestInPeace.GlobalConfig.Json
-open RestInPeace.Helper
+open FsHttp
+open FsHttp.GlobalConfig.Json
+open FsHttp.Helper
 
 
 // -----------

@@ -1,4 +1,4 @@
-﻿namespace RestInPeace.NewtonsoftJson
+﻿namespace FsHttp.NewtonsoftJson
 
 open Newtonsoft.Json.Linq
 

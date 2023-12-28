@@ -1,13 +1,13 @@
-﻿module RestInPeace.Tests.Basic
+﻿module FsHttp.Tests.Basic
 
 open System
 open System.Text
 open System.Threading
 
 open FsUnit
-open RestInPeace
-open RestInPeace.Tests.TestHelper
-open RestInPeace.Tests.Server
+open FsHttp
+open FsHttp.Tests.TestHelper
+open FsHttp.Tests.Server
 
 open NUnit.Framework
 

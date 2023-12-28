@@ -1,9 +1,9 @@
 
-#r "../src/RestInPeace/bin/debug/net7.0/RestInPeace.dll"
+#r "../src/FsHttp/bin/debug/net7.0/FsHttp.dll"
 
 open System
 open System.Net.Http
-open RestInPeace
+open FsHttp
 
 
 let doPrint (client : HttpClient) =

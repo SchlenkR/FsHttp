@@ -9,19 +9,19 @@ index: 2
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../RestInPeace/bin/Release/net8.0/RestInPeace.dll"
-open RestInPeace
+#r "../FsHttp/bin/Release/net8.0/FsHttp.dll"
+open FsHttp
 
 
 
 (**
 ## Installing
 *)
-// Reference the 'RestInPeace' package from NuGet in your script or project
-#r "nuget: RestInPeace"
+// Reference the 'FsHttp' package from NuGet in your script or project
+#r "nuget: FsHttp"
 
-// Opening 'RestInPeace' is sufficient (no need for RestInPeace.DSL or others anymore).
-open RestInPeace
+// Opening 'FsHttp' is sufficient (no need for FsHttp.DSL or others anymore).
+open FsHttp
 
 (**
 ## Performing a GET request:

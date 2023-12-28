@@ -1,6 +1,6 @@
-module RestInPeace.GlobalConfig
+module FsHttp.GlobalConfig
 
-open RestInPeace.Domain
+open FsHttp.Domain
 
 let mutable private mutableDefaults = Defaults.defaultConfig
 

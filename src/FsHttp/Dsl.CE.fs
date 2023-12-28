@@ -1,8 +1,8 @@
 [<AutoOpen>]
-module RestInPeace.DslCE
+module FsHttp.DslCE
 
 open System.Net
-open RestInPeace
+open FsHttp
 
 
 // ---------

@@ -1,5 +1,5 @@
 [<AutoOpen>]
-module RestInPeace.Domain
+module FsHttp.Domain
 
 open System.Threading
 
@@ -56,7 +56,7 @@ type ConfigTransformer = Config -> Config
 
 type PrintHintTransformer = PrintHint -> PrintHint
 
-type RestInPeaceUrl = {
+type FsHttpUrl = {
     address: string option
     additionalQueryParams: List<string * string>
 }
@@ -108,7 +108,7 @@ and MultipartElement = {
 }
 
 type Request = {
-    url: RestInPeaceUrl
+    url: FsHttpUrl
     header: Header
     content: RequestContent
     config: Config
@@ -140,7 +140,7 @@ and IToMultipartContext =
 
 // TODO: Convert this to a class.
 and HeaderContext = {
-    url: RestInPeaceUrl
+    url: FsHttpUrl
     header: Header
     config: Config
 } with
@@ -188,7 +188,7 @@ and HeaderContext = {
 
 // TODO: Convert this to a class.
 and BodyContext = {
-    url: RestInPeaceUrl
+    url: FsHttpUrl
     header: Header
     bodyContent: BodyContent
     config: Config
@@ -215,7 +215,7 @@ and BodyContext = {
 
 // TODO: Convert this to a class.
 and MultipartContext = {
-    url: RestInPeaceUrl
+    url: FsHttpUrl
     header: Header
     multipartContent: MultipartContent
     config: Config

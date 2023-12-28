@@ -1,9 +1,9 @@
-﻿module RestInPeace.Tests.``Extending Builders``
+﻿module FsHttp.Tests.``Extending Builders``
 
 open FsUnit
-open RestInPeace
-open RestInPeace.Tests.TestHelper
-open RestInPeace.Tests.Server
+open FsHttp
+open FsHttp.Tests.TestHelper
+open FsHttp.Tests.Server
 
 open NUnit.Framework
 
@@ -20,7 +20,7 @@ let superBodyContentType = {
 type IRequestContext<'self> with
     [<CustomOperation("superBody")>]
     member this.SuperBody(context: IRequestContext<BodyContext>, csvContent: string) =
-        RestInPeace.Dsl.Body.content superBodyContentType (TextContent csvContent) context.Self
+        FsHttp.Dsl.Body.content superBodyContentType (TextContent csvContent) context.Self
 
 
 [<TestCase>]

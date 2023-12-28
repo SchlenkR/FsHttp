@@ -1,4 +1,4 @@
-﻿module RestInPeace.MimeTypes
+﻿module FsHttp.MimeTypes
 
 open System.IO
 

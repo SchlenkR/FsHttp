@@ -1,7 +1,7 @@
 
-#r "../RestInPeace/bin/debug/net8.0/RestInPeace.dll"
+#r "../FsHttp/bin/debug/net8.0/FsHttp.dll"
 
-RestInPeace.FsiInit.doInit()
+FsHttp.FsiInit.doInit()
 
 
 open System

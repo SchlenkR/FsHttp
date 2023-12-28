@@ -9,8 +9,8 @@ index: 5
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../src/RestInPeace/bin/Release/net8.0/RestInPeace.dll"
-open RestInPeace
+#r "../src/FsHttp/bin/Release/net8.0/FsHttp.dll"
+open FsHttp
 
 
 
@@ -33,5 +33,5 @@ http {
 (**
 ## Further Readings
 
-> Have a look at the [https://github.com/SchlenkR/RestInPeace/blob/master/src/Tests/Multipart.fs](multipart tests) for more examples using multipart.
+> Have a look at the [https://github.com/SchlenkR/FsHttp/blob/master/src/Tests/Multipart.fs](multipart tests) for more examples using multipart.
 *)

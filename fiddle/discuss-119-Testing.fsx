@@ -1,11 +1,11 @@
 
-#r "nuget: RestInPeace"
+#r "nuget: FsHttp"
 #r "nuget: Suave"
 
 open System
 open System.Threading
 
-open RestInPeace
+open FsHttp
 
 open Suave
 open Suave.Operators

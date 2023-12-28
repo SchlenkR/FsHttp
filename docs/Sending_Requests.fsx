@@ -9,8 +9,8 @@ index: 7
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../src/RestInPeace/bin/Release/net8.0/RestInPeace.dll"
-open RestInPeace
+#r "../src/FsHttp/bin/Release/net8.0/FsHttp.dll"
+open FsHttp
 open System.Threading
 
 
@@ -111,7 +111,7 @@ http {
 
 
 (**
-See also: https://github.com/SchlenkR/RestInPeace/issues/105
+See also: https://github.com/SchlenkR/FsHttp/issues/105
 
 Instead of binding a cancellation token directly to a request definition (like in the example above),
 it is also possible to pass it on execution-timer, like so:
