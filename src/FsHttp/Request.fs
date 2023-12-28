@@ -7,10 +7,24 @@ open System.Net.Http.Headers
 open FsHttp
 open FsHttp.Helper
 
+// TODO: Remove this
+let getAddressDefaults (request: Request) =
+    let uri = request.url.ToUriStringWithDefault("")
+    let method = request.header.method |> Option.defaultValue HttpMethod.Get
+    uri, method
+
+let addressToString (request: Request) =
+    let uri, method = getAddressDefaults request
+    $"{method} {uri}"
+
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
     let request = request.Transform()
-    let requestMessage = new HttpRequestMessage(request.header.method, request.url.ToUriString())
+
+    // TODO: Try to encode URL / HTTP method presence or absence on type level.
+    let uri, method = getAddressDefaults request
+
+    let requestMessage = new HttpRequestMessage(method, uri)
 
     let buildDotnetContent
         (part: ContentData)
@@ -114,16 +128,20 @@ let toRequest request = request |> toRequestAndMessage |> fst
 let toHttpRequestMessage request = request |> toRequestAndMessage |> snd
 
 /// Builds an asynchronous request, without sending it.
-let toAsync (context: IToRequest) =
+let toAsync cancellationTokenOverride (context: IToRequest) =
     async {
         let request, requestMessage = toRequestAndMessage context
-        do Fsi.logfn $"Sending request {request.header.method} {request.url.ToUriString()} ..."
+        do Fsi.logfn $"Sending request {addressToString request} ..."
 
         use finalRequestMessage =
             request.config.httpMessageTransformers
             |> List.fold (fun c n -> n c) requestMessage
 
-        let ctok = request.config.cancellationToken
+        // cancellationTokenOverride: Because of C# interop (see Extensions)
+        let ctok =
+            match cancellationTokenOverride with
+            | Some ctok -> ctok 
+            | None -> request.config.cancellationToken
         let client = request.config.httpClientFactory request.config
 
         match request.header.cookies with
@@ -143,9 +161,7 @@ let toAsync (context: IToRequest) =
             // Task is started immediately, but must not be awaited when running in background.
             response.Content.LoadIntoBufferAsync() |> ignore
 
-        do
-            Fsi.logfn
-                $"{response.StatusCode |> int} ({response.StatusCode}) ({request.header.method} {request.url.ToUriString()})"
+        do Fsi.logfn $"{response.StatusCode |> int} ({response.StatusCode}) ({addressToString request})"
 
         let dispose () =
             do finalClient.Dispose()
@@ -167,10 +183,10 @@ let toAsync (context: IToRequest) =
     }
 
 /// Sends a request asynchronously.
-let sendTAsync (context: IToRequest) = context |> toAsync |> Async.StartAsTask
+let sendTAsync (request: IToRequest) = request |> toAsync None |> Async.StartAsTask
 
 /// Sends a request asynchronously.
-let sendAsync (context: IToRequest) = sendTAsync context |> Async.AwaitTask
+let sendAsync (request: IToRequest) = request |> sendTAsync |> Async.AwaitTask
 
 /// Sends a request synchronously.
-let send context = context |> toAsync |> Async.RunSynchronously
+let send request = request |> toAsync None |> Async.RunSynchronously

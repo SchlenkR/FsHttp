@@ -1,5 +1,5 @@
 <p align="center">
-    <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo_big.png' alt='logo' width='300' />
+    <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo.png' alt='logo' width='300' />
 </p>
 
 FsHttp is a .Net HTTP client library for C# and F#. It aims for describing and executing HTTP requests in convenient ways that can be used in production and interactive environments.
@@ -41,9 +41,10 @@ An example in C#:
 ```csharp
 #r "nuget: FsHttp"
 
-using FsHttp.CSharp;
+using FsHttp;
 
-await "https://reqres.in/api/users".Post()
+await "https://reqres.in/api/users"
+    .Post()
     .CacheControl("no-cache")
     .Body()
     .JsonSerialize(new
@@ -67,7 +68,7 @@ Release Notes / Migrating to new versions
 ---
 
 * See https://www.nuget.org/packages/FsHttp#release-body-tab
-* For different upgrade paths, please read the [Migrations section](https://fsprojects.github.io/FsHttp/Migrations.html) in the docu.
+* For different upgrade paths, please read the [Migrations section](https://schlenkr.github.io/FsHttp/Migrations.html) in the docu.
 
 
 GitHub
@@ -101,5 +102,5 @@ For common tasks, there are powershell files located in the repo root:
 Credits
 -------
 
-* Parts of the code is taken from the [HTTP utilities of FSharp.Data](https://fsprojects.github.io/FSharp.Data/library/Http.html).
+* Parts of the code is taken from the [HTTP utilities of FSharp.Data](https://schlenkr.github.io/FSharp.Data/library/Http.html).
 * Credits to all critics, supporters, contributors, promoters, users, and friends.

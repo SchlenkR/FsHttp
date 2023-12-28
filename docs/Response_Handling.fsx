@@ -19,7 +19,7 @@ open FsHttp
 There are several ways transforming the content of the returned response to
 something like text or JSON:
 
-See also: [Response](reference/fshttp-response.html)
+See also: [Response](reference/FsHttp-response.html)
 *)
 http {
     POST "https://reqres.in/api/users"

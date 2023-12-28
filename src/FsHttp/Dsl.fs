@@ -10,70 +10,79 @@ open System.Globalization
 open FsHttp
 open FsHttp.Helper
 
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module HttpMethods =
-    let GET = "GET"
-    let PUT = "PUT"
-    let POST = "POST"
-    let DELETE = "DELETE"
-    let OPTIONS = "OPTIONS"
-    let HEAD = "HEAD"
-    let TRACE = "TRACE"
-    let CONNECT = "CONNECT"
-    let PATCH = "PATCH"
+    let get = "GET"
+    let put = "PUT"
+    let post = "POST"
+    let delete = "DELETE"
+    let options = "OPTIONS"
+    let head = "HEAD"
+    let trace = "TRACE"
+    let connect = "CONNECT"
+    let patch = "PATCH"
 
 /// Request constructors for RFC 2626 HTTP methods
 [<AutoOpen>]
 module Http =
 
-    let methodWithConfig config (method: string) (url: string) =
-
+    let createHeaderContext address method config =
         // FSI init HACK
         FsiInit.init ()
 
-        if String.IsNullOrWhiteSpace url then
-            failwith "The given URL is empty."
-
-        let formattedUrl =
-            url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
-            |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
-            |> Seq.filter (fun x -> not (x.StartsWith("//", StringComparison.Ordinal)))
-            |> Seq.reduce (+)
-
         {
             url = {
-                address = formattedUrl
+                address = address
                 additionalQueryParams = []
             }
             header = {
-                method = HttpMethod(method)
+                method = method
                 headers = Map.empty
                 cookies = []
             }
             config = config
         }
 
+    let methodWithConfig config (method: string) (url: string) =
+        if String.IsNullOrWhiteSpace(method) then
+            failwith "Method must not be empty"
+        if String.IsNullOrWhiteSpace(url) then
+            failwith "URL must not be empty"
+
+        // TODO: See comment for type level safety
+        // We give up a little bit of safety here, for the sake of pre-configuring HTTP requests
+        // without specifying the URL. This is a trade-off we are willing to take.
+        let formattedUrl =
+            if String.IsNullOrWhiteSpace(url) then 
+                ""
+            else
+                url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
+                |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
+                |> Seq.filter (fun x -> not (x.StartsWith("//", StringComparison.Ordinal)))
+                |> Seq.reduce (+)
+        createHeaderContext (Some formattedUrl) (Some (HttpMethod(method))) config
+
     let method (method: string) (url: string) = methodWithConfig GlobalConfig.defaults.Config method url
 
-    let internal getWithConfig config (url: string) = methodWithConfig config HttpMethods.GET url
-    let internal putWithConfig config (url: string) = methodWithConfig config HttpMethods.PUT url
-    let internal postWithConfig config (url: string) = methodWithConfig config HttpMethods.POST url
-    let internal deleteWithConfig config (url: string) = methodWithConfig config HttpMethods.DELETE url
-    let internal optionsWithConfig config (url: string) = methodWithConfig config HttpMethods.OPTIONS url
-    let internal headWithConfig config (url: string) = methodWithConfig config HttpMethods.HEAD url
-    let internal traceWithConfig config (url: string) = methodWithConfig config HttpMethods.TRACE url
-    let internal connectWithConfig config (url: string) = methodWithConfig config HttpMethods.CONNECT url
-    let internal patchWithConfig config (url: string) = methodWithConfig config HttpMethods.PATCH url
+    let internal getWithConfig config (url: string) = methodWithConfig config HttpMethods.get url
+    let internal putWithConfig config (url: string) = methodWithConfig config HttpMethods.put url
+    let internal postWithConfig config (url: string) = methodWithConfig config HttpMethods.post url
+    let internal deleteWithConfig config (url: string) = methodWithConfig config HttpMethods.delete url
+    let internal optionsWithConfig config (url: string) = methodWithConfig config HttpMethods.options url
+    let internal headWithConfig config (url: string) = methodWithConfig config HttpMethods.head url
+    let internal traceWithConfig config (url: string) = methodWithConfig config HttpMethods.trace url
+    let internal connectWithConfig config (url: string) = methodWithConfig config HttpMethods.connect url
+    let internal patchWithConfig config (url: string) = methodWithConfig config HttpMethods.patch url
 
-    let get (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.GET url
-    let put (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.PUT url
-    let post (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.POST url
-    let delete (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.DELETE url
-    let options (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.OPTIONS url
-    let head (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.HEAD url
-    let trace (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.TRACE url
-    let connect (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.CONNECT url
-    let patch (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.PATCH url
+    let get (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.get url
+    let put (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.put url
+    let post (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.post url
+    let delete (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.delete url
+    let options (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.options url
+    let head (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.head url
+    let trace (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.trace url
+    let connect (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.connect url
+    let patch (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.patch url
 
 // TODO: RFC 4918 (WebDAV) adds 7 methods
 

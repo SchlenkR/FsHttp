@@ -25,32 +25,53 @@ let private loadJsonAsync loader response =
         )
 
 let toJsonWithAsync settings response = response |> loadJsonAsync (fun jr ct -> JObject.LoadAsync(jr, settings, ct))
-let toJsonWithTAsync settings response = toJsonWithAsync settings response |> Async.StartAsTask
+let toJsonWithTAsync settings cancellationToken response = 
+    Async.StartAsTask(
+        toJsonWithAsync settings response,
+        cancellationToken = cancellationToken)
 let toJsonWith settings response = toJsonWithAsync settings response |> Async.RunSynchronously
 
-let toJsonAsync response = toJsonWithAsync defaultJsonLoadSettings response
-let toJsonTAsync response = toJsonWithTAsync defaultJsonLoadSettings response
-let toJson response = toJsonWith defaultJsonLoadSettings response
+let toJsonAsync response = 
+    toJsonWithAsync defaultJsonLoadSettings response
+let toJsonTAsync cancellationToken response =
+    toJsonWithTAsync defaultJsonLoadSettings cancellationToken response
+let toJson response = 
+    toJsonWith defaultJsonLoadSettings response
 
 let toJsonSeqWithAsync settings response =
     response
     |> loadJsonAsync (fun jr ct -> JArray.LoadAsync(jr, settings, ct))
     |> Async.map (fun jarr -> jarr :> JToken seq)
 
-let toJsonSeqWithTAsync settings response = toJsonSeqWithAsync settings response |> Async.StartAsTask
-let toJsonSeqWith settings response = toJsonSeqWithAsync settings response |> Async.RunSynchronously
+let toJsonSeqWithTAsync settings cancellationToken response = 
+    Async.StartAsTask(
+        toJsonSeqWithAsync settings response,
+        cancellationToken = cancellationToken)
+let toJsonSeqWith settings response = 
+    toJsonSeqWithAsync settings response |> Async.RunSynchronously
 
-let toJsonSeqAsync response = toJsonSeqWithAsync defaultJsonLoadSettings response
-let toJsonSeqTAsync response = toJsonSeqWithTAsync defaultJsonLoadSettings response
-let toJsonSeq response = toJsonSeqWith defaultJsonLoadSettings response
+let toJsonSeqAsync response = 
+    toJsonSeqWithAsync defaultJsonLoadSettings response
+let toJsonSeqTAsync cancellationToken response = 
+    toJsonSeqWithTAsync defaultJsonLoadSettings cancellationToken response
+let toJsonSeq response = 
+    toJsonSeqWith defaultJsonLoadSettings response
 
-let toJsonArrayWithAsync settings response = toJsonSeqWithAsync settings response |> Async.map Seq.toArray
-let toJsonArrayWithTAsync settings response = toJsonArrayWithAsync settings response |> Async.StartAsTask
-let toJsonArrayWith settings response = toJsonArrayWithAsync settings response |> Async.RunSynchronously
+let toJsonArrayWithAsync settings response = 
+    toJsonSeqWithAsync settings response |> Async.map Seq.toArray
+let toJsonArrayWithTAsync settings cancellationToken response = 
+    Async.StartAsTask(
+        toJsonArrayWithAsync settings response,
+        cancellationToken = cancellationToken)
+let toJsonArrayWith settings response = 
+    toJsonArrayWithAsync settings response |> Async.RunSynchronously
 
-let toJsonArrayAsync response = toJsonArrayWithAsync defaultJsonLoadSettings response
-let toJsonArrayTAsync response = toJsonArrayWithTAsync defaultJsonLoadSettings response
-let toJsonArray response = toJsonArrayWith defaultJsonLoadSettings response
+let toJsonArrayAsync response = 
+    toJsonArrayWithAsync defaultJsonLoadSettings response
+let toJsonArrayTAsync cancellationToken response = 
+    toJsonArrayWithTAsync defaultJsonLoadSettings cancellationToken response
+let toJsonArray response = 
+    toJsonArrayWith defaultJsonLoadSettings response
 
 let deserializeJsonWithAsync<'a> (settings: JsonSerializerSettings) response =
     async {
@@ -58,11 +79,17 @@ let deserializeJsonWithAsync<'a> (settings: JsonSerializerSettings) response =
         return JsonConvert.DeserializeObject<'a>(json, settings)
     }
 
-let deserializeWithJsonTAsync<'a> settings response =
-    deserializeJsonWithAsync<'a> settings response |> Async.StartAsTask
+let deserializeWithJsonTAsync<'a> settings cancellationToken response =
+    Async.StartAsTask(
+        deserializeJsonWithAsync<'a> settings response,
+        cancellationToken = cancellationToken)
 
-let deserializeWithJson<'a> settings response = deserializeJsonWithAsync<'a> settings response |> Async.RunSynchronously
+let deserializeWithJson<'a> settings response = 
+    deserializeJsonWithAsync<'a> settings response |> Async.RunSynchronously
 
-let deserializeJsonAsync<'a> response = deserializeJsonWithAsync<'a> defaultJsonSerializerSettings response
-let deserializeJsonTAsync<'a> response = deserializeWithJsonTAsync<'a> defaultJsonSerializerSettings response
-let deserializeJson<'a> response = deserializeWithJson<'a> defaultJsonSerializerSettings response
+let deserializeJsonAsync<'a> response = 
+    deserializeJsonWithAsync<'a> defaultJsonSerializerSettings response
+let deserializeJsonTAsync<'a> cancellationToken response = 
+    deserializeWithJsonTAsync<'a> defaultJsonSerializerSettings cancellationToken response
+let deserializeJson<'a> response = 
+    deserializeWithJson<'a> defaultJsonSerializerSettings response

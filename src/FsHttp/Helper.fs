@@ -100,11 +100,7 @@ type Utf8StringBufferingStream(baseStream: Stream, readBufferLimit: int option) 
         and set (_) = notSeekable ()
 
     member _.GetUtf8String() =
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-        let buffer = readBuffer |> Seq.toArray
-#else
         let buffer = CollectionsMarshal.AsSpan(readBuffer)
-#endif
         let s = Encoding.UTF8.GetString(buffer).AsSpan()
 
         if s.Length = 0 then

@@ -32,7 +32,7 @@ let private doPrintRequestOnly (httpVersion: string) (request: Request) (request
     let requestPrintHint = request.config.printHint.requestPrintMode
 
     do sb.appendSection "REQUEST"
-    do sb.appendLine $"{request.header.method} {request.url.ToUriString()} HTTP/{httpVersion}"
+    do sb.appendLine $"{Request.addressToString request} HTTP/{httpVersion}"
 
     let printRequestHeaders () =
         let contentHeaders, multipartHeaders =

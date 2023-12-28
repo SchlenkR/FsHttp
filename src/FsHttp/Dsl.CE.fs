@@ -12,23 +12,11 @@ open FsHttp
 type IRequestContext<'self> with
     member this.Yield(_) = this
 
-type StartingContext = {
-    config: Config option
-} with
-    member this.ActualConfig =
-        this.config |> Option.defaultValue GlobalConfig.defaults.Config
-
-    interface IRequestContext<StartingContext> with
-        member this.Self = this
-
-    interface IConfigure<ConfigTransformer, StartingContext> with
-        member this.Configure(transformConfig) = { this with config = Some (transformConfig this.ActualConfig) }
-
-    interface IConfigure<PrintHintTransformer, StartingContext> with
-        member this.Configure(transformPrintHint) = configPrinter this transformPrintHint
-
-let http = { config = None }
-
+[<AutoOpen>]
+type HttpBuilder =
+    // This is important to always have a new instance of the builder
+    // that uses the config present at the time of the call.
+    static member http = createHeaderContext None None GlobalConfig.defaults.Config
 
 // ---------
 // Methods
@@ -37,45 +25,45 @@ let http = { config = None }
 type IRequestContext<'self> with
 
     [<CustomOperation("Method")>]
-    member this.Method(_: IRequestContext<StartingContext>, method, url) = 
+    member this.Method(_: IRequestContext<HeaderContext>, method, url) = 
         Http.method method url
 
     // RFC 2626 specifies 8 methods
     [<CustomOperation("GET")>]
-    member this.Get(context: IRequestContext<StartingContext>, url) = 
-        getWithConfig context.Self.ActualConfig url
+    member this.Get(context: IRequestContext<HeaderContext>, url) = 
+        getWithConfig context.Self.config url
 
     [<CustomOperation("PUT")>]
-    member this.Put(context: IRequestContext<StartingContext>, url) = 
-        putWithConfig context.Self.ActualConfig url
+    member this.Put(context: IRequestContext<HeaderContext>, url) = 
+        putWithConfig context.Self.config url
 
     [<CustomOperation("POST")>]
-    member this.Post(context: IRequestContext<StartingContext>, url) = 
-        postWithConfig context.Self.ActualConfig url
+    member this.Post(context: IRequestContext<HeaderContext>, url) = 
+        postWithConfig context.Self.config url
 
     [<CustomOperation("DELETE")>]
-    member this.Delete(context: IRequestContext<StartingContext>, url) = 
-        deleteWithConfig context.Self.ActualConfig url
+    member this.Delete(context: IRequestContext<HeaderContext>, url) = 
+        deleteWithConfig context.Self.config url
 
     [<CustomOperation("OPTIONS")>]
-    member this.Options(context: IRequestContext<StartingContext>, url) =
-        optionsWithConfig context.Self.ActualConfig url
+    member this.Options(context: IRequestContext<HeaderContext>, url) =
+        optionsWithConfig context.Self.config url
 
     [<CustomOperation("HEAD")>]
-    member this.Head(context: IRequestContext<StartingContext>, url) = 
-        headWithConfig context.Self.ActualConfig url
+    member this.Head(context: IRequestContext<HeaderContext>, url) = 
+        headWithConfig context.Self.config url
 
     [<CustomOperation("TRACE")>]
-    member this.Trace(context: IRequestContext<StartingContext>, url) = 
-        traceWithConfig context.Self.ActualConfig url
+    member this.Trace(context: IRequestContext<HeaderContext>, url) = 
+        traceWithConfig context.Self.config url
 
     [<CustomOperation("CONNECT")>]
-    member this.Connect(context: IRequestContext<StartingContext>, url) =
-        connectWithConfig context.Self.ActualConfig url
+    member this.Connect(context: IRequestContext<HeaderContext>, url) =
+        connectWithConfig context.Self.config url
 
     [<CustomOperation("PATCH")>]
-    member this.Patch(context: IRequestContext<StartingContext>, url) = 
-        patchWithConfig context.Self.ActualConfig url
+    member this.Patch(context: IRequestContext<HeaderContext>, url) = 
+        patchWithConfig context.Self.config url
 
 
 // ---------

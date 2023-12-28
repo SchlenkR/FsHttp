@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
@@ -31,13 +31,10 @@
     <Compile Include="Dsl.fs" />
     <Compile Include="Dsl.CE.fs" />
     <Compile Include="Operators.fs" />
-    <Compile Include="CSharp.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="8.0.0" Condition="'$(TargetFramework)' == 'netstandard2.1' Or '$(TargetFramework)' == 'netstandard2.0'" />
+    <Compile Include="Extensions.fs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
-    <None Include="..\..\docs\img\logo_small.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

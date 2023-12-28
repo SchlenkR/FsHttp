@@ -12,17 +12,8 @@ let defaultJsonSerializerOptions = JsonSerializerOptions JsonSerializerDefaults.
 
 let defaultHttpClientFactory (config: Config) =
     let getDefaultClientHandler ignoreSslIssues =
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-        let handler = new HttpClientHandler()
-
-        if ignoreSslIssues then
-            handler.ServerCertificateCustomValidationCallback <- (fun msg cert chain errors -> true)
-
-        handler
-#else
         let handler =
             new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
-
         if ignoreSslIssues then
             handler.SslOptions <-
                 let options = Security.SslClientAuthenticationOptions()
@@ -32,9 +23,7 @@ let defaultHttpClientFactory (config: Config) =
 
                 do options.RemoteCertificateValidationCallback <- callback
                 options
-
         handler
-#endif
 
     let ignoreSslIssues =
         match config.certErrorStrategy with
@@ -72,14 +61,7 @@ let defaultHeadersAndBodyPrintMode = {
     maxLength = Some 7000
 }
 
-let defaultDecompressionMethods = [
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-    DecompressionMethods.Deflate
-    DecompressionMethods.GZip
-#else
-    DecompressionMethods.All
-#endif
-]
+let defaultDecompressionMethods = [ DecompressionMethods.All ]
 
 let defaultConfig = {
     timeout = None

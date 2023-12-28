@@ -20,7 +20,6 @@ open FsHttp
 // Reference the 'FsHttp' package from NuGet in your script or project
 #r "nuget: FsHttp"
 
-// Opening 'FsHttp' is sufficient (no need for FsHttp.DSL or others anymore).
 open FsHttp
 
 (**

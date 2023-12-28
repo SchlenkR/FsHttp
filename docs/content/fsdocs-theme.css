@@ -1,36 +1,36 @@
 :root {
-    --fshttp-50: #f0fdf2;
-    --fshttp-100: #dbfde3;
-    --fshttp-200: #baf8c8;
-    --fshttp-300: #64ee85;
-    --fshttp-400: #47e16c;
-    --fshttp-500: #1ec948;
-    --fshttp-600: #13a637;
-    --fshttp-700: #12832e;
-    --fshttp-800: #14672a;
-    --fshttp-900: #135425;
-    --fshttp-950: #042f11;
+    --FsHttp-50: #f0fdf2;
+    --FsHttp-100: #dbfde3;
+    --FsHttp-200: #baf8c8;
+    --FsHttp-300: #64ee85;
+    --FsHttp-400: #47e16c;
+    --FsHttp-500: #1ec948;
+    --FsHttp-600: #13a637;
+    --FsHttp-700: #12832e;
+    --FsHttp-800: #14672a;
+    --FsHttp-900: #135425;
+    --FsHttp-950: #042f11;
     --logo-background-color: #224454;
     --pearl: #FFFDFA;
     
-    --primary: var(--fshttp-300);
+    --primary: var(--FsHttp-300);
     --header-background: var(--logo-background-color);
     --header-link-color: var(--pearl);
     --fsdocs-theme-toggle-light-color: var(--pearl);
     --menu-color: var(--pearl);
     --blockquote-bacground-color: var(--primary);
     --blockquote-color: var(--pearl);
-    --menu-item-hover-background: var(--fshttp-200);
+    --menu-item-hover-background: var(--FsHttp-200);
     --menu-item-hover-color: var(--logo-background-color);
     --on-this-page-color: var(--pearl);
-    --heading-color: var(--fshttp-950);
-    --page-menu-background-hover-border-color: var(--fshttp-300);
-    --nav-item-active-border-color: var(--fshttp-300);
-    --dialog-icon-color:  var(--fshttp-300);
-    --dialog-link-color: var(--fshttp-300);
+    --heading-color: var(--FsHttp-950);
+    --page-menu-background-hover-border-color: var(--FsHttp-300);
+    --nav-item-active-border-color: var(--FsHttp-300);
+    --dialog-icon-color:  var(--FsHttp-300);
+    --dialog-link-color: var(--FsHttp-300);
 }
 
 [data-theme=dark] {
-    --link-color: var(--fshttp-200);
+    --link-color: var(--FsHttp-200);
     --heading-color: var(--pearl);
 }

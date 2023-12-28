@@ -1,4 +1,4 @@
-#r "../src/FsHttp/bin/debug/net7.0/fshttp.dll"
+#r "../src/FsHttp/bin/debug/net7.0/FsHttp.dll"
 
 open System
 open FsHttp

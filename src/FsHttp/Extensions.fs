@@ -1,7 +1,8 @@
-﻿namespace FsHttp.CSharp
+﻿namespace FsHttp
 
 open System
 open System.Runtime.CompilerServices
+open System.Threading
 open FsHttp
 
 
@@ -10,7 +11,8 @@ open FsHttp
 // ---------
 
 [<Extension>]
-type Http =
+type HttpExtensions =
+
     [<Extension>]
     static member Method(url, method) = Http.method method url
 
@@ -74,7 +76,7 @@ type Http =
 // ---------
 
 [<Extension>]
-type Header =
+type HeaderExtensions =
 
     /// Append query params
     [<Extension>]
@@ -83,11 +85,13 @@ type Header =
 
     /// Custom header
     [<Extension>]
-    static member Header(context: IRequestContext<HeaderContext>, key, value) = Header.header key value context.Self
+    static member Header(context: IRequestContext<HeaderContext>, key, value) =
+        Header.header key value context.Self
 
     /// Content-Types that are acceptable for the response
     [<Extension>]
-    static member Accept(context: IRequestContext<HeaderContext>, contentType) = Header.accept contentType context.Self
+    static member Accept(context: IRequestContext<HeaderContext>, contentType) =
+        Header.accept contentType context.Self
 
     /// Character sets that are acceptable
     [<Extension>]
@@ -154,29 +158,35 @@ type Header =
 
     /// The date and time that the message was sent
     [<Extension>]
-    static member Date(context: IRequestContext<HeaderContext>, date) = Header.date date context.Self
+    static member Date(context: IRequestContext<HeaderContext>, date) =
+        Header.date date context.Self
 
     /// Indicates that particular server behaviors are required by the client
     [<Extension>]
-    static member Expect(context: IRequestContext<HeaderContext>, behaviors) = Header.expect behaviors context.Self
+    static member Expect(context: IRequestContext<HeaderContext>, behaviors) =
+        Header.expect behaviors context.Self
 
     /// Gives the date/time after which the response is considered stale
     [<Extension>]
-    static member Expires(context: IRequestContext<HeaderContext>, dateTime) = Header.expires dateTime context.Self
+    static member Expires(context: IRequestContext<HeaderContext>, dateTime) =
+        Header.expires dateTime context.Self
 
     /// The email address of the user making the request
     [<Extension>]
-    static member From(context: IRequestContext<HeaderContext>, email) = Header.from email context.Self
+    static member From(context: IRequestContext<HeaderContext>, email) =
+        Header.from email context.Self
 
     /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
     /// The port number may be omitted if the port is the standard port for the service requested.
     [<Extension>]
-    static member Host(context: IRequestContext<HeaderContext>, host) = Header.host host context.Self
+    static member Host(context: IRequestContext<HeaderContext>, host) =
+        Header.host host context.Self
 
     /// Only perform the action if the client supplied entity matches the same entity on the server.
     /// This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: "737060cd8c284d8af7ad3082f209582d" Permanent
     [<Extension>]
-    static member IfMatch(context: IRequestContext<HeaderContext>, entity) = Header.ifMatch entity context.Self
+    static member IfMatch(context: IRequestContext<HeaderContext>, entity) =
+        Header.ifMatch entity context.Self
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
     [<Extension>]
@@ -185,11 +195,13 @@ type Header =
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
     [<Extension>]
-    static member IfNoneMatch(context: IRequestContext<HeaderContext>, etag) = Header.ifNoneMatch etag context.Self
+    static member IfNoneMatch(context: IRequestContext<HeaderContext>, etag) =
+        Header.ifNoneMatch etag context.Self
 
     /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
     [<Extension>]
-    static member IfRange(context: IRequestContext<HeaderContext>, range) = Header.ifRange range context.Self
+    static member IfRange(context: IRequestContext<HeaderContext>, range) =
+        Header.ifRange range context.Self
 
     /// Only send the response if the entity has not been modified since a specific time
     [<Extension>]
@@ -208,19 +220,23 @@ type Header =
 
     /// Limit the number of times the message can be forwarded through proxies or gateways
     [<Extension>]
-    static member MaxForwards(context: IRequestContext<HeaderContext>, count) = Header.maxForwards count context.Self
+    static member MaxForwards(context: IRequestContext<HeaderContext>, count) =
+        Header.maxForwards count context.Self
 
     /// Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response header)
     [<Extension>]
-    static member Origin(context: IRequestContext<HeaderContext>, origin) = Header.origin origin context.Self
+    static member Origin(context: IRequestContext<HeaderContext>, origin) =
+        Header.origin origin context.Self
 
     /// Implementation-specific headers that may have various effects anywhere along the request-response chain.
     [<Extension>]
-    static member Pragma(context: IRequestContext<HeaderContext>, pragma) = Header.pragma pragma context.Self
+    static member Pragma(context: IRequestContext<HeaderContext>, pragma) =
+        Header.pragma pragma context.Self
 
     /// Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
     [<Extension>]
-    static member Prefer(context: IRequestContext<HeaderContext>, prefer) = Header.prefer prefer context.Self
+    static member Prefer(context: IRequestContext<HeaderContext>, prefer) =
+        Header.prefer prefer context.Self
 
     /// Authorization credentials for connecting to a proxy.
     [<Extension>]
@@ -229,22 +245,26 @@ type Header =
 
     /// Request only part of an entity. Bytes are numbered from 0
     [<Extension>]
-    static member Range(context: IRequestContext<HeaderContext>, start, finish) = Header.range start finish context.Self
+    static member Range(context: IRequestContext<HeaderContext>, start, finish) =
+        Header.range start finish context.Self
 
     /// This is the address of the previous web page from which a link to the currently requested page was followed.
     /// (The word "referrer" is misspelled in the RFC as well as in most implementations.)
     [<Extension>]
-    static member Referer(context: IRequestContext<HeaderContext>, referer) = Header.referer referer context.Self
+    static member Referer(context: IRequestContext<HeaderContext>, referer) =
+        Header.referer referer context.Self
 
     /// The transfer encodings the user agent is willing to accept: the same values as for the response header
     /// Transfer-Encoding can be used, plus the "trailers" value (related to the "chunked" transfer method) to
     /// notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
     [<Extension>]
-    static member TE(context: IRequestContext<HeaderContext>, te) = Header.te te context.Self
+    static member TE(context: IRequestContext<HeaderContext>, te) =
+        Header.te te context.Self
 
     /// The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
     [<Extension>]
-    static member Trailer(context: IRequestContext<HeaderContext>, trailer) = Header.trailer trailer context.Self
+    static member Trailer(context: IRequestContext<HeaderContext>, trailer) =
+        Header.trailer trailer context.Self
 
     /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.
     /// The valid directives are one of: chunked, compress, deflate, gzip, orentity.
@@ -259,7 +279,8 @@ type Header =
 
     /// Specifies additional communications protocols that the client supports.
     [<Extension>]
-    static member Upgrade(context: IRequestContext<HeaderContext>, upgrade) = Header.upgrade upgrade context.Self
+    static member Upgrade(context: IRequestContext<HeaderContext>, upgrade) =
+        Header.upgrade upgrade context.Self
 
     /// The user agent string of the user agent
     [<Extension>]
@@ -268,11 +289,13 @@ type Header =
 
     /// Informs the server of proxies through which the request was sent
     [<Extension>]
-    static member Via(context: IRequestContext<HeaderContext>, server) = Header.via server context.Self
+    static member Via(context: IRequestContext<HeaderContext>, server) =
+        Header.via server context.Self
 
     /// A general warning about possible problems with the entity body
     [<Extension>]
-    static member Warning(context: IRequestContext<HeaderContext>, message) = Header.warning message context.Self
+    static member Warning(context: IRequestContext<HeaderContext>, message) =
+        Header.warning message context.Self
 
     /// Override HTTP method.
     [<Extension>]
@@ -285,40 +308,48 @@ type Header =
 // ---------
 
 [<Extension>]
-type Body =
+type BodyExtensions =
 
     /// An explicit transformation from a previous context to allow for describing the request body.
     [<Extension>]
-    static member Body(context: IRequestContext<#IToBodyContext>) = context.Self.Transform()
+    static member Body(context: IRequestContext<#IToBodyContext>) =
+        context.Self.Transform()
 
     [<Extension>]
     static member Content(context: IRequestContext<BodyContext>, contentType, data) =
         Body.content contentType data context.Self
 
     [<Extension>]
-    static member Binary(context: IRequestContext<BodyContext>, data) = Body.binary data context.Self
+    static member Binary(context: IRequestContext<BodyContext>, data) =
+        Body.binary data context.Self
 
     [<Extension>]
-    static member Stream(context: IRequestContext<BodyContext>, stream) = Body.stream stream context.Self
+    static member Stream(context: IRequestContext<BodyContext>, stream) =
+        Body.stream stream context.Self
 
     [<Extension>]
-    static member Text(context: IRequestContext<BodyContext>, text) = Body.text text context.Self
+    static member Text(context: IRequestContext<BodyContext>, text) =
+        Body.text text context.Self
 
     [<Extension>]
-    static member Json(context: IRequestContext<BodyContext>, json) = Body.json json context.Self
+    static member Json(context: IRequestContext<BodyContext>, json) =
+        Body.json json context.Self
 
     [<Extension>]
     static member JsonSerializeWith(context: IRequestContext<BodyContext>, options, json) =
         Body.jsonSerializeWith options json context.Self
 
     [<Extension>]
-    static member JsonSerialize(context: IRequestContext<BodyContext>, json) = Body.jsonSerialize json context.Self
+    static member JsonSerialize(context: IRequestContext<BodyContext>, json) =
+        Body.jsonSerialize json context.Self
 
     [<Extension>]
-    static member FormUrlEncoded(context: IRequestContext<BodyContext>, data) = Body.formUrlEncoded data context.Self
+    static member FormUrlEncoded(context: IRequestContext<BodyContext>, data) =
+        Body.formUrlEncoded data context.Self
 
     [<Extension>]
-    static member File(context: IRequestContext<BodyContext>, path) = Body.file path context.Self
+    static member File(context: IRequestContext<BodyContext>, path) =
+        Body.file path context.Self
 
     /// The type of encoding used on the data
     [<Extension>]
@@ -336,7 +367,7 @@ type Body =
 // -----------------
 
 [<Extension>]
-type MultipartElement =
+type MultipartElementExtensions =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     [<Extension>]
@@ -349,11 +380,12 @@ type MultipartElement =
 // ---------
 
 [<Extension>]
-type Multipart =
+type MultipartExtensions =
 
     /// An explicit transformation from a previous context to allow for describing the request multiparts.
     [<Extension>]
-    static member Multipart(context: IRequestContext<#IToMultipartContext>) = context.Self.Transform()
+    static member Multipart(context: IRequestContext<#IToMultipartContext>) =
+        context.Self.Transform()
 
     [<Extension>]
     static member TextPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
@@ -376,33 +408,36 @@ type Multipart =
 // Config
 // ---------
 
-type ConfigTransformer = Func<Domain.Config, Domain.Config>
+type ConfigTransformerFunc = Func<Domain.Config, Domain.Config>
 
 [<Extension>]
-type Config =
+type ConfigExtensions =
 
     [<Extension>]
-    static member Configure(context: HeaderContext, configTransformer: ConfigTransformer) =
+    static member Configure(context: HeaderContext, configTransformer: ConfigTransformerFunc) =
         Config.update configTransformer.Invoke context
 
     [<Extension>]
-    static member Configure(context: BodyContext, configTransformer: ConfigTransformer) =
+    static member Configure(context: BodyContext, configTransformer: ConfigTransformerFunc) =
         Config.update configTransformer.Invoke context
 
     [<Extension>]
-    static member Configure(context: MultipartContext, configTransformer: ConfigTransformer) =
+    static member Configure(context: MultipartContext, configTransformer: ConfigTransformerFunc) =
         Config.update configTransformer.Invoke context
 
     // ----------------
 
     [<Extension>]
-    static member IgnoreCertIssues(config: Domain.Config) = Config.With.ignoreCertIssues config
+    static member IgnoreCertIssues(config: Domain.Config) =
+        Config.With.ignoreCertIssues config
 
     [<Extension>]
-    static member Timeout(config: Domain.Config, value) = Config.With.timeout value config
+    static member Timeout(config: Domain.Config, value) =
+        Config.With.timeout value config
 
     [<Extension>]
-    static member TimeoutInSeconds(config: Domain.Config, value) = Config.With.timeoutInSeconds value config
+    static member TimeoutInSeconds(config: Domain.Config, value) =
+        Config.With.timeoutInSeconds value config
 
     [<Extension>]
     static member SetHttpClientFactory(config: Domain.Config, httpClientFactory) =
@@ -421,7 +456,8 @@ type Config =
         Config.With.transformHttpClientHandler transformer config
 
     [<Extension>]
-    static member Proxy(config: Domain.Config, url) = Config.With.proxy url config
+    static member Proxy(config: Domain.Config, url) =
+        Config.With.proxy url config
 
     [<Extension>]
     static member ProxyWithCredentials(config: Domain.Config, url, credentials) =
@@ -432,7 +468,8 @@ type Config =
         Config.With.decompressionMethods decompressionMethods config
 
     [<Extension>]
-    static member NoDecompression(config: Domain.Config) = Config.With.noDecompression config
+    static member NoDecompression(config: Domain.Config) =
+        Config.With.noDecompression config
 
     [<Extension>]
     static member CancellationToken(config: Domain.Config, cancellationToken) =
@@ -444,13 +481,19 @@ type Config =
 // ---------
 
 [<Extension>]
-type Request =
+type RequestExtensions =
 
     [<Extension>]
-    static member ToHttpRequestMessage(request: IToRequest) = Request.toHttpRequestMessage request
+    static member ToHttpRequestMessage(request: IToRequest) =
+        Request.toHttpRequestMessage request
 
     [<Extension>]
-    static member SendAsync(request: IToRequest) = Request.sendTAsync request
+    static member SendAsync(request: IToRequest) =
+        request |> Request.sendTAsync
+
+    [<Extension>]
+    static member SendAsync(request: IToRequest, cancellationToken: CancellationToken) =
+        request |> Request.toAsync (Some cancellationToken) |> Async.StartAsTask
 
 
 // ---------
@@ -458,55 +501,127 @@ type Request =
 // ---------
 
 [<Extension>]
-type Response =
+type ResponseExtensions =
 
     [<Extension>]
-    static member ToStreamAsync(response: Domain.Response) = Response.toStreamTAsync response
+    static member ToStreamAsync(response: Domain.Response) =
+        response |> Response.toStreamTAsync CancellationToken.None
 
     [<Extension>]
-    static member ToBytesAsync(response: Domain.Response) = Response.toBytesTAsync response
+    static member ToStreamAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toStreamTAsync cancellationToken
 
     [<Extension>]
-    static member ToStringAsync(response: Domain.Response, maxLength) = Response.toStringTAsync maxLength response
+    static member ToBytesAsync(response: Domain.Response) =
+        response |> Response.toBytesTAsync CancellationToken.None
 
     [<Extension>]
-    static member ToTextAsync(response: Domain.Response) = Response.toTextTAsync response
+    static member ToBytesAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toBytesTAsync cancellationToken
 
     [<Extension>]
-    static member ToXmlAsync(response: Domain.Response) = Response.toXmlTAsync response
+    static member ToStringAsync(response: Domain.Response, maxLength) =
+        response |> Response.toStringTAsync maxLength CancellationToken.None
+
+    [<Extension>]
+    static member ToStringAsync(response: Domain.Response, maxLength, cancellationToken: CancellationToken) =
+        response |> Response.toStringTAsync maxLength cancellationToken
+
+    [<Extension>]
+    static member ToTextAsync(response: Domain.Response) =
+        response |> Response.toTextTAsync CancellationToken.None
+
+    [<Extension>]
+    static member ToTextAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toTextTAsync cancellationToken
+
+    [<Extension>]
+    static member ToXmlAsync(response: Domain.Response) =
+        response |> Response.toXmlTAsync CancellationToken.None
+
+    [<Extension>]
+    static member ToXmlAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toXmlTAsync cancellationToken
 
     [<Extension>]
     static member ToJsonDocumentWithAsync(response: Domain.Response, options) =
-        Response.toJsonDocumentWithTAsync options response
+        response |> Response.toJsonDocumentWithTAsync options CancellationToken.None
 
     [<Extension>]
-    static member ToJsonDocumentAsync(response: Domain.Response) = Response.toJsonDocumentTAsync response
+    static member ToJsonDocumentWithAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
+        response |> Response.toJsonDocumentWithTAsync options cancellationToken
 
     [<Extension>]
-    static member ToJsonWithAsync(response: Domain.Response, options) = Response.toJsonWithTAsync options response
+    static member ToJsonDocumenAsync(response: Domain.Response) =
+        response |> Response.toJsonDocumentTAsync CancellationToken.None
 
     [<Extension>]
-    static member ToJsonAsync(response: Domain.Response) = Response.toJsonTAsync response
+    static member ToJsonDocumenAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toJsonDocumentTAsync cancellationToken
+
+    [<Extension>]
+    static member ToJsonWithAsync(response: Domain.Response, options) =
+        response |> Response.toJsonWithTAsync options CancellationToken.None
+
+    [<Extension>]
+    static member ToJsonWithAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
+        response |> Response.toJsonWithTAsync options cancellationToken
+
+    [<Extension>]
+    static member ToJsonAsync(response: Domain.Response) =
+        response |> Response.toJsonTAsync CancellationToken.None
+
+    [<Extension>]
+    static member ToJsonAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toJsonTAsync cancellationToken
 
     [<Extension>]
     static member ToJsonEnumerableWithAsync(response: Domain.Response, options) =
-        Response.toJsonSeqWithTAsync options response
+        response |> Response.toJsonSeqWithTAsync options CancellationToken.None
 
     [<Extension>]
-    static member ToJsonEnumerableAsync(response: Domain.Response) = Response.toJsonSeqTAsync response
+    static member ToJsonEnumerableWithAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
+        response |> Response.toJsonSeqWithTAsync options cancellationToken
+
+    [<Extension>]
+    static member ToJsonEnumerableAsync(response: Domain.Response) =
+        response |> Response.toJsonSeqTAsync CancellationToken.None
+
+    [<Extension>]
+    static member ToJsonEnumerableAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toJsonSeqTAsync cancellationToken
 
     [<Extension>]
     static member DeserializeJsonWithAsync<'T>(response: Domain.Response, options) =
-        Response.deserializeJsonWithTAsync options response
+        response |> Response.deserializeJsonWithTAsync options CancellationToken.None
 
     [<Extension>]
-    static member DeserializeJsonAsync(response: Domain.Response) = Response.deserializeJsonTAsync response
+    static member DeserializeJsonWithAsync<'T>(response: Domain.Response, options, cancellationToken: CancellationToken) =
+        response |> Response.deserializeJsonWithTAsync options cancellationToken
 
     [<Extension>]
-    static member ToFormattedTextAsync(response: Domain.Response) = Response.toFormattedTextTAsync response
+    static member DeserializeJsonAsync(response: Domain.Response) =
+        response |> Response.deserializeJsonTAsync CancellationToken.None
 
     [<Extension>]
-    static member SaveFileAsync(response: Domain.Response, fileName) = Response.saveFileTAsync fileName response
+    static member DeserializeJsonAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.deserializeJsonTAsync cancellationToken
+
+    [<Extension>]
+    static member ToFormattedTexAsync(response: Domain.Response) =
+        response |> Response.toFormattedTextTAsync CancellationToken.None
+
+    [<Extension>]
+    static member ToFormattedTexAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toFormattedTextTAsync cancellationToken
+
+    [<Extension>]
+    static member SaveFileAsync(response: Domain.Response, fileName) =
+        response |> Response.saveFileTAsync fileName CancellationToken.None
+
+    [<Extension>]
+    static member SaveFileAsync(response: Domain.Response, fileName, cancellationToken: CancellationToken) =
+        response |> Response.saveFileTAsync fileName cancellationToken
 
     [<Extension>]
     static member AssertStatusCodes(response: Domain.Response, statusCodes) =
@@ -517,4 +632,5 @@ type Response =
         Response.assertStatusCode statusCode response
 
     [<Extension>]
-    static member AssertOk(response: Domain.Response) = Response.assertOk response
+    static member AssertOk(response: Domain.Response) =
+        Response.assertOk response

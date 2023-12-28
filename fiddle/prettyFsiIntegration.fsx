@@ -8,7 +8,7 @@ open FsHttp.Operators
 
 % http {
     GET "https://api.github.com/users/ronaldschlenker"
-    UserAgent "fshttp"
+    UserAgent "FsHttp"
 }
 
 
