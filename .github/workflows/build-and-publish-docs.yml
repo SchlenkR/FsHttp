@@ -29,7 +29,7 @@ jobs:
         run: ./docu.ps1
 
       - name: Upload docs artifact to GH pages
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./.docsOutput
 
