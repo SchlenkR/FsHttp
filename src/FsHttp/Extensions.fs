@@ -336,7 +336,7 @@ type BodyExtensions =
         Body.json json context.Self
 
     [<Extension>]
-    static member JsonSerializeWith(context: IRequestContext<BodyContext>, options, json) =
+    static member JsonSerialize(context: IRequestContext<BodyContext>, options, json) =
         Body.jsonSerializeWith options json context.Self
 
     [<Extension>]
@@ -460,7 +460,7 @@ type ConfigExtensions =
         Config.With.proxy url config
 
     [<Extension>]
-    static member ProxyWithCredentials(config: Domain.Config, url, credentials) =
+    static member Proxy(config: Domain.Config, url, credentials) =
         Config.With.proxyWithCredentials url credentials config
 
     [<Extension>]
@@ -488,6 +488,10 @@ type RequestExtensions =
         Request.toHttpRequestMessage request
 
     [<Extension>]
+    static member Send(request: IToRequest) =
+        request |> Request.send
+
+    [<Extension>]
     static member SendAsync(request: IToRequest) =
         request |> Request.sendTAsync
 
@@ -503,6 +507,13 @@ type RequestExtensions =
 [<Extension>]
 type ResponseExtensions =
 
+    // ----------------
+    // ToStream
+    // ----------------
+    [<Extension>]
+    static member ToStream(response: Domain.Response) =
+        response |> Response.toStream
+
     [<Extension>]
     static member ToStreamAsync(response: Domain.Response) =
         response |> Response.toStreamTAsync CancellationToken.None
@@ -510,6 +521,14 @@ type ResponseExtensions =
     [<Extension>]
     static member ToStreamAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.toStreamTAsync cancellationToken
+
+    // ----------------
+    // ToBytes
+    // ----------------
+
+    [<Extension>]
+    static member ToBytes(response: Domain.Response) =
+        response |> Response.toBytes
 
     [<Extension>]
     static member ToBytesAsync(response: Domain.Response) =
@@ -519,6 +538,14 @@ type ResponseExtensions =
     static member ToBytesAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.toBytesTAsync cancellationToken
 
+    // ----------------
+    // ToString
+    // ----------------
+
+    [<Extension>]
+    static member ToString(response: Domain.Response, maxLength) =
+        response |> Response.toString maxLength
+
     [<Extension>]
     static member ToStringAsync(response: Domain.Response, maxLength) =
         response |> Response.toStringTAsync maxLength CancellationToken.None
@@ -526,6 +553,14 @@ type ResponseExtensions =
     [<Extension>]
     static member ToStringAsync(response: Domain.Response, maxLength, cancellationToken: CancellationToken) =
         response |> Response.toStringTAsync maxLength cancellationToken
+
+    // ----------------
+    // ToText
+    // ----------------
+
+    [<Extension>]
+    static member ToText(response: Domain.Response) =
+        response |> Response.toText
 
     [<Extension>]
     static member ToTextAsync(response: Domain.Response) =
@@ -535,6 +570,14 @@ type ResponseExtensions =
     static member ToTextAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.toTextTAsync cancellationToken
 
+    // ----------------
+    // ToXml
+    // ----------------
+
+    [<Extension>]
+    static member ToXml(response: Domain.Response) =
+        response |> Response.toXml
+
     [<Extension>]
     static member ToXmlAsync(response: Domain.Response) =
         response |> Response.toXmlTAsync CancellationToken.None
@@ -543,13 +586,25 @@ type ResponseExtensions =
     static member ToXmlAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.toXmlTAsync cancellationToken
 
+    // ----------------
+    // ToJsonDocument
+    // ----------------
+
     [<Extension>]
-    static member ToJsonDocumentWithAsync(response: Domain.Response, options) =
+    static member ToJsonDocument(response: Domain.Response, options) =
+        response |> Response.toJsonDocumentWith options
+
+    [<Extension>]
+    static member ToJsonDocumentAsync(response: Domain.Response, options) =
         response |> Response.toJsonDocumentWithTAsync options CancellationToken.None
 
     [<Extension>]
-    static member ToJsonDocumentWithAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
+    static member ToJsonDocumentAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
         response |> Response.toJsonDocumentWithTAsync options cancellationToken
+
+    [<Extension>]
+    static member ToJsonDocumen(response: Domain.Response) =
+        response |> Response.toJsonDocument
 
     [<Extension>]
     static member ToJsonDocumenAsync(response: Domain.Response) =
@@ -559,13 +614,25 @@ type ResponseExtensions =
     static member ToJsonDocumenAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.toJsonDocumentTAsync cancellationToken
 
+    // ----------------
+    // ToJson
+    // ----------------
+
     [<Extension>]
-    static member ToJsonWithAsync(response: Domain.Response, options) =
+    static member ToJson(response: Domain.Response, options) =
+        response |> Response.toJsonWith options
+
+    [<Extension>]
+    static member ToJsonAsync(response: Domain.Response, options) =
         response |> Response.toJsonWithTAsync options CancellationToken.None
 
     [<Extension>]
-    static member ToJsonWithAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
+    static member ToJsonAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
         response |> Response.toJsonWithTAsync options cancellationToken
+
+    [<Extension>]
+    static member ToJson(response: Domain.Response) =
+        response |> Response.toJson
 
     [<Extension>]
     static member ToJsonAsync(response: Domain.Response) =
@@ -575,13 +642,25 @@ type ResponseExtensions =
     static member ToJsonAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.toJsonTAsync cancellationToken
 
+    // ----------------
+    // ToJsonEnumerable
+    // ----------------
+
     [<Extension>]
-    static member ToJsonEnumerableWithAsync(response: Domain.Response, options) =
+    static member ToJsonEnumerable(response: Domain.Response, options) =
+        response |> Response.toJsonSeqWith options
+
+    [<Extension>]
+    static member ToJsonEnumerableAsync(response: Domain.Response, options) =
         response |> Response.toJsonSeqWithTAsync options CancellationToken.None
 
     [<Extension>]
-    static member ToJsonEnumerableWithAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
+    static member ToJsonEnumerableAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
         response |> Response.toJsonSeqWithTAsync options cancellationToken
+
+    [<Extension>]
+    static member ToJsonEnumerable(response: Domain.Response) =
+        response |> Response.toJsonSeq
 
     [<Extension>]
     static member ToJsonEnumerableAsync(response: Domain.Response) =
@@ -591,13 +670,25 @@ type ResponseExtensions =
     static member ToJsonEnumerableAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.toJsonSeqTAsync cancellationToken
 
+    // ----------------
+    // DeserializeJson
+    // ----------------
+
     [<Extension>]
-    static member DeserializeJsonWithAsync<'T>(response: Domain.Response, options) =
+    static member DeserializeJson<'T>(response: Domain.Response, options) =
+        response |> Response.deserializeJsonWith options
+
+    [<Extension>]
+    static member DeserializeJsonAsync<'T>(response: Domain.Response, options) =
         response |> Response.deserializeJsonWithTAsync options CancellationToken.None
 
     [<Extension>]
-    static member DeserializeJsonWithAsync<'T>(response: Domain.Response, options, cancellationToken: CancellationToken) =
+    static member DeserializeJsonAsync<'T>(response: Domain.Response, options, cancellationToken: CancellationToken) =
         response |> Response.deserializeJsonWithTAsync options cancellationToken
+
+    [<Extension>]
+    static member DeserializeJson(response: Domain.Response) =
+        response |> Response.deserializeJson
 
     [<Extension>]
     static member DeserializeJsonAsync(response: Domain.Response) =
@@ -607,6 +698,14 @@ type ResponseExtensions =
     static member DeserializeJsonAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.deserializeJsonTAsync cancellationToken
 
+    // ----------------
+    // ToFormattedText
+    // ----------------
+
+    [<Extension>]
+    static member ToFormattedTex(response: Domain.Response) =
+        response |> Response.toFormattedText
+
     [<Extension>]
     static member ToFormattedTexAsync(response: Domain.Response) =
         response |> Response.toFormattedTextTAsync CancellationToken.None
@@ -615,6 +714,14 @@ type ResponseExtensions =
     static member ToFormattedTexAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.toFormattedTextTAsync cancellationToken
 
+    // ----------------
+    // SaveFile
+    // ----------------
+
+    [<Extension>]
+    static member SaveFile(response: Domain.Response, fileName) =
+        response |> Response.saveFile fileName
+
     [<Extension>]
     static member SaveFileAsync(response: Domain.Response, fileName) =
         response |> Response.saveFileTAsync fileName CancellationToken.None
@@ -622,6 +729,10 @@ type ResponseExtensions =
     [<Extension>]
     static member SaveFileAsync(response: Domain.Response, fileName, cancellationToken: CancellationToken) =
         response |> Response.saveFileTAsync fileName cancellationToken
+
+    // ----------------
+    // Assert
+    // ----------------
 
     [<Extension>]
     static member AssertStatusCodes(response: Domain.Response, statusCodes) =

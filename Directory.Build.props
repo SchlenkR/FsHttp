@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>13.2.0</Version>
+    <Version>13.3.0</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2024 Ronald Schlenker</Copyright>
@@ -16,11 +16,10 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
-      v13.1.0
-      - All `Response._TAsync` functions (task based) in F# require a CancellationToken now.
-      
-      v13.1.0
-      - There's no more StartingContext, which means:
+      v13.3.0
+      - (Breaking change) All `Response._TAsync` functions (task based) in F# require a CancellationToken now.
+      - (Breaking change) Extension methods rework
+      - (Breaking change) There's no more StartingContext, which means:
         we give up a little bit of safety here, for the sake of pre-configuring HTTP requests
         without specifying the URL. This is a trade-off we are willing to take.
 
