@@ -1,5 +1,5 @@
 <p align="center">
-    <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo.png' alt='logo' width='300' />
+    <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo_big.png' alt='logo' width='300' />
 </p>
 
 FsHttp ("Full Stack HTTP") is a "hackable HTTP client". It's purposes are:

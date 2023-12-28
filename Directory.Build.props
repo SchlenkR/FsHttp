@@ -7,7 +7,7 @@
     <Copyright>Copyright 2024 Ronald Schlenker</Copyright>
     <PackageTags>f# c# fSharp http rest HttpClient fetch curl</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageIcon>logo.png</PackageIcon>
+    <PackageIcon>logo_small.png</PackageIcon>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/fsprojects/FsHttp</RepositoryUrl>
