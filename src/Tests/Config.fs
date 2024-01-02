@@ -152,18 +152,21 @@ let [<TestCase>] ``Header Transformer``() =
     let urlSuffix1 = "suffix1"
     let urlSuffix2 = "suffix2"
 
-    let request =
+    let httpSpecial =
         let transformWith suffix =
             fun (header: Header) ->
                 let address = header.target.address.Value
                 { header with target.address = Some $"{address}{suffix}" }
-
         http {
-            GET url
             config_transformHeader (transformWith urlSuffix1)
             config_transformHeader (transformWith urlSuffix2)
         }
 
-    request.header.target.address
+    httpSpecial {
+        GET url
+    }
+    |> Request.toRequestAndMessage
+    |> fst
+    |> _.header.target.address
     |> Option.defaultValue ""
     |> should equal $"{url}{urlSuffix1}{urlSuffix2}"
