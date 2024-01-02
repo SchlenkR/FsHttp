@@ -19,7 +19,11 @@ let addressToString (request: Request) =
 
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
-    let request = request.Transform()
+    let request = 
+        let mutable request = request.Transform()
+        for headerTransformer in request.config.headerTransformers do
+            request <- { request with header = headerTransformer request.header }
+        request
 
     // TODO: Try to encode URL / HTTP method presence or absence on type level.
     let uri, method = getAddressDefaults request
@@ -132,12 +136,6 @@ let toAsync cancellationTokenOverride (context: IToRequest) =
     async {
         let request, requestMessage = toRequestAndMessage context
         do Fsi.logfn $"Sending request {addressToString request} ..."
-
-        let request =
-            let mutable request = request
-            for headerTransformer in request.config.headerTransformers do
-                request <- { request with header = headerTransformer request.header }
-            request
 
         use finalRequestMessage =
             request.config.httpMessageTransformers
