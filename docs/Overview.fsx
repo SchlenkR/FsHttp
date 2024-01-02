@@ -9,7 +9,7 @@ index: 2
 
 (*** condition: prepare ***)
 #nowarn "211"
-#r "../FsHttp/bin/Release/net8.0/FsHttp.dll"
+#r "../src/FsHttp/bin/Release/net8.0/FsHttp.dll"
 open FsHttp
 
 
