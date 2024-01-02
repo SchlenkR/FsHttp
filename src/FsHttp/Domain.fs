@@ -34,14 +34,13 @@ type Proxy = {
     credentials: System.Net.ICredentials option
 }
 
-type HttpClientHandlerTransformer = (System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler)
-
-and Config = {
+type Config = {
     timeout: System.TimeSpan option
     defaultDecompressionMethods: System.Net.DecompressionMethods list
     printHint: PrintHint
+    headerTransformers: list<Header -> Header>
     httpMessageTransformers: list<System.Net.Http.HttpRequestMessage -> System.Net.Http.HttpRequestMessage>
-    httpClientHandlerTransformers: list<HttpClientHandlerTransformer>
+    httpClientHandlerTransformers: list<System.Net.Http.SocketsHttpHandler -> System.Net.Http.SocketsHttpHandler>
     httpClientTransformers: list<System.Net.Http.HttpClient -> System.Net.Http.HttpClient>
     httpCompletionOption: System.Net.Http.HttpCompletionOption
     proxy: Proxy option
@@ -52,46 +51,30 @@ and Config = {
     cancellationToken: CancellationToken
 }
 
-type ConfigTransformer = Config -> Config
+and ConfigTransformer = Config -> Config
 
-type PrintHintTransformer = PrintHint -> PrintHint
+and PrintHintTransformer = PrintHint -> PrintHint
 
-type FsHttpUrl = {
+and FsHttpTarget = {
+    method: System.Net.Http.HttpMethod option
     address: string option
-    additionalQueryParams: List<string * string>
+    additionalQueryParams: list<string * string>
 }
 
-type Header = {
-    method: System.Net.Http.HttpMethod option
+and Header = {
+    target: FsHttpTarget
     headers: Map<string, string>
     // We use a .Net type here, which we never do in other places.
     // Since Cookie is record style, I see no problem here.
     cookies: System.Net.Cookie list
 }
 
-type ContentData =
-    | TextContent of string
-    | BinaryContent of byte array
-    | StreamContent of System.IO.Stream
-    | FormUrlEncodedContent of Map<string, string>
-    | FileContent of string
-
-type ContentType = {
-    value: string
-    charset: System.Text.Encoding option
-}
-
-type ContentElement = {
-    contentData: ContentData
-    explicitContentType: ContentType option
-}
-
-type RequestContent =
+type BodyContent =
     | Empty
-    | Single of BodyContent
+    | Single of SinglepartContent
     | Multi of MultipartContent
 
-and BodyContent = {
+and SinglepartContent = {
     contentElement: ContentElement
     headers: Map<string, string>
 }
@@ -107,10 +90,26 @@ and MultipartElement = {
     fileName: string option
 }
 
+and ContentData =
+    | TextContent of string
+    | BinaryContent of byte array
+    | StreamContent of System.IO.Stream
+    | FormUrlEncodedContent of Map<string, string>
+    | FileContent of string
+
+and ContentType = {
+    value: string
+    charset: System.Text.Encoding option
+}
+
+and ContentElement = {
+    contentData: ContentData
+    explicitContentType: ContentType option
+}
+
 type Request = {
-    url: FsHttpUrl
     header: Header
-    content: RequestContent
+    content: BodyContent
     config: Config
 }
 
@@ -140,7 +139,6 @@ and IToMultipartContext =
 
 // TODO: Convert this to a class.
 and HeaderContext = {
-    url: FsHttpUrl
     header: Header
     config: Config
 } with
@@ -155,7 +153,6 @@ and HeaderContext = {
 
     interface IToRequest with
         member this.Transform() = {
-            url = this.url
             header = this.header
             content = Empty
             config = this.config
@@ -163,7 +160,6 @@ and HeaderContext = {
 
     interface IToBodyContext with
         member this.Transform() = {
-            url = this.url
             header = this.header
             bodyContent = {
                 contentElement = {
@@ -177,7 +173,6 @@ and HeaderContext = {
 
     interface IToMultipartContext with
         member this.Transform() = {
-            url = this.url
             header = this.header
             config = this.config
             multipartContent = {
@@ -188,9 +183,8 @@ and HeaderContext = {
 
 // TODO: Convert this to a class.
 and BodyContext = {
-    url: FsHttpUrl
     header: Header
-    bodyContent: BodyContent
+    bodyContent: SinglepartContent
     config: Config
 } with
     interface IRequestContext<BodyContext> with
@@ -204,7 +198,6 @@ and BodyContext = {
 
     interface IToRequest with
         member this.Transform() = {
-            url = this.url
             header = this.header
             content = Single this.bodyContent
             config = this.config
@@ -215,7 +208,6 @@ and BodyContext = {
 
 // TODO: Convert this to a class.
 and MultipartContext = {
-    url: FsHttpUrl
     header: Header
     multipartContent: MultipartContent
     config: Config
@@ -231,7 +223,6 @@ and MultipartContext = {
 
     interface IToRequest with
         member this.Transform() = {
-            url = this.url
             header = this.header
             content = Multi this.multipartContent
             config = this.config

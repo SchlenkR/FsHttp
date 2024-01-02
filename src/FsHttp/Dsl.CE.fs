@@ -427,6 +427,10 @@ type IRequestContext<'self> with
     member this.TimeoutInSeconds(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, value) =
         Config.timeoutInSeconds value context.Self
 
+    [<CustomOperation("config_transformHeader")>]
+    member this.TransformHeader(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, transformer) =
+        Config.transformHeader transformer context.Self
+
     [<CustomOperation("config_setHttpClientFactory")>]
     member this.SetHttpClientFactory(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, httpClientFactory) =
         Config.setHttpClientFactory httpClientFactory context.Self

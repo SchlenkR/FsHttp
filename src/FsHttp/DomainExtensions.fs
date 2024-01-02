@@ -5,7 +5,7 @@ open System
 open System.Net.Http.Headers
 open FsHttp
 
-type FsHttpUrl with
+type FsHttpTarget with
     member this.ToUriStringWithDefault(defaultValue) =
         let queryParamsString =
             this.additionalQueryParams

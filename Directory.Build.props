@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>13.3.0</Version>
+    <Version>14.0.0</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2024 Ronald Schlenker</Copyright>
@@ -16,6 +16,14 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
+      v14.0.0
+      - (Breaking change) Renamed types in Domain:
+        BodyContent -> SinglepartContent
+        RequestContent -> BodyContent
+        FsHttpUrl -> FsHttpTarget
+      - (Breaking change) FsHttpUrl (now FsHttpTarget) and Header restructured: method, address and queryParams are now part of the FsHttpTarget type.
+      - Added `headerTransformers` to Config for better composability
+
       v13.3.0
       - (Breaking change) All `Response._TAsync` functions (task based) in F# require a CancellationToken now.
       - (Breaking change) Extension methods rework

@@ -440,6 +440,10 @@ type ConfigExtensions =
         Config.With.timeoutInSeconds value config
 
     [<Extension>]
+    static member TransformHeader(config: Domain.Config, transformer) =
+        Config.With.transformHeader transformer config
+
+    [<Extension>]
     static member SetHttpClientFactory(config: Domain.Config, httpClientFactory) =
         Config.With.setHttpClientFactory httpClientFactory config
 

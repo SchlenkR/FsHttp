@@ -9,8 +9,8 @@ open FsHttp.Helper
 
 // TODO: Remove this
 let getAddressDefaults (request: Request) =
-    let uri = request.url.ToUriStringWithDefault("")
-    let method = request.header.method |> Option.defaultValue HttpMethod.Get
+    let uri = request.header.target.ToUriStringWithDefault("")
+    let method = request.header.target.method |> Option.defaultValue HttpMethod.Get
     uri, method
 
 let addressToString (request: Request) =
@@ -132,6 +132,12 @@ let toAsync cancellationTokenOverride (context: IToRequest) =
     async {
         let request, requestMessage = toRequestAndMessage context
         do Fsi.logfn $"Sending request {addressToString request} ..."
+
+        let request =
+            let mutable request = request
+            for headerTransformer in request.config.headerTransformers do
+                request <- { request with header = headerTransformer request.header }
+            request
 
         use finalRequestMessage =
             request.config.httpMessageTransformers

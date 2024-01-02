@@ -63,20 +63,22 @@ let defaultHeadersAndBodyPrintMode = {
 
 let defaultDecompressionMethods = [ DecompressionMethods.All ]
 
-let defaultConfig = {
-    timeout = None
-    defaultDecompressionMethods = defaultDecompressionMethods
-    printHint = {
-        requestPrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
-        responsePrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
+let defaultConfig = 
+    {
+        timeout = None
+        defaultDecompressionMethods = defaultDecompressionMethods
+        printHint = {
+            requestPrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
+            responsePrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
+        }
+        headerTransformers = []
+        httpMessageTransformers = []
+        httpClientHandlerTransformers = []
+        httpClientTransformers = []
+        httpClientFactory = defaultHttpClientFactory
+        httpCompletionOption = HttpCompletionOption.ResponseHeadersRead
+        proxy = None
+        certErrorStrategy = Default
+        bufferResponseContent = false
+        cancellationToken = Threading.CancellationToken.None
     }
-    httpMessageTransformers = []
-    httpClientHandlerTransformers = []
-    httpClientTransformers = []
-    httpClientFactory = defaultHttpClientFactory
-    httpCompletionOption = HttpCompletionOption.ResponseHeadersRead
-    proxy = None
-    certErrorStrategy = Default
-    bufferResponseContent = false
-    cancellationToken = Threading.CancellationToken.None
-}

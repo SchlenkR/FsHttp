@@ -31,12 +31,12 @@ module Http =
         FsiInit.init ()
 
         {
-            url = {
-                address = address
-                additionalQueryParams = []
-            }
             header = {
-                method = method
+                target = {
+                    method = method
+                    address = address
+                    additionalQueryParams = []
+                }
                 headers = Map.empty
                 cookies = []
             }
@@ -98,7 +98,7 @@ module Header =
 
     /// Adds a set of query parameters to the URL
     let query (queryParams: (string * string) list) (context: HeaderContext) =
-        { context with url.additionalQueryParams = context.url.additionalQueryParams @ queryParams }
+        { context with header.target.additionalQueryParams = context.header.target.additionalQueryParams @ queryParams }
 
     /// Content-Types that are acceptable for the response
     let accept (contentType: string) (context: HeaderContext) = 
@@ -453,11 +453,17 @@ module Multipart =
 
 module Config =
     module With =
-        let ignoreCertIssues config = { config with certErrorStrategy = AlwaysAccept }
+        let ignoreCertIssues config =
+            { config with certErrorStrategy = AlwaysAccept }
 
-        let timeout value config = { config with timeout = value }
+        let timeout value config =
+            { config with timeout = value }
 
-        let timeoutInSeconds value config = { config with timeout = Some(TimeSpan.FromSeconds value) }
+        let timeoutInSeconds value config =
+            { config with timeout = Some(TimeSpan.FromSeconds value) }
+
+        let transformHeader transformer config = 
+            { config with headerTransformers = config.headerTransformers @ [ transformer ] }
 
         let setHttpClientFactory httpClientFactory config = { config with httpClientFactory = httpClientFactory }
 
@@ -499,6 +505,9 @@ module Config =
 
     let timeoutInSeconds value context = 
         context |> update (fun config -> config |> With.timeoutInSeconds value)
+
+    let transformHeader transformer context = 
+        context |> update (fun config -> config |> With.transformHeader transformer)
 
     let setHttpClientFactory httpClientFactory context =
         context |> update (fun config -> config |> With.setHttpClientFactory httpClientFactory)
