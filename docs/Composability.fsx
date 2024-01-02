@@ -16,14 +16,11 @@ open FsHttp
 (**
 ## Composability 
 
-TODO: Use transformHeader to pre-configure URLs
-
-Currently, see tests/Config.fs (Header Transformer) to get an idea of how to tweak a builder for - e.g - a specific environment.
+There are many ways to compose HTTP requests with FsHttp, depending on your needs. A common pattern is to define a base request builder that is then used to create more specific request builders. This is useful when targeting different environments, and don't want to repeat the same configuration for each request.
 
 An example with comments:
 *)
 
-open FsHttp
 open FsHttp.Operators
 
 let httpForMySpecialEnvironment =
