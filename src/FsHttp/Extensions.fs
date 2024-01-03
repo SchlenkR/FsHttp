@@ -80,227 +80,227 @@ type HeaderExtensions =
 
     /// Append query params
     [<Extension>]
-    static member Query(context: IRequestContext<HeaderContext>, queryParams) =
-        Header.query (queryParams |> Seq.toList) context.Self
+    static member Query(context: HeaderContext, queryParams) =
+        Header.query (queryParams |> Seq.toList) context
 
     /// Custom header
     [<Extension>]
-    static member Header(context: IRequestContext<HeaderContext>, key, value) =
-        Header.header key value context.Self
+    static member Header(context: HeaderContext, key, value) =
+        Header.header key value context
 
     /// Content-Types that are acceptable for the response
     [<Extension>]
-    static member Accept(context: IRequestContext<HeaderContext>, contentType) =
-        Header.accept contentType context.Self
+    static member Accept(context: HeaderContext, contentType) =
+        Header.accept contentType context
 
     /// Character sets that are acceptable
     [<Extension>]
-    static member AcceptCharset(context: IRequestContext<HeaderContext>, characterSets) =
-        Header.acceptCharset characterSets context.Self
+    static member AcceptCharset(context: HeaderContext, characterSets) =
+        Header.acceptCharset characterSets context
 
     /// Acceptable version in time
     [<Extension>]
-    static member AcceptDatetime(context: IRequestContext<HeaderContext>, dateTime) =
-        Header.acceptDatetime dateTime context.Self
+    static member AcceptDatetime(context: HeaderContext, dateTime) =
+        Header.acceptDatetime dateTime context
 
     /// List of acceptable encodings. See HTTP compression.
     [<Extension>]
-    static member AcceptEncoding(context: IRequestContext<HeaderContext>, encoding) =
-        Header.acceptEncoding encoding context.Self
+    static member AcceptEncoding(context: HeaderContext, encoding) =
+        Header.acceptEncoding encoding context
 
     /// List of acceptable human languages for response
     [<Extension>]
-    static member AcceptLanguage(context: IRequestContext<HeaderContext>, language) =
-        Header.acceptLanguage language context.Self
+    static member AcceptLanguage(context: HeaderContext, language) =
+        Header.acceptLanguage language context
 
     /// Authorization credentials for HTTP authorization
     [<Extension>]
-    static member Authorization(context: IRequestContext<HeaderContext>, credentials) =
-        Header.authorization credentials context.Self
+    static member Authorization(context: HeaderContext, credentials) =
+        Header.authorization credentials context
 
     /// Authorization header using Bearer authorization token
     [<Extension>]
-    static member AuthorizationBearer(context: IRequestContext<HeaderContext>, token) =
-        Header.authorizationBearer token context.Self
+    static member AuthorizationBearer(context: HeaderContext, token) =
+        Header.authorizationBearer token context
 
     /// Authorization header using Basic (User/Password) authorization
     [<Extension>]
-    static member AuthorizationUserPw(context: IRequestContext<HeaderContext>, username, password) =
-        Header.authorizationUserPw username password context.Self
+    static member AuthorizationUserPw(context: HeaderContext, username, password) =
+        Header.authorizationUserPw username password context
 
     /// Used to specify directives that MUST be obeyed by all caching mechanisms along the request/response chain
     [<Extension>]
-    static member CacheControl(context: IRequestContext<HeaderContext>, control) =
-        Header.cacheControl control context.Self
+    static member CacheControl(context: HeaderContext, control) =
+        Header.cacheControl control context
 
     /// What type of connection the user-agent would prefer
     [<Extension>]
-    static member Connection(context: IRequestContext<HeaderContext>, connection) =
-        Header.connection connection context.Self
+    static member Connection(context: HeaderContext, connection) =
+        Header.connection connection context
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie'.
     [<Extension>]
-    static member SetCookie(context: IRequestContext<HeaderContext>, name, value) =
-        Header.cookie name value context.Self
+    static member SetCookie(context: HeaderContext, name, value) =
+        Header.cookie name value context
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
     /// the subset of URIs on the origin server to which this Cookie applies.
     [<Extension>]
-    static member SetCookieForPath(context: IRequestContext<HeaderContext>, name, value, path) =
-        Header.cookieForPath name value path context.Self
+    static member SetCookieForPath(context: HeaderContext, name, value, path) =
+        Header.cookieForPath name value path context
 
     /// An HTTP cookie previously sent by the server with 'Set-Cookie' with
     /// the subset of URIs on the origin server to which this Cookie applies
     /// and the internet domain for which this Cookie is valid.
     [<Extension>]
-    static member SetCookieForDomain(context: IRequestContext<HeaderContext>, name, value, path, domain) =
-        Header.cookieForDomain name value path domain context.Self
+    static member SetCookieForDomain(context: HeaderContext, name, value, path, domain) =
+        Header.cookieForDomain name value path domain context
 
     /// The date and time that the message was sent
     [<Extension>]
-    static member Date(context: IRequestContext<HeaderContext>, date) =
-        Header.date date context.Self
+    static member Date(context: HeaderContext, date) =
+        Header.date date context
 
     /// Indicates that particular server behaviors are required by the client
     [<Extension>]
-    static member Expect(context: IRequestContext<HeaderContext>, behaviors) =
-        Header.expect behaviors context.Self
+    static member Expect(context: HeaderContext, behaviors) =
+        Header.expect behaviors context
 
     /// Gives the date/time after which the response is considered stale
     [<Extension>]
-    static member Expires(context: IRequestContext<HeaderContext>, dateTime) =
-        Header.expires dateTime context.Self
+    static member Expires(context: HeaderContext, dateTime) =
+        Header.expires dateTime context
 
     /// The email address of the user making the request
     [<Extension>]
-    static member From(context: IRequestContext<HeaderContext>, email) =
-        Header.from email context.Self
+    static member From(context: HeaderContext, email) =
+        Header.from email context
 
     /// The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening.
     /// The port number may be omitted if the port is the standard port for the service requested.
     [<Extension>]
-    static member Host(context: IRequestContext<HeaderContext>, host) =
-        Header.host host context.Self
+    static member Host(context: HeaderContext, host) =
+        Header.host host context
 
     /// Only perform the action if the client supplied entity matches the same entity on the server.
     /// This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. If-Match: "737060cd8c284d8af7ad3082f209582d" Permanent
     [<Extension>]
-    static member IfMatch(context: IRequestContext<HeaderContext>, entity) =
-        Header.ifMatch entity context.Self
+    static member IfMatch(context: HeaderContext, entity) =
+        Header.ifMatch entity context
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
     [<Extension>]
-    static member IfModifiedSince(context: IRequestContext<HeaderContext>, dateTime) =
-        Header.ifModifiedSince dateTime context.Self
+    static member IfModifiedSince(context: HeaderContext, dateTime) =
+        Header.ifModifiedSince dateTime context
 
     /// Allows a 304 Not Modified to be returned if content is unchanged
     [<Extension>]
-    static member IfNoneMatch(context: IRequestContext<HeaderContext>, etag) =
-        Header.ifNoneMatch etag context.Self
+    static member IfNoneMatch(context: HeaderContext, etag) =
+        Header.ifNoneMatch etag context
 
     /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity
     [<Extension>]
-    static member IfRange(context: IRequestContext<HeaderContext>, range) =
-        Header.ifRange range context.Self
+    static member IfRange(context: HeaderContext, range) =
+        Header.ifRange range context
 
     /// Only send the response if the entity has not been modified since a specific time
     [<Extension>]
-    static member IfUnmodifiedSince(context: IRequestContext<HeaderContext>, dateTime) =
-        Header.ifUnmodifiedSince dateTime context.Self
+    static member IfUnmodifiedSince(context: HeaderContext, dateTime) =
+        Header.ifUnmodifiedSince dateTime context
 
     /// Specifies a parameter used into order to maintain a persistent connection
     [<Extension>]
-    static member KeepAlive(context: IRequestContext<HeaderContext>, keepAlive) =
-        Header.keepAlive keepAlive context.Self
+    static member KeepAlive(context: HeaderContext, keepAlive) =
+        Header.keepAlive keepAlive context
 
     /// Specifies the date and time at which the accompanying body data was last modified
     [<Extension>]
-    static member LastModified(context: IRequestContext<HeaderContext>, dateTime) =
-        Header.lastModified dateTime context.Self
+    static member LastModified(context: HeaderContext, dateTime) =
+        Header.lastModified dateTime context
 
     /// Limit the number of times the message can be forwarded through proxies or gateways
     [<Extension>]
-    static member MaxForwards(context: IRequestContext<HeaderContext>, count) =
-        Header.maxForwards count context.Self
+    static member MaxForwards(context: HeaderContext, count) =
+        Header.maxForwards count context
 
     /// Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response header)
     [<Extension>]
-    static member Origin(context: IRequestContext<HeaderContext>, origin) =
-        Header.origin origin context.Self
+    static member Origin(context: HeaderContext, origin) =
+        Header.origin origin context
 
     /// Implementation-specific headers that may have various effects anywhere along the request-response chain.
     [<Extension>]
-    static member Pragma(context: IRequestContext<HeaderContext>, pragma) =
-        Header.pragma pragma context.Self
+    static member Pragma(context: HeaderContext, pragma) =
+        Header.pragma pragma context
 
     /// Optional instructions to the server to control request processing. See RFC https://tools.ietf.org/html/rfc7240 for more details
     [<Extension>]
-    static member Prefer(context: IRequestContext<HeaderContext>, prefer) =
-        Header.prefer prefer context.Self
+    static member Prefer(context: HeaderContext, prefer) =
+        Header.prefer prefer context
 
     /// Authorization credentials for connecting to a proxy.
     [<Extension>]
-    static member ProxyAuthorization(context: IRequestContext<HeaderContext>, credentials) =
-        Header.proxyAuthorization credentials context.Self
+    static member ProxyAuthorization(context: HeaderContext, credentials) =
+        Header.proxyAuthorization credentials context
 
     /// Request only part of an entity. Bytes are numbered from 0
     [<Extension>]
-    static member Range(context: IRequestContext<HeaderContext>, start, finish) =
-        Header.range start finish context.Self
+    static member Range(context: HeaderContext, start, finish) =
+        Header.range start finish context
 
     /// This is the address of the previous web page from which a link to the currently requested page was followed.
     /// (The word "referrer" is misspelled in the RFC as well as in most implementations.)
     [<Extension>]
-    static member Referer(context: IRequestContext<HeaderContext>, referer) =
-        Header.referer referer context.Self
+    static member Referer(context: HeaderContext, referer) =
+        Header.referer referer context
 
     /// The transfer encodings the user agent is willing to accept: the same values as for the response header
     /// Transfer-Encoding can be used, plus the "trailers" value (related to the "chunked" transfer method) to
     /// notify the server it expects to receive additional headers (the trailers) after the last, zero-sized, chunk.
     [<Extension>]
-    static member TE(context: IRequestContext<HeaderContext>, te) =
-        Header.te te context.Self
+    static member TE(context: HeaderContext, te) =
+        Header.te te context
 
     /// The Trailer general field value indicates that the given set of header fields is present in the trailer of a message encoded with chunked transfer-coding
     [<Extension>]
-    static member Trailer(context: IRequestContext<HeaderContext>, trailer) =
-        Header.trailer trailer context.Self
+    static member Trailer(context: HeaderContext, trailer) =
+        Header.trailer trailer context
 
     /// The TransferEncoding header indicates the form of encoding used to safely transfer the entity to the user.
     /// The valid directives are one of: chunked, compress, deflate, gzip, orentity.
     [<Extension>]
-    static member TransferEncoding(context: IRequestContext<HeaderContext>, directive) =
-        Header.transferEncoding directive context.Self
+    static member TransferEncoding(context: HeaderContext, directive) =
+        Header.transferEncoding directive context
 
     /// Microsoft extension to the HTTP specification used in conjunction with WebDAV functionality.
     [<Extension>]
-    static member Translate(context: IRequestContext<HeaderContext>, translate) =
-        Header.translate translate context.Self
+    static member Translate(context: HeaderContext, translate) =
+        Header.translate translate context
 
     /// Specifies additional communications protocols that the client supports.
     [<Extension>]
-    static member Upgrade(context: IRequestContext<HeaderContext>, upgrade) =
-        Header.upgrade upgrade context.Self
+    static member Upgrade(context: HeaderContext, upgrade) =
+        Header.upgrade upgrade context
 
     /// The user agent string of the user agent
     [<Extension>]
-    static member UserAgent(context: IRequestContext<HeaderContext>, userAgent) =
-        Header.userAgent userAgent context.Self
+    static member UserAgent(context: HeaderContext, userAgent) =
+        Header.userAgent userAgent context
 
     /// Informs the server of proxies through which the request was sent
     [<Extension>]
-    static member Via(context: IRequestContext<HeaderContext>, server) =
-        Header.via server context.Self
+    static member Via(context: HeaderContext, server) =
+        Header.via server context
 
     /// A general warning about possible problems with the entity body
     [<Extension>]
-    static member Warning(context: IRequestContext<HeaderContext>, message) =
-        Header.warning message context.Self
+    static member Warning(context: HeaderContext, message) =
+        Header.warning message context
 
     /// Override HTTP method.
     [<Extension>]
-    static member XHTTPMethodOverride(context: IRequestContext<HeaderContext>, httpMethod) =
-        Header.xhttpMethodOverride httpMethod context.Self
+    static member XHTTPMethodOverride(context: HeaderContext, httpMethod) =
+        Header.xhttpMethodOverride httpMethod context
 
 
 // ---------
@@ -312,54 +312,54 @@ type BodyExtensions =
 
     /// An explicit transformation from a previous context to allow for describing the request body.
     [<Extension>]
-    static member Body(context: IRequestContext<#IToBodyContext>) =
-        context.Self.ToBodyContext()
+    static member Body(context: #IToBodyContext) =
+        context.ToBodyContext()
 
     [<Extension>]
-    static member Content(context: IRequestContext<BodyContext>, contentType, data) =
-        Body.content contentType data context.Self
+    static member Content(context: BodyContext, contentType, data) =
+        Body.content contentType data context
 
     [<Extension>]
-    static member Binary(context: IRequestContext<BodyContext>, data) =
-        Body.binary data context.Self
+    static member Binary(context: BodyContext, data) =
+        Body.binary data context
 
     [<Extension>]
-    static member Stream(context: IRequestContext<BodyContext>, stream) =
-        Body.stream stream context.Self
+    static member Stream(context: BodyContext, stream) =
+        Body.stream stream context
 
     [<Extension>]
-    static member Text(context: IRequestContext<BodyContext>, text) =
-        Body.text text context.Self
+    static member Text(context: BodyContext, text) =
+        Body.text text context
 
     [<Extension>]
-    static member Json(context: IRequestContext<BodyContext>, json) =
-        Body.json json context.Self
+    static member Json(context: BodyContext, json) =
+        Body.json json context
 
     [<Extension>]
-    static member JsonSerialize(context: IRequestContext<BodyContext>, options, json) =
-        Body.jsonSerializeWith options json context.Self
+    static member JsonSerialize(context: BodyContext, options, json) =
+        Body.jsonSerializeWith options json context
 
     [<Extension>]
-    static member JsonSerialize(context: IRequestContext<BodyContext>, json) =
-        Body.jsonSerialize json context.Self
+    static member JsonSerialize(context: BodyContext, json) =
+        Body.jsonSerialize json context
 
     [<Extension>]
-    static member FormUrlEncoded(context: IRequestContext<BodyContext>, data) =
-        Body.formUrlEncoded data context.Self
+    static member FormUrlEncoded(context: BodyContext, data) =
+        Body.formUrlEncoded data context
 
     [<Extension>]
-    static member File(context: IRequestContext<BodyContext>, path) =
-        Body.file path context.Self
+    static member File(context: BodyContext, path) =
+        Body.file path context
 
     /// The type of encoding used on the data
     [<Extension>]
-    static member ContentEncoding(context: IRequestContext<BodyContext>, encoding) =
-        Body.contentEncoding encoding context.Self
+    static member ContentEncoding(context: BodyContext, encoding) =
+        Body.contentEncoding encoding context
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     [<Extension>]
-    static member ContentType(context: IRequestContext<BodyContext>, contentType, ?charset) =
-        Body.contentType contentType charset context.Self
+    static member ContentType(context: BodyContext, contentType, ?charset) =
+        Body.contentType contentType charset context
 
 
 // -----------------
@@ -371,8 +371,8 @@ type MultipartElementExtensions =
 
     /// The MIME type of the body of the request (used with POST and PUT requests)
     [<Extension>]
-    static member ContentType(context: IRequestContext<MultipartElementContext>, contentType, ?charset) =
-        MultipartElement.contentType contentType charset context.Self
+    static member ContentType(context: MultipartElementContext, contentType, ?charset) =
+        MultipartElement.contentType contentType charset context
 
 
 // ---------
@@ -384,24 +384,24 @@ type MultipartExtensions =
 
     /// An explicit transformation from a previous context to allow for describing the request multiparts.
     [<Extension>]
-    static member Multipart(context: IRequestContext<#IToMultipartContext>) =
-        context.Self.ToMultipartContext()
+    static member Multipart(context: #IToMultipartContext) =
+        context.ToMultipartContext()
 
     [<Extension>]
-    static member TextPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
-        Multipart.textPart value name fileName context.Self
+    static member TextPart(context: MultipartContext, value, name, ?fileName) =
+        Multipart.textPart value name fileName context
 
     [<Extension>]
-    static member FilePart(context: IRequestContext<MultipartContext>, path, ?name, ?fileName) =
-        Multipart.filePart path name fileName context.Self
+    static member FilePart(context: MultipartContext, path, ?name, ?fileName) =
+        Multipart.filePart path name fileName context
 
     [<Extension>]
-    static member BinaryPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
-        Multipart.binaryPart value name fileName context.Self
+    static member BinaryPart(context: MultipartContext, value, name, ?fileName) =
+        Multipart.binaryPart value name fileName context
 
     [<Extension>]
-    static member StreamPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =
-        Multipart.streamPart value name fileName context.Self
+    static member StreamPart(context: MultipartContext, value, name, ?fileName) =
+        Multipart.streamPart value name fileName context
 
 
 // ---------
