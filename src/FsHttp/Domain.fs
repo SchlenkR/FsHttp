@@ -114,28 +114,28 @@ type Request = {
 }
 
 type IToRequest =
-    abstract member Transform: unit -> Request
+    abstract member ToRequest: unit -> Request
 
-type IConfigure<'t, 'self> =
-    abstract member Configure: 't -> 'self
+type IUpdateConfig<'t, 'self> =
+    abstract member UpdateConfig: 't -> 'self
 
 // It seems to impossible extending builder methods on the context type
 // directly when they are not polymorph.
 type IRequestContext<'self> =
     abstract member Self: 'self
 
-let configPrinter (c: IConfigure<ConfigTransformer, _>) transformPrintHint =
-    c.Configure(fun conf -> { conf with printHint = transformPrintHint conf.printHint })
+let configPrinter (c: IUpdateConfig<ConfigTransformer, _>) transformPrintHint =
+    c.UpdateConfig(fun conf -> { conf with printHint = transformPrintHint conf.printHint })
 
 // Unifying IToBodyContext and IToMultipartContext doesn't work; see:
 // https://github.com/dotnet/fsharp/issues/12814
 type IToBodyContext =
     inherit IToRequest
-    abstract member Transform: unit -> BodyContext
+    abstract member ToBodyContext: unit -> BodyContext
 
 and IToMultipartContext =
     inherit IToRequest
-    abstract member Transform: unit -> MultipartContext
+    abstract member ToMultipartContext: unit -> MultipartContext
 
 // TODO: Convert this to a class.
 and HeaderContext = {
@@ -145,21 +145,21 @@ and HeaderContext = {
     interface IRequestContext<HeaderContext> with
         member this.Self = this
 
-    interface IConfigure<ConfigTransformer, HeaderContext> with
-        member this.Configure(transformConfig) = { this with config = transformConfig this.config }
+    interface IUpdateConfig<ConfigTransformer, HeaderContext> with
+        member this.UpdateConfig(transformConfig) = { this with config = transformConfig this.config }
 
-    interface IConfigure<PrintHintTransformer, HeaderContext> with
-        member this.Configure(transformPrintHint) = configPrinter this transformPrintHint
+    interface IUpdateConfig<PrintHintTransformer, HeaderContext> with
+        member this.UpdateConfig(transformPrintHint) = configPrinter this transformPrintHint
 
     interface IToRequest with
-        member this.Transform() = {
+        member this.ToRequest() = {
             header = this.header
             content = Empty
             config = this.config
         }
 
     interface IToBodyContext with
-        member this.Transform() = {
+        member this.ToBodyContext() = {
             header = this.header
             bodyContent = {
                 contentElement = {
@@ -172,7 +172,7 @@ and HeaderContext = {
         }
 
     interface IToMultipartContext with
-        member this.Transform() = {
+        member this.ToMultipartContext() = {
             header = this.header
             config = this.config
             multipartContent = {
@@ -190,21 +190,21 @@ and BodyContext = {
     interface IRequestContext<BodyContext> with
         member this.Self = this
 
-    interface IConfigure<ConfigTransformer, BodyContext> with
-        member this.Configure(transformConfig) = { this with config = transformConfig this.config }
+    interface IUpdateConfig<ConfigTransformer, BodyContext> with
+        member this.UpdateConfig(transformConfig) = { this with config = transformConfig this.config }
 
-    interface IConfigure<PrintHintTransformer, BodyContext> with
-        member this.Configure(transformPrintHint) = configPrinter this transformPrintHint
+    interface IUpdateConfig<PrintHintTransformer, BodyContext> with
+        member this.UpdateConfig(transformPrintHint) = configPrinter this transformPrintHint
 
     interface IToRequest with
-        member this.Transform() = {
+        member this.ToRequest() = {
             header = this.header
             content = Single this.bodyContent
             config = this.config
         }
 
     interface IToBodyContext with
-        member this.Transform() = this
+        member this.ToBodyContext() = this
 
 // TODO: Convert this to a class.
 and MultipartContext = {
@@ -215,21 +215,21 @@ and MultipartContext = {
     interface IRequestContext<MultipartContext> with
         member this.Self = this
 
-    interface IConfigure<ConfigTransformer, MultipartContext> with
-        member this.Configure(transformConfig) = { this with config = transformConfig this.config }
+    interface IUpdateConfig<ConfigTransformer, MultipartContext> with
+        member this.UpdateConfig(transformConfig) = { this with config = transformConfig this.config }
 
-    interface IConfigure<PrintHintTransformer, MultipartContext> with
-        member this.Configure(transformPrintHint) = configPrinter this transformPrintHint
+    interface IUpdateConfig<PrintHintTransformer, MultipartContext> with
+        member this.UpdateConfig(transformPrintHint) = configPrinter this transformPrintHint
 
     interface IToRequest with
-        member this.Transform() = {
+        member this.ToRequest() = {
             header = this.header
             content = Multi this.multipartContent
             config = this.config
         }
 
     interface IToMultipartContext with
-        member this.Transform() = this
+        member this.ToMultipartContext() = this
 
 // TODO: Convert this to a class.
 and MultipartElementContext = {
@@ -240,21 +240,21 @@ and MultipartElementContext = {
     interface IRequestContext<MultipartElementContext> with
         member this.Self = this
 
-    interface IConfigure<ConfigTransformer, MultipartElementContext> with
-        member this.Configure(transformConfig) =
+    interface IUpdateConfig<ConfigTransformer, MultipartElementContext> with
+        member this.UpdateConfig(transformConfig) =
             let updatedCfg = this.parent.config |> transformConfig
             { this with parent.config = updatedCfg }
 
-    interface IConfigure<PrintHintTransformer, MultipartElementContext> with
-        member this.Configure(transformPrintHint) = configPrinter this transformPrintHint
+    interface IUpdateConfig<PrintHintTransformer, MultipartElementContext> with
+        member this.UpdateConfig(transformPrintHint) = configPrinter this transformPrintHint
 
     interface IToRequest with
-        member this.Transform() =
-            let parentWithSelf = (this :> IToMultipartContext).Transform()
-            (parentWithSelf :> IToRequest).Transform()
+        member this.ToRequest() =
+            let parentWithSelf = (this :> IToMultipartContext).ToMultipartContext()
+            (parentWithSelf :> IToRequest).ToRequest()
 
     interface IToMultipartContext with
-        member this.Transform() =
+        member this.ToMultipartContext() =
             let parentElementsAndSelf = this.parent.multipartContent.partElements @ [ this.part ]
             { this with parent.multipartContent.partElements = parentElementsAndSelf }.parent
 
@@ -270,8 +270,8 @@ type Response = {
     originalHttpResponseMessage: System.Net.Http.HttpResponseMessage
     dispose: unit -> unit
 } with
-    interface IConfigure<PrintHintTransformer, Response> with
-        member this.Configure(transformPrintHint) = 
+    interface IUpdateConfig<PrintHintTransformer, Response> with
+        member this.UpdateConfig(transformPrintHint) = 
             { this with request.config.printHint = transformPrintHint this.request.config.printHint }
 
     interface System.IDisposable with

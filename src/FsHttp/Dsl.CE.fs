@@ -311,7 +311,7 @@ type IRequestContext<'self> with
     /// An explicit transformation from a previous context to allow for describing the request body.
     [<CustomOperation("body")>]
     member this.Body(context: IRequestContext<#IToBodyContext>) = 
-        context.Self.Transform()
+        context.Self.ToBodyContext()
 
     [<CustomOperation("content")>]
     member this.Content(context: IRequestContext<BodyContext>, contentType, data) =
@@ -381,7 +381,7 @@ type IRequestContext<'self> with
     /// An explicit transformation from a previous context to allow for describing the request multiparts.
     [<CustomOperation("multipart")>]
     member this.Multipart(context: IRequestContext<#IToMultipartContext>) = 
-        context.Self.Transform()
+        context.Self.ToMultipartContext()
 
     [<CustomOperation("textPart")>]
     member this.TextPart(context: IRequestContext<#IToMultipartContext>, value, name, ?fileName) =
@@ -407,68 +407,68 @@ type IRequestContext<'self> with
 type IRequestContext<'self> with
 
     [<CustomOperation("config_update")>]
-    member this.Update(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, configTransformer) =
+    member this.Update(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, configTransformer) =
         Config.update configTransformer context.Self
 
     [<CustomOperation("config_set")>]
-    member this.Set(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, configTransformer) =
+    member this.Set(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, configTransformer) =
         Config.set configTransformer context.Self
 
     // TODO: Provide certStrategy configs
     [<CustomOperation("config_ignoreCertIssues")>]
-    member this.IgnoreCertIssues(context: IRequestContext<#IConfigure<ConfigTransformer, _>>) =
+    member this.IgnoreCertIssues(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>) =
         Config.ignoreCertIssues context.Self
 
     [<CustomOperation("config_timeout")>]
-    member this.Timeout(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, value) =
+    member this.Timeout(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, value) =
         Config.timeout value context.Self
 
     [<CustomOperation("config_timeoutInSeconds")>]
-    member this.TimeoutInSeconds(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, value) =
+    member this.TimeoutInSeconds(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, value) =
         Config.timeoutInSeconds value context.Self
 
     [<CustomOperation("config_transformHeader")>]
-    member this.TransformHeader(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, transformer) =
+    member this.TransformHeader(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, transformer) =
         Config.transformHeader transformer context.Self
 
     [<CustomOperation("config_setHttpClientFactory")>]
-    member this.SetHttpClientFactory(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, httpClientFactory) =
+    member this.SetHttpClientFactory(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, httpClientFactory) =
         Config.setHttpClientFactory httpClientFactory context.Self
 
     [<CustomOperation("config_transformHttpClient")>]
-    member this.TransformHttpClient(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, transformer) =
+    member this.TransformHttpClient(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, transformer) =
         Config.transformHttpClient transformer context.Self
 
     [<CustomOperation("config_transformHttpRequestMessage")>]
-    member this.TransformHttpRequestMessage(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, transformer) =
+    member this.TransformHttpRequestMessage(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, transformer) =
         Config.transformHttpRequestMessage transformer context.Self
 
     [<CustomOperation("config_transformHttpClientHandler")>]
-    member this.TransformHttpClientHandler(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, transformer) =
+    member this.TransformHttpClientHandler(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, transformer) =
         Config.transformHttpClientHandler transformer context.Self
 
     [<CustomOperation("config_proxy")>]
-    member this.Proxy(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, url) = 
+    member this.Proxy(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, url) = 
         Config.proxy url context.Self
 
     [<CustomOperation("config_proxyWithCredentials")>]
-    member this.ProxyWithCredentials(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, url, credentials) =
+    member this.ProxyWithCredentials(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, url, credentials) =
         Config.proxyWithCredentials url credentials context.Self
 
     [<CustomOperation("config_decompressionMethods")>]
     member this.DecompressionMethods
         (
-            context: IRequestContext<#IConfigure<ConfigTransformer, _>>,
+            context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>,
             decompressionMethods
         ) =
         Config.decompressionMethods decompressionMethods context.Self
 
     [<CustomOperation("config_noDecompression")>]
-    member this.NoDecompression(context: IRequestContext<#IConfigure<ConfigTransformer, _>>) =
+    member this.NoDecompression(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>) =
         Config.noDecompression context.Self
 
     [<CustomOperation("config_cancellationToken")>]
-    member this.CancellationToken(context: IRequestContext<#IConfigure<ConfigTransformer, _>>, cancellationToken) =
+    member this.CancellationToken(context: IRequestContext<#IUpdateConfig<ConfigTransformer, _>>, cancellationToken) =
         Config.cancellationToken cancellationToken context.Self
 
 
@@ -479,37 +479,37 @@ type IRequestContext<'self> with
 type IRequestContext<'self> with
 
     [<CustomOperation("print_withConfig")>]
-    member this.WithConfig(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, updatePrintHint) =
+    member this.WithConfig(context: IRequestContext<#IUpdateConfig<PrintHintTransformer, _>>, updatePrintHint) =
         Print.withConfig updatePrintHint context.Self
 
     [<CustomOperation("print_withRequestPrintMode")>]
-    member this.WithRequestPrintMode(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, updatePrintMode) =
+    member this.WithRequestPrintMode(context: IRequestContext<#IUpdateConfig<PrintHintTransformer, _>>, updatePrintMode) =
         Print.withRequestPrintMode updatePrintMode context.Self
 
     [<CustomOperation("print_withResponsePrintMode")>]
-    member this.WithResponsePrintMode(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, updatePrintMode) =
+    member this.WithResponsePrintMode(context: IRequestContext<#IUpdateConfig<PrintHintTransformer, _>>, updatePrintMode) =
         Print.withResponsePrintMode updatePrintMode context.Self
 
     [<CustomOperation("print_withResponseBody")>]
-    member this.WithResponseBody(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, updateBodyPrintMode) =
+    member this.WithResponseBody(context: IRequestContext<#IUpdateConfig<PrintHintTransformer, _>>, updateBodyPrintMode) =
         Print.withResponseBody updateBodyPrintMode context.Self
 
     [<CustomOperation("print_useObjectFormatting")>]
-    member this.UseObjectFormatting(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>) =
+    member this.UseObjectFormatting(context: IRequestContext<#IUpdateConfig<PrintHintTransformer, _>>) =
         Print.useObjectFormatting context.Self
 
     [<CustomOperation("print_headerOnly")>]
-    member this.HeaderOnly(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>) =
+    member this.HeaderOnly(context: IRequestContext<#IUpdateConfig<PrintHintTransformer, _>>) =
         Print.headerOnly context.Self
 
     [<CustomOperation("print_withResponseBodyLength")>]
-    member this.WithResponseBodyLength(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, maxLength) =
+    member this.WithResponseBodyLength(context: IRequestContext<#IUpdateConfig<PrintHintTransformer, _>>, maxLength) =
         Print.withResponseBodyLength maxLength context.Self
 
     [<CustomOperation("print_withResponseBodyFormat")>]
-    member this.WithResponseBodyFormat(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>, format) =
+    member this.WithResponseBodyFormat(context: IRequestContext<#IUpdateConfig<PrintHintTransformer, _>>, format) =
         Print.withResponseBodyFormat format context.Self
 
     [<CustomOperation("print_withResponseBodyExpanded")>]
-    member this.WithResponseBodyExpanded(context: IRequestContext<#IConfigure<PrintHintTransformer, _>>) =
+    member this.WithResponseBodyExpanded(context: IRequestContext<#IUpdateConfig<PrintHintTransformer, _>>) =
         Print.withResponseBodyExpanded context.Self

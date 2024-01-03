@@ -20,7 +20,7 @@ let addressToString (request: Request) =
 /// Transforms a Request into a System.Net.Http.HttpRequestMessage.
 let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
     let request = 
-        let mutable request = request.Transform()
+        let mutable request = request.ToRequest()
         for headerTransformer in request.config.headerTransformers do
             request <- { request with header = headerTransformer request.header }
         request

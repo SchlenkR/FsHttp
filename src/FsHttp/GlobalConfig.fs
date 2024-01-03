@@ -7,11 +7,11 @@ let mutable private mutableDefaults = Defaults.defaultConfig
 type GlobalConfigWrapper(config: Config option) =
     member this.Config = config |> Option.defaultValue mutableDefaults
 
-    interface IConfigure<ConfigTransformer, GlobalConfigWrapper> with
-        member this.Configure(t) = GlobalConfigWrapper(Some(t this.Config))
+    interface IUpdateConfig<ConfigTransformer, GlobalConfigWrapper> with
+        member this.UpdateConfig(t) = GlobalConfigWrapper(Some(t this.Config))
 
-    interface IConfigure<PrintHintTransformer, GlobalConfigWrapper> with
-        member this.Configure(t) = configPrinter this t
+    interface IUpdateConfig<PrintHintTransformer, GlobalConfigWrapper> with
+        member this.UpdateConfig(t) = configPrinter this t
 
 let defaults = GlobalConfigWrapper(None)
 let set (config: GlobalConfigWrapper) = mutableDefaults <- config.Config

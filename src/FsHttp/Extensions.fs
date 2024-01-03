@@ -313,7 +313,7 @@ type BodyExtensions =
     /// An explicit transformation from a previous context to allow for describing the request body.
     [<Extension>]
     static member Body(context: IRequestContext<#IToBodyContext>) =
-        context.Self.Transform()
+        context.Self.ToBodyContext()
 
     [<Extension>]
     static member Content(context: IRequestContext<BodyContext>, contentType, data) =
@@ -385,7 +385,7 @@ type MultipartExtensions =
     /// An explicit transformation from a previous context to allow for describing the request multiparts.
     [<Extension>]
     static member Multipart(context: IRequestContext<#IToMultipartContext>) =
-        context.Self.Transform()
+        context.Self.ToMultipartContext()
 
     [<Extension>]
     static member TextPart(context: IRequestContext<MultipartContext>, value, name, ?fileName) =

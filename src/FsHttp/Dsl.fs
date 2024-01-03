@@ -284,7 +284,7 @@ module Body =
 
     /// Adds a header
     let header name value (context: IToBodyContext) =
-        let context = context.Transform()
+        let context = context.ToBodyContext()
         { context with bodyContent.headers = Map.union context.header.headers [ name, value ] }
 
     /// The type of encoding used on the data
@@ -293,7 +293,7 @@ module Body =
 
     /// The MIME type of the body of the request (used with POST and PUT requests) with an optional encoding
     let contentType (contentType: string) (charset: Encoding option) (context: IToBodyContext) =
-        let context = context.Transform()
+        let context = context.ToBodyContext()
         { context with bodyContent.contentElement.explicitContentType = Some { value = contentType; charset = charset } }
 
     // a) MD5 is obsolete. See https://tools.ietf.org/html/rfc7231#appendix-B
@@ -316,7 +316,7 @@ module Body =
         header "Content-Range" range context
 
     let content defaultContentType (data: ContentData) (context: IToBodyContext) =
-        let context = context.Transform()
+        let context = context.ToBodyContext()
         let contentType =
             context.bodyContent.contentElement.explicitContentType
             |> Option.defaultValue defaultContentType
@@ -408,7 +408,7 @@ module MultipartElement =
 module Multipart =
 
     let private part (content: ContentData) (name: string) (fileName: string option) (context: IToMultipartContext) =
-        let context = context.Transform()
+        let context = context.ToMultipartContext()
 
         let multipartElement = {
             MultipartElement.name = name
@@ -491,8 +491,8 @@ module Config =
         let cancellationToken cancellationToken config =
             { config with cancellationToken = cancellationToken }
 
-    let update transformer (context: IConfigure<ConfigTransformer, _>) = 
-        context.Configure transformer
+    let update transformer (context: IUpdateConfig<ConfigTransformer, _>) = 
+        context.UpdateConfig transformer
 
     let set (config: Config) context = 
         context |> update (fun _ -> config)
@@ -539,8 +539,8 @@ module Config =
 
 module Print =
 
-    let withConfig transformer (context: IConfigure<PrintHintTransformer, _>) = 
-        context.Configure transformer
+    let withConfig transformer (context: IUpdateConfig<PrintHintTransformer, _>) = 
+        context.UpdateConfig transformer
 
     let withRequestPrintMode updatePrintMode context =
         context |> withConfig (fun printHint -> 
