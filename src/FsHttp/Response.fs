@@ -156,7 +156,6 @@ let toJson response =
 let toJsonSeqWithAsync options response =
     toJsonWithAsync options response
     |> Async.map (fun json -> json.EnumerateArray())
-
 let toJsonSeqWithTAsync options cancellationToken response = 
     Async.StartAsTask(
         toJsonSeqWithAsync options response,
@@ -187,6 +186,22 @@ let toJsonArrayTAsync cancellationToken response =
 let toJsonArray response = 
     toJsonArrayWith defaultJsonDocumentOptions response
 
+let toJsonListWithAsync options response = 
+    toJsonSeqWithAsync options response |> Async.map Seq.toList
+let toJsonListWithTAsync options cancellationToken response = 
+    Async.StartAsTask(
+        toJsonListWithAsync options response,
+        cancellationToken = cancellationToken)
+let toJsonListWith options response = 
+    toJsonListWithAsync options response |> Async.RunSynchronously
+
+let toJsonListAsync response = 
+    toJsonListWithAsync defaultJsonDocumentOptions response
+let toJsonListTAsync cancellationToken response =
+    toJsonListWithTAsync defaultJsonDocumentOptions cancellationToken response
+let toJsonList response = 
+    toJsonListWith defaultJsonDocumentOptions response
+
 let deserializeJsonWithAsync<'a> options response =
     async {
         use! stream = toStreamAsync response
@@ -199,12 +214,10 @@ let deserializeJsonWithAsync<'a> options response =
             |> Async.AwaitTask
 
     }
-
 let deserializeJsonWithTAsync<'a> options cancellationToken response = 
     Async.StartAsTask(
         deserializeJsonWithAsync<'a> options response,
         cancellationToken = cancellationToken)
-
 let deserializeJsonWith<'a> options response = 
     deserializeJsonWithAsync<'a> options response |> Async.RunSynchronously
 

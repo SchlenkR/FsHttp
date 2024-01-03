@@ -73,17 +73,31 @@ let toJsonArrayTAsync cancellationToken response =
 let toJsonArray response = 
     toJsonArrayWith defaultJsonLoadSettings response
 
+let toJsonListWithAsync settings response = 
+    toJsonSeqWithAsync settings response |> Async.map Seq.toList
+let toJsonListWithTAsync settings cancellationToken response = 
+    Async.StartAsTask(
+        toJsonListWithAsync settings response,
+        cancellationToken = cancellationToken)
+let toJsonListWith settings response = 
+    toJsonListWithAsync settings response |> Async.RunSynchronously
+
+let toJsonListAsync response = 
+    toJsonListWithAsync defaultJsonLoadSettings response
+let toJsonListTAsync cancellationToken response = 
+    toJsonListWithTAsync defaultJsonLoadSettings cancellationToken response
+let toJsonList response = 
+    toJsonListWith defaultJsonLoadSettings response
+
 let deserializeJsonWithAsync<'a> (settings: JsonSerializerSettings) response =
     async {
         let json = Response.toText response
         return JsonConvert.DeserializeObject<'a>(json, settings)
     }
-
 let deserializeWithJsonTAsync<'a> settings cancellationToken response =
     Async.StartAsTask(
         deserializeJsonWithAsync<'a> settings response,
         cancellationToken = cancellationToken)
-
 let deserializeWithJson<'a> settings response = 
     deserializeJsonWithAsync<'a> settings response |> Async.RunSynchronously
 

@@ -514,6 +514,7 @@ type ResponseExtensions =
     // ----------------
     // ToStream
     // ----------------
+    
     [<Extension>]
     static member ToStream(response: Domain.Response) =
         response |> Response.toStream
@@ -647,32 +648,88 @@ type ResponseExtensions =
         response |> Response.toJsonTAsync cancellationToken
 
     // ----------------
-    // ToJsonEnumerable
+    // ToJsonSeq
     // ----------------
 
     [<Extension>]
-    static member ToJsonEnumerable(response: Domain.Response, options) =
+    static member ToJsonSeq(response: Domain.Response, options) =
         response |> Response.toJsonSeqWith options
 
     [<Extension>]
-    static member ToJsonEnumerableAsync(response: Domain.Response, options) =
+    static member ToJsonSeqAsync(response: Domain.Response, options) =
         response |> Response.toJsonSeqWithTAsync options CancellationToken.None
 
     [<Extension>]
-    static member ToJsonEnumerableAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
+    static member ToJsonSeqAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
         response |> Response.toJsonSeqWithTAsync options cancellationToken
 
     [<Extension>]
-    static member ToJsonEnumerable(response: Domain.Response) =
+    static member ToJsonSeq(response: Domain.Response) =
         response |> Response.toJsonSeq
 
     [<Extension>]
-    static member ToJsonEnumerableAsync(response: Domain.Response) =
+    static member ToJsonSeqAsync(response: Domain.Response) =
         response |> Response.toJsonSeqTAsync CancellationToken.None
 
     [<Extension>]
-    static member ToJsonEnumerableAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+    static member ToJsonSeqAsync(response: Domain.Response, cancellationToken: CancellationToken) =
         response |> Response.toJsonSeqTAsync cancellationToken
+
+    // ----------------
+    // ToJsonArray
+    // ----------------
+
+    [<Extension>]
+    static member ToJsonArray(response: Domain.Response, options) =
+        response |> Response.toJsonArrayWith options
+
+    [<Extension>]
+    static member ToJsonArrayAsync(response: Domain.Response, options) =
+        response |> Response.toJsonArrayWithTAsync options CancellationToken.None
+
+    [<Extension>]
+    static member ToJsonArrayAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
+        response |> Response.toJsonArrayWithTAsync options cancellationToken
+
+    [<Extension>]
+    static member ToJsonArray(response: Domain.Response) =
+        response |> Response.toJsonArray
+
+    [<Extension>]
+    static member ToJsonArrayAsync(response: Domain.Response) =
+        response |> Response.toJsonArrayTAsync CancellationToken.None
+
+    [<Extension>]
+    static member ToJsonArrayAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toJsonArrayTAsync cancellationToken
+
+    // ----------------
+    // ToJsonList
+    // ----------------
+
+    [<Extension>]
+    static member ToJsonList(response: Domain.Response, options) =
+        response |> Response.toJsonListWith options
+
+    [<Extension>]
+    static member ToJsonListAsync(response: Domain.Response, options) =
+        response |> Response.toJsonListWithTAsync options CancellationToken.None
+
+    [<Extension>]
+    static member ToJsonListAsync(response: Domain.Response, options, cancellationToken: CancellationToken) =
+        response |> Response.toJsonListWithTAsync options cancellationToken
+
+    [<Extension>]
+    static member ToJsonList(response: Domain.Response) =
+        response |> Response.toJsonList
+
+    [<Extension>]
+    static member ToJsonListAsync(response: Domain.Response) =
+        response |> Response.toJsonListTAsync CancellationToken.None
+
+    [<Extension>]
+    static member ToJsonListAsync(response: Domain.Response, cancellationToken: CancellationToken) =
+        response |> Response.toJsonListTAsync cancellationToken
 
     // ----------------
     // DeserializeJson
