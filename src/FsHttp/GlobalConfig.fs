@@ -2,19 +2,26 @@ module FsHttp.GlobalConfig
 
 open FsHttp.Domain
 
-let mutable private mutableDefaults = Defaults.defaultConfig
+let mutable private mutableDefaultConfig = Defaults.defaultConfig
+let mutable private mutableDefaultPrintHint = Defaults.defaultPrintHint
 
-type GlobalConfigWrapper(config: Config option) =
-    member this.Config = config |> Option.defaultValue mutableDefaults
+// This thing enables config settings like in pipe style, but for the "global" config.
+type GlobalConfigWrapper(config: Config option, printHint: PrintHint option) =
+    member _.Config = config |> Option.defaultValue mutableDefaultConfig
+    member _.PrintHint = printHint |> Option.defaultValue mutableDefaultPrintHint
 
-    interface IUpdateConfig<ConfigTransformer, GlobalConfigWrapper> with
-        member this.UpdateConfig(t) = GlobalConfigWrapper(Some(t this.Config))
+    interface IUpdateConfig<GlobalConfigWrapper> with
+        member this.UpdateConfig(transformConfig) =
+            let updatedConfig = transformConfig this.Config
+            GlobalConfigWrapper(Some updatedConfig, Some this.PrintHint)
 
-    interface IUpdateConfig<PrintHintTransformer, GlobalConfigWrapper> with
-        member this.UpdateConfig(t) = configPrinter this t
+    interface IUpdatePrintHint<GlobalConfigWrapper> with
+        member this.UpdatePrintHint(transformPrintHint) =
+            let updatedConfig = transformPrintHint this.PrintHint
+            GlobalConfigWrapper(Some this.Config, Some updatedConfig)
 
-let defaults = GlobalConfigWrapper(None)
-let set (config: GlobalConfigWrapper) = mutableDefaults <- config.Config
+let defaults = GlobalConfigWrapper(None, None)
+let set (config: GlobalConfigWrapper) = mutableDefaultConfig <- config.Config
 
 // TODO: Do we need something like this, which is more intuitive, but doesn't
 // support the pipelined config API?

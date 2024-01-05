@@ -67,10 +67,6 @@ let defaultConfig =
     {
         timeout = None
         defaultDecompressionMethods = defaultDecompressionMethods
-        printHint = {
-            requestPrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
-            responsePrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
-        }
         headerTransformers = []
         httpMessageTransformers = []
         httpClientHandlerTransformers = []
@@ -81,4 +77,10 @@ let defaultConfig =
         certErrorStrategy = Default
         bufferResponseContent = false
         cancellationToken = Threading.CancellationToken.None
+    }
+
+let defaultPrintHint = 
+    {
+        requestPrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
+        responsePrintMode = HeadersAndBody(defaultHeadersAndBodyPrintMode)
     }

@@ -26,7 +26,7 @@ module HttpMethods =
 [<AutoOpen>]
 module Http =
 
-    let createHeaderContext address method config =
+    let createHeaderContext address method config printHint =
         // FSI init HACK
         FsiInit.init ()
 
@@ -41,9 +41,10 @@ module Http =
                 cookies = []
             }
             config = config
+            printHint = printHint
         }
 
-    let methodWithConfig config (method: string) (url: string) =
+    let internal methodWithConfig config printHint (method: string) (url: string) =
         if String.IsNullOrWhiteSpace(method) then
             failwith "Method must not be empty"
         if String.IsNullOrWhiteSpace(url) then
@@ -60,29 +61,48 @@ module Http =
                 |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
                 |> Seq.filter (fun x -> not (x.StartsWith("//", StringComparison.Ordinal)))
                 |> Seq.reduce (+)
-        createHeaderContext (Some formattedUrl) (Some (HttpMethod(method))) config
+        createHeaderContext (Some formattedUrl) (Some (HttpMethod(method))) config printHint
 
-    let method (method: string) (url: string) = methodWithConfig GlobalConfig.defaults.Config method url
+    let method (method: string) (url: string) = 
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint method url
 
-    let internal getWithConfig config (url: string) = methodWithConfig config HttpMethods.get url
-    let internal putWithConfig config (url: string) = methodWithConfig config HttpMethods.put url
-    let internal postWithConfig config (url: string) = methodWithConfig config HttpMethods.post url
-    let internal deleteWithConfig config (url: string) = methodWithConfig config HttpMethods.delete url
-    let internal optionsWithConfig config (url: string) = methodWithConfig config HttpMethods.options url
-    let internal headWithConfig config (url: string) = methodWithConfig config HttpMethods.head url
-    let internal traceWithConfig config (url: string) = methodWithConfig config HttpMethods.trace url
-    let internal connectWithConfig config (url: string) = methodWithConfig config HttpMethods.connect url
-    let internal patchWithConfig config (url: string) = methodWithConfig config HttpMethods.patch url
+    let internal getWithConfig config printHint (url: string) =
+        methodWithConfig config printHint HttpMethods.get url
+    let internal putWithConfig config printHint (url: string) =
+        methodWithConfig config printHint HttpMethods.put url
+    let internal postWithConfig config printHint (url: string) =
+        methodWithConfig config printHint HttpMethods.post url
+    let internal deleteWithConfig config printHint (url: string) =
+        methodWithConfig config printHint HttpMethods.delete url
+    let internal optionsWithConfig config printHint (url: string) =
+        methodWithConfig config printHint HttpMethods.options url
+    let internal headWithConfig config printHint (url: string) =
+        methodWithConfig config printHint HttpMethods.head url
+    let internal traceWithConfig config printHint (url: string) =
+        methodWithConfig config printHint HttpMethods.trace url
+    let internal connectWithConfig config printHint (url: string) =
+        methodWithConfig config printHint HttpMethods.connect url
+    let internal patchWithConfig config printHint (url: string) =
+        methodWithConfig config printHint HttpMethods.patch url
 
-    let get (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.get url
-    let put (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.put url
-    let post (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.post url
-    let delete (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.delete url
-    let options (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.options url
-    let head (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.head url
-    let trace (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.trace url
-    let connect (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.connect url
-    let patch (url: string) = methodWithConfig GlobalConfig.defaults.Config HttpMethods.patch url
+    let get (url: string) =
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.get url
+    let put (url: string) =
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.put url
+    let post (url: string) =
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.post url
+    let delete (url: string) =
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.delete url
+    let options (url: string) =
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.options url
+    let head (url: string) =
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.head url
+    let trace (url: string) =
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.trace url
+    let connect (url: string) =
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.connect url
+    let patch (url: string) =
+        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.patch url
 
 // TODO: RFC 4918 (WebDAV) adds 7 methods
 
@@ -452,105 +472,90 @@ module Multipart =
 
 
 module Config =
-    module With =
-        let ignoreCertIssues config =
-            { config with certErrorStrategy = AlwaysAccept }
 
-        let timeout value config =
-            { config with timeout = value }
-
-        let timeoutInSeconds value config =
-            { config with timeout = Some(TimeSpan.FromSeconds value) }
-
-        let transformHeader transformer config = 
-            { config with headerTransformers = config.headerTransformers @ [ transformer ] }
-
-        let setHttpClientFactory httpClientFactory config = { config with httpClientFactory = httpClientFactory }
-
-        let transformHttpClient transformer config = 
-            { config with httpClientTransformers = config.httpClientTransformers @ [ transformer ] }
-
-        let transformHttpRequestMessage transformer config = 
-            { config with httpMessageTransformers = config.httpMessageTransformers @ [ transformer ] }
-
-        let transformHttpClientHandler transformer config = 
-            { config with httpClientHandlerTransformers = config.httpClientHandlerTransformers @ [ transformer ] }
-
-        let proxy url config = 
-            { config with proxy = Some { url = url; credentials = None } }
-
-        let proxyWithCredentials url credentials config = 
-            { config with proxy = Some { url = url; credentials = Some credentials } }
-
-        let decompressionMethods decompressionMethods config = 
-            { config with defaultDecompressionMethods = decompressionMethods }
-
-        let noDecompression config = 
-            { config with defaultDecompressionMethods = [ DecompressionMethods.None ] }
-
-        let cancellationToken cancellationToken config =
-            { config with cancellationToken = cancellationToken }
-
-    let update transformer (context: IUpdateConfig<ConfigTransformer, _>) = 
+    let update transformer (context: IUpdateConfig<_>) = 
         context.UpdateConfig transformer
 
-    let set (config: Config) context = 
-        context |> update (fun _ -> config)
+    let set config (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun _ -> config)
 
-    let ignoreCertIssues context = 
-        context |> update (fun config -> config |> With.ignoreCertIssues)
+    // ----------------
 
-    let timeout value context = 
-        context |> update (fun config -> config |> With.timeout (Some value))
+    let ignoreCertIssues (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with certErrorStrategy = AlwaysAccept })
 
-    let timeoutInSeconds value context = 
-        context |> update (fun config -> config |> With.timeoutInSeconds value)
+    let timeout value (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with timeout = Some value })
 
-    let transformHeader transformer context = 
-        context |> update (fun config -> config |> With.transformHeader transformer)
+    let noTimeout (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config ->
+            { config with timeout = None })
 
-    let setHttpClientFactory httpClientFactory context =
-        context |> update (fun config -> config |> With.setHttpClientFactory httpClientFactory)
+    let timeoutInSeconds value (context: IUpdateConfig<_>) =
+        timeout (TimeSpan.FromSeconds value) context
 
-    let transformHttpClient transformer context =
-        context |> update (fun config -> config |> With.transformHttpClient transformer)
+    let transformHeader transformer (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with headerTransformers = config.headerTransformers @ [ transformer ] })
 
-    let transformHttpRequestMessage transformer context =
-        context |> update (fun config -> config |> With.transformHttpRequestMessage transformer)
+    let setHttpClientFactory httpClientFactory (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with httpClientFactory = httpClientFactory })
 
-    let transformHttpClientHandler transformer context =
-        context |> update (fun config -> config |> With.transformHttpClientHandler transformer)
+    let transformHttpClient transformer (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with httpClientTransformers = config.httpClientTransformers @ [ transformer ] })
 
-    let proxy url context = 
-        context |> update (fun config -> config |> With.proxy url)
+    let transformHttpRequestMessage transformer (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with httpMessageTransformers = config.httpMessageTransformers @ [ transformer ] })
 
-    let proxyWithCredentials url credentials context =
-        context |> update (fun config -> config |> With.proxyWithCredentials url credentials)
+    let transformHttpClientHandler transformer (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with httpClientHandlerTransformers = config.httpClientHandlerTransformers @ [ transformer ] })
 
-    let decompressionMethods decompressionMethods context =
-        context |> update (fun config -> config |> With.decompressionMethods decompressionMethods)
+    let proxy url (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with proxy = Some { url = url; credentials = None } })
 
-    let noDecompression context = 
-        context |> update (fun config -> config |> With.noDecompression)
+    let proxyWithCredentials url credentials (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with proxy = Some { url = url; credentials = Some credentials } })
 
-    let cancellationToken cancellationToken context =
-        context |> update (fun config -> config |> With.cancellationToken cancellationToken)
+    let decompressionMethods decompressionMethods (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with defaultDecompressionMethods = decompressionMethods })
+
+    let noDecompression (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with defaultDecompressionMethods = [ DecompressionMethods.None ] })
+
+    let cancellationToken cancellationToken (context: IUpdateConfig<_>) =
+        context.UpdateConfig(fun config -> 
+            { config with cancellationToken = cancellationToken })
 
 
 module Print =
 
-    let withConfig transformer (context: IUpdateConfig<PrintHintTransformer, _>) = 
-        context.UpdateConfig transformer
+    let update transformer (context: IUpdatePrintHint<_>) = 
+        context.UpdatePrintHint transformer
 
-    let withRequestPrintMode updatePrintMode context =
-        context |> withConfig (fun printHint -> 
+    let set printHint (context: IUpdatePrintHint<_>) =
+        context.UpdatePrintHint(fun _ -> printHint)
+    
+    // ----------------
+
+    let withRequestPrintMode updatePrintMode (context: IUpdatePrintHint<_>) =
+        context.UpdatePrintHint(fun printHint -> 
             { printHint with requestPrintMode = updatePrintMode printHint.requestPrintMode })
 
-    let withResponsePrintMode updatePrintMode context =
-        context |> withConfig (fun printHint -> 
+    let withResponsePrintMode updatePrintMode (context: IUpdatePrintHint<_>) =
+        context.UpdatePrintHint(fun printHint -> 
             { printHint with responsePrintMode = updatePrintMode printHint.responsePrintMode })
 
-    let withResponseBody updateBodyPrintMode context =
+    let withResponseBody updateBodyPrintMode (context: IUpdatePrintHint<_>) =
         context |> withResponsePrintMode (fun printMode ->
             match printMode with
             | AsObject
@@ -559,22 +564,22 @@ module Print =
             |> HeadersAndBody
         )
 
-    let useObjectFormatting context =
+    let useObjectFormatting (context: IUpdatePrintHint<_>) =
         context
         |> withRequestPrintMode (fun _ -> AsObject)
         |> withResponsePrintMode (fun _ -> AsObject)
 
-    let headerOnly context = 
+    let headerOnly (context: IUpdatePrintHint<_>) = 
         context |> withResponsePrintMode (fun _ -> HeadersOnly)
 
-    let withResponseBodyLength maxLength context =
+    let withResponseBodyLength maxLength (context: IUpdatePrintHint<_>) =
         context |> withResponseBody (fun bodyPrintMode -> 
             { bodyPrintMode with maxLength = Some maxLength })
 
-    let withResponseBodyFormat format context =
+    let withResponseBodyFormat format (context: IUpdatePrintHint<_>) =
         context |> withResponseBody (fun bodyPrintMode -> 
             { bodyPrintMode with format = format })
 
-    let withResponseBodyExpanded context =
+    let withResponseBodyExpanded (context: IUpdatePrintHint<_>) =
         context |> withResponseBody (fun bodyPrintMode -> 
             { bodyPrintMode with maxLength = None })

@@ -410,74 +410,160 @@ type MultipartExtensions =
 
 type ConfigTransformerFunc = Func<Domain.Config, Domain.Config>
 
+type FluentConfig<'self>(context: IUpdateConfig<'self>) =
+    member _.Context = context
+
 [<Extension>]
 type ConfigExtensions =
 
     [<Extension>]
-    static member Configure(context: HeaderContext, configTransformer: ConfigTransformerFunc) =
-        Config.update configTransformer.Invoke context
+    static member Config(context: HeaderContext) = FluentConfig(context)
 
     [<Extension>]
-    static member Configure(context: BodyContext, configTransformer: ConfigTransformerFunc) =
-        Config.update configTransformer.Invoke context
+    static member Config(context: BodyContext) = FluentConfig(context)
 
     [<Extension>]
-    static member Configure(context: MultipartContext, configTransformer: ConfigTransformerFunc) =
-        Config.update configTransformer.Invoke context
+    static member Config(context: MultipartContext) = FluentConfig(context)
+
+    [<Extension>]
+    static member Config(context: MultipartElementContext) = FluentConfig(context)
+
+    // ----------------
+    
+    [<Extension>]
+    static member Update(fluent: FluentConfig<_>, transformer) =
+        Config.update transformer fluent.Context
+
+    [<Extension>]
+    static member Set(fluent: FluentConfig<_>, config) =
+        Config.set config fluent.Context
 
     // ----------------
 
     [<Extension>]
-    static member IgnoreCertIssues(config: Domain.Config) =
-        Config.With.ignoreCertIssues config
+    static member IgnoreCertIssues(fluent: FluentConfig<_>) =
+        Config.ignoreCertIssues fluent.Context
 
     [<Extension>]
-    static member Timeout(config: Domain.Config, value) =
-        Config.With.timeout value config
+    static member Timeout(fluent: FluentConfig<_>, value) =
+        Config.timeout value fluent.Context
 
     [<Extension>]
-    static member TimeoutInSeconds(config: Domain.Config, value) =
-        Config.With.timeoutInSeconds value config
+    static member NoTimeout(fluent: FluentConfig<_>) =
+        Config.noTimeout fluent.Context
 
     [<Extension>]
-    static member TransformHeader(config: Domain.Config, transformer) =
-        Config.With.transformHeader transformer config
+    static member TimeoutInSeconds(fluent: FluentConfig<_>, value) =
+        Config.timeoutInSeconds value
 
     [<Extension>]
-    static member SetHttpClientFactory(config: Domain.Config, httpClientFactory) =
-        Config.With.setHttpClientFactory httpClientFactory config
+    static member TransformHeader(fluent: FluentConfig<_>, transformer) =
+        Config.transformHeader transformer
 
     [<Extension>]
-    static member TransformHttpClient(config: Domain.Config, transformer) =
-        Config.With.transformHttpClient transformer config
+    static member SetHttpClientFactory(fluent: FluentConfig<_>, httpClientFactory) =
+        Config.setHttpClientFactory httpClientFactory
 
     [<Extension>]
-    static member TransformHttpRequestMessage(config: Domain.Config, transformer) =
-        Config.With.transformHttpRequestMessage transformer config
+    static member TransformHttpClient(fluent: FluentConfig<_>, transformer) =
+        Config.transformHttpClient transformer
 
     [<Extension>]
-    static member TransformHttpClientHandler(config: Domain.Config, transformer) =
-        Config.With.transformHttpClientHandler transformer config
+    static member TransformHttpRequestMessage(fluent: FluentConfig<_>, transformer) =
+        Config.transformHttpRequestMessage transformer
 
     [<Extension>]
-    static member Proxy(config: Domain.Config, url) =
-        Config.With.proxy url config
+    static member TransformHttpClientHandler(fluent: FluentConfig<_>, transformer) =
+        Config.transformHttpClientHandler transformer
 
     [<Extension>]
-    static member Proxy(config: Domain.Config, url, credentials) =
-        Config.With.proxyWithCredentials url credentials config
+    static member Proxy(fluent: FluentConfig<_>, url) =
+        Config.proxy url
 
     [<Extension>]
-    static member DecompressionMethods(config: Domain.Config, decompressionMethods) =
-        Config.With.decompressionMethods decompressionMethods config
+    static member Proxy(fluent: FluentConfig<_>, url, credentials) =
+        Config.proxyWithCredentials url credentials
 
     [<Extension>]
-    static member NoDecompression(config: Domain.Config) =
-        Config.With.noDecompression config
+    static member DecompressionMethods(fluent: FluentConfig<_>, decompressionMethods) =
+        Config.decompressionMethods decompressionMethods
 
     [<Extension>]
-    static member CancellationToken(config: Domain.Config, cancellationToken) =
-        Config.With.cancellationToken cancellationToken config
+    static member NoDecompression(fluent: FluentConfig<_>) =
+        Config.noDecompression
+
+    [<Extension>]
+    static member CancellationToken(fluent: FluentConfig<_>, cancellationToken) =
+        Config.cancellationToken cancellationToken
+
+
+// ---------
+// PrintHint
+// ---------
+
+type PrintHintTransformerFunc = Func<Domain.PrintHint, Domain.PrintHint>
+
+type FluentPrintHint<'self>(context: IUpdatePrintHint<'self>) =
+    member _.Context = context
+
+[<Extension>]
+type PrintExtensions =
+
+    [<Extension>]
+    static member Print(context: HeaderContext) = FluentPrintHint(context)
+
+    [<Extension>]
+    static member Print(context: BodyContext) = FluentPrintHint(context)
+
+    [<Extension>]
+    static member Print(context: MultipartContext) = FluentPrintHint(context)
+
+    [<Extension>]
+    static member Print(context: MultipartElementContext) = FluentPrintHint(context)
+
+    // ----------------
+    
+    [<Extension>]
+    static member Update(fluent: FluentPrintHint<_>, transformer) =
+        Print.update transformer fluent.Context
+
+    [<Extension>]
+    static member Set(fluent: FluentPrintHint<_>, printHint) =
+        Print.set printHint fluent.Context
+
+    // ----------------
+
+    [<Extension>]
+    static member WithRequestPrintMode(fluent: FluentPrintHint<_>, updatePrintMode) =
+        Print.withRequestPrintMode updatePrintMode fluent.Context
+
+    [<Extension>]
+    static member WithResponsePrintMode(fluent: FluentPrintHint<_>, updatePrintMode) =
+        Print.withResponsePrintMode updatePrintMode fluent.Context
+
+    [<Extension>]
+    static member WithResponseBody(fluent: FluentPrintHint<_>, updateBodyPrintMode) =
+        Print.withResponseBody updateBodyPrintMode fluent.Context
+
+    [<Extension>]
+    static member UseObjectFormatting(fluent: FluentPrintHint<_>) =
+        Print.useObjectFormatting fluent.Context
+
+    [<Extension>]
+    static member HeaderOnly(fluent: FluentPrintHint<_>) =
+        Print.headerOnly fluent.Context
+
+    [<Extension>]
+    static member WithResponseBodyLength(fluent: FluentPrintHint<_>, maxLength) =
+        Print.withResponseBodyLength maxLength fluent.Context
+
+    [<Extension>]
+    static member WithResponseBodyFormat(fluent: FluentPrintHint<_>, format) =
+        Print.withResponseBodyFormat format fluent.Context
+
+    [<Extension>]
+    static member WithResponseBodyExpanded(fluent: FluentPrintHint<_>) =
+        Print.withResponseBodyExpanded fluent.Context
 
 
 // ---------

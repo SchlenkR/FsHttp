@@ -180,6 +180,7 @@ let toAsync cancellationTokenOverride (context: IToRequest) =
             statusCode = response.StatusCode
             requestMessage = response.RequestMessage
             version = response.Version
+            printHint = request.printHint
             originalHttpRequestMessage = requestMessage
             originalHttpResponseMessage = response
             dispose = dispose

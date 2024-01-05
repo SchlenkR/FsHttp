@@ -29,7 +29,7 @@ let private printHeaderCollection (headers: KeyValuePair<string, string seq> seq
 
 let private doPrintRequestOnly (httpVersion: string) (request: Request) (requestMessage: HttpRequestMessage) =
     let sb = StringBuilder()
-    let requestPrintHint = request.config.printHint.requestPrintMode
+    let requestPrintHint = request.printHint.requestPrintMode
 
     do sb.appendSection "REQUEST"
     do sb.appendLine $"{Request.addressToString request} HTTP/{httpVersion}"
@@ -146,7 +146,7 @@ let private printResponseOnly (response: Response) =
         sb.appendLine contentIndicator
         sb.append trimmedContentText
 
-    match response.request.config.printHint.responsePrintMode with
+    match response.request.printHint.responsePrintMode with
     | AsObject -> sb.appendLine (sprintf "%A" response)
     | HeadersOnly -> printResponseHeaders ()
     | HeadersAndBody bodyConfig ->

@@ -48,7 +48,7 @@ namespace Test.CSharp
         }
 
         [Test]
-        public void Configuration()
+        public void ConfigurationViaTransformer()
         {
             const string Content = "Hello World";
 
@@ -59,7 +59,7 @@ namespace Test.CSharp
                     (await Server.url("").Post()
                         .Body()
                         .Text(Content)
-                        .Configure(c => c.Timeout(TimeSpan.FromTicks(1)))
+                        .Config().Timeout(TimeSpan.FromTicks(1))
                         .SendAsync())
                     .ToTextAsync());
         }
