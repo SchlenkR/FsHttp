@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>14.1.0</Version>
+    <Version>14.2.0</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2024 Ronald Schlenker</Copyright>
@@ -16,6 +16,9 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
+      v14.2.0
+      - (Breaking change) Separated Config and PrintHint (...and many more things in these domains)
+
       v14.1.0
       - (Breaking change) Renamed `Extensions.To...Enumerable` to `Extensions.To...Seq`
       - Added `toJsonList...` overloads

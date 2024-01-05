@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
+
 using FsHttp;
 using FsHttp.Tests;
+
 using NUnit.Framework;
 
 namespace Test.CSharp
@@ -48,7 +50,7 @@ namespace Test.CSharp
         }
 
         [Test]
-        public void ConfigurationViaTransformer()
+        public void FluentConfig()
         {
             const string Content = "Hello World";
 
@@ -62,6 +64,14 @@ namespace Test.CSharp
                         .Config().Timeout(TimeSpan.FromTicks(1))
                         .SendAsync())
                     .ToTextAsync());
+        }
+
+        [Test, Ignore("Compiler-test only")]
+        public void FluentPrintHint()
+        {
+            var request = 
+                Http.Get("http://...")
+                    .Print().HeaderOnly();
         }
     }
 }

@@ -44,8 +44,8 @@ An example in C#:
 
 using FsHttp;
 
-await "https://reqres.in/api/users"
-    .Post()
+await Http
+    .Post("https://reqres.in/api/users")
     .CacheControl("no-cache")
     .Body()
     .JsonSerialize(new

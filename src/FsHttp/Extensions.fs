@@ -11,7 +11,7 @@ open FsHttp
 // ---------
 
 [<Extension>]
-type HttpExtensions =
+type Http =
 
     [<Extension>]
     static member Method(url, method) = Http.method method url
