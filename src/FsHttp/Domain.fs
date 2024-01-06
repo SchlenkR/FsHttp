@@ -137,7 +137,6 @@ and IToMultipartContext =
     inherit IToRequest
     abstract member ToMultipartContext: unit -> MultipartContext
 
-// TODO: Convert this to a class.
 and HeaderContext = {
     header: Header
     config: Config
@@ -187,7 +186,6 @@ and HeaderContext = {
             }
         }
 
-// TODO: Convert this to a class.
 and BodyContext = {
     header: Header
     bodyContent: SinglepartContent
@@ -216,7 +214,6 @@ and BodyContext = {
     interface IToBodyContext with
         member this.ToBodyContext() = this
 
-// TODO: Convert this to a class.
 and MultipartContext = {
     header: Header
     multipartContent: MultipartContent
@@ -245,7 +242,6 @@ and MultipartContext = {
     interface IToMultipartContext with
         member this.ToMultipartContext() = this
 
-// TODO: Convert this to a class.
 and MultipartElementContext = {
     parent: MultipartContext
     part: MultipartElement
