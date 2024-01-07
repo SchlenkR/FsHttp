@@ -22,29 +22,30 @@ module HttpMethods =
     let connect = "CONNECT"
     let patch = "PATCH"
 
-/// Request constructors for RFC 2626 HTTP methods
-[<AutoOpen>]
-module Http =
+module internal HeaderContext =
+    // TODO: I really(!!) have to code the URL stuff on type level;
+    // this makes problems all over the place; feels like C# :D
 
-    let createHeaderContext address method config printHint =
+    let  create () =
         // FSI init HACK
         FsiInit.init ()
 
         {
             header = {
                 target = {
-                    method = method
-                    address = address
+                    method = None
+                    address = None
                     additionalQueryParams = []
                 }
                 headers = Map.empty
                 cookies = []
             }
-            config = config
-            printHint = printHint
+            config = GlobalConfig.defaults.Config
+            printHint = GlobalConfig.defaults.PrintHint 
         }
 
-    let internal methodWithConfig config printHint (method: string) (url: string) =
+    // TODO: Maybe also provide this and the verbs also for body context etc.?
+    let setUrl method url (context: HeaderContext) =
         if String.IsNullOrWhiteSpace(method) then
             failwith "Method must not be empty"
         if String.IsNullOrWhiteSpace(url) then
@@ -53,56 +54,35 @@ module Http =
         // TODO: See comment for type level safety
         // We give up a little bit of safety here, for the sake of pre-configuring HTTP requests
         // without specifying the URL. This is a trade-off we are willing to take.
-        let formattedUrl =
-            if String.IsNullOrWhiteSpace(url) then 
+        let url =
+            if String.IsNullOrWhiteSpace(url) then
                 ""
             else
                 url.Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
                 |> Seq.map (fun x -> x.Trim().Replace("\r", ""))
                 |> Seq.filter (fun x -> not (x.StartsWith("//", StringComparison.Ordinal)))
                 |> Seq.reduce (+)
-        createHeaderContext (Some formattedUrl) (Some (HttpMethod(method))) config printHint
+        { context with
+            header.target.address = Some url
+            header.target.method = Some (HttpMethod(method))
+        }
+    
 
-    let method (method: string) (url: string) = 
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint method url
+/// Request constructors for RFC 2626 HTTP methods
+[<AutoOpen>]
+module Http =
+    let internal method (method: string) (url: string) =
+        HeaderContext.create () |> HeaderContext.setUrl method url
 
-    let internal getWithConfig config printHint (url: string) =
-        methodWithConfig config printHint HttpMethods.get url
-    let internal putWithConfig config printHint (url: string) =
-        methodWithConfig config printHint HttpMethods.put url
-    let internal postWithConfig config printHint (url: string) =
-        methodWithConfig config printHint HttpMethods.post url
-    let internal deleteWithConfig config printHint (url: string) =
-        methodWithConfig config printHint HttpMethods.delete url
-    let internal optionsWithConfig config printHint (url: string) =
-        methodWithConfig config printHint HttpMethods.options url
-    let internal headWithConfig config printHint (url: string) =
-        methodWithConfig config printHint HttpMethods.head url
-    let internal traceWithConfig config printHint (url: string) =
-        methodWithConfig config printHint HttpMethods.trace url
-    let internal connectWithConfig config printHint (url: string) =
-        methodWithConfig config printHint HttpMethods.connect url
-    let internal patchWithConfig config printHint (url: string) =
-        methodWithConfig config printHint HttpMethods.patch url
-
-    let get (url: string) =
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.get url
-    let put (url: string) =
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.put url
-    let post (url: string) =
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.post url
-    let delete (url: string) =
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.delete url
-    let options (url: string) =
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.options url
-    let head (url: string) =
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.head url
-    let trace (url: string) =
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.trace url
-    let connect (url: string) =
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.connect url
-    let patch (url: string) =
-        methodWithConfig GlobalConfig.defaults.Config GlobalConfig.defaults.PrintHint HttpMethods.patch url
+    let get (url: string) = method HttpMethods.get url
+    let put (url: string) = method HttpMethods.put url
+    let post (url: string) = method HttpMethods.post url
+    let delete (url: string) = method HttpMethods.delete url
+    let options (url: string) = method HttpMethods.options url
+    let head (url: string) = method HttpMethods.head url
+    let trace (url: string) = method HttpMethods.trace url
+    let connect (url: string) = method HttpMethods.connect url
+    let patch (url: string) = method HttpMethods.patch url
 
 // TODO: RFC 4918 (WebDAV) adds 7 methods
 

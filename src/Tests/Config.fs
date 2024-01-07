@@ -147,6 +147,29 @@ let ``Cancellation token can be supplied by user`` () =
     wasCancelled |> should equal true
 
 
+let [<TestCase>] ``Pre-Configured Requests``() =
+    let headerName = "X-Custom-Value"
+    let headerValue = "Hallo Welt"
+
+    use server = GET >=> request (header headerName >> OK) |> serve
+
+    let httpSpecial =
+        http {
+            header headerName headerValue
+        }
+
+    let response =
+        httpSpecial {
+            GET (url @"")
+        }
+        |> Request.send
+        |> Response.toText
+    
+    do printfn "RESPONSE: %A" response
+
+    response |> should equal headerValue
+
+
 let [<TestCase>] ``Header Transformer``() =
     let url = "http://"
     let urlSuffix1 = "suffix1"

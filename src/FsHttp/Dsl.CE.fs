@@ -1,7 +1,6 @@
 [<AutoOpen>]
 module FsHttp.DslCE
 
-open System.Net
 open FsHttp
 
 
@@ -16,12 +15,8 @@ type IRequestContext<'self> with
 type HttpBuilder =
     // This is important to always have a new instance of the builder
     // that uses the config present at the time of the call.
-    static member http =
-        createHeaderContext 
-            None 
-            None 
-            GlobalConfig.defaults.Config 
-            GlobalConfig.defaults.PrintHint
+    static member http = HeaderContext.create ()
+
 
 // ---------
 // Methods
@@ -30,45 +25,49 @@ type HttpBuilder =
 type IRequestContext<'self> with
 
     [<CustomOperation("Method")>]
-    member this.Method(_: IRequestContext<HeaderContext>, method, url) = 
-        Http.method method url
+    member this.Method(context: IRequestContext<HeaderContext>, method, url) = 
+        context.Self |> HeaderContext.setUrl method url
+
+    // Important: Do NOT use the Dsl.get etc., because they 
+    // initialize the builder with the current config from scratch,
+    // which means: Test `Pre-Configured Requests` will fail.
 
     // RFC 2626 specifies 8 methods
     [<CustomOperation("GET")>]
     member this.Get(context: IRequestContext<HeaderContext>, url) = 
-        getWithConfig context.Self.config context.Self.printHint url
+        this.Method(context, HttpMethods.get, url)
 
     [<CustomOperation("PUT")>]
     member this.Put(context: IRequestContext<HeaderContext>, url) = 
-        putWithConfig context.Self.config context.Self.printHint url
+        this.Method(context, HttpMethods.put, url)
 
     [<CustomOperation("POST")>]
     member this.Post(context: IRequestContext<HeaderContext>, url) = 
-        postWithConfig context.Self.config context.Self.printHint url
+        this.Method(context, HttpMethods.post, url)
 
     [<CustomOperation("DELETE")>]
     member this.Delete(context: IRequestContext<HeaderContext>, url) = 
-        deleteWithConfig context.Self.config context.Self.printHint url
+        this.Method(context, HttpMethods.delete, url)
 
     [<CustomOperation("OPTIONS")>]
     member this.Options(context: IRequestContext<HeaderContext>, url) =
-        optionsWithConfig context.Self.config context.Self.printHint url
+        this.Method(context, HttpMethods.options, url)
 
     [<CustomOperation("HEAD")>]
     member this.Head(context: IRequestContext<HeaderContext>, url) = 
-        headWithConfig context.Self.config context.Self.printHint url
+        this.Method(context, HttpMethods.head, url)
 
     [<CustomOperation("TRACE")>]
     member this.Trace(context: IRequestContext<HeaderContext>, url) = 
-        traceWithConfig context.Self.config context.Self.printHint url
+        this.Method(context, HttpMethods.trace, url)
 
     [<CustomOperation("CONNECT")>]
     member this.Connect(context: IRequestContext<HeaderContext>, url) =
-        connectWithConfig context.Self.config context.Self.printHint url
+        this.Method(context, HttpMethods.connect, url)
 
     [<CustomOperation("PATCH")>]
     member this.Patch(context: IRequestContext<HeaderContext>, url) = 
-        patchWithConfig context.Self.config context.Self.printHint url
+        this.Method(context, HttpMethods.patch, url)
 
 
 // ---------
