@@ -38,6 +38,11 @@
     <None Include="..\..\docs\img\logo_small.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="8.0.100" />
+    <!-- NOTE: intentionally depend on a minimal version of FSharp.Core as the package previously did 
+               see https://github.com/fsprojects/FsHttp/issues/183 -->
+    <!-- ExcludeAssets is a workaround for malformed FSharp.Core packages https://github.com/dotnet/fsharp/issues/12706 via https://github.com/fsprojects/Paket/issues/4149-->
+    <!-- Removal triggers issues in dotnet publish, e.g. for Lambda projects -->
+    <!-- Also avoids Rider search finding stuff in FSharp.Core.xml -->
+    <PackageReference Include="FSharp.Core" Version="6.0.7" ExcludeAssets="contentfiles" />
   </ItemGroup>
 </Project>
