@@ -38,11 +38,13 @@
     <None Include="..\..\docs\img\logo_small.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <!-- NOTE: intentionally depend on a minimal version of FSharp.Core as the package previously did 
+    <!-- NOTE: intentionally depend on a minimal version of FSharp.Core as the package previously did prior to V13
                see https://github.com/fsprojects/FsHttp/issues/183 -->
+    <!-- NOTE: releases 13-14.4.0 did not include a nuspec declaration of their dependency on FSharp.Core V8.0.100
+               so tools like Paket will gravitate toward those broken versions if we make the version constraint more restrictive -->
     <!-- ExcludeAssets is a workaround for malformed FSharp.Core packages https://github.com/dotnet/fsharp/issues/12706 via https://github.com/fsprojects/Paket/issues/4149-->
     <!-- Removal triggers issues in dotnet publish, e.g. for Lambda projects -->
     <!-- Also avoids Rider search finding stuff in FSharp.Core.xml -->
-    <PackageReference Include="FSharp.Core" Version="6.0.7" ExcludeAssets="contentfiles" />
+    <PackageReference Include="FSharp.Core" Version="5.0.0" ExcludeAssets="contentfiles" />
   </ItemGroup>
 </Project>
