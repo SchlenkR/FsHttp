@@ -16,6 +16,9 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
+      v14.4.2
+      - Reduced FSharp.Core version dependency back down to 5.0.0
+      
       v14.4.1
       - Fixed missing explicit dependency on FSharp.Core
 
