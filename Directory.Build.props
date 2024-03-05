@@ -17,7 +17,7 @@
 
     <PackageReleaseNotes>
       14.4.2
-      - Pinned FSharp.Core to 5.0.2 in all library projects
+      - Thanks @bartelink: Pinned FSharp.Core to 5.0.2 in all library projects
 
       14.4.1
       - Fixed missing explicit dependency on FSharp.Core
