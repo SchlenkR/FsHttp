@@ -101,5 +101,5 @@ For common tasks, there are powershell files located in the repo root:
 Credits
 -------
 
-* Parts of the code is taken from the [HTTP utilities of FSharp.Data](https://schlenkr.github.io/FSharp.Data/library/Http.html).
+* Parts of the code is taken from the [HTTP utilities of FSharp.Data](https://fsprojects.github.io/FSharp.Data/library/Http.html).
 * Credits to all critics, supporters, contributors, promoters, users, and friends.
