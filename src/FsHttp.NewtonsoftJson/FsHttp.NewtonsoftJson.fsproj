@@ -26,10 +26,7 @@
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <!-- 
-      We require F# Core >= 5 due to string interpolation.
-      AND: We have this in all library projects; NOT in the test projects.
-    -->
+    <!-- See comments for FSharp.Core in FsHttp.fsproj -->
     <PackageReference Include="FSharp.Core" Version="5.0.2" />
   </ItemGroup>
 </Project>
