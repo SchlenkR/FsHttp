@@ -1,22 +1,17 @@
+FsHttp [![Build & Tests](https://github.com/fsprojects/FsHttp/actions/workflows/build-and-test.yml/badge.svg?branch=master)](https://github.com/fsprojects/FsHttp/actions/workflows/build-and-test.yml) [![NuGet Badge](https://buildstats.info/nuget/FsHttp)](https://www.nuget.org/packages/FsHttp)
+
 <p align="center">
     <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo_big.png' alt='logo' width='300' />
 </p>
 
-FsHttp ("Full Stack HTTP") is a "hackable HTTP client". It's purposes are:
+FsHttp ("Full Stack HTTP") is a "hackable HTTP client" that enables expressing HTTP requests in a legible style, while still being able to access the underlying Http representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
 
 * Use it as a replacement for `.http` files, *VSCode's REST client*, *Postman*, and other tools as an **interactive and programmable playground** for HTTP requests.
 * Usable as a **production-ready HTTP client** for applications powered by .Net (C#, VB, F#).
 
-👍Postman? ❤️ FsHttp!
-
-https://youtu.be/F508wQu7ET0
-
-The design principle behind FsHttp is to specify HTTP requests in a most convenient and readable way, while still being able to access the underlying Http representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
+👍Postman? ❤️ FsHttp! https://youtu.be/F508wQu7ET0
 
 **FsHttp** is developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
-
-[![NuGet Badge](http://img.shields.io/nuget/v/FsHttp.svg?style=flat)](https://www.nuget.org/packages/FsHttp) ![build status](https://github.com/fsprojects/FsHttp/actions/workflows/push-master_pull-request.yml/badge.svg?event=push)
-
 
 A Simple Example
 ----------------
@@ -73,8 +68,7 @@ Release Notes / Migrating to new versions
 ---
 
 * See https://www.nuget.org/packages/FsHttp#release-body-tab
-* For different upgrade paths, please read the [Migrations section](https://schlenkr.github.io/FsHttp/Migrations.html) in the docu.
-
+* For different upgrade paths, please read the [Migrations docs section](https://fsprojects.github.io/FsHttp/Release_Notes.html).
 
 GitHub
 -------------
@@ -87,7 +81,7 @@ Building
 
 **.Net SDK:**
 
-You need to have the latest .Net SDK installed, which is specified in `./global.json`.
+You need to have a recent .NET SDK installed, which is specified in `./global.json`.
 
 **Build Tasks**
 
