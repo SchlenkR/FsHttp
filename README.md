@@ -1,15 +1,15 @@
-FsHttp [![Build & Tests](https://github.com/fsprojects/FsHttp/actions/workflows/build-and-test.yml/badge.svg?branch=master)](https://github.com/fsprojects/FsHttp/actions/workflows/build-and-test.yml) [![NuGet Badge](https://buildstats.info/nuget/FsHttp)](https://www.nuget.org/packages/FsHttp)
+# FsHttp [![Build & Tests](https://github.com/fsprojects/FsHttp/actions/workflows/build-and-test.yml/badge.svg?branch=master)](https://github.com/fsprojects/FsHttp/actions/workflows/build-and-test.yml) [![NuGet Badge](https://buildstats.info/nuget/FsHttp)](https://www.nuget.org/packages/FsHttp)
 
 <p align="center">
     <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo_big.png' alt='logo' width='300' />
 </p>
 
-FsHttp ("Full Stack HTTP") is a "hackable HTTP client" that enables expressing HTTP requests in a legible style, while still being able to access the underlying Http representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
+FsHttp ("Full Stack HTTP") is a "hackable HTTP client" that enables expressing HTTP requests in a legible style, while still being able to dig down into the underlying Http representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
 
 * Use it as a replacement for `.http` files, *VSCode's REST client*, *Postman*, and other tools as an **interactive and programmable playground** for HTTP requests.
-* Usable as a **production-ready HTTP client** for applications powered by .Net (C#, VB, F#).
+* Usable as a **production-ready HTTP client** for applications powered by .NET (C#, VB, F#).
 
-👍Postman? ❤️ FsHttp! https://youtu.be/F508wQu7ET0
+👍 Postman? ❤️ FsHttp! https://youtu.be/F508wQu7ET0
 
 **FsHttp** is developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
 
