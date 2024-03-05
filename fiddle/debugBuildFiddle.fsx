@@ -1,5 +1,5 @@
 
-#r "../src/FsHttp/bin/Debug/net8.0/FsHttp.dll"
+#r "../src/FsHttp/bin/Debug/net6.0/FsHttp.dll"
 
 open FsHttp
 

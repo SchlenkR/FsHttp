@@ -1,5 +1,5 @@
 
-#r "../FsHttp/bin/debug/net8.0/FsHttp.dll"
+#r "../FsHttp/bin/debug/net6.0/FsHttp.dll"
 
 FsHttp.FsiInit.doInit()
 
