@@ -480,6 +480,14 @@ module Config =
         context.UpdateConfig(fun config -> 
             { config with headerTransformers = config.headerTransformers @ [ transformer ] })
 
+    let transformUrl transformer (context: IUpdateConfig<_>) =
+        context |> transformHeader (fun header ->
+            let address = transformer header.target.address.Value
+            { header with target.address = Some address })
+
+    let useBaseUrl (baseUrl: string) (context: IUpdateConfig<_>) =
+        context |> transformUrl (fun url -> Url.combine baseUrl url)
+
     let setHttpClientFactory httpClientFactory (context: IUpdateConfig<_>) =
         context.UpdateConfig(fun config -> 
             { config with httpClientFactory = httpClientFactory })

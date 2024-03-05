@@ -441,6 +441,14 @@ type IRequestContext<'self> with
     member this.TransformHeader(context: IRequestContext<#IUpdateConfig<_>>, transformer) =
         Config.transformHeader transformer context.Self
 
+    [<CustomOperation("config_transformUrl")>]
+    member this.TransformUrl(context: IRequestContext<#IUpdateConfig<_>>, transformer) =
+        Config.transformUrl transformer context.Self
+    
+    [<CustomOperation("config_useBaseUrl")>]
+    member this.UseBaseUrl(context: IRequestContext<#IUpdateConfig<_>>, baseUrl) =
+        Config.useBaseUrl baseUrl context.Self
+
     [<CustomOperation("config_setHttpClientFactory")>]
     member this.SetHttpClientFactory(context: IRequestContext<#IUpdateConfig<_>>, httpClientFactory) =
         Config.setHttpClientFactory httpClientFactory context.Self

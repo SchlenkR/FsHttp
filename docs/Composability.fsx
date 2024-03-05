@@ -27,7 +27,13 @@ let httpForMySpecialEnvironment =
     let baseUrl = "http://my-special-environment"
     http {
         // we would like to have a fixed URL prefix for all requests.
-        // So we define a new builder that actually transforms the header.
+        // So we define a new builder that actually uses a base url, like so:
+        config_useBaseUrl baseUrl
+
+        // ...in case you need more control, you can also transform the URL:
+        config_transformUrl (fun url -> baseUrl </> url)
+
+        // ...or you can transform the header in a similar way.
         // Since the description of method is a special thing,
         // we have to change the URL for any method using a header transformer,
         // like so:

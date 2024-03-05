@@ -454,47 +454,55 @@ type ConfigExtensions =
 
     [<Extension>]
     static member TimeoutInSeconds(fluent: FluentConfig<_>, value) =
-        Config.timeoutInSeconds value
+        Config.timeoutInSeconds value fluent.Context
 
     [<Extension>]
     static member TransformHeader(fluent: FluentConfig<_>, transformer) =
-        Config.transformHeader transformer
+        Config.transformHeader transformer fluent.Context
+
+    [<Extension>]
+    static member TransformUrl(fluent: FluentConfig<_>, transformer) =
+        Config.transformUrl transformer fluent.Context
+
+    [<Extension>]
+    static member UseBaseUrl(fluent: FluentConfig<_>, baseUrl) =
+        Config.useBaseUrl baseUrl fluent.Context
 
     [<Extension>]
     static member SetHttpClientFactory(fluent: FluentConfig<_>, httpClientFactory) =
-        Config.setHttpClientFactory httpClientFactory
+        Config.setHttpClientFactory httpClientFactory fluent.Context
 
     [<Extension>]
     static member TransformHttpClient(fluent: FluentConfig<_>, transformer) =
-        Config.transformHttpClient transformer
+        Config.transformHttpClient transformer fluent.Context
 
     [<Extension>]
     static member TransformHttpRequestMessage(fluent: FluentConfig<_>, transformer) =
-        Config.transformHttpRequestMessage transformer
+        Config.transformHttpRequestMessage transformer fluent.Context
 
     [<Extension>]
     static member TransformHttpClientHandler(fluent: FluentConfig<_>, transformer) =
-        Config.transformHttpClientHandler transformer
+        Config.transformHttpClientHandler transformer fluent.Context
 
     [<Extension>]
     static member Proxy(fluent: FluentConfig<_>, url) =
-        Config.proxy url
+        Config.proxy url fluent.Context
 
     [<Extension>]
     static member Proxy(fluent: FluentConfig<_>, url, credentials) =
-        Config.proxyWithCredentials url credentials
+        Config.proxyWithCredentials url credentials fluent.Context
 
     [<Extension>]
     static member DecompressionMethods(fluent: FluentConfig<_>, decompressionMethods) =
-        Config.decompressionMethods decompressionMethods
+        Config.decompressionMethods decompressionMethods fluent.Context
 
     [<Extension>]
     static member NoDecompression(fluent: FluentConfig<_>) =
-        Config.noDecompression
+        Config.noDecompression fluent.Context
 
     [<Extension>]
     static member CancellationToken(fluent: FluentConfig<_>, cancellationToken) =
-        Config.cancellationToken cancellationToken
+        Config.cancellationToken cancellationToken fluent.Context
 
 
 // ---------

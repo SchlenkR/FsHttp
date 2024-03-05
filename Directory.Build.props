@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>14.4.2</Version>
+    <Version>14.5.0</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2024 Ronald Schlenker</Copyright>
@@ -16,6 +16,10 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
+      14.5.0
+      - Added 'useBaseUrl' and 'transformUrl' to Config for better composability
+      - Fixed some extension methods
+
       14.4.2
       - Thanks @bartelink
         Pinned FSharp.Core to 5.0.2 in all library projects
