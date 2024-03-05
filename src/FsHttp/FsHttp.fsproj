@@ -1,18 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <LangVersion>8</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FsHttp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <Description>A .Net HTTP client library for F#, C#, and friends</Description>
     <PackageId>FsHttp</PackageId>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FsHttp.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
@@ -38,6 +37,18 @@
     <None Include="..\..\docs\img\logo_small.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="8.0.100" />
+    <!--
+      - Intentionally depend on a minimal version of FSharp.Core as the package previously did prior to V13
+        see https://github.com/fsprojects/FsHttp/issues/183
+      - Releases 13-14.4.0 did not include a nuspec declaration of their dependency on FSharp.Core V8.0.100,
+        so tools like Paket will gravitate toward those broken versions if we make the version constraint more restrictive
+      - We require F# Core >= 5 due to string interpolation.
+      - We have this in all library projects; NOT in the test projects.
+        (https://fsharp.github.io/fsharp-compiler-docs/fsharp-core-notes.html#Package-authors-should-pin-their-FSharp-Core-reference)
+      - ExcludeAssets is a workaround for malformed FSharp.Core packages https://github.com/dotnet/fsharp/issues/12706 via https://github.com/fsprojects/Paket/issues/4149
+        Removal triggers issues in dotnet publish, e.g. for Lambda projects
+        Also avoids Rider search finding stuff in FSharp.Core.xml
+    -->
+    <PackageReference Include="FSharp.Core" Version="5.0.2" />
   </ItemGroup>
 </Project>

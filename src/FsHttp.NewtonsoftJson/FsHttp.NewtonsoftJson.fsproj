@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup>
     <Description>JSON.Net (Newtonsoft.Json) integration package for FsHttp</Description>
@@ -23,5 +24,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 
+      We require F# Core >= 5 due to string interpolation.
+      AND: We have this in all library projects; NOT in the test projects.
+    -->
+    <PackageReference Include="FSharp.Core" Version="5.0.2" />
   </ItemGroup>
 </Project>
