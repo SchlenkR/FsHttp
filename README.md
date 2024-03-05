@@ -13,7 +13,7 @@ Developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawed
 
 ## Documentation
 
-* 📖 Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for a detailed documentation.
+* 📖 Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for detailed documentation.
 * 🧪 In addition, have a look at the [Integration Tests](https://github.com/fsprojects/FsHttp/tree/master/src/Tests) that show various library details.
 
 ### F# syntax example
