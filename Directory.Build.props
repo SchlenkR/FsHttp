@@ -17,7 +17,9 @@
 
     <PackageReleaseNotes>
       14.4.2
-      - Thanks @bartelink: Pinned FSharp.Core to 5.0.2 in all library projects
+      - Thanks @bartelink
+        Pinned FSharp.Core to 5.0.2 in all library projects
+        Removed net7.0, net8.0 TFM-specific builds
 
       14.4.1
       - Fixed missing explicit dependency on FSharp.Core
