@@ -11,7 +11,7 @@ FsHttp ("Full Stack HTTP") is a "hackable HTTP client" that offers a legible sty
 
 Developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
 
-### Documentation
+## Documentation
 
 * 📖 Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for a detailed documentation.
 * 🧪 In addition, have a look at the [Integration Tests](https://github.com/fsprojects/FsHttp/tree/master/src/Tests) that show various library details.
@@ -61,7 +61,7 @@ await Http
 * See https://www.nuget.org/packages/FsHttp#release-body-tab
 * For different upgrade paths, please read the [Migrations docs section](https://fsprojects.github.io/FsHttp/Release_Notes.html).
 
-### Building
+## Building
 
 **.Net SDK:**
 
@@ -81,7 +81,7 @@ For common tasks, there are powershell files located in the repo root:
 * `./publish.ps1`: Publishes all packages (FsHttp and it's integration packages for Newtonsoft and FSharp.Data) to NuGet.
   * Always have a look at `./src/Directory.Build.props` and keep the file up-to-date.
 
-### Credits
+## Credits
 
 * Parts of the code were taken from the [HTTP utilities of FSharp.Data](https://fsprojects.github.io/FSharp.Data/library/Http.html).
 * Credits to all critics, supporters, contributors, promoters, users, and friends.
