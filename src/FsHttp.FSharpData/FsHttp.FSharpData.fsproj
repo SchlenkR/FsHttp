@@ -1,12 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-  </PropertyGroup>
-  <PropertyGroup>
     <Description>FSharp.Data (JSON) integration package for FsHttp</Description>
     <PackageId>FsHttp.FSharpData</PackageId>
   </PropertyGroup>
