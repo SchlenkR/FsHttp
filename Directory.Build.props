@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>14.4.1</Version>
+    <Version>14.4.2</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2024 Ronald Schlenker</Copyright>
@@ -16,23 +16,26 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
-      v14.4.1
+      14.4.2
+      - Pinned FSharp.Core to 5.0.2 in all library projects
+
+      14.4.1
       - Fixed missing explicit dependency on FSharp.Core
 
-      v14.4.0
+      14.4.0
       - Fixed pre-configured requests
 
-      v14.3.0
+      14.3.0
       - Added `GetList` JsonElement extension
       
-      v14.2.0
+      14.2.0
       - (Breaking change) Separated Config and PrintHint (...and many more things in these domains)
 
-      v14.1.0
+      14.1.0
       - (Breaking change) Renamed `Extensions.To...Enumerable` to `Extensions.To...Seq`
       - Added `toJsonList...` overloads
 
-      v14.0.0
+      14.0.0
       - (Breaking change) Renamed types in Domain:
         BodyContent -> SinglepartContent
         RequestContent -> BodyContent
@@ -40,28 +43,28 @@
       - (Breaking change) FsHttpUrl (now FsHttpTarget) and Header restructured: method, address and queryParams are now part of the FsHttpTarget type.
       - Added `headerTransformers` to Config for better composability
 
-      v13.3.0
+      13.3.0
       - (Breaking change) All `Response._TAsync` functions (task based) in F# require a CancellationToken now.
       - (Breaking change) Extension methods rework
       - (Breaking change) There's no more StartingContext, which means:
         we give up a little bit of safety here, for the sake of pre-configuring HTTP requests
         without specifying the URL. This is a trade-off we are willing to take.
 
-      v12.2.0
+      12.2.0
       - added HttpMethods for better composability
 
-      v12.1.0
+      12.1.0
       - net8.0
 
-      v12.0.0
+      12.0.0
       - #137 / #102: Change the type for FsHttpUrl.additionalQueryParams from obj to string
       - Removed (auto opened) Async.await and Task.map/await
       - Moved (auto opened) Async.map to FsHttp.Helper.Async.map
 
-      v11.1.0
+      11.1.0
       - #130 / #105: Add method for user-supplied cancellation token
 
-      v11.0.0
+      11.0.0
       - #121 (Breaking change): Turning off debug logs in FSI (breaking change in signature / namespace)
       - #124: Support Repeating Query Parameters (thanks @DaveJohnson8080)
       - #106 (Breaking change): Allow filename metadata with other "parts" (thanks @dawedawe)
@@ -81,50 +84,50 @@
       -- Old release notes below --
       -----------------------------
       
-      v7.0.0
+      7.0.0
       - #92: `expect` and `assert` pass through the original response instead of unit.
 
-      v8.0.0
+      8.0.0
       - #93 (thanks @drhumlen): Changed content type 'text/json' to 'application/json'.
       - Http modules are always AutoOpen in both Dsl and DslCE.
       - No extra modules for builder methods.
 
-      v8.0.1
+      8.0.1
       - #89: No more blocking requests using net5 with FSI.
 
-      v9.0.0 / v9.0.1
+      9.0.0 / 9.0.1
       - Redefined builders (see README.md).
       - Many breaking changes (see "Migrations" sections in the docu).
 
-      v9.0.2
+      9.0.2
       - Added JSON toArray functions
       - Fixed #99: Response.saveFile should create the directory if not present.
 
-      v9.0.3
+      9.0.3
       - Supporting netstandard2.1 again.
 
-      v9.0.4
+      9.0.4
       - Referenced lowest possible FSharp.Core and other referenced packages version.
 
-      v9.0.5
+      9.0.5
       - Support for netstandard2.0.
       - New 'FsHttp.NewtonsoftJson' integration package.
       - More JSON functions and defaults config.
 
-      v9.0.6
+      9.0.6
       - #100 - Removed FSI print messages.
 
-      v9.1.0
+      9.1.0
       - Fixed naming inconsistency for 'Response.deserialize...' functions.
       - More C# JSON functions.
 
-      v9.1.1
+      9.1.1
       - Fix: Using GlobalConfig.Json.defaultJsonSerializerOptions as default for jsonSerialize.
 
-      v9.1.2
+      9.1.2
       - Fixed #103: FSI response printing and initialization doesn't work out of the box anymore.
 
-      v10.0.0
+      10.0.0
       - .Net 7 support (thank you @Samuel-Dufour)
       - Breaking change: Corrected typo "guessMineTypeFromPath" -> "guessMimeTypeFromPath"
       - Breaking change: Module 'Helper', 'HelperInternal' and 'HelperAutos' refactored
@@ -135,15 +138,11 @@
       - PrintHint.printDebugMessages: Moved to FsHttp.Helper.Fsi.logDebugMessages as a global switch
       - #113 - Config.timeoutInSeconds bug
 
-      v10.1.0
+      10.1.0
       - #117: Escape string for query params values (by @maciej-izak - thank you)
       (!!) This can be seen as breaking change.
       - #112: Allow to add (multiple) headers (by @Samuel-Dufour - thank you)
     </PackageReleaseNotes>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="8.0.100" />
-  </ItemGroup>
 
 </Project>

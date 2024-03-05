@@ -1,18 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <LangVersion>8</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FsHttp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <Description>A .Net HTTP client library for F#, C#, and friends</Description>
     <PackageId>FsHttp</PackageId>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FsHttp.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
@@ -38,6 +36,10 @@
     <None Include="..\..\docs\img\logo_small.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="8.0.100" />
+    <!-- 
+      We require F# Core >= 5 due to string interpolation.
+      AND: We have this in all library projects; NOT in the test projects.
+    -->
+    <PackageReference Include="FSharp.Core" Version="5.0.2" />
   </ItemGroup>
 </Project>

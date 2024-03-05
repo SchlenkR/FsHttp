@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup>
     <Description>FSharp.Data (JSON) integration package for FsHttp</Description>
@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="6.3.0" />
-    <PackageReference Include="FSharp.Core" Version="8.0.100" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
@@ -24,5 +23,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FsHttp\FsHttp.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 
+      We require F# Core >= 5 due to string interpolation.
+      AND: We have this in all library projects; NOT in the test projects.
+    -->
+    <PackageReference Include="FSharp.Core" Version="5.0.2" />
   </ItemGroup>
 </Project>
