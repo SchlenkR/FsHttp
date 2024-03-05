@@ -40,6 +40,6 @@
       We require F# Core >= 5 due to string interpolation.
       AND: We have this in all library projects; NOT in the test projects.
     -->
-    <PackageReference Include="FSharp.Core" Version="5.0.2" />
+    <PackageReference Include="FSharp.Core" Version="8.0.200" />
   </ItemGroup>
 </Project>
