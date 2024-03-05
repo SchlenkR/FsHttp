@@ -4,16 +4,12 @@ FsHttp [![Build & Tests](https://github.com/fsprojects/FsHttp/actions/workflows/
     <img src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo_big.png' alt='logo' width='300' />
 </p>
 
-FsHttp ("Full Stack HTTP") is a "hackable HTTP client". It's purposes are:
+FsHttp ("Full Stack HTTP") is a "hackable HTTP client" that enables expressing HTTP requests in a legible style, while still being able to access the underlying Http representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
 
 * Use it as a replacement for `.http` files, *VSCode's REST client*, *Postman*, and other tools as an **interactive and programmable playground** for HTTP requests.
 * Usable as a **production-ready HTTP client** for applications powered by .Net (C#, VB, F#).
 
-👍Postman? ❤️ FsHttp!
-
-https://youtu.be/F508wQu7ET0
-
-The design principle behind FsHttp is to specify HTTP requests in a most convenient and readable way, while still being able to access the underlying Http representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
+👍Postman? ❤️ FsHttp! https://youtu.be/F508wQu7ET0
 
 **FsHttp** is developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
 
