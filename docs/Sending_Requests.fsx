@@ -93,6 +93,23 @@ http {
 
 
 (**
+## Plain text
+*)
+http {
+    POST "https://mysite"
+    body
+    // Sets Content-Type: plain/text header
+    text """
+The last train is nearly due
+The underground is closing soon
+And in the dark deserted station
+Restless in anticipation
+A man waits in the shadows
+"""
+}
+|> Request.send
+
+(**
 ## Request Cancellation
 
 It is possible to bind a cancellation token to a request definition,
