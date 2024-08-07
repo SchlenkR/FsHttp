@@ -16,6 +16,9 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
+      14.5.1
+      - Fixed untracked bug: using config_useBaseUrl as http template won't crash when printing unfinished requests
+
       14.5.0
       - Added 'useBaseUrl' and 'transformUrl' to Config for better composability
       - Fixed some extension methods

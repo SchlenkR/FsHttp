@@ -178,7 +178,7 @@ let [<TestCase>] ``Header Transformer``() =
     let httpSpecial =
         let transformWith suffix =
             fun (header: Header) ->
-                let address = header.target.address.Value
+                let address = (header.target.address |> Option.defaultValue "")
                 { header with target.address = Some $"{address}{suffix}" }
         http {
             config_transformHeader (transformWith urlSuffix1)

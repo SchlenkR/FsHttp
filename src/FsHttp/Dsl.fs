@@ -482,7 +482,7 @@ module Config =
 
     let transformUrl transformer (context: IUpdateConfig<_>) =
         context |> transformHeader (fun header ->
-            let address = transformer header.target.address.Value
+            let address = transformer (header.target.address |> Option.defaultValue "")
             { header with target.address = Some address })
 
     let useBaseUrl (baseUrl: string) (context: IUpdateConfig<_>) =

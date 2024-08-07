@@ -38,7 +38,7 @@ let httpForMySpecialEnvironment =
         // we have to change the URL for any method using a header transformer,
         // like so:
         config_transformHeader (fun (header: Header) ->
-            let address = baseUrl </> header.target.address.Value
+            let address = baseUrl </> (header.target.address |> Option.defaultValue "")
             { header with target.address = Some address })
 
         // other header values can be just configured as usual:
