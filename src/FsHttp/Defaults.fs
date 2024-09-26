@@ -11,33 +11,24 @@ let defaultJsonDocumentOptions = JsonDocumentOptions()
 let defaultJsonSerializerOptions = JsonSerializerOptions JsonSerializerDefaults.Web
 
 let defaultHttpClientFactory (config: Config) =
-    let getDefaultClientHandler ignoreSslIssues =
-        let handler =
-            new SocketsHttpHandler(UseCookies = false, PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
-        if ignoreSslIssues then
-            handler.SslOptions <-
-                let options = Security.SslClientAuthenticationOptions()
-
-                let callback =
-                    Security.RemoteCertificateValidationCallback(fun sender cert chain errors -> true)
-
-                do options.RemoteCertificateValidationCallback <- callback
-                options
-        handler
-
+    let handler =
+        new SocketsHttpHandler(
+            UseCookies = false, 
+            PooledConnectionLifetime = TimeSpan.FromMinutes 5.0)
     let ignoreSslIssues =
         match config.certErrorStrategy with
         | Default -> false
         | AlwaysAccept -> true
-
-    let handler =
-        let clientHandler = getDefaultClientHandler ignoreSslIssues
-
-        clientHandler.AutomaticDecompression <-
-            config.defaultDecompressionMethods
-            |> List.fold (fun c n -> c ||| n) DecompressionMethods.None
-
-        config.httpClientHandlerTransformers |> List.fold (fun c n -> n c) clientHandler
+    if ignoreSslIssues then
+        do handler.SslOptions <-
+            let options = Security.SslClientAuthenticationOptions()
+            let callback = Security.RemoteCertificateValidationCallback(fun sender cert chain errors -> true)
+            do options.RemoteCertificateValidationCallback <- callback
+            options
+    do handler.AutomaticDecompression <-
+        config.defaultDecompressionMethods
+        |> List.fold (fun c n -> c ||| n) DecompressionMethods.None
+    let handler = config.httpClientHandlerTransformers |> List.fold (fun c n -> n c) handler
 
     match config.proxy with
     | Some proxy ->
