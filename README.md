@@ -71,14 +71,14 @@ You need to have a recent .NET SDK installed, which is specified in `./global.js
 
 There is a F# build script (`./build.fsx`) that can be used to perform several build tasks from command line.
 
-For common tasks, there are powershell files located in the repo root:
+For common tasks, there are bash scripts located in the repo root:
 
-* `./test.ps1`: Runs all tests (sources in `./src/Tests`).
+* `./test.sh`: Runs all tests (sources in `./src/Tests`).
   * You can pass args to this task. E.g. for executing only some tests:
-    `./test.ps1 --filter Name~'Response Decompression'`
-* `./docu.ps1`: Rebuilds the FsHttp documentation site (sources in `./src/docs`).
-* `./docu-watch.ps1`: Run it if you are working on the documentation sources, and want to see the result in a browser.
-* `./publish.ps1`: Publishes all packages (FsHttp and it's integration packages for Newtonsoft and FSharp.Data) to NuGet.
+    `./test.sh --filter Name~'Response Decompression'`
+* `./docu.sh`: Rebuilds the FsHttp documentation site (sources in `./src/docs`).
+* `./docu-watch.sh`: Run it if you are working on the documentation sources, and want to see the result in a browser.
+* `./publish.sh`: Publishes all packages (FsHttp and it's integration packages for Newtonsoft and FSharp.Data) to NuGet.
   * Always have a look at `./src/Directory.Build.props` and keep the file up-to-date.
 
 ## Credits

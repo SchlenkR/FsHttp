@@ -25,8 +25,8 @@ jobs:
         run: dotnet build -c Release
 
       - name: Build docu
-        shell: pwsh
-        run: ./docu.ps1
+        run: ./docu.sh
+        shell: bash
 
       - name: Upload docs artifact to GH pages
         uses: actions/upload-pages-artifact@v3
