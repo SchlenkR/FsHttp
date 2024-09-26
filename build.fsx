@@ -1,4 +1,3 @@
-
 System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
 #r "nuget: Fake.Core.Process"
@@ -29,15 +28,26 @@ module Helper =
             runTarget t
 
     type Args() =
+        let strippedArgs = 
+            fsi.CommandLineArgs 
+            |> Array.skipWhile (fun x -> x <> __SOURCE_FILE__ ) 
+            |> Array.skip 1
+            |> Array.toList
         let taskName,taskArgs =
-            match fsi.CommandLineArgs |> Array.toList with
-            | fsi :: taskName :: taskArgs -> taskName, taskArgs
+            match strippedArgs with
+            | taskName :: taskArgs -> taskName, taskArgs
             | _ -> 
                 let msg = $"Wrong args. Expected: fsi :: taskName :: taskArgs"
                 printfn "%s" msg
                 Environment.Exit -1
                 failwith msg
-        member _.IsTask(arg) = taskName = arg
+        do
+            printfn $"Task name: {taskName}"
+            printfn $"Task args: {taskArgs}"
+        member _.IsTask(arg) =
+            let res = taskName = arg
+            printfn $"Checking task '{arg}'... {res} (taskName: '{taskName}')"
+            res
         member _.TaskArgs = taskArgs
 
 let args = Args()
