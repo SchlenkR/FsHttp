@@ -37,16 +37,13 @@ let toStream response =
 let parseAsync parserName parse response =
     async {
         use! contentStream = toStreamAsync response
-        use bufferingStream = new Utf8StringBufferingStream(contentStream, None)
 
         try
             let! ct = Async.CancellationToken
-            return! parse (bufferingStream :> Stream) ct
+            return! parse contentStream ct
         with ex ->
-            let errorDisplayContent = bufferingStream.GetUtf8String()
-
-            let msg =
-                $"Could not parse %s{parserName}: {ex.Message}{Environment.NewLine}Content:{Environment.NewLine}{errorDisplayContent}"
+            let! errorDisplayContent = Stream.readUtf8StringAsync 1000 contentStream
+            let msg = $"Could not parse %s{parserName}: {ex.Message}{Environment.NewLine}Content:{Environment.NewLine}{errorDisplayContent}"
 
             return raise (Exception(msg, ex))
     }

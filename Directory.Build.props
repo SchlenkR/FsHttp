@@ -16,6 +16,10 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
+      15.0.0
+      - Added 'enumerable' and 'enumerablePart' as body content functions
+      - Removed Utf8StringBufferingStream
+
       14.5.1
       - Fixed untracked bug: using config_useBaseUrl as http template won't crash when printing unfinished requests
 

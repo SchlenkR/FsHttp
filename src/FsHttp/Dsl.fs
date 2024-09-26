@@ -344,6 +344,10 @@ module Body =
             (StreamContent stream)
             context
 
+    let enumerable (sequence: byte seq) (context: IToBodyContext) =
+        let enumerableStream = new EnumerableStream(sequence)
+        stream enumerableStream context
+
     let text (text: string) (context: IToBodyContext) =
         content
             {
@@ -449,6 +453,10 @@ module Multipart =
 
     let streamPart (value: System.IO.Stream) name fileName (context: IToMultipartContext) =
         part (StreamContent value) name fileName context
+
+    let enumerablePart (value: byte seq) name fileName (context: IToMultipartContext) =
+        let enumerableStream = new EnumerableStream(value)
+        streamPart enumerableStream name fileName context
 
 
 module Config =

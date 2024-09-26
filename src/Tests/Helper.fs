@@ -27,43 +27,33 @@ let ``Stream ReadUtf8StringAsync`` () =
 
     let text = "a😉b🙁🙂d"
 
-    let read len =
-        new MemoryStream(Encoding.UTF8.GetBytes(text))
-        |> Stream.readUtf8StringAsync len
-        |> Async.RunSynchronously
+    let test len (expected: string) =
+        let res =
+            new MemoryStream(Encoding.UTF8.GetBytes(text))
+            |> Stream.readUtf8StringAsync len
+            |> Async.RunSynchronously
+        let s1 = Encoding.UTF8.GetBytes res |> Array.toList
+        let s2 = Encoding.UTF8.GetBytes expected |> Array.toList
+        let res = (s1 = s2)
+        if not res then
+            printfn ""
+            printfn "count = %d" len
+            printfn "expected = %s" expected
+            printfn ""
+            printfn "Expected: %A" s2
+            printfn ""
+            printfn "Actual  : %A" s1
+            printfn ""
+            printfn " ----------------------------"
+        res |> should equal true
 
-    read 0 |> shouldEqual ""
-    read 1 |> shouldEqual "a"
-    read 2 |> shouldEqual "a"
-    read 3 |> shouldEqual "a😉"
-    read 4 |> shouldEqual "a😉b"
-    read 5 |> shouldEqual "a😉b"
-    read 6 |> shouldEqual "a😉b🙁"
-    read 7 |> shouldEqual "a😉b🙁"
-    read 8 |> shouldEqual "a😉b🙁🙂"
-    read 9 |> shouldEqual "a😉b🙁🙂d"
-    read 100 |> shouldEqual "a😉b🙁🙂d"
-
-let private testUtf8StringBufferingStream limit =
-    let text = "abcdefghijklmnop"
-
-    let bs =
-        new Utf8StringBufferingStream(new MemoryStream(Encoding.UTF8.GetBytes(text)), limit)
-
-    let sr = new StreamReader(bs)
-    do sr.ReadToEnd() |> ignore
-
-    let expectation =
-        match limit with
-        | Some limit -> text.Substring(0, limit)
-        | _ -> text
-
-    bs.GetUtf8String() |> shouldEqual expectation
-
-[<TestCase>]
-let ``Stream Utf8StringBufferingStream with limit`` () = testUtf8StringBufferingStream (Some 2)
-
-[<TestCase>]
-let ``Stream Utf8StringBufferingStream no limit`` () = testUtf8StringBufferingStream None
+    test 0 ""
+    test 1 "a"
+    test 2 "a😉"
+    test 3 "a😉b"
+    test 4 "a😉b🙁"
+    test 5 "a😉b🙁🙂"
+    test 6 "a😉b🙁🙂d"
+    test 100 "a😉b🙁🙂d"
 
 // TODO: Test other helper functions

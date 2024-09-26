@@ -329,6 +329,10 @@ type IRequestContext<'self> with
     member this.Stream(context: IRequestContext<BodyContext>, stream) = 
         Body.stream stream context.Self
 
+    [<CustomOperation("enumerable")>]
+    member this.Enumerable(context: IRequestContext<BodyContext>, data) = 
+        Body.enumerable data context.Self
+
     [<CustomOperation("text")>]
     member this.Text(context: IRequestContext<BodyContext>, text) = 
         Body.text text context.Self
@@ -402,6 +406,10 @@ type IRequestContext<'self> with
     [<CustomOperation("streamPart")>]
     member this.StreamPart(context: IRequestContext<#IToMultipartContext>, value, name, ?fileName) =
         Multipart.streamPart value name fileName context.Self
+
+    [<CustomOperation("enumerablePart")>]
+    member this.EnumerablePart(context: IRequestContext<#IToMultipartContext>, value, name, ?fileName) =
+        Multipart.enumerablePart value name fileName context.Self
 
 
 // ---------
