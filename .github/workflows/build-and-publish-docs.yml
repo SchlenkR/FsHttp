@@ -24,9 +24,8 @@ jobs:
       - name: Build solution
         run: dotnet build -c Release
 
-      - name: Build docu
-        run: ./docu.sh
-        shell: bash
+      - name: Make docu.sh executable
+        run: chmod +x ./docu.sh
 
       - name: Upload docs artifact to GH pages
         uses: actions/upload-pages-artifact@v3
