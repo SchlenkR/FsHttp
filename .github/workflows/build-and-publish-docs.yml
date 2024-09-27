@@ -27,6 +27,10 @@ jobs:
       - name: Make docu.sh executable
         run: chmod +x ./docu.sh
 
+      - name: Build docu
+        run: ./docu.sh
+        shell: bash
+
       - name: Upload docs artifact to GH pages
         uses: actions/upload-pages-artifact@v3
         with:
