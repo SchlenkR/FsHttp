@@ -9,8 +9,6 @@ FsHttp ("Full Stack HTTP") is a "hackable HTTP client" that offers a legible sty
 
 👍 Postman? ❤️ FsHttp! https://youtu.be/F508wQu7ET0
 
-Developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
-
 ## Documentation
 
 * 📖 Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for detailed documentation.
