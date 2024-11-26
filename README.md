@@ -2,7 +2,7 @@
 
 <img align="right" width="200" alt='logo' src='https://raw.githubusercontent.com/schlenkr/FsHttp/master/docs/img/logo_big.png' />
 
-FsHttp ("Full Stack HTTP") is a "hackable HTTP client" that offers a legible style for the basics while still affording full access to the underlying HTTP representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
+FsHttp is a "hackable HTTP client" that offers a legible style for the basics while still affording full access to the underlying HTTP representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
 
 * Use it as a replacement for `.http` files, *VSCode's REST client*, *Postman*, and other tools as an **interactive and programmable playground** for HTTP requests.
 * Usable as a **production-ready HTTP client** for applications powered by .NET (C#, VB, F#).
