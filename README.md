@@ -1,3 +1,14 @@
+<div align="center">
+   <h2>🎁 <strong>Win a PXL-Clock - Watch How on YouTube</strong> 🎁</h2>
+   <a href="https://youtu.be/q5-QTpEMGdU"><img src="https://img.youtube.com/vi/q5-QTpEMGdU/0.jpg" alt="Watch the PXL-JAM video" style="width: 60%;"></a>
+   <p>YouTube</p>
+</div>
+
+The PXL PAM 2024 is a fun and engaging way to come together and have a joyful time!
+Watch the video or check out our [PXL-JAM repo](https://github.com/CuminAndPotato/PXL-JAM/)!
+
+---
+
 # FsHttp [![Build & Tests](https://github.com/schlenkr/FsHttp/actions/workflows/build-and-test.yml/badge.svg?branch=master)](https://github.com/schlenkr/FsHttp/actions/workflows/build-and-test.yml) [![NuGet Badge](https://buildstats.info/nuget/FsHttp)](https://www.nuget.org/packages/FsHttp)
 
 <img align="right" width="200" alt='logo' src='https://raw.githubusercontent.com/schlenkr/FsHttp/master/docs/img/logo_big.png' />
