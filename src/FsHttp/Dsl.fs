@@ -26,7 +26,7 @@ module internal HeaderContext =
     // TODO: I really(!!) have to code the URL stuff on type level;
     // this makes problems all over the place; feels like C# :D
 
-    let  create () =
+    let create () =
         // FSI init HACK
         FsiInit.init ()
 

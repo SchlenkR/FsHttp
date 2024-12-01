@@ -131,29 +131,10 @@ let toRequestAndMessage (request: IToRequest) : Request * HttpRequestMessage =
 let toRequest request = request |> toRequestAndMessage |> fst
 let toHttpRequestMessage request = request |> toRequestAndMessage |> snd
 
-let logPxlClockOnFirstSend =
-    let mutable firstSend = true
-    fun () ->
-        if firstSend then
-            firstSend <- false
-            let msg = @"
-
-    +---------+
-    |         |    PXL-JAM 2024
-    |   PXL   |      - github.com/CuminAndPotato/PXL-JAM
-    |  CLOCK  |      - WIN a PXL-Clock MK1
-    |         |      - until 8th of January 2025
-    +---------+
-    
-"
-            Fsi.logfn "%s" msg
-
 /// Builds an asynchronous request, without sending it.
 let toAsync cancellationTokenOverride (context: IToRequest) =
     async {
         let request, requestMessage = toRequestAndMessage context
-
-        do logPxlClockOnFirstSend ()
         do Fsi.logfn $"Sending request {addressToString request} ..."
 
         use finalRequestMessage =
