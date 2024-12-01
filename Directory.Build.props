@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Version>14.5.1</Version>
+    <Version>15.0.1</Version>
     
     <Authors>Ronald Schlenker</Authors>
     <Copyright>Copyright 2024 Ronald Schlenker</Copyright>
@@ -16,7 +16,7 @@
     <FsDocsReleaseNotesLink>https://www.nuget.org/packages/FsHttp#release-body-tab</FsDocsReleaseNotesLink>
 
     <PackageReleaseNotes>
-    
+
       **************************************************************
       
           +---------+
