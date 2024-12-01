@@ -1,20 +1,29 @@
-# FsHttp [![Build & Tests](https://github.com/fsprojects/FsHttp/actions/workflows/build-and-test.yml/badge.svg?branch=master)](https://github.com/fsprojects/FsHttp/actions/workflows/build-and-test.yml) [![NuGet Badge](https://buildstats.info/nuget/FsHttp)](https://www.nuget.org/packages/FsHttp)
+<div align="center">
+   <h2>🎁 <strong>Win a PXL-Clock - Watch How on YouTube</strong> 🎁</h2>
+   <a href="https://youtu.be/q5-QTpEMGdU"><img src="https://img.youtube.com/vi/q5-QTpEMGdU/0.jpg" alt="Watch the PXL-JAM video" style="width: 60%;"></a>
+   <p>YouTube</p>
+</div>
 
-<img align="right" width="200" alt='logo' src='https://raw.githubusercontent.com/fsprojects/FsHttp/master/docs/img/logo_big.png' />
+The PXL PAM 2024 is a fun and engaging way to come together and have a joyful time!
+Watch the video or check out our [PXL-JAM repo](https://github.com/CuminAndPotato/PXL-JAM/)!
 
-FsHttp ("Full Stack HTTP") is a "hackable HTTP client" that offers a legible style for the basics while still affording full access to the underlying HTTP representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
+---
+
+# FsHttp [![Build & Tests](https://github.com/schlenkr/FsHttp/actions/workflows/build-and-test.yml/badge.svg?branch=master)](https://github.com/schlenkr/FsHttp/actions/workflows/build-and-test.yml) [![NuGet Badge](https://buildstats.info/nuget/FsHttp)](https://www.nuget.org/packages/FsHttp)
+
+<img align="right" width="200" alt='logo' src='https://raw.githubusercontent.com/schlenkr/FsHttp/master/docs/img/logo_big.png' />
+
+FsHttp is a "hackable HTTP client" that offers a legible style for the basics while still affording full access to the underlying HTTP representations for covering unusual cases. It's the best of both worlds: **Convenience and Flexibility**.
 
 * Use it as a replacement for `.http` files, *VSCode's REST client*, *Postman*, and other tools as an **interactive and programmable playground** for HTTP requests.
 * Usable as a **production-ready HTTP client** for applications powered by .NET (C#, VB, F#).
 
 👍 Postman? ❤️ FsHttp! https://youtu.be/F508wQu7ET0
 
-Developed and maintained by [@SchlenkR](https://github.com/schlenkr) and [@dawedawe](https://github.com/dawedawe). Feel free to leave us a message.
-
 ## Documentation
 
-* 📖 Please see [FsHttp Documentation](https://fsprojects.github.io/FsHttp) site for detailed documentation.
-* 🧪 In addition, have a look at the [Integration Tests](https://github.com/fsprojects/FsHttp/tree/master/src/Tests) that show various library details.
+* 📖 Please see [FsHttp Documentation](https://schlenkr.github.io/FsHttp) site for detailed documentation.
+* 🧪 In addition, have a look at the [Integration Tests](https://github.com/schlenkr/FsHttp/tree/master/src/Tests) that show various library details.
 
 ### F# syntax example
 
@@ -59,7 +68,7 @@ await Http
 ### Release Notes / Migrating to new versions
 
 * See https://www.nuget.org/packages/FsHttp#release-body-tab
-* For different upgrade paths, please read the [Migrations docs section](https://fsprojects.github.io/FsHttp/Release_Notes.html).
+* For different upgrade paths, please read the [Migrations docs section](https://schlenkr.github.io/FsHttp/Release_Notes.html).
 
 ## Building
 
