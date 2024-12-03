@@ -14,7 +14,7 @@ Trace.trace $"Starting script..."
 
 module Properties =
     let nugetServer = "https://api.nuget.org/v3/index.json"
-    let nugetPushEnvVarName = "nuget_push"
+    let nugetPushEnvVarName = "nuget_fshttp"
 
 [<AutoOpen>]
 module Helper =
