@@ -75,14 +75,22 @@ module Body =
 
 
 
-let res =
     http {
-        GET "http://www.pxl-clock.com"
+        POST "https://github.com/CuminAndPotato/PXL-JAM"
+        
         AcceptLanguage "en"
         Authorization "credOuter"
         if true then
             Authorization "credInner"
 
         body
-        json """ { name: "Hans" } """
+        json """ 
+            { 
+                name: "PXL Clock",
+                description: "A Beautiful and Fun Clock",
+                programmingLanguage: [
+                    "F#", "C#", "JavaScript", "Python", "TypeScript" ]
+            } 
+        """
     }
+
