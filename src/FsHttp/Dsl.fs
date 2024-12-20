@@ -22,7 +22,7 @@ module HttpMethods =
     let connect = "CONNECT"
     let patch = "PATCH"
 
-module internal HeaderContext =
+module HeaderContext =
     // TODO: I really(!!) have to code the URL stuff on type level;
     // this makes problems all over the place; feels like C# :D
 
