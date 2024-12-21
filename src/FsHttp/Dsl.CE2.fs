@@ -1,6 +1,10 @@
+#if INTERACTIVE
 #r "./bin/Debug/net6.0/FsHttp.dll"
-open FsHttp
+#else
+module FsHttp.DslCEPreview
+#endif
 
+open FsHttp
 
 // ---------
 // Builder
@@ -452,6 +456,7 @@ module MultipartElement =
 
 
 
+#if INTERACTIVE
 
 http {
     POST "https://github.com/CuminAndPotato/PXL-JAM"
@@ -493,3 +498,6 @@ let res =
         // textPart "Lamm" "hurz2"
         // textPart "schrie" "hurz3"
     }
+
+
+#endif
