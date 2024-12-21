@@ -482,10 +482,10 @@ let res =
 
         multipart
 
-        filePart "Resources/uploadFile.txt"
-        ContentTypeMultipart "application/json"
+        filePart "src/FsHttp/Domain.fs"
+        ContentTypeMultipart "application/fsharp"
 
-        filePart "Resources/uploadFile2.txt"
+        filePart "src/FsHttp/Dsl.fs"
 
         textPart "das" "hurz1"
         ContentTypeMultipart "application/json"
