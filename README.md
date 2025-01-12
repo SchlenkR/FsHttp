@@ -9,7 +9,11 @@ Watch the video or check out our [PXL-JAM repo](https://github.com/CuminAndPotat
 
 ---
 
-# FsHttp [![Build & Tests](https://github.com/schlenkr/FsHttp/actions/workflows/build-and-test.yml/badge.svg?branch=master)](https://github.com/schlenkr/FsHttp/actions/workflows/build-and-test.yml) [![NuGet Badge](https://buildstats.info/nuget/FsHttp)](https://www.nuget.org/packages/FsHttp)
+# FsHttp
+
+[![Build & Tests](https://github.com/schlenkr/FsHttp/actions/workflows/build-and-test.yml/badge.svg?branch=master)](https://github.com/schlenkr/FsHttp/actions/workflows/build-and-test.yml)
+[![NuGet](https://img.shields.io/nuget/v/FsHttp.svg?style=flat-square&logo=nuget)](https://www.nuget.org/packages/FsHttp)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/FsHttp.svg?style=flat-square)](https://www.nuget.org/packages/FsHttp)
 
 <img align="right" width="200" alt='logo' src='https://raw.githubusercontent.com/schlenkr/FsHttp/master/docs/img/logo_big.png' />
 
