@@ -23,7 +23,7 @@ Allow us a bit of advertising for our PXL-Clock! It's a fun device, made with ‚ù
   <img width="340" alt="image" src="https://github.com/user-attachments/assets/4c898f7e-56ae-4a8b-be34-464ad83a5ffb" />
 </p>
 
-Find out more info on the [**PXL-Clock Discord Server**](https://discord.gg/KDbVdKQh5j) or check out the [PXL-Clock Repo on GitHub](https://github.com/CuminAndPotato/PXL-Clock).
+Find out more info on the [PXL-Clock Discord Server](https://discord.gg/KDbVdKQh5j) or check out the [PXL-Clock Repo on GitHub](https://github.com/CuminAndPotato/PXL-Clock).
 
 <p align="center">
   <h3>Join the PXL-Clock Community on Discord</h3>
