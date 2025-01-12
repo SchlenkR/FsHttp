@@ -18,10 +18,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup .NET 8
+      - name: Setup .NET 6
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.x
+          dotnet-version: 6.x
 
       - name: Build and run tests
         run: dotnet fsi build.fsx test
